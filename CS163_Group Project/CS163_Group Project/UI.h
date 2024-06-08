@@ -26,3 +26,9 @@ struct SubmitButton : Button {
 	bool isClicked(sf::RenderWindow& window, sf::Event& event, std::string& word, sf::Text& text);
 	SubmitButton(int x, int y, std::string imagePath);
 };
+
+struct InputDef : InputBox {
+	InputDef(int x, int y, std::string imagePath, std::string name);
+	void draw(sf::RenderWindow& window);
+	void isClicked(sf::RenderWindow& window, sf::Event& event);
+};

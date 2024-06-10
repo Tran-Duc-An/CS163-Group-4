@@ -1,0 +1,13 @@
+﻿  main.cpp
+  UI.cpp
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(10,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(10,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(37,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(37,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(43,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(43,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(47,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(47,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  LINK : C:\CS163-Group4\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe not found or not built by the last incremental link; performing full link
+  CS163_Group Project.vcxproj -> C:\CS163-Group4\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe

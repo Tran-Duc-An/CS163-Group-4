@@ -1,4 +1,5 @@
 ﻿  UI.cpp
+<<<<<<< Updated upstream
 C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(10,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(10,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(37,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -10,3 +11,16 @@ C:\CS163-Group4\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(47,
   main.cpp
   Generating Code...
   CS163_Group Project.vcxproj -> C:\CS163-Group4\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe
+=======
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(10,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(10,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(37,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(37,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(43,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(43,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(47,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(47,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  Generating Code...
+LINK : fatal error LNK1104: cannot open file 'sfml-graphics-d.lib'
+>>>>>>> Stashed changes

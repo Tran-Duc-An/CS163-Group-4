@@ -189,4 +189,5 @@
 // 		window.display();
 // 		window.clear(sf::Color::White);
 // 	}
+// 	return 0;
 // }

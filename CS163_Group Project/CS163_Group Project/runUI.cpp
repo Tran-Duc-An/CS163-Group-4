@@ -36,12 +36,18 @@ TrieEng* root = new TrieEng();
 int page = 0;
 
 void handleString(wstring& s) {
-	int l = 20;
+	int end = 0;
+	int l = 0;
+	int cnt = 0;
 	while (l < s.length()) {
-		s[l] = '\n';
-		l += 20;
+		l++;
+		cnt++;
+		if (double(cnt / 20) > 1 && s[l] == ' ') {
+			s[end] = '\n';
+			cnt = 0;
+		}
+		if (s[l] == ' ') end = l;
 	}
-
 }
 
 void displayDef(int x, int y, vector<wstring> meaning) {
@@ -136,11 +142,14 @@ void ENtoVietnames() {
 		inputENBox.isClicked(window, event);
 		if (translate.isClicked(window, event, word, inputENBox.text)) {
 			findWordMeaning(root, word, VNDef);
+			for (int i = 0; i < VNDef.size(); i++)
+				handleString(VNDef[i]);
 		}
 	}
 	if (inputENBox.text.getString() != "")
 	{
-		displayDef(860, 236, VNDef);
+		
+		displayDef(880, 236, VNDef);
 	}
 	translate.draw(window);
 	inputENBox.draw(window);
@@ -200,6 +209,7 @@ void homePage() {
 		if (ENtoVnButton.isClicked(window, event)) {
 			page = 2;
 			inputENBox.text.setString("");
+			for (int i = 0; i < VNDef.size(); i++) VNDef[i].clear();
 		}
 		if (searchButton.isClicked(window, event)) {
 			page = 3;

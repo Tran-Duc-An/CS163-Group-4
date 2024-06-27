@@ -17,14 +17,14 @@ bool searchingType = 0;
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
 
-InputBox inputVNBox(218, 236, "Image/InputBox.png", "Nhap tai day");
-InputBox inputENBox(218, 236, "Image/InputBox.png", "Text here");
+InputBox inputVNBox(218, 236, "Image/InputBox.png", L"Nhập tại đây");
+InputBox inputENBox(218, 236, "Image/InputBox.png", L"Text here");
 
-InputBox searchKeyBox(28, 412, "Image/InputBox.png", "Text here");
-InputDef searchDefBox(28, 349, "Image/InputDef.png", "Text here");
+InputBox searchKeyBox(28, 412, "Image/InputBox.png", L"Text here");
+InputDef searchDefBox(28, 349, "Image/InputDef.png", L"Text here");
 
-SubmitButton translate(548, 368, "Image/translateButton.png");
-SubmitButton submitSearchButton(383, 729, "Image/search.png");
+SubmitButton translate(548, 368, "Image/translateSubmit.png");
+SubmitButton submitSearchButton(383, 729, "Image/searchSubmit.png");
 
 sf::Font font;
 
@@ -100,12 +100,13 @@ void VNtoEnglish() {
 	while (window.pollEvent(event))
 	{
 		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
 
 		if (event.type == sf::Event::Closed) window.close();
 
 		inputVNBox.isClicked(window, event);
 		if (translate.isClicked(window, event, word, inputVNBox.text)) std::cout << word;
-
+		translate.isHover(window, "Image/translateHover.png");
 	}
 	backButton.draw(window);
 	translate.draw(window);
@@ -138,6 +139,8 @@ void ENtoVietnames() {
 	while (window.pollEvent(event))
 	{
 		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
+
 		if (event.type == sf::Event::Closed) window.close();
 		inputENBox.isClicked(window, event);
 		if (translate.isClicked(window, event, word, inputENBox.text)) {
@@ -145,10 +148,10 @@ void ENtoVietnames() {
 			for (int i = 0; i < VNDef.size(); i++)
 				handleString(VNDef[i]);
 		}
+		translate.isHover(window, "Image/translateHover.png");
 	}
 	if (inputENBox.text.getString() != "")
 	{
-		
 		displayDef(880, 236, VNDef);
 	}
 	translate.draw(window);
@@ -169,9 +172,13 @@ void search() {
 	std::string words;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
+
 		if (searchKeyButton.isClicked(window, event)) searchingType = 0;
 		if (searchDefButton.isClicked(window, event)) searchingType = 1;
-		if (backButton.isClicked(window, event)) page = 0;
+
 		if (searchingType == 0) {
 			searchKeyBox.isClicked(window, event);
 			if (submitSearchButton.isClicked(window, event, words, searchKeyBox.text)) std::cout << words;
@@ -180,11 +187,16 @@ void search() {
 			searchDefBox.isClicked(window, event);
 			if (submitSearchButton.isClicked(window, event, words, searchDefBox.text)) std::cout << words;
 		}
+		submitSearchButton.isHover(window, "Image/searchSubmitHover.png");
 	}
 	if (searchingType == 0) {
+		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
+		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 		searchKeyBox.draw(window);
 	}
 	else {
+		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
+		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
 		searchDefBox.draw(window);
 	}
 	submitSearchButton.draw(window);
@@ -216,6 +228,9 @@ void homePage() {
 			searchDefBox.text.setString("");
 			searchKeyBox.text.setString("");
 		}
+		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
+		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
+		searchButton.isHover(window, "Image/searchHover.png");
 	}
 }
 

@@ -9,6 +9,7 @@ Button::Button(int x, int y, std::string imagePath) {
 		sprite.setTexture(texture);
 		sprite.setPosition(x, y);
 	}
+	orgImage = imagePath;
 }
 
 bool Button::isClicked(sf::RenderWindow& window, sf::Event event) {
@@ -23,7 +24,15 @@ void Button::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 
-InputBox::InputBox(int x, int y, std::string imagePath, std::string name) : Button(x, y, imagePath) {
+void Button::isHover(sf::RenderWindow& window,std::string path) {
+	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+	if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
+		texture.loadFromFile(path);
+	}
+	else texture.loadFromFile(orgImage);
+}
+
+InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : Button(x, y, imagePath) {
 	if (!font.loadFromFile("Font/ARIAL.TTF")) {
 
 	}
@@ -94,7 +103,7 @@ void InputBox::draw(sf::RenderWindow& window) {
 	}
 }
 
-InputDef::InputDef(int x, int y, std::string imagePath, std::string name) : InputBox(x, y, imagePath, name) {
+InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name) : InputBox(x, y, imagePath, name) {
 
 }
 

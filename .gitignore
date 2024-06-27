@@ -42,3 +42,8 @@
 *.tlog
 *.vcxproj
 *.vcxproj
+*.ilk
+*.db
+*.log
+*.idb
+*.pdb

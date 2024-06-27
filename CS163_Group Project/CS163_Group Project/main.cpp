@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <ctype.h>
 using namespace std;
 
 struct trie{
@@ -13,7 +14,7 @@ struct trie{
 };
 
 
-string toLowerCase(string& str) {
+/*string toLowerCase(string& str) {
 	for (int i = 0; i < str.length(); i++) {
 		if (str[i] >= 'A' && str[i] <= 'Z') str[i] += 32;
 	}
@@ -34,7 +35,7 @@ void insertWord(trie*& root, string&word, string&definition)
 	current->isend = true;
 	current->definition.push_back(definition);
 }
-bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
+bool findWord(trie* root, string& word, vector<string>& meaning)
 {
 	word = toLowerCase(word);
 	trie* current = root;
@@ -61,4 +62,15 @@ void deleteTrie(trie* root)
 		deleteTrie(child);
 	}
 	delete root;
+}*/
+
+int main()
+{
+	string a = "VAi ca lol";
+	for (int i = 0; i < a.length(); ++i)
+	{
+		a[i] = tolower(a[i]);
+	}
+	cout << a;
+	return 0;
 }

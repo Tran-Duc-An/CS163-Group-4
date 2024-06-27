@@ -47,3 +47,7 @@
 *.log
 *.idb
 *.pdb
+*.tlog
+*.log
+*.ilk
+*.db

@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <chrono>
+
 using namespace std;
 
 struct trie {
@@ -263,15 +265,19 @@ bool loadRawData(trie*& root)
 	return true;
 }
 
-/* 
+
 int main()
 {
 	trie* root = new trie();
+	// check how long to load the raw data
+	auto start = chrono::high_resolution_clock::now();
 	if (!loadRawData(root))
 	{
 		cout << "Failed to load data\n";
 		return 0;
 	}
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load raw data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 	string word;
 	vector<string> definition;
 	while (1)
@@ -279,8 +285,12 @@ int main()
 		cout << "Enter a word: ";
 		getline(cin, word);
 		if (word == "exit") break;
+		// check how long it takes to find the word
+		start = chrono::high_resolution_clock::now();
 		if (findWordMeaning(root, word, definition))
-		{
+	{
+			end = chrono::high_resolution_clock::now();
+			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 			int i = 0;
 			for (string& str : definition)
 			{
@@ -301,13 +311,16 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-*/ 
 
 
+/* 
 int main()
 {
 	trie* root = new trie();
 	ifstream fin;
+
+	// check how long it takes to load the data
+	auto start = chrono::high_resolution_clock::now();
 	fin.open("Dataset\\userDat.bin", ios::binary);
 	if (!fin.is_open())
 	{
@@ -315,6 +328,8 @@ int main()
 		return 0;
 	}
 	loadTrie(root, fin);
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 	string word;
 	vector<string> definition;
 	while (1)
@@ -322,8 +337,12 @@ int main()
 		cout << "Enter a word: ";
 		getline(cin, word);
 		if (word == "exit") break;
+		// check how long it takes to find the word
+		start = chrono::high_resolution_clock::now();
 		if (findWordMeaning(root, word, definition))
 		{
+			end = chrono::high_resolution_clock::now();
+			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 			int i = 0;
 			for (string& str : definition)
 			{
@@ -339,4 +358,4 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-
+*/ 

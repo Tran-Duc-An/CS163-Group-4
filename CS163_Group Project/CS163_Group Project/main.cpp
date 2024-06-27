@@ -56,15 +56,7 @@ bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
 	}
 	return false;
 }
-void deleteTrie(trie* root)
-{
-	if (root == nullptr) return;
-	for (trie* child : root->children)
-	{
-		deleteTrie(child);
-	}
-	delete root;
-}/* 
+/* 
 void saveTrie(trie* root, ofstream& fout)
 {
 	if (root == nullptr) return;
@@ -115,14 +107,16 @@ void loadTrie(trie*& root, ifstream& fin)
 void saveTrie(trie* root, ofstream& fout)
 {
 	if (root == nullptr) return;
-	fout.write((char*)root->definition.size(), sizeof(int));
+	int numDefinitions = root->definition.size();
+	fout.write((char*)&numDefinitions, sizeof(int));
 	for (string& str : root->definition)
 	{
 		int len = str.length();
 		fout.write((char*)&len, sizeof(int));
 		fout.write(str.c_str(), len);
 	}
-	fout.write((char*)&root->numChildren, sizeof(int));
+	int numChildren = root->numChildren;
+	fout.write((char*)&numChildren, sizeof(int));
 	for (int i = 0; i < 26; ++i)
 	{
 		if (root->children[i] != nullptr)
@@ -138,16 +132,18 @@ void saveTrie(trie* root, ofstream& fout)
 // load trie from binary file
 void loadTrie(trie*& root, ifstream& fin)
 {
-	root = new trie();
 	int numDefinitions;
 	fin.read((char*)&numDefinitions, sizeof(int));
+	if (numDefinitions != 0) root->isend = true;
 	for (int i = 0; i < numDefinitions; ++i)
 	{
 		int len;
 		fin.read((char*)&len, sizeof(int));
 		char* tmp = new char[len + 1];
 		fin.read(tmp, len);
+		tmp[len] = '\0';
 		root->definition.push_back(tmp);
+		delete[] tmp;
 	}
 	fin.read((char*)&root->numChildren, sizeof(int));
 	for (int i = 0; i < root->numChildren; ++i)
@@ -159,29 +155,45 @@ void loadTrie(trie*& root, ifstream& fin)
 	}
 }
 
+void deleteTrie(trie* root)
+{
+	if (root == nullptr) return;
+	for (int i = 0; i < 26; ++i)
+	{
+		deleteTrie(root->children[i]);
+	}
+	delete root;
+}
 int main()
 {
 	trie* root = new trie();
 	string word;
-	str
+	string def;
 	vector<string> definition;
-	ofstream fout;
-	// create trie
+	ifstream fin;
+	fin.open("Dataset\\userDat.bin", ios::binary);
+	if (fin.is_open())
+	{
+		loadTrie(root, fin);
+	}
+	fin.close();
 	while (1)
 	{
-				cout << "Enter word: ";
+		cout << "Enter a word: ";
 		cin >> word;
 		if (word == "exit") break;
-		cout << "Enter definition: ";
-		cin.ignore();
-		getline(cin, word);
-		insertWord(root, word, definition);
+		if (findWordMeaning(root, word, definition))
+		{
+			for (string& str : definition)
+			{
+				cout << str << endl;
+			}
+		}
+		else
+		{
+			cout << "Word not found\n";
+		}
 	}
-	
-	fout.open("Dataset\\userDat.bin", ios::binary);
-	saveTrie(root, fout);
-	fout.close();
 	deleteTrie(root);
-
 	return 0;
 }

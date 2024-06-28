@@ -225,10 +225,10 @@ void fillMap()
 		reverseMap[i] = c;
 		i++;
 	}
-	map[L'-'] = 90;
-	map[L' '] = 91;
-	reverseMap[90] = L'-';
-	reverseMap[91] = L' ';
+	map[L'-'] = 89;
+	map[L' '] = 90;
+	reverseMap[89] = L'-';
+	reverseMap[90] = L' ';
 }
 wstring VToLower(wstring& str)
 {
@@ -238,8 +238,8 @@ wstring VToLower(wstring& str)
 		else if (c >= 65 && c <= 89) c += 32;
 		else if (map[c] == -1)
 		{
-			wchar_t temp1 = c + 32;
-			wchar_t temp2 = c + 1;
+			wchar_t temp1 = c + 1;
+			wchar_t temp2 = c + 32;
 			if (map[temp1] != -1) c = temp1;
 			else if (map[temp2] != -1) c = temp2;
 		}

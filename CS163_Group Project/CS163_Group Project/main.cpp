@@ -97,7 +97,7 @@ int main()
 
 
 
-
+/* 
 int main() 
 {
 	fillMap();
@@ -138,6 +138,18 @@ int main()
 	VDeleteTrie(root);
 	return 0;
 }
+*/ 
 
+int main()
+{
+	fillMap();
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	wstring word2 = L"A Á À Ả Ã Ạ Ă Ắ Ằ Ẳ Ẵ Ặ Â Ấ Ầ Ẩ Ẫ Ậ B C D Đ E É È Ẻ Ẽ Ẹ Ê Ế Ề Ể Ễ Ệ G H I Í Ì Ỉ Ĩ Ị K L M N O Ó Ò Ỏ Õ Ọ Ô Ố Ồ Ổ Ỗ Ộ Ơ Ớ Ờ Ở Ỡ Ợ P Q R S T U Ú Ù Ủ Ũ Ụ Ư Ứ Ừ Ử Ữ Ự V X Y Ý Ỳ Ỷ Ỹ Ỵ";
+	wcout << word2 << endl;
+	word2 = VToLower(word2);
+	wcout << word2;
+	return 0;
+}
 
 

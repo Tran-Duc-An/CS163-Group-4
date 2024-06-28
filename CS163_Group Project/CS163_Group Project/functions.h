@@ -27,7 +27,7 @@ struct trie
 struct Vtrie
 {
 	vector<Vtrie*> children;
-	vector<string> definition;
+	vector<wstring> definition;
 	int numChildren = 0;
 	// 89 vietnamese characters and 2 for hyphen and space
 	Vtrie() : children(91, nullptr) {}
@@ -42,3 +42,8 @@ void loadTrie(trie*& root, ifstream& fin);
 void saveTrie(trie* root, ofstream& fout);
 void deleteTrie(trie*& root);
 wstring VToLower(wstring&str);
+void fillMap();
+void VInsertWord(Vtrie*& root, wstring& word,wstring& definition);
+bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning);
+void VDeleteTrie(Vtrie*& root);
+

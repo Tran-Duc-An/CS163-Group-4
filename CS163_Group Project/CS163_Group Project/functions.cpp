@@ -1,4 +1,4 @@
-#include "functions.h"
+﻿#include "functions.h"
 
 
 
@@ -107,20 +107,20 @@ bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
 
 
 
-// save trie in binary file
+// save trie but use short int instead of int
 void saveTrie(trie* root, ofstream& fout)
 {
 	if (root == nullptr) return;
-	int numDefinitions = root->definition.size();
-	fout.write((char*)&numDefinitions, sizeof(int));
+	short int numDefinitions = root->definition.size();
+	fout.write((char*)&numDefinitions, sizeof(short int));
 	for (string& str : root->definition)
 	{
-		int len = str.length();
-		fout.write((char*)&len, sizeof(int));
+		short int len = str.length();
+		fout.write((char*)&len, sizeof(short int));
 		fout.write(str.c_str(), len);
 	}
-	int numChildren = root->numChildren;
-	fout.write((char*)&numChildren, sizeof(int));
+	short int numChildren = root->numChildren;
+	fout.write((char*)&numChildren, sizeof(short int));
 	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
 	for (int i = 0; i < 38; ++i)
 	{
@@ -133,24 +133,23 @@ void saveTrie(trie* root, ofstream& fout)
 	}
 }
 
-
-// load trie from binary file
+// load trie but use short int instead of int
 void loadTrie(trie*& root, ifstream& fin)
 {
-	int numDefinitions;
-	fin.read((char*)&numDefinitions, sizeof(int));
+	short int numDefinitions;
+	fin.read((char*)&numDefinitions, sizeof(short int));
 	if (numDefinitions != 0) root->isend = true;
 	for (int i = 0; i < numDefinitions; ++i)
 	{
-		int len;
-		fin.read((char*)&len, sizeof(int));
+		short int len;
+		fin.read((char*)&len, sizeof(short int));
 		char* tmp = new char[len + 1];
 		fin.read(tmp, len);
 		tmp[len] = '\0';
 		root->definition.push_back(tmp);
 		delete[] tmp;
 	}
-	fin.read((char*)&root->numChildren, sizeof(int));
+	fin.read((char*)&root->numChildren, sizeof(short int));
 	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
 	for (int i = 0; i < root->numChildren; ++i)
 	{
@@ -211,14 +210,81 @@ bool loadRawData(trie*& root)
 }
 
 
+short int map[7930];
+short int reverseMap[91];
+void fillMap()
+{
+	memset(map, -1, 7929 * sizeof(short int));
+	wstring word = L"a á à ả ã ạ ă ắ ằ ẳ ẵ ặ â ấ ầ ẩ ẫ ậ b c d đ e é è ẻ ẽ ẹ ê ế ề ể ễ ệ g h i í ì ỉ ĩ ị k l m n o ó ò ỏ õ ọ ô ố ồ ổ ỗ ộ ơ ớ ờ ở ỡ ợ p q r s t u ú ù ủ ũ ụ ư ứ ừ ử ữ ự v x y ý ỳ ỷ ỹ ỵ";
+	wstring temp = L"";
+	for (wchar_t& c : word) if (c != L' ') temp.push_back(c);
+	int i = 0;
+	for (wchar_t& c : temp)
+	{
+		map[c] = i;
+		reverseMap[i] = c;
+		i++;
+	}
+	map[L'-'] = 90;
+	map[L' '] = 91;
+	reverseMap[90] = L'-';
+	reverseMap[91] = L' ';
+}
 wstring VToLower(wstring& str)
 {
 	for (wchar_t& c : str)
 	{
-		if (c == L'-' || c == L' ') continue;
-		else if ((c >= L'A' && c <= L'Y') || (c >= 192 && c <= 221)) c += 32;
-		else if ((c >= 258 && c <= 431) || (c >= 7840 && c <= 7928)) c += 1;
-		else continue;
+		if (c == L'-' || c == L' ' || c > 7929) continue;
+		else if (c >= 65 && c <= 89) c += 32;
+		else if (map[c] == -1)
+		{
+			wchar_t temp1 = c + 32;
+			wchar_t temp2 = c + 1;
+			if (map[temp1] != -1) c = temp1;
+			else if (map[temp2] != -1) c = temp2;
+		}
+
 	}
 	return str;
+}
+void VInsertWord(Vtrie*&root, wstring& word,wstring& definition)
+{
+	word = VToLower(word);
+	Vtrie* current = root;
+	for (wchar_t&c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) continue;
+		if (current->children[map[c]] == nullptr)
+		{
+			current->children[map[c]] = new Vtrie();
+			current->numChildren++;
+		}
+		current = current->children[map[c]];
+	}
+	current->definition.push_back(definition);
+}
+bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning)
+{
+	word = VToLower(word);
+	Vtrie* current = root;
+	for (wchar_t& c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) return false;
+		if (current->children[map[c]] == nullptr) return false;
+		current = current->children[map[c]];
+	}
+	if (current->definition.empty()) return false;
+	meaning = current->definition;
+	return true;
+}
+
+void VDeleteTrie(Vtrie*& root)
+{
+	if (root == nullptr) return;
+	for (int i = 0; i < 91; ++i)
+	{
+		VDeleteTrie(root->children[i]);
+	}
+	delete root;
+	root = nullptr;
 }

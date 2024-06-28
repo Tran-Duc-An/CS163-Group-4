@@ -37,10 +37,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Users\dell\Downloads\engDict.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="edict.csv">
+    <None Include="Dataset\VietnameseAlphabet.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

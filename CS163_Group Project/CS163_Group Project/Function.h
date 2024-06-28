@@ -7,9 +7,10 @@ struct TrieEng {
 	vector<TrieEng*>  children;
 	bool isEnd = false;
 	vector<wstring> definition;
-	TrieEng() : children(26, nullptr) {}
+	int numChildren = 0;
+	TrieEng() : children(38, nullptr) {}
 };
 
 
-void createTrieEngFromFile(TrieEng*& root, string path);
+bool loadRawData(TrieEng*& root, string path);
 bool findWordMeaning(TrieEng* root, string word, vector<wstring>& meaning);

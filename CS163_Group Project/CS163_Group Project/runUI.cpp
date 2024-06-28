@@ -29,9 +29,9 @@ SubmitButton submitSearchButton(383, 729, "Image/searchSubmit.png");
 sf::Font font;
 
 vector<wstring> VNDef;
-
-TrieEng* root = new TrieEng();
-
+vector<wstring> ENDef;
+TrieEng* rootEtoE = new TrieEng();
+TrieEng* rootEtoV = new TrieEng();
 
 int page = 0;
 
@@ -42,11 +42,13 @@ void handleString(wstring& s) {
 	while (l < s.length()) {
 		l++;
 		cnt++;
-		if (double(cnt / 20) > 1 && s[l] == ' ') {
-			s[end] = '\n';
-			cnt = 0;
+		if (double(cnt / 20) >= 1) {
+			if (s[l] < 'a' || s[l]>'z') {
+				s[end] = '\n';
+				cnt = 0;
+				end = l;
+			}
 		}
-		if (s[l] == ' ') end = l;
 	}
 }
 
@@ -144,7 +146,7 @@ void ENtoVietnames() {
 		if (event.type == sf::Event::Closed) window.close();
 		inputENBox.isClicked(window, event);
 		if (translate.isClicked(window, event, word, inputENBox.text)) {
-			findWordMeaning(root, word, VNDef);
+			findWordMeaning(rootEtoV, word, VNDef);
 			for (int i = 0; i < VNDef.size(); i++)
 				handleString(VNDef[i]);
 		}
@@ -152,7 +154,7 @@ void ENtoVietnames() {
 	}
 	if (inputENBox.text.getString() != "")
 	{
-		displayDef(880, 236, VNDef);
+		displayDef(880, 100, VNDef);
 	}
 	translate.draw(window);
 	inputENBox.draw(window);
@@ -181,7 +183,11 @@ void search() {
 
 		if (searchingType == 0) {
 			searchKeyBox.isClicked(window, event);
-			if (submitSearchButton.isClicked(window, event, words, searchKeyBox.text)) std::cout << words;
+			if (submitSearchButton.isClicked(window, event, words, searchKeyBox.text)) {
+				findWordMeaning(rootEtoE, words, ENDef);
+				for (int i = 0; i < ENDef.size(); i++)
+					handleString(ENDef[i]);
+			}
 		}
 		else {
 			searchDefBox.isClicked(window, event);
@@ -198,6 +204,10 @@ void search() {
 		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
 		searchDefBox.draw(window);
+	}
+	if (inputENBox.text.getString() != "")
+	{
+		displayDef(880, 236, ENDef);
 	}
 	submitSearchButton.draw(window);
 	searchKeyButton.draw(window);
@@ -236,7 +246,8 @@ void homePage() {
 
 
 int run() {
-	createTrieEngFromFile(root, "Dataset/ENVN.txt");
+	if (!loadRawData(rootEtoE, "Dataset/english Dictionary.csv")) return 0;;
+	if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 	font.loadFromFile("Font/ARIAL.TTF");
 	while (window.isOpen()) {
 		setBackground();

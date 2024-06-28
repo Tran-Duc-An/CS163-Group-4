@@ -36,4 +36,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\dell\Downloads\engDict.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="edict.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

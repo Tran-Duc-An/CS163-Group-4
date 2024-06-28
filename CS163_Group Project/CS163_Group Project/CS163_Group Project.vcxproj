@@ -146,6 +146,10 @@
     <ClInclude Include="Trie.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\dell\Downloads\engDict.csv" />
+    <None Include="edict.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

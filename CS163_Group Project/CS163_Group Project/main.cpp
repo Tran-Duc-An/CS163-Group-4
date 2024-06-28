@@ -1,76 +1,94 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <ctype.h>
-using namespace std;
-
-struct trie{
-
-	vector<trie*>  children;
-	bool isend = false;
+#include "Trie.h"
+/*
+int main()
+{
+	trie* root = new trie();
+	// check how long to load the raw data
+	auto start = chrono::high_resolution_clock::now();
+	if (!loadRawData(root))
+	{
+		cout << "Failed to load data\n";
+		return 0;
+	}
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load raw data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+	string word;
 	vector<string> definition;
-	trie() : children(26, nullptr) {}
-};
-
-
-/*string toLowerCase(string& str) {
-	for (int i = 0; i < str.length(); i++) {
-		if (str[i] >= 'A' && str[i] <= 'Z') str[i] += 32;
-	}
-	return str;
-}
-void insertWord(trie*& root, string&word, string&definition)
-{
-	word = toLowerCase(word);
-	trie* current = root;
-	for (char c : word)
+	while (1)
 	{
-		if (current->children[c - 'a'] == nullptr)
-		{
-			current->children[c - 'a'] = new trie;
+		cout << "Enter a word: ";
+		getline(cin, word);
+		if (word == "exit") break;
+		// check how long it takes to find the word
+		start = chrono::high_resolution_clock::now();
+		if (findWordMeaning(root, word, definition))
+	{
+			end = chrono::high_resolution_clock::now();
+			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+			int i = 0;
+			for (string& str : definition)
+			{
+				cout << "Meaning " << ++i << ":" << " ";
+				cout << str << endl;
+			}
 		}
-		current = current->children[c - 'a'];
-	}
-	current->isend = true;
-	current->definition.push_back(definition);
-}
-bool findWord(trie* root, string& word, vector<string>& meaning)
-{
-	word = toLowerCase(word);
-	trie* current = root;
-	for (char c : word)
-	{
-		if (current->children[c - 'a'] == nullptr)
+		else
 		{
-			return false;
+			cout << "Word not found\n";
 		}
-		current = current->children[c - 'a'];
 	}
-	if (current->isend)
-	{
-		meaning = current->definition;
-		return true;
-	}
-	return false;
+	ofstream fout;
+	fout.open("Dataset\\userDat.bin", ios::binary);
+	saveTrie(root, fout);
+	fout.close();
+
+	deleteTrie(root);
+	return 0;
 }
-void deleteTrie(trie* root)
-{
-	if (root == nullptr) return;
-	for (trie* child : root->children)
-	{
-		deleteTrie(child);
-	}
-	delete root;
-}*/
+*/
+
 
 int main()
 {
-	string a = "VAi ca lol";
-	for (int i = 0; i < a.length(); ++i)
+	trie* root = new trie();
+	ifstream fin;
+
+	// check how long it takes to load the data
+	auto start = chrono::high_resolution_clock::now();
+	/*fin.open("engDict.csv");
+	if (!fin.is_open())
 	{
-		a[i] = tolower(a[i]);
+		cout << "File not found\n";
+		return 0;
+	}*/
+	loadRawData(root);
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+	string word;
+	vector<string> definition;
+	while (1)
+	{
+		cout << "Enter a word: ";
+		getline(cin, word);
+		if (word == "exit") break;
+		// check how long it takes to find the word
+		start = chrono::high_resolution_clock::now();
+		if (findWordMeaning(root, word, definition))
+		{
+			end = chrono::high_resolution_clock::now();
+			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+			int i = 0;
+			for (string& str : definition)
+			{
+				cout << "Meaning " << ++i << ":" << " ";
+				cout << str << endl;
+			}
+		}
+		else
+		{
+			cout << "Word not found\n";
+		}
 	}
-	cout << a;
+	deleteTrie(root);
 	return 0;
 }

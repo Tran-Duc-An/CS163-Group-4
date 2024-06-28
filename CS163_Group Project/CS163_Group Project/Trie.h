@@ -1,15 +1,27 @@
 #pragma once
+#include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <cstring>
+#include <chrono>
+
 using namespace std;
 
-struct Trie_Node
+struct trie
 {
-	char data;
-	Trie_Node* children[26] = { nullptr };
-	bool is_word = false;
-	vector <string> definition;
-	Trie_Node(char data) : data(data) {}
-};
 
-bool insertword(Trie_Node** root, string data);
+	vector<trie*>  children;
+	bool isend = false;
+	vector<string> definition;
+	int numChildren = 0;
+	trie() : children(38, nullptr) {}
+};
+string toLowerCase(string& str);
+string removeSpecialCharacters(string& str);
+void insertWord(trie*& root, string& word, string& definition);
+bool findWordMeaning(trie* root, string& word, vector<string>& meaning);
+bool loadRawData(trie*& root);
+void loadTrie(trie*& root, ifstream& fin);
+void saveTrie(trie* root, ofstream& fout);
+void deleteTrie(trie*& root);

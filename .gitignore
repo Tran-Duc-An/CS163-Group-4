@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+.vs
+.vscode
 
 # Compiled Object files
 *.slo
@@ -31,24 +33,21 @@
 *.out
 *.app
 *.vsidx
-*.vsidx
 *.db
 *.opendb
 *.db-shm
 *.db-wal
 *.json
 *.ipch
-*.db
 *.tlog
 *.vcxproj
-*.vcxproj
-*.ilk
-*.db
 *.log
 *.idb
 *.pdb
-*.tlog
-*.log
 *.ilk
+<<<<<<< HEAD
 *.db
 *.vcxproj
+=======
+
+>>>>>>> 968978e7e4d0da8e62315eda3b60029f8a7ff796

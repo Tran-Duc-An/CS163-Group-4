@@ -11,7 +11,8 @@ Button VNtoEnButton(520, 218, "Image/VNtoENButton.png");
 Button ENtoVnButton(520, 340, "Image/ENtoVNButton.png");
 Button searchButton(520, 452, "Image/searchButton.png");
 Button backButton(20, 18, "Image/backButton.png");
-
+Button nextButton(1255, 705, "Image/nextButton.png");
+Button backDefButton(658, 705, "Image/backDefButton.png");
 
 bool searchingType = 0;
 Button searchKeyButton(98, 138, "Image/searchKey.png");
@@ -34,15 +35,17 @@ TrieEng* rootEtoE = new TrieEng();
 TrieEng* rootEtoV = new TrieEng();
 
 int page = 0;
+int orderDef = 0;
+bool translateFlag = 0;
 
-void handleString(wstring& s) {
+void handleString(wstring& s,int row) {
 	int end = 0;
 	int l = 0;
 	int cnt = 0;
 	while (l < s.length()) {
 		l++;
 		cnt++;
-		if (double(cnt / 20) >= 1) {
+		if (double(cnt / row) >= 1) {
 			if (s[l] < 'a' || s[l]>'z') {
 				s[end] = '\n';
 				cnt = 0;
@@ -52,14 +55,14 @@ void handleString(wstring& s) {
 	}
 }
 
-void displayDef(int x, int y, vector<wstring> meaning) {
-	for (int i = 0; i < meaning.size(); i++) {
+void displayDef(int x, int y, wstring meaning) {
+	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(40);
 		def.setFont(font);
 		def.setFillColor(sf::Color::Black);
 		def.setPosition(x, y);
-		def.setString(meaning[i]);
+		def.setString(meaning);
 		window.draw(def);
 	}
 }
@@ -75,6 +78,7 @@ void setBackground() {
 	sprite.setPosition(0, 0);
 	window.draw(sprite);
 }
+
 
 void VNtoEnglish() {
 	sf::Texture vnmese;
@@ -148,13 +152,13 @@ void ENtoVietnames() {
 		if (translate.isClicked(window, event, word, inputENBox.text)) {
 			findWordMeaning(rootEtoV, word, VNDef);
 			for (int i = 0; i < VNDef.size(); i++)
-				handleString(VNDef[i]);
+				handleString(VNDef[i],25);
 		}
 		translate.isHover(window, "Image/translateHover.png");
 	}
 	if (inputENBox.text.getString() != "")
 	{
-		displayDef(880, 100, VNDef);
+		displayDef(880, 120, VNDef[0]);
 	}
 	translate.draw(window);
 	inputENBox.draw(window);
@@ -186,8 +190,12 @@ void search() {
 			if (submitSearchButton.isClicked(window, event, words, searchKeyBox.text)) {
 				findWordMeaning(rootEtoE, words, ENDef);
 				for (int i = 0; i < ENDef.size(); i++)
-					handleString(ENDef[i]);
+					handleString(ENDef[i],30);
+				translateFlag = 1;
+				orderDef = 0;
 			}
+			if (nextButton.isClicked(window, event) && orderDef < ENDef.size() - 1) orderDef++;
+			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 		}
 		else {
 			searchDefBox.isClicked(window, event);
@@ -199,16 +207,19 @@ void search() {
 		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
 		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 		searchKeyBox.draw(window);
+		nextButton.draw(window);
+		backDefButton.draw(window);
 	}
 	else {
 		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
 		searchDefBox.draw(window);
 	}
-	if (inputENBox.text.getString() != "")
+	if (translateFlag==1)
 	{
-		displayDef(880, 236, ENDef);
+		displayDef(650, 100, ENDef[orderDef]);
 	}
+	if (searchKeyBox.text.getString() == "") translateFlag = 0;
 	submitSearchButton.draw(window);
 	searchKeyButton.draw(window);
 	searchDefButton.draw(window);
@@ -237,6 +248,7 @@ void homePage() {
 			page = 3;
 			searchDefBox.text.setString("");
 			searchKeyBox.text.setString("");
+			for (int i = 0; i < ENDef.size(); i++) ENDef[i].clear();
 		}
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
@@ -246,14 +258,26 @@ void homePage() {
 
 
 int run() {
-	if (!loadRawData(rootEtoE, "Dataset/english Dictionary.csv")) return 0;;
-	if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 	font.loadFromFile("Font/ARIAL.TTF");
+	setBackground();
+	sf::Text loading;
+	loading.setFont(font);
+	loading.setCharacterSize(50);
+	loading.setPosition(700, 400);
+	loading.setString("Please wait.....");
+	loading.setFillColor(sf::Color::Black);
+	window.draw(loading);
+	window.display();
+	if (!loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;;
+	//if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
 		{
 		case 0: {
+			orderDef = 0;
+			translateFlag = 0;
 			homePage();
 			break;
 		}

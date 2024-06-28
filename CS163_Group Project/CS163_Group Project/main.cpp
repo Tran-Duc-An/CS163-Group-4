@@ -1,4 +1,5 @@
-#include "functions.h"
+﻿#include "functions.h"
+#include "fstream"
 /* 
 int main()
 {
@@ -47,7 +48,7 @@ int main()
 }
 */ 
 
-
+/* 
 int main()
 {
 	trie* root = new trie();
@@ -92,4 +93,19 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
+*/
+int main() 
+{
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	wstring word;
+	getline(wcin, word);
+	word = VToLower(word);
+	wcout << word << endl;
+
+	return 0;
+}
+
+
+
 

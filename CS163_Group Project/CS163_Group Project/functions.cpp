@@ -1,4 +1,7 @@
 #include "functions.h"
+
+
+
 string toLowerCase(string& str) 
 {
 	for (int i = 0; i < str.length(); i++) 
@@ -207,3 +210,15 @@ bool loadRawData(trie*& root)
 	return true;
 }
 
+
+wstring VToLower(wstring& str)
+{
+	for (wchar_t& c : str)
+	{
+		if (c == L'-' || c == L' ') continue;
+		else if ((c >= L'A' && c <= L'Y') || (c >= 192 && c <= 221)) c += 32;
+		else if ((c >= 258 && c <= 431) || (c >= 7840 && c <= 7928)) c += 1;
+		else continue;
+	}
+	return str;
+}

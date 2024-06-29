@@ -2,29 +2,33 @@
 #include "UI.h"
 #include <iostream>
 #include "Function.h"
-sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
+sf::RenderWindow window(sf::VideoMode(1500,800), "Dictionary");
 sf::Event event;
 sf::View view = window.getView();
 float scrollSpeed = 50.f;
 
-Button VNtoEnButton(520, 218, "Image/VNtoENButton.png");
-Button ENtoVnButton(520, 340, "Image/ENtoVNButton.png");
-Button searchButton(520, 452, "Image/searchButton.png");
-Button backButton(20, 18, "Image/backButton.png");
-Button nextButton(1255, 705, "Image/nextButton.png");
-Button backDefButton(658, 705, "Image/backDefButton.png");
+Button searchButton(715, 155, "Image/searchButton.png");
+Button translatingButton(715, 305, "Image/translateButton.png");
+
+bool transType = 0;
+Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
+Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
+
+Button backButton(12, 18, "Image/backButton.png");
+Button nextDefButton(1275, 710, "Image/nextButton.png");
+Button backDefButton(820, 710, "Image/backDefButton.png");
 
 bool searchingType = 0;
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
 
-InputBox inputVNBox(218, 236, "Image/InputBox.png", L"Nhập tại đây");
-InputBox inputENBox(218, 236, "Image/InputBox.png", L"Text here");
+InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
+InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
 
 InputBox searchKeyBox(28, 412, "Image/InputBox.png", L"Text here");
 InputDef searchDefBox(28, 349, "Image/InputDef.png", L"Text here");
 
-SubmitButton translate(548, 368, "Image/translateSubmit.png");
+SubmitButton translate(576, 600, "Image/translateSubmit.png");
 SubmitButton submitSearchButton(383, 729, "Image/searchSubmit.png");
 
 sf::Font font;
@@ -37,7 +41,7 @@ TrieEng* rootEtoV = new TrieEng();
 int page = 0;
 int orderDef = 0;
 bool translateFlag = 0;
-
+bool searchFlag = 0;
 void handleString(wstring& s,int row) {
 	int end = 0;
 	int l = 0;
@@ -56,6 +60,7 @@ void handleString(wstring& s,int row) {
 }
 
 void displayDef(int x, int y, wstring meaning) {
+	handleString(meaning, 25);
 	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(40);
@@ -80,29 +85,42 @@ void setBackground() {
 }
 
 
-void VNtoEnglish() {
+void translating() {
 	sf::Texture vnmese;
+
+	sf::Texture eng;
+
 	if (!vnmese.loadFromFile("Image/Vntag.png")) {
+
+	}
+	if (!eng.loadFromFile("Image/ENtag.png")) {
 
 	}
 	sf::Sprite VNtag;
 	vnmese.setSmooth(1);
 	VNtag.setTexture(vnmese);
-	VNtag.setPosition(189, 63);
-	window.draw(VNtag);
-
-	sf::Texture eng;
-	if (!eng.loadFromFile("Image/ENtag.png")) {
-
-	}
-	eng.setSmooth(1);
 	sf::Sprite ENtag;
+	eng.setSmooth(1);
 	ENtag.setTexture(eng);
-	ENtag.setPosition(860, 63);
-	window.draw(ENtag);
+	if (transType == 0) {
+		VNtag.setPosition(141, 160);
+		window.draw(VNtag);
 
+		ENtag.setPosition(821, 160);
+		window.draw(ENtag);
+		inputVNBox.draw(window);
+		VNtoEnButton.draw(window);
+	}
+	else {
+		VNtag.setPosition(821, 160);
+		window.draw(VNtag);
+
+		ENtag.setPosition(141, 160);
+		window.draw(ENtag);
+		inputENBox.draw(window);
+		ENtoVnButton.draw(window);
+	}
 	std::string word;
-
 	while (window.pollEvent(event))
 	{
 		if (backButton.isClicked(window, event)) page = 0;
@@ -110,59 +128,47 @@ void VNtoEnglish() {
 
 		if (event.type == sf::Event::Closed) window.close();
 
-		inputVNBox.isClicked(window, event);
-		if (translate.isClicked(window, event, word, inputVNBox.text)) std::cout << word;
-		translate.isHover(window, "Image/translateHover.png");
-	}
-	backButton.draw(window);
-	translate.draw(window);
-	inputVNBox.draw(window);
-
-}
-
-void ENtoVietnames() {
-	sf::Texture vnmese;
-	if (!vnmese.loadFromFile("Image/Vntag.png")) {
-
-	}
-	sf::Sprite VNtag;
-	vnmese.setSmooth(1);
-	VNtag.setTexture(vnmese);
-	VNtag.setPosition(860, 63);
-	window.draw(VNtag);
-
-	sf::Texture eng;
-	if (!eng.loadFromFile("Image/ENtag.png")) {
-
-	}
-	eng.setSmooth(1);
-	sf::Sprite ENtag;
-	ENtag.setTexture(eng);
-	ENtag.setPosition(189, 63);
-	window.draw(ENtag);
-	std::string word;
-
-	while (window.pollEvent(event))
-	{
-		if (backButton.isClicked(window, event)) page = 0;
-		backButton.isHover(window, "Image/backHover.png");
-
-		if (event.type == sf::Event::Closed) window.close();
-		inputENBox.isClicked(window, event);
-		if (translate.isClicked(window, event, word, inputENBox.text)) {
-			findWordMeaning(rootEtoV, word, VNDef);
-			for (int i = 0; i < VNDef.size(); i++)
-				handleString(VNDef[i],25);
+		if (transType == 0) {
+			if (VNtoEnButton.isClicked(window, event)) {
+				transType = 1;
+			}
+			inputVNBox.isClicked(window, event);
+			if (translate.isClicked(window, event, word, inputVNBox.text)) std::cout << word;
 		}
-		translate.isHover(window, "Image/translateHover.png");
+		else {
+			if (ENtoVnButton.isClicked(window, event)) {
+				transType = 0;
+			}
+			inputENBox.isClicked(window, event);
+			if (translate.isClicked(window, event, word, inputENBox.text)) {
+				findWordMeaning(rootEtoV, word, VNDef);
+				translateFlag = 1;
+			}
+			if (nextDefButton.isClicked(window, event) && orderDef < VNDef.size() - 1) orderDef++;
+			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+		}
+		
 	}
-	if (inputENBox.text.getString() != "")
-	{
-		displayDef(880, 120, VNDef[0]);
+	if (transType == 0) {
+		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 	}
-	translate.draw(window);
-	inputENBox.draw(window);
+	else {
+		if (translateFlag == 1) {
+			//displayDef(160, 300, VNDef[orderDef]);
+		}
+		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
+	}
+
+	if (translateFlag == 1) {
+		backDefButton.draw(window);
+		nextDefButton.draw(window);
+		backDefButton.isHover(window, "Image/backDefHover.png");
+		nextDefButton.isHover(window, "Image/nextDefHover.png");
+		
+	}
+	translate.isHover(window, "Image/transSubHover.png");
 	backButton.draw(window);
+	translate.draw(window);
 }
 
 void search() {
@@ -194,7 +200,7 @@ void search() {
 				translateFlag = 1;
 				orderDef = 0;
 			}
-			if (nextButton.isClicked(window, event) && orderDef < ENDef.size() - 1) orderDef++;
+			if (nextDefButton.isClicked(window, event) && orderDef < ENDef.size() - 1) orderDef++;
 			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 		}
 		else {
@@ -207,7 +213,7 @@ void search() {
 		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
 		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 		searchKeyBox.draw(window);
-		nextButton.draw(window);
+		nextDefButton.draw(window);
 		backDefButton.draw(window);
 	}
 	else {
@@ -215,9 +221,9 @@ void search() {
 		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
 		searchDefBox.draw(window);
 	}
-	if (translateFlag==1)
+	if (searchFlag==1)
 	{
-		displayDef(650, 100, ENDef[orderDef]);
+		//displayDef(650, 100, ENDef[orderDef]);
 	}
 	if (searchKeyBox.text.getString() == "") translateFlag = 0;
 	submitSearchButton.draw(window);
@@ -228,31 +234,25 @@ void search() {
 }
 
 void homePage() {
-	VNtoEnButton.draw(window);
-	ENtoVnButton.draw(window);
+	orderDef = 0;
+	translateFlag = 0;
+	searchingType = 0;
+	transType = 0;
+
 	searchButton.draw(window);
+	translatingButton.draw(window);
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (VNtoEnButton.isClicked(window, event)) {
-			page = 1;
-			inputVNBox.text.setString("");
-		}
-		if (ENtoVnButton.isClicked(window, event)) {
-			page = 2;
-			inputENBox.text.setString("");
-			for (int i = 0; i < VNDef.size(); i++) VNDef[i].clear();
-		}
 		if (searchButton.isClicked(window, event)) {
-			page = 3;
-			searchDefBox.text.setString("");
-			searchKeyBox.text.setString("");
-			for (int i = 0; i < ENDef.size(); i++) ENDef[i].clear();
+			page = 1;
 		}
-		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
-		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
+		if (translatingButton.isClicked(window, event)) {
+			page = 2;
+		}
 		searchButton.isHover(window, "Image/searchHover.png");
+		translatingButton.isHover(window, "Image/translateHover.png");
 	}
 }
 
@@ -268,29 +268,24 @@ int run() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
-	if (!loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;;
-	//if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	//if (!loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;;
+	if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 	
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
 		{
 		case 0: {
-			orderDef = 0;
-			translateFlag = 0;
+
 			homePage();
 			break;
 		}
 		case 1: {
-			VNtoEnglish();
+			search();
 			break;
 		}
 		case 2: {
-			ENtoVietnames();
-			break;
-		}
-		case 3: {
-			search();
+			translating();
 			break;
 		}
 		default:

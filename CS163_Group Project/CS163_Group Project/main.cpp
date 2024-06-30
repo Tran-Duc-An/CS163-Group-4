@@ -167,14 +167,31 @@ std::string findWord(const HashTable& ht, const std::string& definition) {
 
 // Load the dataset into the hash table
 // Function to read a chunk of data from the file
-bool readChunk(std::ifstream& file, std::vector<std::string>& lines, size_t chunkSize) {
+bool readChunk(std::ifstream& file, std::vector<std::string>& lines, size_t bufferSize) {
     lines.clear();
-    std::string line;
-    for (size_t i = 0; i < chunkSize && std::getline(file, line); ++i) {
-        lines.push_back(line);
+    char *buffer= new char[bufferSize];  // Create a buffer of characters
+
+    // Read data into the buffer until the buffer is full or the end of file is reached
+    while (file.read(buffer, bufferSize)) {
+        size_t bytesRead = file.gcount();
+
+        // Process the read data (might involve splitting into lines)
+        std::string chunk(buffer, bytesRead);
+        std::istringstream stream(chunk);
+        std::string line;
+        while (std::getline(stream, line, '\n')) {
+            lines.push_back(line);
+        }
+
+        // Check if the end of file was reached before filling the buffer
+        if (bytesRead < bufferSize) {
+            break;
+        }
     }
+
     return !file.eof();
 }
+
 
 HashTable loadDataset(const std::string& filename, size_t tableSize) {
     HashTable dictionary;

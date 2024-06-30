@@ -30,4 +30,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dataset\englishDictionary2.csv" />
+  </ItemGroup>
 </Project>

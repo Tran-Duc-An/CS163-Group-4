@@ -42,6 +42,7 @@ int page = 0;
 int orderDef = 0;
 bool translateFlag = 0;
 bool searchFlag = 0;
+
 void handleString(wstring& s,int row) {
 	int end = 0;
 	int l = 0;
@@ -141,7 +142,8 @@ void translating() {
 			}
 			inputENBox.isClicked(window, event);
 			if (translate.isClicked(window, event, word, inputENBox.text)) {
-				findWordMeaning(rootEtoV, word, VNDef);
+				VNDef.clear();
+				if(!findWordMeaning(rootEtoV, word, VNDef)) VNDef.push_back(L"No definition");
 				translateFlag = 1;
 			}
 			if (nextDefButton.isClicked(window, event) && orderDef < VNDef.size() - 1) orderDef++;
@@ -154,7 +156,7 @@ void translating() {
 	}
 	else {
 		if (translateFlag == 1) {
-			//displayDef(160, 300, VNDef[orderDef]);
+			displayDef(900, 300, VNDef[orderDef]);
 		}
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 	}
@@ -250,16 +252,16 @@ void homePage() {
 		}
 		if (translatingButton.isClicked(window, event)) {
 			page = 2;
+			inputENBox.text.setString("");
+			inputVNBox.text.setString("");
 		}
 		searchButton.isHover(window, "Image/searchHover.png");
 		translatingButton.isHover(window, "Image/translateHover.png");
 	}
 }
 
-
-int run() {
-	font.loadFromFile("Font/ARIAL.TTF");
-	setBackground();
+bool loadData() {
+	//Loading screen
 	sf::Text loading;
 	loading.setFont(font);
 	loading.setCharacterSize(50);
@@ -268,9 +270,20 @@ int run() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
-	//if (!loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;;
-	if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-	
+
+	if (!loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+		if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+		saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	}
+
+	return 1;
+}
+
+int run() {
+	font.loadFromFile("Font/ARIAL.TTF");
+	setBackground();
+	loadData();
+
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)

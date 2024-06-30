@@ -6,6 +6,8 @@
 #include <cstring>
 #include <chrono>
 #include <io.h>
+#include <locale>
+#include <codecvt>
 #include<fcntl.h>
 
 using namespace std;

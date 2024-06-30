@@ -40,5 +40,16 @@
     <None Include="Dataset\VietnameseAlphabet.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Dataset\Vietnamese - English.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="output.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Dataset\EnglishDictionary.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

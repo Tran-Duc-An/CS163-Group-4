@@ -19,7 +19,7 @@ struct trie
 	vector<trie*>  children;
 	bool isend = false;
 	vector<string> definition;
-	int numChildren = 0;
+	short int numChildren = 0;
 	trie() : children(38, nullptr) {}
 };
 
@@ -28,7 +28,7 @@ struct Vtrie
 {
 	vector<Vtrie*> children;
 	vector<wstring> definition;
-	int numChildren = 0;
+	short int numChildren = 0;
 	// 89 vietnamese characters and 2 for hyphen and space
 	Vtrie() : children(91, nullptr) {}
 };
@@ -46,4 +46,8 @@ void fillMap();
 void VInsertWord(Vtrie*& root, wstring& word,wstring& definition);
 bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning);
 void VDeleteTrie(Vtrie*& root);
+bool VloadRawData(Vtrie*& root);
+void saveVtrie(Vtrie* root, wofstream& fout);
+void loadVtrie(Vtrie*& root, wifstream& fin);
+
 

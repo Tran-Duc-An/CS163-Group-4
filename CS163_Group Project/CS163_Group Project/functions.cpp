@@ -110,7 +110,6 @@ bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
 // save trie but use short int instead of int
 void saveTrie(trie* root, ofstream& fout)
 {
-	if (root == nullptr) return;
 	short int numDefinitions = root->definition.size();
 	fout.write((char*)&numDefinitions, sizeof(short int));
 	for (string& str : root->definition)
@@ -287,4 +286,80 @@ void VDeleteTrie(Vtrie*& root)
 	}
 	delete root;
 	root = nullptr;
+}
+
+bool VloadRawData(Vtrie*& root)
+{
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin("Dataset\\VE.csv");
+	fin.imbue(loc);
+	if (!fin.is_open())
+	{
+		wcout << L"File not found\n";
+		return false;
+	}
+	else
+	{
+		wstring word, definition, wordType;
+		getline(fin, word);
+		while (getline(fin, word, L','))
+		{
+			getline(fin, wordType, L',');
+			getline(fin, definition, L'\n');
+			VInsertWord(root, word, definition);
+		}
+		return true;
+	}
+}
+
+void saveVtrie(Vtrie* root, wofstream& fout)
+{
+	short int numDefinitions = root->definition.size();
+	fout.write((wchar_t*)&numDefinitions, sizeof(short int));
+	for (wstring& str : root->definition)
+	{
+		short int len = str.length();
+		// write length of the string
+		fout.write((wchar_t*)&len, sizeof(short int));
+		// write the string itself
+		fout.write((wchar_t*)str.c_str(), len);
+	}
+	short int numChildren = root->numChildren;
+	fout.write((wchar_t*)&numChildren, sizeof(short int));
+	for (int i = 0; i < 91; ++i)
+	{
+		if (root->children[i] != nullptr)
+		{
+			wchar_t c = reverseMap[i];
+			fout.write((wchar_t*)&c, sizeof(wchar_t));
+			saveVtrie(root->children[i], fout);
+		}
+	}
+}
+
+void loadVtrie(Vtrie*& root, wifstream& fin)
+{
+	short int numDefinitions;
+	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
+	for (int i = 0; i < numDefinitions; ++i)
+	{
+		short int len;
+		fin.read((wchar_t*)&len, sizeof(short int));
+		wchar_t* tmp = new wchar_t[len + 1];
+		fin.read((wchar_t*)tmp, len);
+		tmp[len] = L'\0';
+		root->definition.push_back(tmp);
+		delete[] tmp;
+	}
+	fin.read((wchar_t*)&root->numChildren, sizeof(short int));
+	for (int i = 0; i < root->numChildren; ++i)
+	{
+		wchar_t c;
+		fin.read((wchar_t*)&c, sizeof(wchar_t));
+		if (map[c] != -1)
+		{
+			root->children[map[c]] = new Vtrie();
+			loadVtrie(root->children[map[c]], fin);
+		}
+	}
 }

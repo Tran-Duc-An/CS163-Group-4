@@ -48,7 +48,7 @@
 //}
 
 
-/* 
+/*
 int main()
 {
 	trie* root = new trie();
@@ -93,63 +93,141 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-*/ 
-
-
+*/
 
 /* 
-int main() 
+int main()
 {
-	fillMap();
-	_setmode(_fileno(stdout), _O_U16TEXT);
-	_setmode(_fileno(stdin), _O_U16TEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	_setmode(_fileno(stdin), _O_WTEXT);
+	
 	Vtrie* root = new Vtrie();
-	wstring word;
-	wstring definition;
-	while (1)
+	auto start = chrono::high_resolution_clock::now();
+	fillMap();
+	if (VloadRawData(root))
 	{
-		wcout << L"Enter a word: ";
-		getline(wcin, word);
-		if (word == L"exit") break;
-		wcout << L"Enter the definition: ";
-		getline(wcin, definition);
-		VInsertWord(root, word, definition);
+		auto end = chrono::high_resolution_clock::now();
+		wcout << L"Thời gian tải dữ liệu: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
+		wstring a = L"";
+		while (VToLower(a) != L"exit")
+		{
+			vector<wstring> means;
+			wcout << L"Nhập từ để tìm kiếm: "; getline(wcin, a);
+			VFindWordMeaning(root, a, means);
+			if (means.size() == 0)
+				wcout << L"Không tìm được từ!!!" << endl;
+			for (int i = 0; i < means.size(); ++i)
+				wcout << L"Nghĩa " << i + 1 << L": " << means[i] << endl;
+		}
 	}
-	vector<wstring> meaning;
-	while (1)
+	else
+		wcout << L"Tải dữ liệu thất bại!!!" << endl;
+
+	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	start = chrono::high_resolution_clock::now();
+	fout.open("Dataset\\UserVData.bin", ios::binary);
+	if (fout.is_open())
 	{
-		wcout << L"Enter a word: ";
-		getline(wcin, word);
-		if (word == L"exit") break;
-		if (VFindWordMeaning(root, word, meaning))
-		{
-			int i = 0;
-			for (wstring& str : meaning)
-			{
-				wcout << L"Meaning " << ++i << L":" << L" ";
-			wcout << str << endl;
-			}
-		}
-		else
-		{
-			wcout << L"Word not found\n";
-		}
+		fout.imbue(loc);
+		
+		saveVtrie(root, fout);
+		fout.close();
+		auto end = chrono::high_resolution_clock::now();
+		wcout << L"Thời gian lưu dữ liệu: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
+	}
+	else
+		wcout << L"Không thể mở file để lưu dữ liệu!!!" << endl;
+	VDeleteTrie(root);
+	return 0;
+}
+*/
+
+
+int main()
+{
+	_setmode(_fileno(stdout), _O_WTEXT);
+	_setmode(_fileno(stdin), _O_WTEXT);
+	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
+	Vtrie* root = new Vtrie();
+	fillMap();
+	wifstream fin;
+	auto start = chrono::high_resolution_clock::now();
+	fin.open("Dataset\\UserVData.bin", ios::binary);
+	if (!fin.is_open())
+	{
+		wcout << L"Không tìm thấy file dữ liệu!!!" << endl;
+		return 0;
+	}
+	fin.imbue(loc);
+	loadVtrie(root, fin);
+	auto end = chrono::high_resolution_clock::now();
+	wcout << L"Thời gian tải dữ liệu: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
+	wstring a = L"";
+	while (VToLower(a) != L"exit")
+	{
+		vector<wstring> means;
+		wcout << L"Nhập từ để tìm kiếm: "; getline(wcin, a);
+		VFindWordMeaning(root, a, means);
+		if (means.size() == 0)
+			wcout << L"Không tìm được từ!!!" << endl;
+		for (int i = 0; i < means.size(); ++i)
+			wcout << L"Nghĩa " << i + 1 << L": " << means[i] << endl;
 	}
 	VDeleteTrie(root);
 	return 0;
 }
-*/ 
 
+
+
+/* 
 int main()
 {
-	fillMap();
-	_setmode(_fileno(stdout), _O_U16TEXT);
-	_setmode(_fileno(stdin), _O_U16TEXT);
-	wstring word2 = L"A Á À Ả Ã Ạ Ă Ắ Ằ Ẳ Ẵ Ặ Â Ấ Ầ Ẩ Ẫ Ậ B C D Đ E É È Ẻ Ẽ Ẹ Ê Ế Ề Ể Ễ Ệ G H I Í Ì Ỉ Ĩ Ị K L M N O Ó Ò Ỏ Õ Ọ Ô Ố Ồ Ổ Ỗ Ộ Ơ Ớ Ờ Ở Ỡ Ợ P Q R S T U Ú Ù Ủ Ũ Ụ Ư Ứ Ừ Ử Ữ Ự V X Y Ý Ỳ Ỷ Ỹ Ỵ";
-	wcout << word2 << endl;
-	word2 = VToLower(word2);
-	wcout << word2;
+	_setmode(_fileno(stdout), _O_WTEXT);
+	_setmode(_fileno(stdin), _O_WTEXT);
+	wstring word = L"Nguyễn Đức Thịnh";
+	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	fout.open("Dataset\\test.txt", ios::binary);
+
+	if (fout.is_open())
+	{
+		fout.imbue(loc);
+		short int len = word.length();
+		fout.write((wchar_t*)&len, sizeof(short int));
+		fout.write((wchar_t*)word.c_str(), len);
+		fout.close();
+	}
+	else
+		wcout << L"Không thể mở file để lưu dữ liệu!!!" << endl;
 	return 0;
+
 }
+*/
+/* 
+int main()
+{
+	_setmode(_fileno(stdout), _O_WTEXT);
+	_setmode(_fileno(stdin), _O_WTEXT);
+	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin;
+	fin.open("Dataset\\test.txt", ios::binary);
+	if (!fin.is_open())
+	{
+		wcout << L"Không tìm thấy file dữ liệu!!!" << endl;
+		return 0;
+	}
+	fin.imbue(loc);
+	short int len;
+	fin.read((wchar_t*)&len, sizeof(short int));
+	wchar_t* buffer = new wchar_t[len + 1];
+	fin.read(buffer, len);
+	buffer[len] = L'\0';
+	wstring word = buffer;
+	wcout << word << endl;
+	delete[] buffer;
+	fin.close();
+	return 0;
 
-
+}
+*/

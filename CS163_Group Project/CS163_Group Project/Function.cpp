@@ -123,6 +123,7 @@ void deleteTrieEng(TrieEng* root)
 
 bool loadRawData(TrieEng*& root,string path)
 {
+
 	wifstream fin;
 	fin.open(path);
 
@@ -148,9 +149,14 @@ bool loadRawData(TrieEng*& root,string path)
 			size_t bracket_pos = word.find('[');
 			if (bracket_pos != string::npos)
 			{
-				word = word.substr(0, bracket_pos - 1);
+				word = word.substr(0, bracket_pos-1);
 			}
-
+			size_t bracket_pos_open = word.find('(');
+			size_t bracket_pos_close = word.find(')');
+			if (bracket_pos_open != string::npos)
+			{
+				word = word.erase(bracket_pos_open, bracket_pos_close - bracket_pos_open + 1);
+			}
 			insertWord(root, word, definition);
 		}
 	}
@@ -162,20 +168,21 @@ void outputTrie(TrieEng* root, wofstream& fou) {
 	if (root == nullptr) return;
 
 	short int numDefinitions = root->definition.size();
-	fou.write(reinterpret_cast<const wchar_t*>(&numDefinitions), sizeof(short int));
-
-	for (wstring& str : root->definition) {
-		short int len = str.length();
-		fou.write(reinterpret_cast<const wchar_t*>(&len), sizeof(short int));
-		fou.write(str.c_str(), len);
+	fou.write((wchar_t*)(&numDefinitions), sizeof(short int));
+	if (root->definition.size() != 0) {
+		for (wstring& str : root->definition) {
+			short int len = str.length();
+			fou.write((wchar_t*)(&len), sizeof(short int));
+			fou.write(str.c_str(), len);
+		}
 	}
 	short int numChildren = root->numChildren;
-	fou.write(reinterpret_cast<const wchar_t*>(&numChildren), sizeof(short int));
+	fou.write((wchar_t*)(&numChildren), sizeof(short int));
 	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
 	for (int i = 0; i < 38; ++i) {
 		if (root->children[i] != nullptr) {
 			wchar_t c = i < 26 ? (wchar_t)(i + L'a') : (i == 26 ? L' ' : (i == 27 ? L'-' : (i - 28 + L'0')));
-
+			
 			fou.write(&c, sizeof(wchar_t));
 			outputTrie(root->children[i], fou);
 		}
@@ -193,8 +200,7 @@ void saveTrietoFile(TrieEng* root, string path) {
 }
 
 void inputTrie(TrieEng*& root, wifstream& fin) {
-
-	short int numDefinitions;
+	short int numDefinitions = 0;
 	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
 	if (numDefinitions != 0) {
 		root->isEnd = true;
@@ -208,7 +214,6 @@ void inputTrie(TrieEng*& root, wifstream& fin) {
 			root->definition.push_back(tmp);
 			delete[] tmp;
 		}
-		return;
 	}
 	fin.read((wchar_t*)&root->numChildren, sizeof(short int));
 	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
@@ -216,26 +221,25 @@ void inputTrie(TrieEng*& root, wifstream& fin) {
 	{
 		wchar_t c;
 		fin.read(&c, sizeof(wchar_t));
-		wcout << c << endl;
-		if (c >= 'a' && c <= 'z')
+		if (c >= L'a' && c <= L'z')
 		{
-			root->children[c - 'a'] = new TrieEng();
-			inputTrie(root->children[c - 'a'], fin);
+			root->children[c - L'a'] = new TrieEng();
+			inputTrie(root->children[c - L'a'], fin);
 		}
-		else if (c == ' ')
+		else if (c == L' ')
 		{
 			root->children[26] = new TrieEng();
 			inputTrie(root->children[26], fin);
 		}
-		else if (c == '-')
+		else if (c == L'-')
 		{
 			root->children[27] = new TrieEng();
 			inputTrie(root->children[27], fin);
 		}
-		else if (c >= '0' && c <= '9')
+		else if (c >= L'0' && c <= L'9')
 		{
-			root->children[c - '0' + 28] = new TrieEng();
-			inputTrie(root->children[c - '0' + 28], fin);
+			root->children[c - L'0' + 28] = new TrieEng();
+			inputTrie(root->children[c - L'0' + 28], fin);
 		}
 	}
 }

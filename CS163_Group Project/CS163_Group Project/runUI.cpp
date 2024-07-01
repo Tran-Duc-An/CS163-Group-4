@@ -51,7 +51,7 @@ void handleString(wstring& s,int row) {
 		l++;
 		cnt++;
 		if (double(cnt / row) >= 1) {
-			if (s[l] < 'a' || s[l]>'z') {
+			if (s[l] < L'a' || s[l]> L'z') {
 				s[end] = '\n';
 				cnt = 0;
 				end = l;
@@ -60,8 +60,8 @@ void handleString(wstring& s,int row) {
 	}
 }
 
-void displayDef(int x, int y, wstring meaning) {
-	handleString(meaning, 25);
+void displayDef(int x, int y, wstring meaning,int row) {
+	handleString(meaning, row);
 	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(40);
@@ -145,6 +145,7 @@ void translating() {
 				VNDef.clear();
 				if(!findWordMeaning(rootEtoV, word, VNDef)) VNDef.push_back(L"No definition");
 				translateFlag = 1;
+				orderDef = 0;
 			}
 			if (nextDefButton.isClicked(window, event) && orderDef < VNDef.size() - 1) orderDef++;
 			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
@@ -156,7 +157,7 @@ void translating() {
 	}
 	else {
 		if (translateFlag == 1) {
-			displayDef(900, 300, VNDef[orderDef]);
+			displayDef(870, 300, VNDef[orderDef],25);
 		}
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 	}
@@ -272,7 +273,7 @@ bool loadData() {
 	window.display();
 
 	if (!loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-		if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+		if (!loadRawData(rootEtoV, "Dataset/EngViet.txt")) return 0;
 		saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
 	}
 

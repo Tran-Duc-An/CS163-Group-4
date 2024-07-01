@@ -14,3 +14,25 @@ twill,(viết tắt) của it will
 twixt, giới từ|- (vt của betwixt)
 un, danh từ|- <thgt>(như one) một
 ve,(vt của have)
+-th,hình thái ở một số danh từ gốc động từ; tính từ chỉ :hoạt động kết quả hoạt động :|- growth|- sự phát triển;|- tilth|- sự trồng trọt;|- tình trạng hoặc phẩm chất :|- health|- sức khoẻ;|- youth|- tuổi trẻ;|- (hay eth) h
+-trichous,hình thái ghép tạo tính từ|- có lông kiểu nào đấy|= peritrichous|+ có vành lông rung
+-tron,hậu tố tạo danh từ có nghĩa|- ống chân không|- magnetron|- manhêtron|- biện pháp xử lý các hạt trong nguyên tử|- cyclotron|- xiclotron
+-trophin,hình thái ghép có nghĩa|- chất kích thích|= gonadotrophin hocmon|+ kích thích tuyến sinh dục
+-tude,hậu tố tạo danh từ|- sự, tính chất|- altitude|- độ cao|- plenitude|- sự đầy đủ
+-ty,hậu tố để tạo những con số có bao nhiêu lần mười|- twenty|- hai mươi|- fifty|- năm mươi|- hậu tố tạo danh từ chỉ tính chất, điều kiện|- puberty|- tuổi dậy thì|- cruelty|- tính tàn ác
+-way,hình thái cấu tạo các phó từ gốc tính từ và danh từ chỉ cách thức hành động; phương hướng và vị trí|- broadways|- theo chiều rộng, chiều ngang|- longways|- theo chiều dài|- lengthways|- theo chiều dọc|- endways|- đuôi về 
+1 to 1 relationship,(tech) quan hệ 1 đối 1
+1 to many relationship,(tech) quan hệ 1 đối nhiều
+1-byte character,(tech) ký tự 1 bai
+1-byte character code,(tech) mã ký tự 1 bai
+1-byte character set,(tech) bộ ký tự 1 bai
+1-byte character string,(tech) chuỗi ký tự 1 bai
+2-way device,(tech) thiết bị 2 chiều/thu phát
+2d (two dimension),(tech) hai chiều, nhị thứ nguyên, phẳng
+2d configuration,(tech) cấu hình 2 chiều, cấu hình phẳng
+2d image,(tech) ảnh 2 chiều, ảnh phẳng
+2d module = two-dimensional module,(tech) mô đun hai chiều
+3d (three dimension),(tech) ba chiều, tam thứ nguyên, nổi
+3d (three dimension) calculation,(tech) tính toán 3 chiều
+3d (three dimension) configuration,(tech) cấu hình 3 chiều, cấu hình nổi
+3d (three dimension) image,(tech) ảnh 3 chiều, ảnh nổi = stereoscopic image

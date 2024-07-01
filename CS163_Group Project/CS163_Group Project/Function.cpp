@@ -27,7 +27,7 @@ void insertWord(TrieEng*& root, string& word, wstring& definition)
 	word = toLowerCase(word);
 	word = removeSpecialCharacters(word);
 	TrieEng* current = root;
-	int cnt = 0;
+
 	for (char c : word)
 	{
 		// a to z is 0 to 25
@@ -39,7 +39,6 @@ void insertWord(TrieEng*& root, string& word, wstring& definition)
 				current->numChildren++;
 			}
 			current = current->children[c - 'a'];
-			cnt++;
 		}
 		// space is 26
 		else if (c == ' ')
@@ -50,7 +49,6 @@ void insertWord(TrieEng*& root, string& word, wstring& definition)
 				current->numChildren++;
 			}
 			current = current->children[26];
-			cnt++;
 		}
 		// hyphen is 27
 		else if (c == '-')
@@ -61,7 +59,6 @@ void insertWord(TrieEng*& root, string& word, wstring& definition)
 				current->numChildren++;
 			}
 			current = current->children[27];
-			cnt++;
 		}
 		// 0 to 9 is 28 to 37
 		else if (c >= '0' && c <= '9')
@@ -72,12 +69,12 @@ void insertWord(TrieEng*& root, string& word, wstring& definition)
 				current->numChildren++;
 			}
 			current = current->children[c - '0' + 28];
-			cnt++;
+
 		}
 	}
 	current->isEnd = true;
 	current->definition.push_back(definition);
-	current->numChildren = cnt;
+
 }
 
 bool findWordMeaning(TrieEng* root, string word, vector<wstring>& meaning)
@@ -121,6 +118,23 @@ void deleteTrieEng(TrieEng* root)
 	delete root;
 }
 
+void preProcessing(string& word) {
+	size_t bracket_pos = word.find('[');
+	if (bracket_pos != string::npos)
+	{
+		word = word.substr(0, bracket_pos - 1);
+	}
+	size_t bracket_pos_open = word.find('(');
+	size_t bracket_pos_close = word.find(')');
+	if (bracket_pos_open != string::npos)
+	{
+		word = word.erase(bracket_pos_open-1, bracket_pos_close - bracket_pos_open+2);
+	}
+	while (!word.empty() && word[0] == ' ') word.erase(word.begin(), word.begin() + 1);
+	while (!word.empty() && word[word.length() - 1] == ' ') word.erase(word.length() - 2, word.length() - 1);
+	cout << word << endl;
+}
+
 bool loadRawData(TrieEng*& root,string path)
 {
 
@@ -146,17 +160,7 @@ bool loadRawData(TrieEng*& root,string path)
 			wstring_convert<codecvt_utf8<wchar_t>> converter;
 			string word = converter.to_bytes(wword);
 
-			size_t bracket_pos = word.find('[');
-			if (bracket_pos != string::npos)
-			{
-				word = word.substr(0, bracket_pos-1);
-			}
-			size_t bracket_pos_open = word.find('(');
-			size_t bracket_pos_close = word.find(')');
-			if (bracket_pos_open != string::npos)
-			{
-				word = word.erase(bracket_pos_open, bracket_pos_close - bracket_pos_open + 1);
-			}
+			preProcessing(word);
 			insertWord(root, word, definition);
 		}
 	}

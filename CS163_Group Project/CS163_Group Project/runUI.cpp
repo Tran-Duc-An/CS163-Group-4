@@ -60,11 +60,13 @@ void handleString(wstring& s,int row) {
 	}
 }
 
+
+
 void displayDef(int x, int y, wstring meaning,int row) {
 	handleString(meaning, row);
 	if (!meaning.empty()) {
 		sf::Text def;
-		def.setCharacterSize(40);
+		def.setCharacterSize(30);
 		def.setFont(font);
 		def.setFillColor(sf::Color::Black);
 		def.setPosition(x, y);
@@ -273,7 +275,7 @@ bool loadData() {
 	window.display();
 
 	if (!loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-		if (!loadRawData(rootEtoV, "Dataset/EngViet.txt")) return 0;
+		if (!loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 		saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
 	}
 

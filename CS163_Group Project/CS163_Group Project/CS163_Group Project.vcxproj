@@ -149,6 +149,9 @@
   <ItemGroup>
     <None Include="Dataset\Vietnamese - English.csv" />
     <None Include="Dataset\VietnameseAlphabet.csv" />
+    <None Include="EV.csv" />
+    <None Include="output.csv" />
+    <None Include="VE.csv" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dataset\EnglishDictionary.txt" />

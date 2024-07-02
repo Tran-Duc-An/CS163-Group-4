@@ -109,10 +109,29 @@ InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name) : Inp
 
 
 
-SubmitButton::SubmitButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
+SubmitVNButton::SubmitVNButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
 }
 
-bool SubmitButton::isClicked(sf::RenderWindow& window, sf::Event& event, std::string& word, sf::Text& text) {
+bool SubmitVNButton::isClicked(sf::RenderWindow& window, sf::Event& event, std::wstring& word, sf::Text& text) {
+	if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
+			word.assign(text.getString().toAnsiString().begin(), text.getString().toAnsiString().end());
+			return true;
+		}
+	}
+	else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+		word.assign(text.getString().toAnsiString().begin(), text.getString().toAnsiString().end());
+		return true;
+	}
+	return false;
+}
+
+SubmitENButton::SubmitENButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
+
+}
+
+bool SubmitENButton::isClicked(sf::RenderWindow& window, sf::Event& event, std::string& word, sf::Text& text) {
 	if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos)))

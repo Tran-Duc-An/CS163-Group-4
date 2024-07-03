@@ -27,17 +27,17 @@ InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
 InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
 
 InputBox searchKeyBox(28, 412, "Image/InputBox.png", L"Text here");
-InputDef searchDefBox(28, 349, "Image/InputDef.png", L"Text here");
+InputDef searchDefBox(75, 400, "Image/InputDef.png", L"Text here");
 
 SubmitENButton translateEN(576, 600, "Image/translateSubmit.png");
 SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
 
-SubmitENButton submitSearchButton(383, 729, "Image/searchSubmit.png");
-
+SubmitENButton submitSearchKey(383, 729, "Image/searchSubmit.png");
+SubmitENButton submitSearchDef(1270, 716, "Image/searchSubmit.png");
 sf::Font font;
 
 vector<wstring> transDef;
-vector<string> ENDef;
+vector<string> searchDef;
 EVTrie* rootEtoV = new EVTrie();
 EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
@@ -173,7 +173,7 @@ void translating() {
 			}
 			inputVNBox.isClicked(window, event);
 			if (translateVN.isClicked(window, event, wword, inputVNBox.text)) {
-				ENDef.clear();
+				transDef.clear();
 				if (!VE::findWordMeaning(rootVtoE, wword, transDef)) transDef.push_back(L"No definition");
 				translateFlag = 1;
 				orderDef = 0;
@@ -198,9 +198,15 @@ void translating() {
 
 	//display 
 	if (transType == 0) {//Vietnamese to English
+
+		if (translateFlag == 1) {
+			displayWDef(870, 300, transDef[orderDef], 30);
+		}
+
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		translateVN.isHover(window, "Image/transSubHover.png");
 		translateVN.draw(window);
+
 	}
 	else {//English to Vietnamese
 		if (translateFlag == 1) {
@@ -223,8 +229,15 @@ void translating() {
 
 void search() {
 	sf::Texture layout2;
-	if (!layout2.loadFromFile("Image/layout2.png")) {
+	if (searchingType == 0) {
+		if (!layout2.loadFromFile("Image/layout2.png")) {
 
+		}
+	}
+	else {
+		if (!layout2.loadFromFile("Image/layout3.png")) {
+
+		}
 	}
 	layout2.setSmooth(1);
 	sf::Sprite sprite;
@@ -241,48 +254,51 @@ void search() {
 		if (searchKeyButton.isClicked(window, event)) searchingType = 0;
 		if (searchDefButton.isClicked(window, event)) searchingType = 1;
 
-		if (searchingType == 0) {
+		if (searchingType == 0) {//Search with keyword
 
 			searchKeyBox.isClicked(window, event);
 
-			if (submitSearchButton.isClicked(window, event, words, searchKeyBox.text)) {
-				EE::findWordMeaning(rootEtoE, words, ENDef);
-				for (int i = 0; i < ENDef.size(); i++)
-					handleString(ENDef[i],30);
+			if (submitSearchKey.isClicked(window, event, words, searchKeyBox.text)) {
+				searchDef.clear();
+				cout << words;
+				if(!EE::findWordMeaning(rootEtoE, words, searchDef)) searchDef.push_back("No definition");
 				translateFlag = 1;
 				orderDef = 0;
 			}
 
-			if (nextDefButton.isClicked(window, event) && orderDef < ENDef.size() - 1) orderDef++;
+			if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
 			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 		}
 		else {
 			searchDefBox.isClicked(window, event);
-			if (submitSearchButton.isClicked(window, event, words, searchDefBox.text)) std::cout << words;
+			if (submitSearchKey.isClicked(window, event, words, searchDefBox.text)) std::cout << words;
 		}
-		submitSearchButton.isHover(window, "Image/searchSubmitHover.png");
+		
 	}
 	if (searchingType == 0) { //search by keyword
-		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
-		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 		searchKeyBox.draw(window);
+
 		if (searchFlag == 1) {
 			nextDefButton.draw(window);
 			backDefButton.draw(window);
+
+			displayDef(650, 100, searchDef[orderDef], 50);
 		}
+		
+		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
+		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 	}
 	else { //search by definition
 		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
 		searchDefBox.draw(window);
 	}
-	if (searchFlag==1) 
-	{
-		displayDef(650, 100, ENDef[orderDef], 30);
-	}
+
+	submitSearchKey.draw(window);
+	submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
 
 	if (searchKeyBox.text.getString() == "") translateFlag = 0;
-	submitSearchButton.draw(window);
+
 	searchKeyButton.draw(window);
 	searchDefButton.draw(window);
 	backButton.draw(window);
@@ -334,7 +350,7 @@ bool loadData() {
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
 	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-		if (!VE::loadRawData(rootVtoE, "Dataset/Dataset/VE.csv")) return 0;
+		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	}
 
@@ -345,7 +361,6 @@ int run() {
 	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
 	if (!loadData()) return 0;
-
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
@@ -369,6 +384,9 @@ int run() {
 		window.display();
 		window.clear(sf::Color::White);
 	}
+	EV::deleteTrie(rootEtoV);
+	VE::deleteTrie(rootVtoE);
+	EE::deleteTrie(rootEtoE);
 	return 0;
 }
 

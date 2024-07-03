@@ -1,7 +1,7 @@
 ﻿#include "UI.h"
 #include <SFML/Graphics.hpp>
 #include <string>
-
+#include <iostream>
 
 Button::Button(int x, int y, std::string imagePath) {
 	if (texture.loadFromFile(imagePath)) {
@@ -63,23 +63,32 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) active = 1;
-		else active = 0;
+		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
+			active = true;
+		}
+		else {
+			active = false;
+		}
 	}
 
 	if (active) {
-		std::string str = text.getString();
-		if (str.length() < 20) {
+		std::wstring str = text.getString(); // Directly use sf::Text as wstring
+		if (str.length() / 20 < 4) {
+			if (str.length() % 20 == 0 && str.length() > 0) {
+				str += L'\n';
+				text.setString(str);
+			}
 			if (event.type == sf::Event::TextEntered) {
-				if (event.text.unicode > 31 && event.text.unicode < 128) {
-					text.setString(text.getString() + static_cast<char>(event.text.unicode));
+				if (event.text.unicode > 31 && event.text.unicode != 127) {
+					str += static_cast<wchar_t>(event.text.unicode);
+					text.setString(str);
 				}
 			}
 		}
 		if (event.type == sf::Event::KeyPressed) {
 			if (event.key.code == sf::Keyboard::BackSpace) {
-				std::string str = text.getString().toAnsiString();
 				if (!str.empty()) {
+					if (str.back() == L'\n') str.pop_back();
 					str.pop_back();
 					text.setString(str);
 				}
@@ -87,7 +96,6 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 		}
 	}
 }
-
 void InputBox::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 	std::string str = text.getString().toAnsiString();
@@ -115,16 +123,19 @@ SubmitVNButton::SubmitVNButton(int x, int y, std::string imagePath) :Button(x, y
 bool SubmitVNButton::isClicked(sf::RenderWindow& window, sf::Event& event, std::wstring& word, sf::Text& text) {
 	if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
-			word.assign(text.getString().toAnsiString().begin(), text.getString().toAnsiString().end());
-			return true;
+		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos)))
+		{
+			word = text.getString();
+			return 1;
 		}
 	}
-	else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-		word.assign(text.getString().toAnsiString().begin(), text.getString().toAnsiString().end());
-		return true;
+	else {
+		if (event.type == sf::Event::KeyPressed && (event.key.code == sf::Keyboard::Enter)) {
+			word = text.getString();
+			return 1;
+		}
 	}
-	return false;
+	return 0;
 }
 
 SubmitENButton::SubmitENButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
@@ -159,8 +170,8 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 
 	if (active) {
 		std::string str = text.getString();
-		if (str.length() / 20 < 7) {
-			if (str.length() % 20 == 0 && str.length() > 0) text.setString(text.getString() + '\n');
+		if (str.length() / 50 < 7) {
+			if (str.length() % 50 == 0 && str.length() > 0) text.setString(text.getString() + '\n');
 			if (event.type == sf::Event::TextEntered) {
 				if (event.text.unicode > 31 && event.text.unicode < 128) {
 					text.setString(text.getString() + static_cast<char>(event.text.unicode));

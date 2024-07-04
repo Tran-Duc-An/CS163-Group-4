@@ -1,54 +1,109 @@
 ﻿#include "functions.h"
 #include "fstream"
+/* 
+int main()
+{
+	trie* root = new trie();
+	 
+	auto start = chrono::high_resolution_clock::now();
+	if (!loadRawData(root))
+	{
+		cout << "Failed to load data\n";
+		return 0;
+	}
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load raw data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+	string word;
+	vector<string> definition;
+	while (1)
+	{
+		cout << "Enter a word: ";
+		getline(cin, word);
+		if (word == "exit") break;
+		
+		start = chrono::high_resolution_clock::now();
+		if (findWordMeaning(root, word, definition))
+	{
+			end = chrono::high_resolution_clock::now();
+			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+			int i = 0;
+			for (string& str : definition)
+			{
+				cout << "Meaning " << ++i << ":" << " ";
+				cout << str << endl;
+			}
+		}
+		else
+		{
+			cout << "Word not found\n";
+		}
+	}
+	// test function to change a word meaning
+	string newDefinition;
+	cout << "Enter a word to change its meaning: ";
+	getline(cin, word);
+	if (findWordMeaning(root, word, definition))
+	{
+		int i = 0;
+		for (string& str : definition)
+		{
+			cout << "Meaning " << ++i << ":" << " ";
+			cout << str << endl;
+		}
+	}
+	else
+	{
+		cout << "Word not found\n";
+	}
+	int indexBase1;
+	cout << "Enter the index of the meaning you want to change: ";
+	cin >> indexBase1;
+	cin.ignore();
+	cout << "Enter the new meaning: ";
+	getline(cin, newDefinition);
+	start = chrono::high_resolution_clock::now();
+	if (changeWordDefinition(root, word, newDefinition, indexBase1 - 1))
+	{
+		end = chrono::high_resolution_clock::now();
+		cout << "Time taken to change the meaning: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+		cout << "Meaning changed successfully\n";
+	}
+	else
+	{
+		cout << "Word not found\n";
+	}
 
-//int main()
-//{
-//	trie* root = new trie();
-//	 check how long to load the raw data
-//	auto start = chrono::high_resolution_clock::now();
-//	if (!loadRawData(root))
-//	{
-//		cout << "Failed to load data\n";
-//		return 0;
-//	}
-//	auto end = chrono::high_resolution_clock::now();
-//	cout << "Time taken to load raw data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
-//	string word;
-//	vector<string> definition;
-//	while (1)
-//	{
-//		cout << "Enter a word: ";
-//		getline(cin, word);
-//		if (word == "exit") break;
-//		 check how long it takes to find the word
-//		start = chrono::high_resolution_clock::now();
-//		if (findWordMeaning(root, word, definition))
-//	{
-//			end = chrono::high_resolution_clock::now();
-//			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
-//			int i = 0;
-//			for (string& str : definition)
-//			{
-//				cout << "Meaning " << ++i << ":" << " ";
-//				cout << str << endl;
-//			}
-//		}
-//		else
-//		{
-//			cout << "Word not found\n";
-//		}
-//	}
-//	ofstream fout;
-//	fout.open("Dataset\\userData.bin", ios::binary);
-//	saveTrie(root, fout);
-//	fout.close();
-//
-//	deleteTrie(root);
-//	return 0;
-//}
+	cout << "Enter a word to find: ";
+	getline(cin, word);
+	start = chrono::high_resolution_clock::now();
+	if (findWordMeaning(root, word, definition))
+	{
+		end = chrono::high_resolution_clock::now();
+		cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+		int i = 0;
+		for (string& str : definition)
+		{
+			cout << "Meaning " << ++i << ":" << " ";
+			cout << str << endl;
+		}
+	}
+	else
+	{
+		cout << "Word not found\n";
+	}
 
+	ofstream fout;
+	//fout.open("Dataset\\userData.bin", ios::binary);
+	fout.open("Dataset\\test.bin", ios::binary);
+	saveTrie(root, fout);
+	fout.close();
 
-/*
+	deleteTrie(root);
+	return 0;
+}
+*/ 
+
+/* 
 int main()
 {
 	trie* root = new trie();
@@ -56,7 +111,8 @@ int main()
 
 	// check how long it takes to load the data
 	auto start = chrono::high_resolution_clock::now();
-	fin.open("Dataset\\userData.bin", ios::binary);
+	//fin.open("Dataset\\userData.bin", ios::binary);
+	fin.open("Dataset\\test.bin", ios::binary);
 	if (!fin.is_open())
 	{
 		cout << "File not found\n";
@@ -93,7 +149,7 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-*/
+*/ 
 
 /* 
 int main()
@@ -123,10 +179,53 @@ int main()
 	else
 		wcout << L"Tải dữ liệu thất bại!!!" << endl;
 
+	// test function to change a word meaning
+	wstring newDefinition;
+	wstring word = L"";
+	vector<wstring> definition;
+	wcout << L"Nhập từ cần thay đổi nghĩa: "; getline(wcin, word);
+	if (VFindWordMeaning(root, word, definition))
+	{
+		for (int i = 0; i < definition.size(); ++i)
+			wcout << L"Nghĩa " << i + 1 << L": " << definition[i] << endl;
+	}
+	else
+		wcout << L"Không tìm thấy từ cần thay đổi nghĩa!!!" << endl;
+	int indexBase1;
+	wcout << L"Nhập chỉ số của nghĩa cần thay đổi: "; wcin >> indexBase1;
+	wcin.ignore();
+	wcout << L"Nhập nghĩa mới: "; getline(wcin, newDefinition);
+	
+	// check how long it takes to change the meaning
+	
+	start = chrono::high_resolution_clock::now();
+	if (VChangeWordDefinition(root, word, newDefinition, indexBase1 - 1))
+	{
+		auto end = chrono::high_resolution_clock::now();
+		wcout << L"Thời gian thay đổi nghĩa: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
+		wcout << L"Thay đổi nghĩa thành công!!!" << endl;
+	}
+	else
+		wcout << L"Không tìm thấy từ cần thay đổi nghĩa!!!" << endl;
+
+	// check if the meaning has been changed
+	wcout << L"Nhập từ cần tìm: "; getline(wcin, word);
+	start = chrono::high_resolution_clock::now();
+	if (VFindWordMeaning(root, word, definition))
+	{
+		auto end = chrono::high_resolution_clock::now();
+		wcout << L"Thời gian tìm từ: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
+		for (int i = 0; i < definition.size(); ++i)
+			wcout << L"Nghĩa " << i + 1 << L": " << definition[i] << endl;
+	}
+	else
+		wcout << L"Không tìm thấy từ cần tìm!!!" << endl;
+
 	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
 	wofstream fout;
 	start = chrono::high_resolution_clock::now();
-	fout.open("Dataset\\UserVData.bin", ios::binary);
+	//fout.open("Dataset\\UserVData.bin", ios::binary);
+	fout.open("Dataset\\testV.bin", ios::binary);
 	if (fout.is_open())
 	{
 		fout.imbue(loc);
@@ -144,6 +243,7 @@ int main()
 */
 
 
+/*
 int main()
 {
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -153,7 +253,8 @@ int main()
 	fillMap();
 	wifstream fin;
 	auto start = chrono::high_resolution_clock::now();
-	fin.open("Dataset\\UserVData.bin", ios::binary);
+	//fin.open("Dataset\\UserVData.bin", ios::binary);
+	fin.open("Dataset\\testV.bin", ios::binary);
 	if (!fin.is_open())
 	{
 		wcout << L"Không tìm thấy file dữ liệu!!!" << endl;
@@ -177,57 +278,4 @@ int main()
 	VDeleteTrie(root);
 	return 0;
 }
-
-
-
-/* 
-int main()
-{
-	_setmode(_fileno(stdout), _O_WTEXT);
-	_setmode(_fileno(stdin), _O_WTEXT);
-	wstring word = L"Nguyễn Đức Thịnh";
-	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
-	wofstream fout;
-	fout.open("Dataset\\test.txt", ios::binary);
-
-	if (fout.is_open())
-	{
-		fout.imbue(loc);
-		short int len = word.length();
-		fout.write((wchar_t*)&len, sizeof(short int));
-		fout.write((wchar_t*)word.c_str(), len);
-		fout.close();
-	}
-	else
-		wcout << L"Không thể mở file để lưu dữ liệu!!!" << endl;
-	return 0;
-
-}
-*/
-/* 
-int main()
-{
-	_setmode(_fileno(stdout), _O_WTEXT);
-	_setmode(_fileno(stdin), _O_WTEXT);
-	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
-	wifstream fin;
-	fin.open("Dataset\\test.txt", ios::binary);
-	if (!fin.is_open())
-	{
-		wcout << L"Không tìm thấy file dữ liệu!!!" << endl;
-		return 0;
-	}
-	fin.imbue(loc);
-	short int len;
-	fin.read((wchar_t*)&len, sizeof(short int));
-	wchar_t* buffer = new wchar_t[len + 1];
-	fin.read(buffer, len);
-	buffer[len] = L'\0';
-	wstring word = buffer;
-	wcout << word << endl;
-	delete[] buffer;
-	fin.close();
-	return 0;
-
-}
-*/
+*/ 

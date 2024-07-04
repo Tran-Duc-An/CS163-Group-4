@@ -73,7 +73,7 @@ void insertWord(trie*& root, string& word, string& definition)
 	current->isend = true;
 	current->definition.push_back(definition);
 }
-bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
+trie* findWord(trie* root, string& word)
 {
 	word = toLowerCase(word);
 	trie* current = root;
@@ -81,30 +81,36 @@ bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
 	{
 		if (c >= 'a' && c <= 'z')
 		{
-			if (current->children[c - 'a'] == nullptr) return false;
+			if (current->children[c - 'a'] == nullptr) return 0;
 			current = current->children[c - 'a'];
 		}
 		else if (c == ' ')
 		{
-			if (current->children[26] == nullptr) return false;
+			if (current->children[26] == nullptr) return 0;
 			current = current->children[26];
 		}
 		else if (c == '-')
 		{
-			if (current->children[27] == nullptr) return false;
+			if (current->children[27] == nullptr) return 0;
 			current = current->children[27];
 		}
 		else if (c >= '0' && c <= '9')
 		{
-			if (current->children[c - '0' + 28] == nullptr) return false;
+			if (current->children[c - '0' + 28] == nullptr) return 0;
 			current = current->children[c - '0' + 28];
 		}
 	}
-	if (!current->isend) return false;
-	meaning = current->definition;
-	return true;
+	if (!current->isend) return 0;
+	return current;
 }
 
+bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
+{
+	trie* node = findWord(root, word);
+	if (node == 0) return false;
+	meaning = node->definition;
+	return true;
+}
 
 
 // save trie but use short int instead of int
@@ -208,6 +214,80 @@ bool loadRawData(trie*& root)
 	return true;
 }
 
+bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+		trie* node = findWord(root, word);
+	if (node == 0) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+
+}
+// helper function to delete a word from its parent's children array
+// For example, if we want to delete the word "an", the node "n" is the leaf node, we have to delete it from its parent's children array
+void helperDeleteAWord(trie* root, string& word)
+{
+	trie* current = root;
+	trie* parent = nullptr;
+	int childIndex = -1;
+
+	for (char c : word)
+	{
+		if (c >= 'a' && c <= 'z')
+		{
+			if (current->children[c - 'a'] == nullptr) return;
+			parent = current;
+			childIndex = c - 'a';
+			current = current->children[c - 'a'];
+		}
+		else if (c == ' ')
+		{
+			if (current->children[26] == nullptr) return;
+			parent = current;
+			childIndex = 26;
+			current = current->children[26];
+		}
+		else if (c == '-')
+		{
+			if (current->children[27] == nullptr) return;
+			parent = current;
+			childIndex = 27;
+			current = current->children[27];
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			if (current->children[c - '0' + 28] == nullptr) return;
+			parent = current;
+			childIndex = c - '0' + 28;
+			current = current->children[c - '0' + 28];
+		}
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+
+bool deleteAWord(trie* root, string& word)
+{
+	trie* node = findWord(root, word);
+	if (node == 0) return false;
+	// if the node is leaf node, we have to call a helper function to delete it from its parent's children array
+	if (node->numChildren == 0)
+	{
+		void helperDeleteAWord(trie * root, string& word);
+	}
+	else
+	{
+		node->definition.clear();
+		node->isend = false;
+	}
+	return true;
+}
+
+
 
 short int map[7930];
 short int reverseMap[91];
@@ -262,18 +342,25 @@ void VInsertWord(Vtrie*&root, wstring& word,wstring& definition)
 	}
 	current->definition.push_back(definition);
 }
-bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning)
+
+Vtrie* VFindWord(Vtrie* root, wstring& word)
 {
 	word = VToLower(word);
 	Vtrie* current = root;
 	for (wchar_t& c : word)
 	{
-		if ((int)c > 7929 || map[c] == -1) return false;
-		if (current->children[map[c]] == nullptr) return false;
+		if ((int)c > 7929 || map[c] == -1) return nullptr;
+		if (current->children[map[c]] == nullptr) return nullptr;
 		current = current->children[map[c]];
 	}
-	if (current->definition.empty()) return false;
-	meaning = current->definition;
+	if (current->definition.empty()) return nullptr;
+	return current;
+}
+bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning)
+{
+	Vtrie* node = VFindWord(root, word);
+	if (node == nullptr) return false;
+	meaning = node->definition;
 	return true;
 }
 
@@ -362,4 +449,49 @@ void loadVtrie(Vtrie*& root, wifstream& fin)
 			loadVtrie(root->children[map[c]], fin);
 		}
 	}
+}
+
+void VHelperDeleteAWord(Vtrie* root, wstring& word)
+{
+	Vtrie* current = root;
+	Vtrie* parent = nullptr;
+	int childIndex = -1;
+	for (wchar_t& c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) return;
+		if (current->children[map[c]] == nullptr) return;
+		parent = current;
+		childIndex = map[c];
+		current = current->children[map[c]];
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+
+bool VDeleteAWord(Vtrie* root, wstring& word)
+{
+	Vtrie* node = VFindWord(root, word);
+	if (node == nullptr) return false;
+	if (node->numChildren == 0)
+	{
+		VHelperDeleteAWord(root, word);
+	}
+	else
+	{
+		node->definition.clear();
+	}
+	return true;
+}
+
+bool VChangeWordDefinition(Vtrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+	Vtrie* node = VFindWord(root, word);
+	if (node == nullptr) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
 }

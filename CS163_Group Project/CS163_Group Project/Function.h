@@ -40,6 +40,8 @@ namespace EV {
 	void saveTrietoFile(EVTrie* root, string path);
 	bool findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EVTrie*& node);
 	bool loadTriefromFile(EVTrie*& root, string path);
+	void helperDeleteAWord(EVTrie* root, string& word);
+	bool deleteAWord(EVTrie* root, string& word);
 }
 
 namespace EE {

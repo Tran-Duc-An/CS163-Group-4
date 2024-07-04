@@ -271,6 +271,67 @@ bool EV::loadTriefromFile(EVTrie*& root, string path) {
 	return true;
 }
 
+void EV::helperDeleteAWord(EVTrie* root, string& word) {
+
+	EVTrie* current = root;
+	EVTrie* parent = nullptr;
+	int childIndex = -1;
+
+	for (char c : word)
+	{
+		if (c >= 'a' && c <= 'z')
+		{
+			if (current->children[c - 'a'] == nullptr) return;
+			parent = current;
+			childIndex = c - 'a';
+			current = current->children[c - 'a'];
+		}
+		else if (c == ' ')
+		{
+			if (current->children[26] == nullptr) return;
+			parent = current;
+			childIndex = 26;
+			current = current->children[26];
+		}
+		else if (c == '-')
+		{
+			if (current->children[27] == nullptr) return;
+			parent = current;
+			childIndex = 27;
+			current = current->children[27];
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			if (current->children[c - '0' + 28] == nullptr) return;
+			parent = current;
+			childIndex = c - '0' + 28;
+			current = current->children[c - '0' + 28];
+		}
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+
+bool EV::deleteAWord(EVTrie* root, string& word) {
+	EVTrie* node = EV::findWord(root, word);
+	if (node == 0) return false;
+	// if the node is leaf node, we have to call a helper function to delete it from its parent's children array
+	if (node->numChildren == 0)
+	{
+		void EV::helperDeleteAWord(EVTrie * root, string & word);
+	}
+	else
+	{
+		node->definition.clear();
+		node->isEnd = false;
+	}
+	return true;
+}
+
 void EE::insertWord(EETrie*& root, string& word, string& definition)
 {
 	word = toLowerCase(word);

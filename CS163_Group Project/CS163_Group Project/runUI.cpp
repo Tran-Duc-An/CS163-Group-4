@@ -24,6 +24,7 @@ Button backButton(12, 18, "Image/backButton.png");
 Button nextDefButton(1275, 710, "Image/nextButton.png");
 Button backDefButton(820, 710, "Image/backDefButton.png");
 Button heartButton(183, 600, "Image/heart.png");
+Button deleteButton(349, 600, "Image/deleteButton.png");
 
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
@@ -184,6 +185,7 @@ void translating() {
 				transType = 1;
 			}
 			inputVNBox.isClicked(window, event);
+
 			if (translateVN.isClicked(window, event, wword, inputVNBox.text)) {
 				transDef.clear();
 				VTrie* node = nullptr;
@@ -203,11 +205,12 @@ void translating() {
 							heartButton.texture.loadFromFile("Image/heartHover.png");
 						}
 					}
-					
 				}
 				translateFlag = 1;
 				orderDef = 0;
-			
+			}
+			if (deleteButton.isClicked(window, event)) {
+				VE::deleteAWord(rootVtoE, wword);
 			}
 		}
 		else {//English to Vietnamese
@@ -234,13 +237,17 @@ void translating() {
 							heartButton.texture.loadFromFile("Image/heartHover.png");
 						}
 					}
+
 				}
 				translateFlag = 1;
 				orderDef = 0;
 			}
-			if (nextDefButton.isClicked(window, event) && orderDef < transDef.size() - 1) orderDef++;
-			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+			if (deleteButton.isClicked(window, event)) {
+				EV::deleteAWord(rootEtoV, word);
+			}
 		}
+		if (nextDefButton.isClicked(window, event) && orderDef < transDef.size() - 1) orderDef++;
+		if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 
 	}
 
@@ -265,12 +272,15 @@ void translating() {
 		translateEN.draw(window);
 	}
 
-	if (translateFlag == 1) {
+	if (translateFlag == 1 && transDef[0]!=L"No definition") {
+
 		backDefButton.draw(window);
 		nextDefButton.draw(window);
 		heartButton.draw(window);
+		deleteButton.draw(window);
 		backDefButton.isHover(window, "Image/backDefHover.png");
 		nextDefButton.isHover(window, "Image/nextDefHover.png");
+		deleteButton.isHover(window, "Image/deleteHover.png");
 		
 	}
 

@@ -78,7 +78,7 @@ void EV::insertWord(EVTrie*& root, string& word, wstring& definition)
 
 }
 
-bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning)
+EVTrie* EV::findWord(EVTrie* root, string& word)
 {
 	word = toLowerCase(word);
 	EVTrie* current = root;
@@ -86,27 +86,34 @@ bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning)
 	{
 		if (c >= 'a' && c <= 'z')
 		{
-			if (current->children[c - 'a'] == nullptr) return false;
+			if (current->children[c - 'a'] == nullptr) return 0;
 			current = current->children[c - 'a'];
 		}
 		else if (c == ' ')
 		{
-			if (current->children[26] == nullptr) return false;
+			if (current->children[26] == nullptr) return 0;
 			current = current->children[26];
 		}
 		else if (c == '-')
 		{
-			if (current->children[27] == nullptr) return false;
+			if (current->children[27] == nullptr) return 0;
 			current = current->children[27];
 		}
 		else if (c >= '0' && c <= '9')
 		{
-			if (current->children[c - '0' + 28] == nullptr) return false;
+			if (current->children[c - '0' + 28] == nullptr) return 0;
 			current = current->children[c - '0' + 28];
 		}
 	}
-	if (!current->isEnd) return false;
-	meaning = current->definition;
+	if (!current->isEnd) return 0;
+	return current;
+}
+
+bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVTrie*&node)
+{
+	node = EV::findWord(root, word);
+	if (node == 0) return false;
+	meaning = node->definition;
 	return true;
 }
 void EV::deleteTrie(EVTrie* root)
@@ -316,7 +323,7 @@ void EE::insertWord(EETrie*& root, string& word, string& definition)
 	current->definition.push_back(definition);
 }
 
-bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
+EETrie* EE::findWord(EETrie* root, string& word)
 {
 	word = toLowerCase(word);
 	EETrie* current = root;
@@ -324,29 +331,108 @@ bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
 	{
 		if (c >= 'a' && c <= 'z')
 		{
-			if (current->children[c - 'a'] == nullptr) return false;
+			if (current->children[c - 'a'] == nullptr) return 0;
 			current = current->children[c - 'a'];
 		}
 		else if (c == ' ')
 		{
-			if (current->children[26] == nullptr) return false;
+			if (current->children[26] == nullptr) return 0;
 			current = current->children[26];
 		}
 		else if (c == '-')
 		{
-			if (current->children[27] == nullptr) return false;
+			if (current->children[27] == nullptr) return 0;
 			current = current->children[27];
 		}
 		else if (c >= '0' && c <= '9')
 		{
-			if (current->children[c - '0' + 28] == nullptr) return false;
+			if (current->children[c - '0' + 28] == nullptr) return 0;
 			current = current->children[c - '0' + 28];
 		}
 	}
-	if (!current->isend) return false;
-	meaning = current->definition;
+	if (!current->isend) return 0;
+	return current;
+}
+
+bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
+{
+	EETrie* node = findWord(root, word);
+	if (node == 0) return false;
+	meaning = node->definition;
 	return true;
 }
+
+bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+	EETrie* node = EE::findWord(root, word);
+	if (node == 0) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+
+}
+
+void EE::helperDeleteAWord(EETrie* root, string& word)
+{
+	EETrie* current = root;
+	EETrie* parent = nullptr;
+	int childIndex = -1;
+
+	for (char c : word)
+	{
+		if (c >= 'a' && c <= 'z')
+		{
+			if (current->children[c - 'a'] == nullptr) return;
+			parent = current;
+			childIndex = c - 'a';
+			current = current->children[c - 'a'];
+		}
+		else if (c == ' ')
+		{
+			if (current->children[26] == nullptr) return;
+			parent = current;
+			childIndex = 26;
+			current = current->children[26];
+		}
+		else if (c == '-')
+		{
+			if (current->children[27] == nullptr) return;
+			parent = current;
+			childIndex = 27;
+			current = current->children[27];
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			if (current->children[c - '0' + 28] == nullptr) return;
+			parent = current;
+			childIndex = c - '0' + 28;
+			current = current->children[c - '0' + 28];
+		}
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+bool EE::deleteAWord(EETrie* root, string& word)
+{
+	EETrie* node = EE::findWord(root, word);
+	if (node == 0) return false;
+	// if the node is leaf node, we have to call a helper function to delete it from its parent's children array
+	if (node->numChildren == 0)
+	{
+		void helperDeleteAWord(EETrie * root, string & word);
+	}
+	else
+	{
+		node->definition.clear();
+		node->isend = false;
+	}
+	return true;
+}
+
 
 bool EE::loadRawData(EETrie*& root,string path)
 {
@@ -523,18 +609,71 @@ void VE::insertWord(VTrie*& root, wstring& word, wstring& definition)
 	current->definition.push_back(definition);
 }
 
-bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning)
+VTrie* VE::findWord(VTrie* root, wstring& word)
 {
 	word = VToLower(word);
 	VTrie* current = root;
 	for (wchar_t& c : word)
 	{
-		if ((int)c > 7929 || map[c] == -1) return false;
-		if (current->children[map[c]] == nullptr) return false;
+		if ((int)c > 7929 || map[c] == -1) return nullptr;
+		if (current->children[map[c]] == nullptr) return nullptr;
 		current = current->children[map[c]];
 	}
-	if (current->definition.empty()) return false;
-	meaning = current->definition;
+	if (current->definition.empty()) return nullptr;
+	return current;
+}
+
+bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node)
+{
+
+	node = VE::findWord(root, word);
+	if (node == nullptr) return false;
+	meaning = node->definition;
+	return true;
+}
+
+bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+	VTrie* node = VE::findWord(root, word);
+	if (node == nullptr) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+}
+
+void VE::helperDeleteAWord(VTrie* root, wstring& word)
+{
+	VTrie* current = root;
+	VTrie* parent = nullptr;
+	int childIndex = -1;
+	for (wchar_t& c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) return;
+		if (current->children[map[c]] == nullptr) return;
+		parent = current;
+		childIndex = map[c];
+		current = current->children[map[c]];
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+
+bool VE::deleteAWord(VTrie * root, wstring & word)
+{
+	VTrie* node = VE::findWord(root, word);
+	if (node == nullptr) return false;
+	if (node->numChildren == 0)
+	{
+		VE::helperDeleteAWord(root, word);
+	}
+	else
+	{
+		node->definition.clear();
+	}
 	return true;
 }
 

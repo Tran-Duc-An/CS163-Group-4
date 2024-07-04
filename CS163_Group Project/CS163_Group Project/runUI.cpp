@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Function.h"
 #include <chrono>
+#include <io.h>
+#include <fcntl.h>
 sf::RenderWindow window(sf::VideoMode(1500,800), "Dictionary");
 sf::Event event;
 sf::View view = window.getView();
@@ -10,16 +12,19 @@ float scrollSpeed = 50.f;
 
 Button searchButton(715, 155, "Image/searchButton.png");
 Button translatingButton(715, 305, "Image/translateButton.png");
+Button addNewWordButton(715, 455, "Image/addButton.png");
 
-bool transType = 0;
+
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
+Button ENtoENButton(1034, 33, "Image/ENtoENButton.png");
+
 
 Button backButton(12, 18, "Image/backButton.png");
 Button nextDefButton(1275, 710, "Image/nextButton.png");
 Button backDefButton(820, 710, "Image/backDefButton.png");
+Button heartButton(183, 600, "Image/heart.png");
 
-bool searchingType = 0;
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
 
@@ -34,8 +39,14 @@ SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
 
 SubmitENButton submitSearchKey(383, 729, "Image/searchSubmit.png");
 SubmitENButton submitSearchDef(1270, 716, "Image/searchSubmit.png");
-sf::Font font;
 
+InputBox inputWord(192, 117, "Image/InputBox.png", L"Enter word");
+InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition");
+
+SubmitENButton addENButton(1157, 238, "Image/add.png");
+SubmitVNButton addVNButton(1157, 238, "Image/add.png");
+
+sf::Font font;
 vector<wstring> transDef;
 vector<string> searchDef;
 EVTrie* rootEtoV = new EVTrie();
@@ -46,38 +57,39 @@ int page = 0;
 int orderDef = 0;
 bool translateFlag = 0;
 bool searchFlag = 0;
-
-void handleWString(wstring& s,int row) {
+bool transType = 0;
+bool searchingType = 0;
+int addingType = 0;
+void handleWString(wstring& s, int row) {
 	int end = 0;
 	int l = 0;
-	int cnt = 0;
+	double cnt = 0;
 	while (l < s.length()) {
-		l++;
 		cnt++;
-		if (double(cnt / row) >= 1) {
-			if (s[l] < L'a' || s[l]> L'z') {
-				s[end] = '\n';
+		if (cnt >= row) {
+			if (s[l] < L'a' || s[l] > L'z') {
+				s.insert(l, 1, L'\n');
 				cnt = 0;
-				end = l;
+				l++; // Move past the inserted newline
 			}
 		}
+		l++;
 	}
 }
-
 void handleString(string& s, int row) {
 	int end = 0;
 	int l = 0;
-	int cnt = 0;
+	double cnt = 0;
 	while (l < s.length()) {
-		l++;
 		cnt++;
-		if (double(cnt / row) >= 1) {
-			if (s[l] < L'a' || s[l]> L'z') {
-				s[end] = '\n';
+		if (cnt >= row) {
+			if (s[l] < 'a' || s[l] > 'z') {
+				s.insert(l, 1, '\n');
 				cnt = 0;
-				end = l;
+				l++; // Move past the inserted newline
 			}
 		}
+		l++;
 	}
 }
 
@@ -174,9 +186,28 @@ void translating() {
 			inputVNBox.isClicked(window, event);
 			if (translateVN.isClicked(window, event, wword, inputVNBox.text)) {
 				transDef.clear();
-				if (!VE::findWordMeaning(rootVtoE, wword, transDef)) transDef.push_back(L"No definition");
+				VTrie* node = nullptr;
+				if (!VE::findWordMeaning(rootVtoE, wword, transDef,node)) transDef.push_back(L"No definition");
+				else {
+					if (node->isLiked == 1) {
+						heartButton.texture.loadFromFile("Image/heartHover.png");
+						if (heartButton.isClicked(window, event)) {
+							node->isLiked = 0;
+							heartButton.texture.loadFromFile("Image/heart.png");
+						}
+					}
+					else {
+						heartButton.texture.loadFromFile("Image/heart.png");
+						if (heartButton.isClicked(window, event)) {
+							node->isLiked = 1;
+							heartButton.texture.loadFromFile("Image/heartHover.png");
+						}
+					}
+					
+				}
 				translateFlag = 1;
 				orderDef = 0;
+			
 			}
 		}
 		else {//English to Vietnamese
@@ -186,7 +217,24 @@ void translating() {
 			inputENBox.isClicked(window, event);
 			if (translateEN.isClicked(window, event, word, inputENBox.text)) {
 				transDef.clear();
-				if (!EV::findWordMeaning(rootEtoV, word, transDef)) transDef.push_back(L"No definition");
+				EVTrie* node = nullptr;
+				if (!EV::findWordMeaning(rootEtoV, word, transDef,node)) transDef.push_back(L"No definition");
+				else {
+					if (node->isLiked == 1) {
+						heartButton.texture.loadFromFile("Image/heartHover.png");
+						if (heartButton.isClicked(window, event)) {
+							node->isLiked = 0;
+							heartButton.texture.loadFromFile("Image/heart.png");
+						}
+					}
+					else {
+						heartButton.texture.loadFromFile("Image/heart.png");
+						if (heartButton.isClicked(window, event)) {
+							node->isLiked = 1;
+							heartButton.texture.loadFromFile("Image/heartHover.png");
+						}
+					}
+				}
 				translateFlag = 1;
 				orderDef = 0;
 			}
@@ -220,8 +268,10 @@ void translating() {
 	if (translateFlag == 1) {
 		backDefButton.draw(window);
 		nextDefButton.draw(window);
+		heartButton.draw(window);
 		backDefButton.isHover(window, "Image/backDefHover.png");
 		nextDefButton.isHover(window, "Image/nextDefHover.png");
+		
 	}
 
 	backButton.draw(window);
@@ -260,9 +310,8 @@ void search() {
 
 			if (submitSearchKey.isClicked(window, event, words, searchKeyBox.text)) {
 				searchDef.clear();
-				cout << words;
 				if(!EE::findWordMeaning(rootEtoE, words, searchDef)) searchDef.push_back("No definition");
-				translateFlag = 1;
+				searchFlag = 1;
 				orderDef = 0;
 			}
 
@@ -297,7 +346,7 @@ void search() {
 	submitSearchKey.draw(window);
 	submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
 
-	if (searchKeyBox.text.getString() == "") translateFlag = 0;
+	if (searchKeyBox.text.getString() == "") searchFlag = 0;
 
 	searchKeyButton.draw(window);
 	searchDefButton.draw(window);
@@ -305,29 +354,122 @@ void search() {
 
 }
 
+void adding() {
+	std::string word;
+	std::wstring wword;
+	std::string def;
+	std::wstring wdef;
+	while (window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed) window.close();
+		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
+
+
+		inputWord.isClicked(window, event);
+		inputDef.isClicked(window, event);
+
+
+		if (addingType == 0) {
+			if (ENtoVnButton.isClicked(window, event)) {
+				addingType = 1;
+			}
+			if (addENButton.isClicked(window, event, word, inputWord.text) &&
+				addVNButton.isClicked(window, event, wdef, inputDef.text)) {
+				EV::insertWord(rootEtoV, word, wdef);
+			}
+		}
+		else if (addingType == 1) {
+			if (VNtoEnButton.isClicked(window, event)) {
+				addingType = 2;
+			}
+			if (addVNButton.isClicked(window, event, wword, inputWord.text) &&
+				addVNButton.isClicked(window, event, wdef, inputDef.text)) {
+				VE::insertWord(rootVtoE, wword, wdef);
+			}
+		}
+		else {
+			if (ENtoENButton.isClicked(window, event))
+				addingType = 0;
+			if (addENButton.isClicked(window, event, word, inputWord.text) &&
+				addENButton.isClicked(window, event, def, inputDef.text)) {
+				EE::insertWord(rootEtoE, word, def);
+			}
+		}
+
+	}
+	if (addingType == 0) {//English to Vietnamese
+		inputWord.name = L"Enter word";
+		inputWord.nameHolder.setString(inputWord.name);
+		inputDef.name = L"Nhập định nghĩa";
+		inputDef.nameHolder.setString(inputDef.name);
+		ENtoVnButton.draw(window);
+		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
+
+		addENButton.draw(window);
+		addVNButton.draw(window);
+		addENButton.isHover(window, "Image/addHover.png");
+		addVNButton.isHover(window, "Image/addHover.png");
+	}
+	else if (addingType == 1) {//Vietnamese to English
+		inputWord.name = L"Nhập từ";
+		inputWord.nameHolder.setString(inputWord.name);
+		inputDef.name = L"Enter definition";
+		inputDef.nameHolder.setString(inputDef.name);
+		VNtoEnButton.draw(window);
+		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
+
+		addVNButton.draw(window);
+		addVNButton.isHover(window, "Image/addHover.png");
+	}
+	else {//English to English
+		inputWord.name = L"Enter word";
+		inputWord.nameHolder.setString(inputWord.name);
+		inputDef.name = L"Enter definition";
+		inputDef.nameHolder.setString(inputDef.name);
+		ENtoENButton.draw(window);
+		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
+
+		addENButton.draw(window);
+		addENButton.isHover(window, "Image/addHover.png");
+	}
+	inputWord.draw(window);
+	inputDef.draw(window);
+	backButton.draw(window);
+}
+
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
+	searchFlag = 0;
 	searchingType = 0;
 	transType = 0;
+	addingType = 0;
 
 	searchButton.draw(window);
 	translatingButton.draw(window);
+	addNewWordButton.draw(window);
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
 
 		if (searchButton.isClicked(window, event)) {
 			page = 1;
+			searchKeyBox.text.setString("");
+			searchDefBox.text.setString("");
 		}
 		if (translatingButton.isClicked(window, event)) {
 			page = 2;
 			inputENBox.text.setString("");
 			inputVNBox.text.setString("");
 		}
+		if (addNewWordButton.isClicked(window, event)) {
+			page = 3;
+		}
+		addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 		searchButton.isHover(window, "Image/searchHover.png");
 		translatingButton.isHover(window, "Image/translateHover.png");
 	}
+	
 }
 
 bool loadData() {
@@ -360,7 +502,7 @@ bool loadData() {
 int run() {
 	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
@@ -376,6 +518,10 @@ int run() {
 		}
 		case 2: {
 			translating();
+			break;
+		}
+		case 3: {
+			adding();
 			break;
 		}
 		default:

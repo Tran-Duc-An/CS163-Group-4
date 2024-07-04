@@ -164,27 +164,34 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) active = 1;
-		else active = 0;
+		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
+			active = true;
+		}
+		else {
+			active = false;
+		}
 	}
 
 	if (active) {
-		std::string str = text.getString();
+		std::wstring str = text.getString(); // Directly use sf::Text as wstring
 		if (str.length() / 50 < 7) {
-			if (str.length() % 50 == 0 && str.length() > 0) text.setString(text.getString() + '\n');
+			if (str.length() % 20 == 0 && str.length() > 0) {
+				str += L'\n';
+				text.setString(str);
+			}
 			if (event.type == sf::Event::TextEntered) {
-				if (event.text.unicode > 31 && event.text.unicode < 128) {
-					text.setString(text.getString() + static_cast<char>(event.text.unicode));
+				if (event.text.unicode > 31 && event.text.unicode != 127) {
+					str += static_cast<wchar_t>(event.text.unicode);
+					text.setString(str);
 				}
 			}
-
-			if (event.type == sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::BackSpace) {
-					std::string str = text.getString().toAnsiString();
-					if (!str.empty()) {
-						str.pop_back();
-						text.setString(str);
-					}
+		}
+		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::BackSpace) {
+				if (!str.empty()) {
+					if (str.back() == L'\n') str.pop_back();
+					str.pop_back();
+					text.setString(str);
 				}
 			}
 		}
@@ -205,3 +212,4 @@ void InputDef::draw(sf::RenderWindow& window) {
 		window.draw(text);
 	}
 }
+

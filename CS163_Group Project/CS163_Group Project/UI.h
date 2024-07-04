@@ -37,6 +37,7 @@ struct SubmitENButton:Button {
 
 };
 
+
 struct InputDef : InputBox {
 	InputDef(int x, int y, std::string imagePath, std::wstring name);
 	void draw(sf::RenderWindow& window);

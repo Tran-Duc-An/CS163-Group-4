@@ -1,18 +1,19 @@
-﻿﻿#include "functions.h"
+#include "Function.h"
+#include <io.h>
+#include <fcntl.h>
+#include <fstream>
+#include <locale>
+#include <codecvt>
+#include <iostream>
+using namespace std;
 
-
-// English to English dictionary
-string toLowerCase(string& str)
-{
-	for (int i = 0; i < str.length(); i++)
-	{
+string toLowerCase(string& str) {
+	for (int i = 0; i < str.length(); i++) {
 		if (str[i] >= 'A' && str[i] <= 'Z') str[i] += 32;
 	}
 	return str;
 }
-// remove all letters other than 26 english alphabets, 0 to 9, space, hyphen
-string removeSpecialCharacters(string& str)
-{
+string removeSpecialCharacters(string& str) {
 	string res;
 	for (char c : str) {
 		if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ' || c == '-')
@@ -22,11 +23,12 @@ string removeSpecialCharacters(string& str)
 	}
 	return res;
 }
-void insertWord(trie*& root, string& word, string& definition)
+void EV::insertWord(EVTrie*& root, string& word, wstring& definition)
 {
 	word = toLowerCase(word);
 	word = removeSpecialCharacters(word);
-	trie* current = root;
+	EVTrie* current = root;
+
 	for (char c : word)
 	{
 		// a to z is 0 to 25
@@ -34,7 +36,7 @@ void insertWord(trie*& root, string& word, string& definition)
 		{
 			if (current->children[c - 'a'] == nullptr)
 			{
-				current->children[c - 'a'] = new trie;
+				current->children[c - 'a'] = new EVTrie;
 				current->numChildren++;
 			}
 			current = current->children[c - 'a'];
@@ -44,7 +46,7 @@ void insertWord(trie*& root, string& word, string& definition)
 		{
 			if (current->children[26] == nullptr)
 			{
-				current->children[26] = new trie;
+				current->children[26] = new EVTrie;
 				current->numChildren++;
 			}
 			current = current->children[26];
@@ -54,7 +56,7 @@ void insertWord(trie*& root, string& word, string& definition)
 		{
 			if (current->children[27] == nullptr)
 			{
-				current->children[27] = new trie;
+				current->children[27] = new EVTrie;
 				current->numChildren++;
 			}
 			current = current->children[27];
@@ -64,20 +66,22 @@ void insertWord(trie*& root, string& word, string& definition)
 		{
 			if (current->children[c - '0' + 28] == nullptr)
 			{
-				current->children[c - '0' + 28] = new trie;
+				current->children[c - '0' + 28] = new EVTrie;
 				current->numChildren++;
 			}
 			current = current->children[c - '0' + 28];
+
 		}
 	}
-	current->isend = true;
+	current->isEnd = true;
 	current->definition.push_back(definition);
+
 }
 
-trie* findWord(trie* root, string& word)
+EVTrie* EV::findWord(EVTrie* root, string& word)
 {
 	word = toLowerCase(word);
-	trie* current = root;
+	EVTrie* current = root;
 	for (char c : word)
 	{
 		if (c >= 'a' && c <= 'z')
@@ -101,33 +105,176 @@ trie* findWord(trie* root, string& word)
 			current = current->children[c - '0' + 28];
 		}
 	}
-	if (!current->isend) return 0;
+	if (!current->isEnd) return 0;
 	return current;
 }
-bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
+
+bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVTrie*&node)
 {
-	trie* node = findWord(root, word);
+	node = EV::findWord(root, word);
 	if (node == 0) return false;
 	meaning = node->definition;
 	return true;
 }
-
-bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void EV::deleteTrie(EVTrie* root)
 {
-		trie* node = findWord(root, word);
-	if (node == 0) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
-	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
-
+	if (root == nullptr) return;
+	for (EVTrie* child : root->children)
+	{
+		EV::deleteTrie(child);
+	}
+	delete root;
 }
 
-// helper function to delete a word from its parent's children array
-// For example, if we want to delete the word "an", the node "n" is the leaf node, we have to delete it from its parent's children array
-void helperDeleteAWord(trie* root, string& word)
+void preProcessing(string& word) {
+	size_t bracket_pos = word.find('[');
+	if (bracket_pos != string::npos)
+	{
+		word = word.substr(0, bracket_pos - 1);
+	}
+	size_t bracket_pos_open = word.find('(');
+	size_t bracket_pos_close = word.find(')');
+	if (bracket_pos_open != string::npos)
+	{
+		word = word.erase(bracket_pos_open-1, bracket_pos_close - bracket_pos_open+2);
+	}
+	while (!word.empty() && word[0] == ' ') word.erase(word.begin(), word.begin() + 1);
+	while (!word.empty() && word[word.length() - 1] == ' ') word.erase(word.length() - 2, word.length() - 1);
+}
+
+bool EV::loadRawData(EVTrie*& root,string path)
 {
-	trie* current = root;
-	trie* parent = nullptr;
+
+	wifstream fin;
+	fin.open(path);
+
+	// Ensure the file is opened with UTF-8 encoding
+	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
+
+	if (!fin.is_open())
+	{
+		return false;
+	}
+
+	wstring wword;
+	wstring definition;
+
+
+	while (getline(fin, wword, L',')){
+		if (getline(fin, definition, L'\n'))
+		{
+			// Convert wstring to string using wstring_convert
+			wstring_convert<codecvt_utf8<wchar_t>> converter;
+			string word = converter.to_bytes(wword);
+
+			preProcessing(word);
+			EV::insertWord(root, word, definition);
+		}
+	}
+
+	return true;
+}
+
+void outputTrie(EVTrie* root, wofstream& fou) {
+	if (root == nullptr) return;
+
+	short int numDefinitions = root->definition.size();
+	fou.write((wchar_t*)(&numDefinitions), sizeof(short int));
+	if (root->definition.size() != 0) {
+		for (wstring& str : root->definition) {
+			short int len = str.length();
+			fou.write((wchar_t*)(&len), sizeof(short int));
+			fou.write(str.c_str(), len);
+		}
+	}
+	short int numChildren = root->numChildren;
+	fou.write((wchar_t*)(&numChildren), sizeof(short int));
+	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < 38; ++i) {
+		if (root->children[i] != nullptr) {
+			wchar_t c = i < 26 ? (wchar_t)(i + L'a') : (i == 26 ? L' ' : (i == 27 ? L'-' : (i - 28 + L'0')));
+			
+			fou.write(&c, sizeof(wchar_t));
+			outputTrie(root->children[i], fou);
+		}
+	}
+}
+void EV::saveTrietoFile(EVTrie* root, string path) {
+	wofstream fou;
+	fou.open(path,ios::binary);
+
+	// Ensure the file is opened with UTF-8 encoding
+	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
+
+	outputTrie(root, fou);
+	fou.close();
+}
+
+void inputTrie(EVTrie*& root, wifstream& fin) {
+	short int numDefinitions = 0;
+	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
+	if (numDefinitions != 0) {
+		root->isEnd = true;
+		for (int i = 0; i < numDefinitions; ++i)
+		{
+			short int len;
+			fin.read((wchar_t*)&len, sizeof(short int));
+			wchar_t* tmp = new wchar_t[len + 1];
+			fin.read(tmp, len);
+			tmp[len] = '\0';
+			root->definition.push_back(tmp);
+			delete[] tmp;
+		}
+	}
+	fin.read((wchar_t*)&root->numChildren, sizeof(short int));
+	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < root->numChildren; ++i)
+	{
+		wchar_t c;
+		fin.read(&c, sizeof(wchar_t));
+		if (c >= L'a' && c <= L'z')
+		{
+			root->children[c - L'a'] = new EVTrie();
+			inputTrie(root->children[c - L'a'], fin);
+		}
+		else if (c == L' ')
+		{
+			root->children[26] = new EVTrie();
+			inputTrie(root->children[26], fin);
+		}
+		else if (c == L'-')
+		{
+			root->children[27] = new EVTrie();
+			inputTrie(root->children[27], fin);
+		}
+		else if (c >= L'0' && c <= L'9')
+		{
+			root->children[c - L'0' + 28] = new EVTrie();
+			inputTrie(root->children[c - L'0' + 28], fin);
+		}
+	}
+}
+
+bool EV::loadTriefromFile(EVTrie*& root, string path) {
+	wifstream fin;
+	fin.open(path,ios::binary);
+
+	// Ensure the file is opened with UTF-8 encoding
+	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
+
+	if (!fin.is_open())
+	{
+		return false;
+	}
+	inputTrie(root, fin);
+	fin.close();
+	return true;
+}
+
+void EV::helperDeleteAWord(EVTrie* root, string& word) {
+
+	EVTrie* current = root;
+	EVTrie* parent = nullptr;
 	int childIndex = -1;
 
 	for (char c : word)
@@ -168,14 +315,176 @@ void helperDeleteAWord(trie* root, string& word)
 		parent->numChildren--;
 	}
 }
-bool deleteAWord(trie* root, string& word)
-{
-	trie* node = findWord(root, word);
+
+bool EV::deleteAWord(EVTrie* root, string& word) {
+	EVTrie* node = EV::findWord(root, word);
 	if (node == 0) return false;
 	// if the node is leaf node, we have to call a helper function to delete it from its parent's children array
 	if (node->numChildren == 0)
 	{
-		void helperDeleteAWord(trie * root, string& word);
+		void EV::helperDeleteAWord(EVTrie * root, string & word);
+	}
+	else
+	{
+		node->definition.clear();
+		node->isEnd = false;
+	}
+	return true;
+}
+
+void EE::insertWord(EETrie*& root, string& word, string& definition)
+{
+	word = toLowerCase(word);
+	word = removeSpecialCharacters(word);
+	EETrie* current = root;
+	for (char c : word)
+	{
+		// a to z is 0 to 25
+		if (c >= 'a' && c <= 'z')
+		{
+			if (current->children[c - 'a'] == nullptr)
+			{
+				current->children[c - 'a'] = new EETrie;
+				current->numChildren++;
+			}
+			current = current->children[c - 'a'];
+		}
+		// space is 26
+		else if (c == ' ')
+		{
+			if (current->children[26] == nullptr)
+			{
+				current->children[26] = new EETrie;
+				current->numChildren++;
+			}
+			current = current->children[26];
+		}
+		// hyphen is 27
+		else if (c == '-')
+		{
+			if (current->children[27] == nullptr)
+			{
+				current->children[27] = new EETrie;
+				current->numChildren++;
+			}
+			current = current->children[27];
+		}
+		// 0 to 9 is 28 to 37
+		else if (c >= '0' && c <= '9')
+		{
+			if (current->children[c - '0' + 28] == nullptr)
+			{
+				current->children[c - '0' + 28] = new EETrie;
+				current->numChildren++;
+			}
+			current = current->children[c - '0' + 28];
+		}
+	}
+	current->isend = true;
+	current->definition.push_back(definition);
+}
+
+EETrie* EE::findWord(EETrie* root, string& word)
+{
+	word = toLowerCase(word);
+	EETrie* current = root;
+	for (char c : word)
+	{
+		if (c >= 'a' && c <= 'z')
+		{
+			if (current->children[c - 'a'] == nullptr) return 0;
+			current = current->children[c - 'a'];
+		}
+		else if (c == ' ')
+		{
+			if (current->children[26] == nullptr) return 0;
+			current = current->children[26];
+		}
+		else if (c == '-')
+		{
+			if (current->children[27] == nullptr) return 0;
+			current = current->children[27];
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			if (current->children[c - '0' + 28] == nullptr) return 0;
+			current = current->children[c - '0' + 28];
+		}
+	}
+	if (!current->isend) return 0;
+	return current;
+}
+
+bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
+{
+	EETrie* node = findWord(root, word);
+	if (node == 0) return false;
+	meaning = node->definition;
+	return true;
+}
+
+bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+	EETrie* node = EE::findWord(root, word);
+	if (node == 0) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+
+}
+
+void EE::helperDeleteAWord(EETrie* root, string& word)
+{
+	EETrie* current = root;
+	EETrie* parent = nullptr;
+	int childIndex = -1;
+
+	for (char c : word)
+	{
+		if (c >= 'a' && c <= 'z')
+		{
+			if (current->children[c - 'a'] == nullptr) return;
+			parent = current;
+			childIndex = c - 'a';
+			current = current->children[c - 'a'];
+		}
+		else if (c == ' ')
+		{
+			if (current->children[26] == nullptr) return;
+			parent = current;
+			childIndex = 26;
+			current = current->children[26];
+		}
+		else if (c == '-')
+		{
+			if (current->children[27] == nullptr) return;
+			parent = current;
+			childIndex = 27;
+			current = current->children[27];
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			if (current->children[c - '0' + 28] == nullptr) return;
+			parent = current;
+			childIndex = c - '0' + 28;
+			current = current->children[c - '0' + 28];
+		}
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+bool EE::deleteAWord(EETrie* root, string& word)
+{
+	EETrie* node = EE::findWord(root, word);
+	if (node == 0) return false;
+	// if the node is leaf node, we have to call a helper function to delete it from its parent's children array
+	if (node->numChildren == 0)
+	{
+		void helperDeleteAWord(EETrie * root, string & word);
 	}
 	else
 	{
@@ -184,8 +493,86 @@ bool deleteAWord(trie* root, string& word)
 	}
 	return true;
 }
-// save trie but use short int instead of int
-void saveTrie(trie* root, ofstream& fout)
+
+
+bool EE::loadRawData(EETrie*& root,string path)
+{
+	ifstream fin;
+	fin.open(path);
+	if (!fin.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	string word, definition, wordType;
+	getline(fin, word);
+	while (getline(fin, word, ','))
+	{
+		getline(fin, wordType, ',');
+		getline(fin, definition, '\n');
+		EE::insertWord(root, word, definition);
+	}
+	return true;
+}
+
+void loadTrie(EETrie*& root, ifstream& fin)
+{
+	short int numDefinitions;
+	fin.read((char*)&numDefinitions, sizeof(short int));
+	if (numDefinitions != 0) root->isend = true;
+	for (int i = 0; i < numDefinitions; ++i)
+	{
+		short int len;
+		fin.read((char*)&len, sizeof(short int));
+		char* tmp = new char[len + 1];
+		fin.read(tmp, len);
+		tmp[len] = '\0';
+		root->definition.push_back(tmp);
+		delete[] tmp;
+	}
+	fin.read((char*)&root->numChildren, sizeof(short int));
+	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < root->numChildren; ++i)
+	{
+		char c;
+		fin.read(&c, sizeof(char));
+		if (c >= 'a' && c <= 'z')
+		{
+			root->children[c - 'a'] = new EETrie();
+			loadTrie(root->children[c - 'a'], fin);
+		}
+		else if (c == ' ')
+		{
+			root->children[26] = new EETrie();
+			loadTrie(root->children[26], fin);
+		}
+		else if (c == '-')
+		{
+			root->children[27] = new EETrie();
+			loadTrie(root->children[27], fin);
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			root->children[c - '0' + 28] = new EETrie();
+			loadTrie(root->children[c - '0' + 28], fin);
+		}
+	}
+}
+
+bool EE::loadTrieFromFile(EETrie*& root, string path) {
+	ifstream fin;
+	fin.open(path,ios::binary);
+
+	if (!fin.is_open())
+	{
+		return false;
+	}
+	loadTrie(root, fin);
+	fin.close();
+	return true;
+}
+
+void saveTrie(EETrie* root, ofstream& fout)
 {
 	short int numDefinitions = root->definition.size();
 	fout.write((char*)&numDefinitions, sizeof(short int));
@@ -209,52 +596,14 @@ void saveTrie(trie* root, ofstream& fout)
 	}
 }
 
-// load trie but use short int instead of int
-void loadTrie(trie*& root, ifstream& fin)
-{
-	short int numDefinitions;
-	fin.read((char*)&numDefinitions, sizeof(short int));
-	if (numDefinitions != 0) root->isend = true;
-	for (int i = 0; i < numDefinitions; ++i)
-	{
-		short int len;
-		fin.read((char*)&len, sizeof(short int));
-		char* tmp = new char[len + 1];
-		fin.read(tmp, len);
-		tmp[len] = '\0';
-		root->definition.push_back(tmp);
-		delete[] tmp;
-	}
-	fin.read((char*)&root->numChildren, sizeof(short int));
-	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
-	for (int i = 0; i < root->numChildren; ++i)
-	{
-		char c;
-		fin.read(&c, sizeof(char));
-		if (c >= 'a' && c <= 'z')
-		{
-			root->children[c - 'a'] = new trie();
-			loadTrie(root->children[c - 'a'], fin);
-		}
-		else if (c == ' ')
-		{
-			root->children[26] = new trie();
-			loadTrie(root->children[26], fin);
-		}
-		else if (c == '-')
-		{
-			root->children[27] = new trie();
-			loadTrie(root->children[27], fin);
-		}
-		else if (c >= '0' && c <= '9')
-		{
-			root->children[c - '0' + 28] = new trie();
-			loadTrie(root->children[c - '0' + 28], fin);
-		}
-	}
+void EE::saveTrietoFile(EETrie* root, string path) {
+	ofstream fou;
+	fou.open(path,ios::binary);
+	saveTrie(root, fou);
+	fou.close();
 }
 
-void deleteTrie(trie*& root)
+void EE::deleteTrie(EETrie*& root)
 {
 	if (root == nullptr) return;
 	for (int i = 0; i < 38; ++i)
@@ -264,56 +613,6 @@ void deleteTrie(trie*& root)
 	delete root;
 	root = nullptr;
 }
-
-bool loadRawData(trie*& root)
-{
-	ifstream fin;
-	fin.open("Dataset\\englishDictionary.csv");
-	if (!fin.is_open())
-	{
-		cout << "File not found\n";
-		return false;
-	}
-	string word, definition, wordType;
-	getline(fin, word);
-	while (getline(fin, word, ','))
-	{
-		getline(fin, wordType, ',');
-		getline(fin, definition, '\n');
-		insertWord(root, word, definition);
-	}
-	return true;
-}
-
-void EngToEng(bool firstTimeOpen)
-{
-	trie* root = new trie();
-	if (!firstTimeOpen)
-	{
-		ifstream fin("Dataset\\UserData.bin", ios::binary);
-		if (!fin.is_open())
-		{
-			cout << "File not found\n";
-			return;
-		}
-		loadTrie(root, fin);
-		fin.close();
-	}
-	else
-	{
-		if (!loadRawData(root))
-		{
-			deleteTrie(root);
-			return;
-		}
-	}
-	// Add functions to insert, search, delete, update words here
-
-	ofstream fout("Dataset\\UserData.bin", ios::binary);
-	saveTrie(root, fout);
-	fout.close();
-}
-
 
 // Vietnamese to English dictionary
 short int map[7930];
@@ -353,26 +652,28 @@ wstring VToLower(wstring& str)
 	}
 	return str;
 }
-void VInsertWord(Vtrie*& root, wstring& word, wstring& definition)
+
+void VE::insertWord(VTrie*& root, wstring& word, wstring& definition)
 {
 	word = VToLower(word);
-	Vtrie* current = root;
+	VTrie* current = root;
 	for (wchar_t& c : word)
 	{
 		if ((int)c > 7929 || map[c] == -1) continue;
 		if (current->children[map[c]] == nullptr)
 		{
-			current->children[map[c]] = new Vtrie();
+			current->children[map[c]] = new VTrie();
 			current->numChildren++;
 		}
 		current = current->children[map[c]];
 	}
 	current->definition.push_back(definition);
 }
-Vtrie* VFindWord(Vtrie* root, wstring& word)
+
+VTrie* VE::findWord(VTrie* root, wstring& word)
 {
 	word = VToLower(word);
-	Vtrie* current = root;
+	VTrie* current = root;
 	for (wchar_t& c : word)
 	{
 		if ((int)c > 7929 || map[c] == -1) return nullptr;
@@ -382,26 +683,29 @@ Vtrie* VFindWord(Vtrie* root, wstring& word)
 	if (current->definition.empty()) return nullptr;
 	return current;
 }
-bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning)
+
+bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node)
 {
-	Vtrie* node = VFindWord(root, word);
+
+	node = VE::findWord(root, word);
 	if (node == nullptr) return false;
 	meaning = node->definition;
 	return true;
 }
 
-bool VChangeWordDefinition(Vtrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	Vtrie* node = VFindWord(root, word);
+	VTrie* node = VE::findWord(root, word);
 	if (node == nullptr) return false;
 	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
 	return true;
 }
-void VHelperDeleteAWord(Vtrie* root, wstring& word)
+
+void VE::helperDeleteAWord(VTrie* root, wstring& word)
 {
-	Vtrie* current = root;
-	Vtrie* parent = nullptr;
+	VTrie* current = root;
+	VTrie* parent = nullptr;
 	int childIndex = -1;
 	for (wchar_t& c : word)
 	{
@@ -418,13 +722,14 @@ void VHelperDeleteAWord(Vtrie* root, wstring& word)
 		parent->numChildren--;
 	}
 }
-bool VDeleteAWord(Vtrie* root, wstring& word)
+
+bool VE::deleteAWord(VTrie * root, wstring & word)
 {
-	Vtrie* node = VFindWord(root, word);
+	VTrie* node = VE::findWord(root, word);
 	if (node == nullptr) return false;
 	if (node->numChildren == 0)
 	{
-		VHelperDeleteAWord(root, word);
+		VE::helperDeleteAWord(root, word);
 	}
 	else
 	{
@@ -432,21 +737,22 @@ bool VDeleteAWord(Vtrie* root, wstring& word)
 	}
 	return true;
 }
-void VDeleteTrie(Vtrie*& root)
+
+void VE::deleteTrie(VTrie*& root)
 {
 	if (root == nullptr) return;
 	for (int i = 0; i < 91; ++i)
 	{
-		VDeleteTrie(root->children[i]);
+		VE::deleteTrie(root->children[i]);
 	}
 	delete root;
 	root = nullptr;
 }
 
-bool VloadRawData(Vtrie*& root)
+bool VE::loadRawData(VTrie*& root,string path)
 {
 	locale loc(locale(), new codecvt_utf8<wchar_t>);
-	wifstream fin("Dataset\\VE.csv");
+	wifstream fin(path);
 	fin.imbue(loc);
 	if (!fin.is_open())
 	{
@@ -461,13 +767,13 @@ bool VloadRawData(Vtrie*& root)
 		{
 			getline(fin, wordType, L',');
 			getline(fin, definition, L'\n');
-			VInsertWord(root, word, definition);
+			VE::insertWord(root, word, definition);
 		}
 		return true;
 	}
 }
 
-void saveVtrie(Vtrie* root, wofstream& fout)
+void saveVtrie(VTrie* root, wofstream& fout)
 {
 	short int numDefinitions = root->definition.size();
 	fout.write((wchar_t*)&numDefinitions, sizeof(short int));
@@ -492,7 +798,16 @@ void saveVtrie(Vtrie* root, wofstream& fout)
 	}
 }
 
-void loadVtrie(Vtrie*& root, wifstream& fin)
+void VE::saveTrieToFile(VTrie* root, string path) {
+	wofstream fou;
+	fou.open(path, ios::binary);
+	// Ensure the file is opened with UTF-8 encoding
+	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
+	saveVtrie(root, fou);
+	fou.close();
+}
+
+void loadVtrie(VTrie*& root, wifstream& fin)
 {
 	short int numDefinitions;
 	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
@@ -513,49 +828,22 @@ void loadVtrie(Vtrie*& root, wifstream& fin)
 		fin.read((wchar_t*)&c, sizeof(wchar_t));
 		if (map[c] != -1)
 		{
-			root->children[map[c]] = new Vtrie();
+			root->children[map[c]] = new VTrie();
 			loadVtrie(root->children[map[c]], fin);
 		}
 	}
 }
 
-
-void VieToEng(bool firstTimeOpen)
-{
-	_setmode(_fileno(stdout), _O_WTEXT);
-	_setmode(_fileno(stdin), _O_WTEXT);
-	locale loc(locale(), new codecvt_utf8<wchar_t>);
-	fillMap();
-	Vtrie* root = new Vtrie();
-	if (!firstTimeOpen)
+bool VE::loadTrieFromFile(VTrie*& root, string path) {
+	wifstream fin;
+	fin.open(path, ios::binary);
+	// Ensure the file is opened with UTF-8 encoding
+	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
+	if (!fin.is_open())
 	{
-		wifstream fin("Dataset\\UserVData.bin", ios::binary);
-		if (!fin.is_open())
-		{
-			wcout << L"File not found\n";
-			return;
-		}
-		fin.imbue(loc);
-		loadVtrie(root, fin);
-		fin.close();
+		return false;
 	}
-	else
-	{
-		if (!VloadRawData(root))
-		{
-			VDeleteTrie(root);
-			return;
-		}
-	}
-	// Add functions to insert, search, delete, update words here
-
-	wofstream fout("Dataset\\VUserData.bin", ios::binary);
-	if (!fout.is_open())
-	{
-		wcout << L"File not found\n";
-		return;
-	}
-	fout.imbue(loc);
-	saveVtrie(root, fout);
-	fout.close();
+	loadVtrie(root, fin);
+	fin.close();
+	return true;
 }

@@ -470,17 +470,80 @@ void adding() {
 	inputDef.draw(window);
 	backButton.draw(window);
 }
+int posx = 0;
+int posy = 0;
+int answerFlag = 2;
 
 void QnA() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page = 0;
 		backButton.isHover(window, "Image/backHover.png");
+		
+		if (A.isClicked(window, event) == 0) {
+			answerFlag = 0;
+			posx = A.xx;
+			posy = A.yy;
+		}
+		else if (A.isClicked(window, event) == 1){
+			answerFlag = 1;
+			posx = A.xx;
+			posy = A.yy;
+		}		
+		else if (B.isClicked(window, event) == 0) {
+			answerFlag = 0;
+			posx = B.xx;
+			posy = B.yy;
+		}
+		else if (B.isClicked(window, event) == 1) {
+			answerFlag = 1;
+			posx = B.xx;
+			posy = B.yy;
+		}		
+		else if (C.isClicked(window, event) == 0) {
+			answerFlag = 0;
+			posx = C.xx;
+			posy = C.yy;
+		}
+		else if (C.isClicked(window, event) == 1) {
+			answerFlag = 1;
+			posx = C.xx;
+			posy = C.yy;
+		}
+		else if (D.isClicked(window, event) == 0) {
+			answerFlag = 0;
+			posx = D.xx;
+			posy = D.yy;
+		}
+		else if (D.isClicked(window, event) == 1) {
+			answerFlag = 1;
+			posx = D.xx;
+			posy = D.yy;
+		}
 	}
 	A.draw(window);
 	B.draw(window);
 	C.draw(window);
 	D.draw(window);
+
+	if (answerFlag == 0) {
+		sf::Texture wrong;
+		if (wrong.loadFromFile("Image/wrong.png")) {
+			sf::Sprite sprite;
+			sprite.setTexture(wrong);
+			sprite.setPosition(posx + 350, posy + 65);
+			window.draw(sprite);
+		}
+	}
+	else if (answerFlag == 1) {
+		sf::Texture correct;
+		if (correct.loadFromFile("Image/tick.png")) {
+			sf::Sprite sprite;
+			sprite.setTexture(correct);
+			sprite.setPosition(posx + 350, posy + 65);
+			window.draw(sprite);
+		}
+	}
 }
 
 void homePage() {
@@ -553,7 +616,7 @@ bool loadData() {
 int run() {
 	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)

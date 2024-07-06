@@ -48,8 +48,11 @@ struct AnswerButton :Button {
 	bool isRightAnswer = 0;
 	std::wstring content;
 	sf::Text text;
+	int xx = 0;
+	int yy = 0;
 	AnswerButton(int x, int y, std::string imagePath);
 	void draw(sf::RenderWindow& window);
+	int isClicked(sf::RenderWindow& window, sf::Event event);
 };
 
 int run();

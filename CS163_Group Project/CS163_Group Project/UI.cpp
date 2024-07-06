@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include "Function.h"
 
 Button::Button(int x, int y, std::string imagePath) {
 	if (texture.loadFromFile(imagePath)) {
@@ -213,3 +214,13 @@ void InputDef::draw(sf::RenderWindow& window) {
 	}
 }
 
+
+AnswerButton::AnswerButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
+	handleWString(content, 20);
+	text.setString(content);
+}
+
+void AnswerButton::draw(sf::RenderWindow& window) {
+	window.draw(sprite);
+	window.draw(text);
+}

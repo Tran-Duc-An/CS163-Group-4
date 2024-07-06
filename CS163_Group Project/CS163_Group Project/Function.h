@@ -70,3 +70,5 @@ namespace VE {
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
 }
+
+void handleWString(wstring& s, int row);

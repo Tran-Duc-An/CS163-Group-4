@@ -13,7 +13,7 @@ float scrollSpeed = 50.f;
 Button searchButton(715, 155, "Image/searchButton.png");
 Button translatingButton(715, 305, "Image/translateButton.png");
 Button addNewWordButton(715, 455, "Image/addButton.png");
-
+Button qnaButton(715, 605, "Image/qnaButton.png");
 
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
@@ -47,6 +47,12 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition");
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
+AnswerButton A(209, 442, "Image/answerBox.png");
+AnswerButton B(209, 616, "Image/answerBox.png");
+AnswerButton C(849, 442, "Image/answerBox.png");
+AnswerButton D(849, 616, "Image/answerBox.png");
+
+
 sf::Font font;
 vector<wstring> transDef;
 vector<string> searchDef;
@@ -61,6 +67,8 @@ bool searchFlag = 0;
 bool transType = 0;
 bool searchingType = 0;
 int addingType = 0;
+bool isLiked = 0;
+
 void handleWString(wstring& s, int row) {
 	int end = 0;
 	int l = 0;
@@ -133,6 +141,10 @@ void setBackground() {
 	window.draw(sprite);
 }
 
+VTrie* nodeV = nullptr;
+EVTrie* nodeE = nullptr;
+std::string transWord;
+std::wstring transWword;
 
 void translating() {
 
@@ -171,8 +183,8 @@ void translating() {
 	}
 
 	//handle 
-	std::string word;
-	std::wstring wword;
+
+
 	while (window.pollEvent(event))
 	{
 		if (backButton.isClicked(window, event)) page = 0;
@@ -186,31 +198,21 @@ void translating() {
 			}
 			inputVNBox.isClicked(window, event);
 
-			if (translateVN.isClicked(window, event, wword, inputVNBox.text)) {
+			if (translateVN.isClicked(window, event, transWword, inputVNBox.text)) {
 				transDef.clear();
-				VTrie* node = nullptr;
-				if (!VE::findWordMeaning(rootVtoE, wword, transDef,node)) transDef.push_back(L"No definition");
-				else {
-					if (node->isLiked == 1) {
-						heartButton.texture.loadFromFile("Image/heartHover.png");
-						if (heartButton.isClicked(window, event)) {
-							node->isLiked = 0;
-							heartButton.texture.loadFromFile("Image/heart.png");
-						}
-					}
-					else {
-						heartButton.texture.loadFromFile("Image/heart.png");
-						if (heartButton.isClicked(window, event)) {
-							node->isLiked = 1;
-							heartButton.texture.loadFromFile("Image/heartHover.png");
-						}
-					}
-				}
+				if (!VE::findWordMeaning(rootVtoE, transWword, transDef,nodeV)) transDef.push_back(L"No definition");
 				translateFlag = 1;
 				orderDef = 0;
 			}
+			if (heartButton.isClicked(window, event)) {
+				isLiked = 1 - isLiked;
+				if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
+			}
 			if (deleteButton.isClicked(window, event)) {
-				VE::deleteAWord(rootVtoE, wword);
+				VE::deleteAWord(rootVtoE, transWword);
+				inputVNBox.text.setString("");
+				transDef.clear();
+				translateFlag = 0;
 			}
 		}
 		else {//English to Vietnamese
@@ -218,32 +220,38 @@ void translating() {
 				transType = 0;
 			}
 			inputENBox.isClicked(window, event);
-			if (translateEN.isClicked(window, event, word, inputENBox.text)) {
+			if (translateEN.isClicked(window, event, transWord, inputENBox.text)) {
 				transDef.clear();
-				EVTrie* node = nullptr;
-				if (!EV::findWordMeaning(rootEtoV, word, transDef,node)) transDef.push_back(L"No definition");
+				if (!EV::findWordMeaning(rootEtoV, transWord, transDef,nodeE)) transDef.push_back(L"No definition");
 				else {
-					if (node->isLiked == 1) {
+					if (nodeE->isLiked == 1) {
 						heartButton.texture.loadFromFile("Image/heartHover.png");
 						if (heartButton.isClicked(window, event)) {
-							node->isLiked = 0;
+							nodeE->isLiked = 0;
 							heartButton.texture.loadFromFile("Image/heart.png");
 						}
 					}
 					else {
 						heartButton.texture.loadFromFile("Image/heart.png");
 						if (heartButton.isClicked(window, event)) {
-							node->isLiked = 1;
+							nodeE->isLiked = 1;
 							heartButton.texture.loadFromFile("Image/heartHover.png");
 						}
 					}
 
 				}
+				if (heartButton.isClicked(window, event)) {
+					isLiked = 1 - isLiked;
+					if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
+				}
 				translateFlag = 1;
 				orderDef = 0;
 			}
 			if (deleteButton.isClicked(window, event)) {
-				EV::deleteAWord(rootEtoV, word);
+				EV::deleteAWord(rootEtoV, transWord);
+				inputVNBox.text.setString("");
+				transDef.clear();
+				translateFlag = 0;
 			}
 		}
 		if (nextDefButton.isClicked(window, event) && orderDef < transDef.size() - 1) orderDef++;
@@ -252,12 +260,20 @@ void translating() {
 	}
 
 	//display 
+	
 	if (transType == 0) {//Vietnamese to English
 
 		if (translateFlag == 1) {
 			displayWDef(870, 300, transDef[orderDef], 30);
 		}
-
+		if (isLiked == 0) {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
+		else {
+			heartButton.texture.loadFromFile("Image/heartHover.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		translateVN.isHover(window, "Image/transSubHover.png");
 		translateVN.draw(window);
@@ -266,6 +282,14 @@ void translating() {
 	else {//English to Vietnamese
 		if (translateFlag == 1) {
 			displayWDef(870, 300, transDef[orderDef], 30);
+		}
+		if (isLiked == 0) {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
+		else {
+			heartButton.texture.loadFromFile("Image/heartHover.png");
+			heartButton.sprite.setTexture(heartButton.texture);
 		}
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 		translateEN.isHover(window, "Image/transSubHover.png");
@@ -447,6 +471,18 @@ void adding() {
 	backButton.draw(window);
 }
 
+void QnA() {
+	while (window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed) window.close();
+		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
+	}
+	A.draw(window);
+	B.draw(window);
+	C.draw(window);
+	D.draw(window);
+}
+
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
@@ -458,6 +494,7 @@ void homePage() {
 	searchButton.draw(window);
 	translatingButton.draw(window);
 	addNewWordButton.draw(window);
+	qnaButton.draw(window);
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -475,9 +512,13 @@ void homePage() {
 		if (addNewWordButton.isClicked(window, event)) {
 			page = 3;
 		}
+		if (qnaButton.isClicked(window, event)) {
+			page = 4;
+		}
 		addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 		searchButton.isHover(window, "Image/searchHover.png");
 		translatingButton.isHover(window, "Image/translateHover.png");
+		qnaButton.isHover(window, "Image/qnaHover.png");
 	}
 	
 }
@@ -512,7 +553,7 @@ bool loadData() {
 int run() {
 	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
-	//if (!loadData()) return 0;
+	if (!loadData()) return 0;
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
@@ -532,6 +573,10 @@ int run() {
 		}
 		case 3: {
 			adding();
+			break;
+		}
+		case 4: {
+			QnA();
 			break;
 		}
 		default:

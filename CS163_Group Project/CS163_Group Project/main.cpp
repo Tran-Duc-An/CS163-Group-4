@@ -152,6 +152,15 @@ HashTable loadHashTable(const string& filename) {
     in.close();
     return ht;
 }
+void History(string word, string definition)
+{
+    fstream out;
+    out.open("Dataset\\History.csv", ios::out | ios::app);
+    if (!out.is_open()||word.empty()||definition.empty()) {
+        return;
+    }
+    out << word << "," << definition<<endl;
+}
 int main() {
     const size_t tableSize = 101;
 
@@ -162,7 +171,7 @@ int main() {
     //chrono::duration<double> duration = end - start;
     //cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
     //
-    /*saveHashtable(dictionary);*/
+    //saveHashtable(dictionary);
 
     HashTable newDict;
 
@@ -183,6 +192,7 @@ int main() {
     start = chrono::high_resolution_clock::now();
     string word = findWord(newDict, definition);
     end = chrono::high_resolution_clock::now();
+    History(word, definition);
     cout << "the word for the given definition is: " << word << endl;
     duration = end - start;
     cout << "time taken to search dataset: " << duration.count() << " seconds" << endl;

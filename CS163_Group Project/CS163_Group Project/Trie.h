@@ -8,7 +8,7 @@
 #include <io.h>
 #include <locale>
 #include <codecvt>
-#include<fcntl.h>
+#include <fcntl.h>
 
 using namespace std;
 

@@ -52,6 +52,9 @@
     <None Include="output.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Dataset\VEhistory.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">

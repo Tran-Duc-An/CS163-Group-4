@@ -1,5 +1,5 @@
 ﻿#include "functions.h"
-#include "fstream"
+#include <fstream>
 /* 
 int main()
 {
@@ -101,9 +101,8 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-*/ 
+*/
 
-/* 
 int main()
 {
 	trie* root = new trie();
@@ -140,6 +139,14 @@ int main()
 				cout << "Meaning " << ++i << ":" << " ";
 				cout << str << endl;
 			}
+			if (addToHistory(word, root))
+			{
+				cout << "Word added to history\n";
+			}
+			else
+			{
+				cout << "Word not found\n";
+			}
 		}
 		else
 		{
@@ -149,7 +156,43 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-*/ 
+
+/*
+int main()
+{
+	trie* root = new trie();
+	ifstream fin;
+
+	// check how long it takes to load the data
+	auto start = chrono::high_resolution_clock::now();
+	//fin.open("Dataset\\userData.bin", ios::binary);
+	fin.open("Dataset\\test.bin", ios::binary);
+	if (!fin.is_open())
+	{
+		cout << "File not found\n";
+		return 0;
+	}
+	loadTrie(root, fin);
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+	string word;
+	// test function to save favorite words
+	cout << "Enter a word to save as favorite: ";
+	getline(cin, word);
+
+	if (saveFavWord(word, root))
+	{
+		cout << "Word saved as favorite\n";
+	}
+	else
+	{
+		cout << "Word not found\n";
+	}
+	deleteTrie(root);
+	return 0;
+
+}
+*/
 
 /* 
 int main()
@@ -243,7 +286,7 @@ int main()
 */
 
 
-/*
+/* 
 int main()
 {
 	_setmode(_fileno(stdout), _O_WTEXT);

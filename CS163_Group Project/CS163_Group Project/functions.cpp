@@ -287,8 +287,49 @@ bool deleteAWord(trie* root, string& word)
 	return true;
 }
 
+bool saveFavWord(string word, trie* root)
+{
+	trie* wordNode = findWord(root, word);
+	if (wordNode->isLiked) return false;
+	wordNode->isLiked = true;
+	ofstream fout;
+	fout.open("Dataset\\favEngToEngWords.csv", ios::app);
+	if (!fout.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	fout << word << ",";
+	for (string& str : wordNode->definition)
+	{
+		fout << str << ",";
+	}
+	fout << "\n";
+	fout.close();
+	return true;
+}
 
+bool addToHistory(string word, trie* root)
+{
+	ofstream fout;
+	fout.open("Dataset\\EngToEngHistory.csv", ios::app);
+	if (!fout.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	fout << word << ",";
+	trie* wordNode = findWord(root, word);
+	for (string& str : wordNode->definition)
+	{
+		fout << str << ",";
+	}
+	fout << "\n";
+	fout.close();
+	return true;
+}
 
+// Viet-Eng dictionary
 short int map[7930];
 short int reverseMap[91];
 void fillMap()

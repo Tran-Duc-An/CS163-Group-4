@@ -20,6 +20,7 @@ struct trie
 	bool isend = false;
 	vector<string> definition;
 	short int numChildren = 0;
+	bool isLiked = false;
 	trie() : children(38, nullptr) {}
 };
 
@@ -29,6 +30,7 @@ struct Vtrie
 	vector<Vtrie*> children;
 	vector<wstring> definition;
 	short int numChildren = 0;
+	bool isLiked = false;
 	// 89 vietnamese characters and 2 for hyphen and space
 	Vtrie() : children(91, nullptr) {}
 };
@@ -45,6 +47,8 @@ void deleteTrie(trie*& root);
 void helperDeleteAWord(trie* root, string& word);
 bool deleteAWord(trie* root, string& word);
 bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
+bool saveFavWord(string word, trie* wordNode);
+bool addToHistory(string word, trie* root);
 
 // VE functions
 wstring VToLower(wstring&str);

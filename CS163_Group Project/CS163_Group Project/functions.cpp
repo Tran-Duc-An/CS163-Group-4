@@ -750,7 +750,7 @@ bool VE::loadRawData(VTrie*& root, string path)
 	fin.imbue(loc);
 	if (!fin.is_open())
 	{
-		wcout << L"File not found\n";
+		wcout << L"Không tìm thấy dữ liệu\n";
 		return false;
 	}
 	else
@@ -761,7 +761,7 @@ bool VE::loadRawData(VTrie*& root, string path)
 		{
 			getline(fin, wordType, L',');
 			getline(fin, definition, L'\n');
-			VE::insertWord(root, word, definition);
+			insertWord(root, word, definition);
 		}
 		return true;
 	}

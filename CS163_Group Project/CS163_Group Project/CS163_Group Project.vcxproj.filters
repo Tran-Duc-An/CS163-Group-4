@@ -36,4 +36,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Dataset\EEDictionary.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dataset\EEDictionary2.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dataset\EEDictionary3.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dataset\EVDictionary.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dataset\userData.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dataset\VEDictionary.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

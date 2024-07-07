@@ -11,6 +11,7 @@
 using namespace std;
 
 // Global functions
+bool continueProgram(int type);
 string toLowerCase(string& str);
 string removeSpecialCharacters(string& str);
 void preProcessing(string& word);

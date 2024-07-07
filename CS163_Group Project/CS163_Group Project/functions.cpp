@@ -1,6 +1,37 @@
 #include "functions.h"
 
 // Global functions
+bool continueProgram(int type)
+{
+	int choice;
+	if (type == 0)
+	{
+		cout << "\nDo you want to continue the program?\n";
+		cout << "Enter '1' for Yes or '0' for No\n";
+		cout << "Enter a number: ";
+		cin >> choice;
+		cin.ignore();
+		if (choice != 1 && choice != 0)
+		{
+			cout << "\nYou missed the instruction, please read it again carefully!\n";
+			return continueProgram(0);
+		}
+	}
+	else if (type == 1)
+	{
+		wcout << L"\nBạn có muốn tiếp tục chương trình không?\n";
+		wcout << L"Nhập '1' để Đồng ý hoặc '0' để Từ chối\n";
+		wcout << L"Nhập một số: ";
+		wcin >> choice;
+		wcin.ignore();
+		if (choice != 1 && choice != 0)
+		{
+			wcout << L"\nBạn đã bỏ qua hướng dẫn, hãy đọc lại hướng dẫn kĩ hơn nhé!\n";
+			return continueProgram(1);
+		}
+	}
+	return choice;
+}
 string toLowerCase(string& str) {
 	for (int i = 0; i < str.length(); i++) {
 		if (str[i] >= 'A' && str[i] <= 'Z') str[i] += 32;

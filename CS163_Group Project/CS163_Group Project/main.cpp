@@ -1,11 +1,12 @@
 ﻿#include "functions.h"
 
 // testing Eng-Eng Dictionary
+
 int main()
 {
 	cout << "Here's the Dictionary\n";
 	EETrie* root = new EETrie();
-	if (!EE::loadRawData(root, ".\\Dataset\\english Dictionary.csv"))
+	if (!EE::loadRawData(root, ".\\Dataset\\EEDictionary.csv"))
 	{
 		cout << "Failed to load data\n";
 		return 0;
@@ -28,9 +29,7 @@ int main()
 			}
 		}
 		else
-		{
 			cout << "Word not found\n";
-		}
 
 		// Random a word and 4 definitions
 		cout << "\nLet's do a Vocabulary test!\n";
@@ -77,7 +76,9 @@ int main()
 	EE::deleteTrie(root);
 	return 0;
 }
+
 // testing Viet-Eng Dictionary
+
 //int main()
 //{
 //	_setmode(_fileno(stdout), _O_WTEXT);
@@ -85,9 +86,9 @@ int main()
 //	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
 //
 //	wcout << L"Dưới đây là từ điển\n";
-//	Vtrie* root = new Vtrie();
-//	fillMap();
-//	if (!VloadRawData(root))
+//	VTrie* root = new VTrie();
+//	VE::fillMap();
+//	if (!VE::loadRawData(root, ".\\Dataset\\VEDictionary.csv"))
 //	{
 //		wcout << L"Không tải được dữ liệu!\n";
 //		return 0;
@@ -100,7 +101,8 @@ int main()
 //		wcout << L"\nHãy tìm từ vựng!\n";
 //		wcout << L"Nhập một từ: ";
 //		getline(wcin, vWord);
-//		if (VFindWordMeaning(root, vWord, vDefinition))
+//		VTrie* curNode;
+//		if (VE::findWordMeaning(root, vWord, vDefinition, curNode))
 //		{
 //			int i = 0;
 //			for (wstring& str : vDefinition)
@@ -110,15 +112,13 @@ int main()
 //			}
 //		}
 //		else
-//		{
 //			wcout << L"Không tìm được từ!\n";
-//		}
 //
 //		// Ngẫu nhiên một từ và 4 định nghĩa
 //		wcout << L"\nHãy cùng làm một bài tập từ vựng nhé!\n";
 //		wstring rightWord;
 //		vector<wstring> rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
-//		randomAVWordAnd4Definitions(root, rightWord, rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3);
+//		VE::randomAWordAnd4Definitions(root, rightWord, rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3);
 //		wcout << L"Đây là từ: " << rightWord << "\n";
 //		wcout << L"Sau đây là 4 định nghĩa, hãy chọn định nghĩa đúng nhất với từ '" << rightWord << "'\n";
 //		wcout << L"A. " << wrongDefinition1[0] << "\n";
@@ -136,7 +136,7 @@ int main()
 //		wcout << L"\nHãy cùng làm một bài tập khác!\n";
 //		vector<wstring> rightDefinitionN;
 //		wstring rightWordN, wrongWord1N, wrongWord2N, wrongWord3N;
-//		randomAVDefinitionAnd4Words(root, rightDefinitionN, rightWordN, wrongWord1N, wrongWord2N, wrongWord3N);
+//		VE::randomADefinitionAnd4Words(root, rightDefinitionN, rightWordN, wrongWord1N, wrongWord2N, wrongWord3N);
 //		wcout << L"Đây là định nghĩa: " << rightDefinitionN[0] << "\n";
 //		wcout << L"Sau đây là 4 từ, hãy chọn từ đúng nhất ứng với định nghĩa trên\n";
 //		wcout << L"A. " << wrongWord1N << "\n";
@@ -153,9 +153,9 @@ int main()
 //	wcout << L"\nCảm ơn đã dùng từ điển!\n";
 //	wofstream fout;
 //	fout.open("Dataset\\userVData.bin", ios::binary);
-//	saveVtrie(root, fout);
+//	VE::saveTrie(root, fout);
 //	fout.close();
 //
-//	VDeleteTrie(root);
+//	VE::deleteTrie(root);
 //	return 0;
 //}

@@ -1,12 +1,6 @@
-#include "Function.h"
-#include <io.h>
-#include <fcntl.h>
-#include <fstream>
-#include <locale>
-#include <codecvt>
-#include <iostream>
-using namespace std;
+#include "functions.h"
 
+// Global functions
 string toLowerCase(string& str) {
 	for (int i = 0; i < str.length(); i++) {
 		if (str[i] >= 'A' && str[i] <= 'Z') str[i] += 32;
@@ -22,6 +16,148 @@ string removeSpecialCharacters(string& str) {
 		}
 	}
 	return res;
+}
+void preProcessing(string& word) {
+	size_t bracket_pos = word.find('[');
+	if (bracket_pos != string::npos)
+	{
+		word = word.substr(0, bracket_pos - 1);
+	}
+	size_t bracket_pos_open = word.find('(');
+	size_t bracket_pos_close = word.find(')');
+	if (bracket_pos_open != string::npos)
+	{
+		word = word.erase(bracket_pos_open - 1, bracket_pos_close - bracket_pos_open + 2);
+	}
+	while (!word.empty() && word[0] == ' ') word.erase(word.begin(), word.begin() + 1);
+	while (!word.empty() && word[word.length() - 1] == ' ') word.erase(word.length() - 2, word.length() - 1);
+}
+
+// Eng-Viet trie functions
+bool EV::loadRawData(EVTrie*& root, string path)
+{
+
+	wifstream fin;
+	fin.open(path);
+
+	// Ensure the file is opened with UTF-8 encoding
+	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
+
+	if (!fin.is_open())
+	{
+		return false;
+	}
+
+	wstring wword;
+	wstring definition;
+
+
+	while (getline(fin, wword, L',')) {
+		if (getline(fin, definition, L'\n'))
+		{
+			// Convert wstring to string using wstring_convert
+			wstring_convert<codecvt_utf8<wchar_t>> converter;
+			string word = converter.to_bytes(wword);
+
+			preProcessing(word);
+			EV::insertWord(root, word, definition);
+		}
+	}
+
+	return true;
+}
+void EV::inputTrie(EVTrie*& root, wifstream& fin) {
+	short int numDefinitions = 0;
+	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
+	if (numDefinitions != 0) {
+		root->isEnd = true;
+		for (int i = 0; i < numDefinitions; ++i)
+		{
+			short int len;
+			fin.read((wchar_t*)&len, sizeof(short int));
+			wchar_t* tmp = new wchar_t[len + 1];
+			fin.read(tmp, len);
+			tmp[len] = '\0';
+			root->definition.push_back(tmp);
+			delete[] tmp;
+		}
+	}
+	fin.read((wchar_t*)&root->numChildren, sizeof(short int));
+	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < root->numChildren; ++i)
+	{
+		wchar_t c;
+		fin.read(&c, sizeof(wchar_t));
+		if (c >= L'a' && c <= L'z')
+		{
+			root->children[c - L'a'] = new EVTrie();
+			inputTrie(root->children[c - L'a'], fin);
+		}
+		else if (c == L' ')
+		{
+			root->children[26] = new EVTrie();
+			inputTrie(root->children[26], fin);
+		}
+		else if (c == L'-')
+		{
+			root->children[27] = new EVTrie();
+			inputTrie(root->children[27], fin);
+		}
+		else if (c >= L'0' && c <= L'9')
+		{
+			root->children[c - L'0' + 28] = new EVTrie();
+			inputTrie(root->children[c - L'0' + 28], fin);
+		}
+	}
+}
+bool EV::loadTrieFromFile(EVTrie*& root, string path) {
+	wifstream fin;
+	fin.open(path, ios::binary);
+
+	// Ensure the file is opened with UTF-8 encoding
+	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
+
+	if (!fin.is_open())
+	{
+		return false;
+	}
+	inputTrie(root, fin);
+	fin.close();
+	return true;
+}
+void EV::outputTrie(EVTrie* root, wofstream& fou) {
+	if (root == nullptr) return;
+
+	short int numDefinitions = root->definition.size();
+	fou.write((wchar_t*)(&numDefinitions), sizeof(short int));
+	if (root->definition.size() != 0) {
+		for (wstring& str : root->definition) {
+			short int len = str.length();
+			fou.write((wchar_t*)(&len), sizeof(short int));
+			fou.write(str.c_str(), len);
+		}
+	}
+	short int numChildren = root->numChildren;
+	fou.write((wchar_t*)(&numChildren), sizeof(short int));
+	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < 38; ++i) {
+		if (root->children[i] != nullptr) {
+			wchar_t c = i < 26 ? (wchar_t)(i + L'a') : (i == 26 ? L' ' : (i == 27 ? L'-' : (i - 28 + L'0')));
+
+			fou.write(&c, sizeof(wchar_t));
+			outputTrie(root->children[i], fou);
+		}
+	}
+}
+void EV::saveTrieToFile(EVTrie* root, string path) {
+	wofstream fou;
+	fou.open(path, ios::binary);
+
+	// Ensure the file is opened with UTF-8 encoding
+	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
+
+	outputTrie(root, fou);
+	fou.close();
 }
 void EV::insertWord(EVTrie*& root, string& word, wstring& definition)
 {
@@ -77,7 +213,6 @@ void EV::insertWord(EVTrie*& root, string& word, wstring& definition)
 	current->definition.push_back(definition);
 
 }
-
 EVTrie* EV::findWord(EVTrie* root, string& word)
 {
 	word = toLowerCase(word);
@@ -108,7 +243,6 @@ EVTrie* EV::findWord(EVTrie* root, string& word)
 	if (!current->isEnd) return 0;
 	return current;
 }
-
 bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVTrie*&node)
 {
 	node = EV::findWord(root, word);
@@ -116,161 +250,6 @@ bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVT
 	meaning = node->definition;
 	return true;
 }
-void EV::deleteTrie(EVTrie* root)
-{
-	if (root == nullptr) return;
-	for (EVTrie* child : root->children)
-	{
-		EV::deleteTrie(child);
-	}
-	delete root;
-}
-
-void preProcessing(string& word) {
-	size_t bracket_pos = word.find('[');
-	if (bracket_pos != string::npos)
-	{
-		word = word.substr(0, bracket_pos - 1);
-	}
-	size_t bracket_pos_open = word.find('(');
-	size_t bracket_pos_close = word.find(')');
-	if (bracket_pos_open != string::npos)
-	{
-		word = word.erase(bracket_pos_open-1, bracket_pos_close - bracket_pos_open+2);
-	}
-	while (!word.empty() && word[0] == ' ') word.erase(word.begin(), word.begin() + 1);
-	while (!word.empty() && word[word.length() - 1] == ' ') word.erase(word.length() - 2, word.length() - 1);
-}
-
-bool EV::loadRawData(EVTrie*& root,string path)
-{
-
-	wifstream fin;
-	fin.open(path);
-
-	// Ensure the file is opened with UTF-8 encoding
-	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
-
-	if (!fin.is_open())
-	{
-		return false;
-	}
-
-	wstring wword;
-	wstring definition;
-
-
-	while (getline(fin, wword, L',')){
-		if (getline(fin, definition, L'\n'))
-		{
-			// Convert wstring to string using wstring_convert
-			wstring_convert<codecvt_utf8<wchar_t>> converter;
-			string word = converter.to_bytes(wword);
-
-			preProcessing(word);
-			EV::insertWord(root, word, definition);
-		}
-	}
-
-	return true;
-}
-
-void outputTrie(EVTrie* root, wofstream& fou) {
-	if (root == nullptr) return;
-
-	short int numDefinitions = root->definition.size();
-	fou.write((wchar_t*)(&numDefinitions), sizeof(short int));
-	if (root->definition.size() != 0) {
-		for (wstring& str : root->definition) {
-			short int len = str.length();
-			fou.write((wchar_t*)(&len), sizeof(short int));
-			fou.write(str.c_str(), len);
-		}
-	}
-	short int numChildren = root->numChildren;
-	fou.write((wchar_t*)(&numChildren), sizeof(short int));
-	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
-	for (int i = 0; i < 38; ++i) {
-		if (root->children[i] != nullptr) {
-			wchar_t c = i < 26 ? (wchar_t)(i + L'a') : (i == 26 ? L' ' : (i == 27 ? L'-' : (i - 28 + L'0')));
-			
-			fou.write(&c, sizeof(wchar_t));
-			outputTrie(root->children[i], fou);
-		}
-	}
-}
-void EV::saveTrietoFile(EVTrie* root, string path) {
-	wofstream fou;
-	fou.open(path,ios::binary);
-
-	// Ensure the file is opened with UTF-8 encoding
-	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
-
-	outputTrie(root, fou);
-	fou.close();
-}
-
-void inputTrie(EVTrie*& root, wifstream& fin) {
-	short int numDefinitions = 0;
-	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
-	if (numDefinitions != 0) {
-		root->isEnd = true;
-		for (int i = 0; i < numDefinitions; ++i)
-		{
-			short int len;
-			fin.read((wchar_t*)&len, sizeof(short int));
-			wchar_t* tmp = new wchar_t[len + 1];
-			fin.read(tmp, len);
-			tmp[len] = '\0';
-			root->definition.push_back(tmp);
-			delete[] tmp;
-		}
-	}
-	fin.read((wchar_t*)&root->numChildren, sizeof(short int));
-	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
-	for (int i = 0; i < root->numChildren; ++i)
-	{
-		wchar_t c;
-		fin.read(&c, sizeof(wchar_t));
-		if (c >= L'a' && c <= L'z')
-		{
-			root->children[c - L'a'] = new EVTrie();
-			inputTrie(root->children[c - L'a'], fin);
-		}
-		else if (c == L' ')
-		{
-			root->children[26] = new EVTrie();
-			inputTrie(root->children[26], fin);
-		}
-		else if (c == L'-')
-		{
-			root->children[27] = new EVTrie();
-			inputTrie(root->children[27], fin);
-		}
-		else if (c >= L'0' && c <= L'9')
-		{
-			root->children[c - L'0' + 28] = new EVTrie();
-			inputTrie(root->children[c - L'0' + 28], fin);
-		}
-	}
-}
-
-bool EV::loadTriefromFile(EVTrie*& root, string path) {
-	wifstream fin;
-	fin.open(path,ios::binary);
-
-	// Ensure the file is opened with UTF-8 encoding
-	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
-
-	if (!fin.is_open())
-	{
-		return false;
-	}
-	inputTrie(root, fin);
-	fin.close();
-	return true;
-}
-
 void EV::helperDeleteAWord(EVTrie* root, string& word) {
 
 	EVTrie* current = root;
@@ -315,7 +294,6 @@ void EV::helperDeleteAWord(EVTrie* root, string& word) {
 		parent->numChildren--;
 	}
 }
-
 bool EV::deleteAWord(EVTrie* root, string& word) {
 	EVTrie* node = EV::findWord(root, word);
 	if (node == 0) return false;
@@ -331,7 +309,120 @@ bool EV::deleteAWord(EVTrie* root, string& word) {
 	}
 	return true;
 }
+void EV::deleteTrie(EVTrie* root)
+{
+	if (root == nullptr) return;
+	for (EVTrie* child : root->children)
+	{
+		EV::deleteTrie(child);
+	}
+	delete root;
+}
 
+// Eng-Eng trie functions
+bool EE::loadRawData(EETrie*& root, string path)
+{
+	ifstream fin;
+	fin.open(path);
+	if (!fin.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	string word, definition, wordType;
+	getline(fin, word);
+	while (getline(fin, word, ','))
+	{
+		getline(fin, wordType, ',');
+		getline(fin, definition, '\n');
+		EE::insertWord(root, word, definition);
+	}
+	return true;
+}
+void EE::loadTrie(EETrie*& root, ifstream& fin)
+{
+	short int numDefinitions;
+	fin.read((char*)&numDefinitions, sizeof(short int));
+	if (numDefinitions != 0) root->isend = true;
+	for (int i = 0; i < numDefinitions; ++i)
+	{
+		short int len;
+		fin.read((char*)&len, sizeof(short int));
+		char* tmp = new char[len + 1];
+		fin.read(tmp, len);
+		tmp[len] = '\0';
+		root->definition.push_back(tmp);
+		delete[] tmp;
+	}
+	fin.read((char*)&root->numChildren, sizeof(short int));
+	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < root->numChildren; ++i)
+	{
+		char c;
+		fin.read(&c, sizeof(char));
+		if (c >= 'a' && c <= 'z')
+		{
+			root->children[c - 'a'] = new EETrie();
+			loadTrie(root->children[c - 'a'], fin);
+		}
+		else if (c == ' ')
+		{
+			root->children[26] = new EETrie();
+			loadTrie(root->children[26], fin);
+		}
+		else if (c == '-')
+		{
+			root->children[27] = new EETrie();
+			loadTrie(root->children[27], fin);
+		}
+		else if (c >= '0' && c <= '9')
+		{
+			root->children[c - '0' + 28] = new EETrie();
+			loadTrie(root->children[c - '0' + 28], fin);
+		}
+	}
+}
+bool EE::loadTrieFromFile(EETrie*& root, string path) {
+	ifstream fin;
+	fin.open(path, ios::binary);
+
+	if (!fin.is_open())
+	{
+		return false;
+	}
+	loadTrie(root, fin);
+	fin.close();
+	return true;
+}
+void EE::saveTrie(EETrie* root, ofstream& fout)
+{
+	short int numDefinitions = root->definition.size();
+	fout.write((char*)&numDefinitions, sizeof(short int));
+	for (string& str : root->definition)
+	{
+		short int len = str.length();
+		fout.write((char*)&len, sizeof(short int));
+		fout.write(str.c_str(), len);
+	}
+	short int numChildren = root->numChildren;
+	fout.write((char*)&numChildren, sizeof(short int));
+	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
+	for (int i = 0; i < 38; ++i)
+	{
+		if (root->children[i] != nullptr)
+		{
+			char c = i < 26 ? (char)(i + 'a') : (i == 26 ? ' ' : (i == 27 ? '-' : (i - 28 + '0')));
+			fout.write(&c, sizeof(char));
+			saveTrie(root->children[i], fout);
+		}
+	}
+}
+void EE::saveTrietoFile(EETrie* root, string path) {
+	ofstream fou;
+	fou.open(path, ios::binary);
+	saveTrie(root, fou);
+	fou.close();
+}
 void EE::insertWord(EETrie*& root, string& word, string& definition)
 {
 	word = toLowerCase(word);
@@ -383,7 +474,6 @@ void EE::insertWord(EETrie*& root, string& word, string& definition)
 	current->isend = true;
 	current->definition.push_back(definition);
 }
-
 EETrie* EE::findWord(EETrie* root, string& word)
 {
 	word = toLowerCase(word);
@@ -414,7 +504,6 @@ EETrie* EE::findWord(EETrie* root, string& word)
 	if (!current->isend) return 0;
 	return current;
 }
-
 bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
 {
 	EETrie* node = findWord(root, word);
@@ -422,7 +511,6 @@ bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
 	meaning = node->definition;
 	return true;
 }
-
 bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
 	EETrie* node = EE::findWord(root, word);
@@ -432,7 +520,89 @@ bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition,
 	return true;
 
 }
+void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
 
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EE::randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
 void EE::helperDeleteAWord(EETrie* root, string& word)
 {
 	EETrie* current = root;
@@ -493,116 +663,6 @@ bool EE::deleteAWord(EETrie* root, string& word)
 	}
 	return true;
 }
-
-
-bool EE::loadRawData(EETrie*& root,string path)
-{
-	ifstream fin;
-	fin.open(path);
-	if (!fin.is_open())
-	{
-		cout << "File not found\n";
-		return false;
-	}
-	string word, definition, wordType;
-	getline(fin, word);
-	while (getline(fin, word, ','))
-	{
-		getline(fin, wordType, ',');
-		getline(fin, definition, '\n');
-		EE::insertWord(root, word, definition);
-	}
-	return true;
-}
-
-void loadTrie(EETrie*& root, ifstream& fin)
-{
-	short int numDefinitions;
-	fin.read((char*)&numDefinitions, sizeof(short int));
-	if (numDefinitions != 0) root->isend = true;
-	for (int i = 0; i < numDefinitions; ++i)
-	{
-		short int len;
-		fin.read((char*)&len, sizeof(short int));
-		char* tmp = new char[len + 1];
-		fin.read(tmp, len);
-		tmp[len] = '\0';
-		root->definition.push_back(tmp);
-		delete[] tmp;
-	}
-	fin.read((char*)&root->numChildren, sizeof(short int));
-	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
-	for (int i = 0; i < root->numChildren; ++i)
-	{
-		char c;
-		fin.read(&c, sizeof(char));
-		if (c >= 'a' && c <= 'z')
-		{
-			root->children[c - 'a'] = new EETrie();
-			loadTrie(root->children[c - 'a'], fin);
-		}
-		else if (c == ' ')
-		{
-			root->children[26] = new EETrie();
-			loadTrie(root->children[26], fin);
-		}
-		else if (c == '-')
-		{
-			root->children[27] = new EETrie();
-			loadTrie(root->children[27], fin);
-		}
-		else if (c >= '0' && c <= '9')
-		{
-			root->children[c - '0' + 28] = new EETrie();
-			loadTrie(root->children[c - '0' + 28], fin);
-		}
-	}
-}
-
-bool EE::loadTrieFromFile(EETrie*& root, string path) {
-	ifstream fin;
-	fin.open(path,ios::binary);
-
-	if (!fin.is_open())
-	{
-		return false;
-	}
-	loadTrie(root, fin);
-	fin.close();
-	return true;
-}
-
-void saveTrie(EETrie* root, ofstream& fout)
-{
-	short int numDefinitions = root->definition.size();
-	fout.write((char*)&numDefinitions, sizeof(short int));
-	for (string& str : root->definition)
-	{
-		short int len = str.length();
-		fout.write((char*)&len, sizeof(short int));
-		fout.write(str.c_str(), len);
-	}
-	short int numChildren = root->numChildren;
-	fout.write((char*)&numChildren, sizeof(short int));
-	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
-	for (int i = 0; i < 38; ++i)
-	{
-		if (root->children[i] != nullptr)
-		{
-			char c = i < 26 ? (char)(i + 'a') : (i == 26 ? ' ' : (i == 27 ? '-' : (i - 28 + '0')));
-			fout.write(&c, sizeof(char));
-			saveTrie(root->children[i], fout);
-		}
-	}
-}
-
-void EE::saveTrietoFile(EETrie* root, string path) {
-	ofstream fou;
-	fou.open(path,ios::binary);
-	saveTrie(root, fou);
-	fou.close();
-}
-
 void EE::deleteTrie(EETrie*& root)
 {
 	if (root == nullptr) return;
@@ -614,10 +674,10 @@ void EE::deleteTrie(EETrie*& root)
 	root = nullptr;
 }
 
-// Vietnamese to English dictionary
+// Viet-Eng trie functions
 short int map[7930];
 short int reverseMap[91];
-void fillMap()
+void VE::fillMap()
 {
 	memset(map, -1, 7929 * sizeof(short int));
 	wstring word = L"a á à ả ã ạ ă ắ ằ ẳ ẵ ặ â ấ ầ ẩ ẫ ậ b c d đ e é è ẻ ẽ ẹ ê ế ề ể ễ ệ g h i í ì ỉ ĩ ị k l m n o ó ò ỏ õ ọ ô ố ồ ổ ỗ ộ ơ ớ ờ ở ỡ ợ p q r s t u ú ù ủ ũ ụ ư ứ ừ ử ữ ự v x y ý ỳ ỷ ỹ ỵ";
@@ -635,7 +695,7 @@ void fillMap()
 	reverseMap[89] = L'-';
 	reverseMap[90] = L' ';
 }
-wstring VToLower(wstring& str)
+wstring VE::VToLower(wstring& str)
 {
 	for (wchar_t& c : str)
 	{
@@ -652,104 +712,7 @@ wstring VToLower(wstring& str)
 	}
 	return str;
 }
-
-void VE::insertWord(VTrie*& root, wstring& word, wstring& definition)
-{
-	word = VToLower(word);
-	VTrie* current = root;
-	for (wchar_t& c : word)
-	{
-		if ((int)c > 7929 || map[c] == -1) continue;
-		if (current->children[map[c]] == nullptr)
-		{
-			current->children[map[c]] = new VTrie();
-			current->numChildren++;
-		}
-		current = current->children[map[c]];
-	}
-	current->definition.push_back(definition);
-}
-
-VTrie* VE::findWord(VTrie* root, wstring& word)
-{
-	word = VToLower(word);
-	VTrie* current = root;
-	for (wchar_t& c : word)
-	{
-		if ((int)c > 7929 || map[c] == -1) return nullptr;
-		if (current->children[map[c]] == nullptr) return nullptr;
-		current = current->children[map[c]];
-	}
-	if (current->definition.empty()) return nullptr;
-	return current;
-}
-
-bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node)
-{
-
-	node = VE::findWord(root, word);
-	if (node == nullptr) return false;
-	meaning = node->definition;
-	return true;
-}
-
-bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
-{
-	VTrie* node = VE::findWord(root, word);
-	if (node == nullptr) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
-	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
-}
-
-void VE::helperDeleteAWord(VTrie* root, wstring& word)
-{
-	VTrie* current = root;
-	VTrie* parent = nullptr;
-	int childIndex = -1;
-	for (wchar_t& c : word)
-	{
-		if ((int)c > 7929 || map[c] == -1) return;
-		if (current->children[map[c]] == nullptr) return;
-		parent = current;
-		childIndex = map[c];
-		current = current->children[map[c]];
-	}
-	if (parent != nullptr)
-	{
-		delete current;
-		parent->children[childIndex] = nullptr;
-		parent->numChildren--;
-	}
-}
-
-bool VE::deleteAWord(VTrie * root, wstring & word)
-{
-	VTrie* node = VE::findWord(root, word);
-	if (node == nullptr) return false;
-	if (node->numChildren == 0)
-	{
-		VE::helperDeleteAWord(root, word);
-	}
-	else
-	{
-		node->definition.clear();
-	}
-	return true;
-}
-
-void VE::deleteTrie(VTrie*& root)
-{
-	if (root == nullptr) return;
-	for (int i = 0; i < 91; ++i)
-	{
-		VE::deleteTrie(root->children[i]);
-	}
-	delete root;
-	root = nullptr;
-}
-
-bool VE::loadRawData(VTrie*& root,string path)
+bool VE::loadRawData(VTrie*& root, string path)
 {
 	locale loc(locale(), new codecvt_utf8<wchar_t>);
 	wifstream fin(path);
@@ -772,42 +735,7 @@ bool VE::loadRawData(VTrie*& root,string path)
 		return true;
 	}
 }
-
-void saveVtrie(VTrie* root, wofstream& fout)
-{
-	short int numDefinitions = root->definition.size();
-	fout.write((wchar_t*)&numDefinitions, sizeof(short int));
-	for (wstring& str : root->definition)
-	{
-		short int len = str.length();
-		// write length of the string
-		fout.write((wchar_t*)&len, sizeof(short int));
-		// write the string itself
-		fout.write((wchar_t*)str.c_str(), len);
-	}
-	short int numChildren = root->numChildren;
-	fout.write((wchar_t*)&numChildren, sizeof(short int));
-	for (int i = 0; i < 91; ++i)
-	{
-		if (root->children[i] != nullptr)
-		{
-			wchar_t c = reverseMap[i];
-			fout.write((wchar_t*)&c, sizeof(wchar_t));
-			saveVtrie(root->children[i], fout);
-		}
-	}
-}
-
-void VE::saveTrieToFile(VTrie* root, string path) {
-	wofstream fou;
-	fou.open(path, ios::binary);
-	// Ensure the file is opened with UTF-8 encoding
-	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
-	saveVtrie(root, fou);
-	fou.close();
-}
-
-void loadVtrie(VTrie*& root, wifstream& fin)
+void VE::loadTrie(VTrie*& root, wifstream& fin)
 {
 	short int numDefinitions;
 	fin.read((wchar_t*)&numDefinitions, sizeof(short int));
@@ -829,11 +757,10 @@ void loadVtrie(VTrie*& root, wifstream& fin)
 		if (map[c] != -1)
 		{
 			root->children[map[c]] = new VTrie();
-			loadVtrie(root->children[map[c]], fin);
+			loadTrie(root->children[map[c]], fin);
 		}
 	}
 }
-
 bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	wifstream fin;
 	fin.open(path, ios::binary);
@@ -843,7 +770,211 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	{
 		return false;
 	}
-	loadVtrie(root, fin);
+	loadTrie(root, fin);
 	fin.close();
 	return true;
+}
+void VE::saveTrie(VTrie* root, wofstream& fout)
+{
+	short int numDefinitions = root->definition.size();
+	fout.write((wchar_t*)&numDefinitions, sizeof(short int));
+	for (wstring& str : root->definition)
+	{
+		short int len = str.length();
+		// write length of the string
+		fout.write((wchar_t*)&len, sizeof(short int));
+		// write the string itself
+		fout.write((wchar_t*)str.c_str(), len);
+	}
+	short int numChildren = root->numChildren;
+	fout.write((wchar_t*)&numChildren, sizeof(short int));
+	for (int i = 0; i < 91; ++i)
+	{
+		if (root->children[i] != nullptr)
+		{
+			wchar_t c = reverseMap[i];
+			fout.write((wchar_t*)&c, sizeof(wchar_t));
+			saveTrie(root->children[i], fout);
+		}
+	}
+}
+void VE::saveTrieToFile(VTrie* root, string path) {
+	wofstream fou;
+	fou.open(path, ios::binary);
+	// Ensure the file is opened with UTF-8 encoding
+	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
+	saveTrie(root, fou);
+	fou.close();
+}
+void VE::insertWord(VTrie*& root, wstring& word, wstring& definition)
+{
+	word = VToLower(word);
+	VTrie* current = root;
+	for (wchar_t& c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) continue;
+		if (current->children[map[c]] == nullptr)
+		{
+			current->children[map[c]] = new VTrie();
+			current->numChildren++;
+		}
+		current = current->children[map[c]];
+	}
+	current->definition.push_back(definition);
+}
+VTrie* VE::findWord(VTrie* root, wstring& word)
+{
+	word = VToLower(word);
+	VTrie* current = root;
+	for (wchar_t& c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) return nullptr;
+		if (current->children[map[c]] == nullptr) return nullptr;
+		current = current->children[map[c]];
+	}
+	if (current->definition.empty()) return nullptr;
+	return current;
+}
+bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node)
+{
+
+	node = VE::findWord(root, word);
+	if (node == nullptr) return false;
+	meaning = node->definition;
+	return true;
+}
+bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+	VTrie* node = VE::findWord(root, word);
+	if (node == nullptr) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+}
+void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, vector<wstring>& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 91; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			wchar_t tempChar = reverseMap[i];
+			currentWord.push_back(tempChar);
+			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, vector<wstring>& rightDefinition, vector<wstring>& wrongDefinition1, vector<wstring>& wrongDefinition2, vector<wstring>& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = L"";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void VE::randomADefinitionAnd4Words(VTrie* root, vector<wstring>& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = L"";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	vector<wstring> wrongDefinition1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	vector<wstring> wrongDefinition2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	vector<wstring> wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void VE::helperDeleteAWord(VTrie* root, wstring& word)
+{
+	VTrie* current = root;
+	VTrie* parent = nullptr;
+	int childIndex = -1;
+	for (wchar_t& c : word)
+	{
+		if ((int)c > 7929 || map[c] == -1) return;
+		if (current->children[map[c]] == nullptr) return;
+		parent = current;
+		childIndex = map[c];
+		current = current->children[map[c]];
+	}
+	if (parent != nullptr)
+	{
+		delete current;
+		parent->children[childIndex] = nullptr;
+		parent->numChildren--;
+	}
+}
+bool VE::deleteAWord(VTrie * root, wstring & word)
+{
+	VTrie* node = VE::findWord(root, word);
+	if (node == nullptr) return false;
+	if (node->numChildren == 0)
+	{
+		VE::helperDeleteAWord(root, word);
+	}
+	else
+	{
+		node->definition.clear();
+	}
+	return true;
+}
+void VE::deleteTrie(VTrie*& root)
+{
+	if (root == nullptr) return;
+	for (int i = 0; i < 91; ++i)
+	{
+		VE::deleteTrie(root->children[i]);
+	}
+	delete root;
+	root = nullptr;
 }

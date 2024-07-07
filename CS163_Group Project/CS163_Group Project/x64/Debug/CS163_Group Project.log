@@ -1,12 +1,2 @@
-﻿  functions.cpp
-C:\Users\nanh\source\repos\CS163_Group Project\CS163_Group Project\functions.cpp(131,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\nanh\source\repos\CS163_Group Project\CS163_Group Project\functions.cpp(135,18): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\nanh\source\repos\CS163_Group Project\CS163_Group Project\functions.cpp(399,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\nanh\source\repos\CS163_Group Project\CS163_Group Project\functions.cpp(403,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\nanh\source\repos\CS163_Group Project\CS163_Group Project\functions.cpp(779,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\nanh\source\repos\CS163_Group Project\CS163_Group Project\functions.cpp(783,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-  main.cpp
-  runUI.cpp
-  UI.cpp
-  Generating Code...
+﻿  main.cpp
   CS163_Group Project.vcxproj -> C:\Users\nanh\source\repos\CS163_Group Project\x64\Debug\CS163_Group Project.exe

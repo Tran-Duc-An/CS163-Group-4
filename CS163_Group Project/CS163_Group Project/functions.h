@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 struct EVTrie {
@@ -31,6 +33,11 @@ struct VTrie
 	VTrie() : children(91, nullptr) {}
 };
 
+struct HashTable {
+    vector<vector<pair<string, string>>> table;
+    size_t size;
+    int currentLoad = 0;
+};
 
 namespace EV {
 	EVTrie* findWord(EVTrie* root, string& word);
@@ -70,3 +77,14 @@ namespace VE {
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
 }
+
+//For searching by definition
+void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd);
+void initHashTable(HashTable& ht, size_t tableSize);
+size_t hashFunction(const string& key, size_t tableSize);
+void insertWordDefinition(HashTable& ht, const string& word, const string& definition);
+string findWord(HashTable& ht, const string& definition);
+HashTable loadDataset(const string& filename, size_t tableSize);
+void saveHashtable(HashTable& ht);
+HashTable loadHashTable(const string& filename);
+void History(string word, string definition);

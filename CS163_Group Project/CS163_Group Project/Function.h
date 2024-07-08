@@ -31,6 +31,11 @@ struct VTrie
 	VTrie() : children(91, nullptr) {}
 };
 
+struct HashTable {
+	vector<vector<pair<string, string>>> table;
+	size_t size;
+	int currentLoad = 0;
+};
 
 namespace EV {
 	EVTrie* findWord(EVTrie* root, string& word);
@@ -50,7 +55,7 @@ namespace EE {
 	bool changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EETrie* root, string& word);
 	bool deleteAWord(EETrie* root, string& word);
-	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning);
+	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
 	bool loadRawData(EETrie*& root,string path);
 	bool loadTrieFromFile(EETrie*& root, string path);
 	void saveTrietoFile(EETrie* root, string path);
@@ -69,6 +74,14 @@ namespace VE {
 	bool loadRawData(VTrie*& root,string path);
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
+}
+
+namespace Def {
+	void insertWord(HashTable& ht, const string& word, const string& definition);
+	string findWordMeaning(HashTable& ht, const string& definition);
+	bool loadRawData(HashTable& dictionary, size_t tableSize, const string& filename);
+	void saveHashtable(HashTable& ht, string filename);
+	bool loadHashTable(HashTable& ht, const string& filename);
 }
 
 void handleWString(wstring& s, int row);

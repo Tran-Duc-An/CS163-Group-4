@@ -5,6 +5,7 @@
 #include <locale>
 #include <codecvt>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 string toLowerCase(string& str) {
@@ -415,9 +416,9 @@ EETrie* EE::findWord(EETrie* root, string& word)
 	return current;
 }
 
-bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
+bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning,EETrie*&node)
 {
-	EETrie* node = findWord(root, word);
+	node = findWord(root, word);
 	if (node == 0) return false;
 	meaning = node->definition;
 	return true;
@@ -846,4 +847,144 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	loadVtrie(root, fin);
 	fin.close();
 	return true;
+}
+
+// Function to add word-definition pair to a vector
+void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd) {
+	da.push_back(wd);
+}
+
+// Initialize the hash table
+void initHashTable(HashTable& ht, size_t tableSize) {
+	ht.table.resize(tableSize);
+	ht.size = tableSize;
+}
+
+// Hash function
+size_t hashFunction(const string& key, size_t tableSize) {
+	const size_t FNV_PRIME = 0x00000000811C9DC5;
+	size_t hash = 0;
+	for (char ch : key) {
+		hash = hash * FNV_PRIME ^ ch;
+	}
+	return hash % tableSize;
+}
+
+// Insert word and definition into the hash table
+void Def::insertWord(HashTable& ht, const string& word, const string& definition) {
+	size_t index = hashFunction(definition, ht.size);
+	if (ht.table[index].size() == 0) ht.currentLoad += 1;
+	addWordDefinition(ht.table[index], { word, definition });
+}
+
+// Find the word based on its definition
+string Def::findWordMeaning(HashTable& ht, const string& definition) {
+	size_t index = hashFunction(definition, ht.size);
+	for (const auto& pair : ht.table[index]) {
+		if (pair.second == definition) {
+			return pair.first;
+		}
+	}
+	return "Word not found.";
+}
+
+// Load the dataset into the hash table
+bool Def::loadRawData(HashTable& dictionary, size_t tableSize, const string& filename) {
+	initHashTable(dictionary, tableSize);
+	ifstream file(filename);
+	if (!file.is_open()) {
+		cerr << "Error: Could not open file " << filename << endl;
+		return 0;
+	}
+
+	string line;
+	while (getline(file, line)) {
+		istringstream stream(line);
+		string word, speech, definition;
+		if (getline(stream, word, ',') && getline(stream, speech, ',') && getline(stream, definition)) {
+			Def::insertWord(dictionary, word, definition);
+		}
+	}
+	file.close();
+	return 1;
+}
+
+
+void Def::saveHashtable(HashTable& ht, string filename)
+{
+	fstream o;
+	o.open(filename, ios::binary | ios::out);
+
+	if (!o.is_open())
+	{
+		cout << "Cannot open file";
+		return;
+	}
+	o.write((char*)&ht.size, sizeof(ht.size));
+	o.write((char*)&ht.currentLoad, sizeof(int));
+
+	for (int i = 0; i < ht.size; i++)
+	{
+		int row_size = ht.table[i].size();
+		if (row_size != 0)
+		{
+			o.write((char*)&i, sizeof(i));
+			o.write((char*)&row_size, sizeof(int));
+			for (int j = 0; j < row_size; j++)
+			{
+				int length = 0;
+				length = ht.table[i][j].first.length();
+				o.write((char*)&length, sizeof(length));
+				o.write((char*)ht.table[i][j].first.c_str(), length);
+
+				length = ht.table[i][j].second.length();
+				o.write((char*)&length, sizeof(length));
+				o.write((char*)ht.table[i][j].second.c_str(), length);
+			}
+		}
+	}
+}
+bool Def::loadHashTable(HashTable& ht, const string& filename) {
+
+
+	ifstream in(filename, ios::binary);
+	if (!in.is_open()) {
+		cerr << "Error: Could not open file " << filename << endl;
+		return 0; // Return empty hash table on error
+	}
+
+	// Read table size and current load
+	in.read((char*)&ht.size, sizeof(ht.size));
+	in.read((char*)&ht.currentLoad, sizeof(int));
+
+	// Resize the hash table based on the loaded size
+	ht.table.resize(ht.size);
+
+	for (int i = 0; i < ht.currentLoad; i++)
+	{
+		int index = 0, row_size = 0;
+		in.read((char*)&index, sizeof(int));
+		in.read((char*)&row_size, sizeof(int));
+
+		for (int j = 0; j < row_size; j++)
+		{
+			int length = 0;
+			in.read((char*)&length, sizeof(int));
+			char* word = new char[length + 1];
+			in.read(word, length);
+			word[length] = '\0';
+
+			in.read((char*)&length, sizeof(int));
+			char* def = new char[length + 1];
+			in.read(def, length);
+			def[length] = '\0';
+
+			ht.table[index].push_back({ word,def });
+			delete[]word;
+			delete[]def;
+		}
+
+	}
+	in.close();
+	return 1;
 }

@@ -29,6 +29,9 @@ Button deleteButton(349, 600, "Image/deleteButton.png");
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
 
+Button heartKeyButton(45, 715, "Image/heart.png");
+Button deleteKeyButton(180, 715, "Image/deleteButton.png");
+
 InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
 InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
 
@@ -56,9 +59,11 @@ AnswerButton D(849, 616, "Image/answerBox.png");
 sf::Font font;
 vector<wstring> transDef;
 vector<string> searchDef;
+
 EVTrie* rootEtoV = new EVTrie();
 EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
+HashTable rootDtoE;
 
 int page = 0;
 int orderDef = 0;
@@ -67,7 +72,7 @@ bool searchFlag = 0;
 bool transType = 0;
 bool searchingType = 0;
 int addingType = 0;
-bool isLiked = 0;
+int qnaType = 0;
 
 void handleWString(wstring& s, int row) {
 	int end = 0;
@@ -205,7 +210,6 @@ void translating() {
 				orderDef = 0;
 			}
 			if (heartButton.isClicked(window, event)) {
-				isLiked = 1 - isLiked;
 				if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
 			}
 			if (deleteButton.isClicked(window, event)) {
@@ -222,30 +226,12 @@ void translating() {
 			inputENBox.isClicked(window, event);
 			if (translateEN.isClicked(window, event, transWord, inputENBox.text)) {
 				transDef.clear();
-				if (!EV::findWordMeaning(rootEtoV, transWord, transDef,nodeE)) transDef.push_back(L"No definition");
-				else {
-					if (nodeE->isLiked == 1) {
-						heartButton.texture.loadFromFile("Image/heartHover.png");
-						if (heartButton.isClicked(window, event)) {
-							nodeE->isLiked = 0;
-							heartButton.texture.loadFromFile("Image/heart.png");
-						}
-					}
-					else {
-						heartButton.texture.loadFromFile("Image/heart.png");
-						if (heartButton.isClicked(window, event)) {
-							nodeE->isLiked = 1;
-							heartButton.texture.loadFromFile("Image/heartHover.png");
-						}
-					}
-
-				}
-				if (heartButton.isClicked(window, event)) {
-					isLiked = 1 - isLiked;
-					if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
-				}
 				translateFlag = 1;
 				orderDef = 0;
+				if (!EV::findWordMeaning(rootEtoV, transWord, transDef,nodeE)) transDef.push_back(L"No definition");
+			}
+			if (heartButton.isClicked(window, event)) {
+				if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
 			}
 			if (deleteButton.isClicked(window, event)) {
 				EV::deleteAWord(rootEtoV, transWord);
@@ -266,11 +252,11 @@ void translating() {
 		if (translateFlag == 1) {
 			displayWDef(870, 300, transDef[orderDef], 30);
 		}
-		if (isLiked == 0) {
+		if (nodeV!=nullptr && nodeV->isLiked == 0) {
 			heartButton.texture.loadFromFile("Image/heart.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
-		else {
+		else if (nodeV!=nullptr && nodeV->isLiked == 1) {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
@@ -283,11 +269,11 @@ void translating() {
 		if (translateFlag == 1) {
 			displayWDef(870, 300, transDef[orderDef], 30);
 		}
-		if (isLiked == 0) {
+		if (nodeE!=nullptr && nodeE->isLiked == 0) {
 			heartButton.texture.loadFromFile("Image/heart.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
-		else {
+		else if (nodeE!=nullptr && nodeE->isLiked == 1) {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
@@ -311,6 +297,10 @@ void translating() {
 	backButton.draw(window);
 }
 
+EETrie* nodeEE = nullptr;
+std::string def = "";
+std::string word = "";
+
 void search() {
 	sf::Texture layout2;
 	if (searchingType == 0) {
@@ -328,7 +318,7 @@ void search() {
 	sprite.setTexture(layout2);
 	sprite.setPosition(0, 0);
 	window.draw(sprite);
-	std::string words;
+
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
@@ -339,22 +329,37 @@ void search() {
 		if (searchDefButton.isClicked(window, event)) searchingType = 1;
 
 		if (searchingType == 0) {//Search with keyword
-
+			word = "";
+			def = "";
 			searchKeyBox.isClicked(window, event);
 
-			if (submitSearchKey.isClicked(window, event, words, searchKeyBox.text)) {
+			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 				searchDef.clear();
-				if(!EE::findWordMeaning(rootEtoE, words, searchDef)) searchDef.push_back("No definition");
+				if(!EE::findWordMeaning(rootEtoE, word, searchDef,nodeEE)) searchDef.push_back("No definition");
 				searchFlag = 1;
 				orderDef = 0;
+			}
+
+			if (heartKeyButton.isClicked(window, event)) {
+				if (nodeEE != nullptr) nodeEE->isLiked = 1 - nodeEE->isLiked;
+			}
+			if (deleteKeyButton.isClicked(window, event)) {
+				EE::deleteAWord(rootEtoE, word);
+				inputVNBox.text.setString("");
+				transDef.clear();
+				translateFlag = 0;
 			}
 
 			if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
 			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 		}
-		else {
+		else {//search with definition
+			word = "";
+			def = "";
 			searchDefBox.isClicked(window, event);
-			if (submitSearchKey.isClicked(window, event, words, searchDefBox.text)) std::cout << words;
+			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
+				word = Def::findWordMeaning(rootDtoE, def);
+			}
 		}
 		
 	}
@@ -366,19 +371,43 @@ void search() {
 			backDefButton.draw(window);
 
 			displayDef(650, 100, searchDef[orderDef], 50);
+			if (nodeEE != nullptr && nodeEE->isLiked == 0) {
+				heartKeyButton.texture.loadFromFile("Image/heart.png");
+				heartKeyButton.sprite.setTexture(heartButton.texture);
+			}
+			else if (nodeE != nullptr && nodeE->isLiked == 1) {
+				heartKeyButton.texture.loadFromFile("Image/heartHover.png");
+				heartKeyButton.sprite.setTexture(heartButton.texture);
+			}
+			heartKeyButton.draw(window);
+			deleteKeyButton.draw(window);
+			deleteKeyButton.isHover(window, "Image/deleteHover.png");
 		}
 		
 		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
 		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
+		submitSearchKey.draw(window);
+		submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
 	}
 	else { //search by definition
+		searchDefBox.draw(window);
+		if (searchFlag == 1) {
+			sf::Text voca;
+			voca.setCharacterSize(40);
+			voca.setFont(font);
+			voca.setFillColor(sf::Color::Black);
+			voca.setPosition(775, 45);
+			voca.setString(word);
+			window.draw(voca);
+		}
+
 		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
-		searchDefBox.draw(window);
+		submitSearchDef.draw(window);
+		submitSearchDef.isHover(window, "Image/searchSubmitHover.png");
 	}
 
-	submitSearchKey.draw(window);
-	submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
+	
 
 	if (searchKeyBox.text.getString() == "") searchFlag = 0;
 
@@ -470,6 +499,7 @@ void adding() {
 	inputDef.draw(window);
 	backButton.draw(window);
 }
+
 int posx = 0;
 int posy = 0;
 int answerFlag = 2;
@@ -479,7 +509,25 @@ void QnA() {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page = 0;
 		backButton.isHover(window, "Image/backHover.png");
-		
+
+		//change type of question
+		if (qnaType == 0) {
+			if (VNtoEnButton.isClicked(window, event)) {
+				qnaType = 1;
+			}
+		}
+		else if (qnaType == 1) {
+			if (ENtoVnButton.isClicked(window, event)) {
+				qnaType = 2;
+			}
+		}
+		else {
+			if (ENtoENButton.isClicked(window, event)) {
+				qnaType = 0;
+			}
+		}
+
+		//handle answer button
 		if (A.isClicked(window, event) == 0) {
 			answerFlag = 0;
 			posx = A.xx;
@@ -520,6 +568,20 @@ void QnA() {
 			posx = D.xx;
 			posy = D.yy;
 		}
+
+
+	}
+	if (qnaType == 0) {
+		VNtoEnButton.draw(window);
+		VNtoEnButton.isHover(window,"Image/VNtoENHover.png");
+	}
+	else if (qnaType == 1) {
+		ENtoVnButton.draw(window);
+		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
+	}
+	else if (qnaType == 2) {
+		ENtoENButton.draw(window);
+		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
 	}
 	A.draw(window);
 	B.draw(window);
@@ -608,6 +670,11 @@ bool loadData() {
 	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
 		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	}
+	
+	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
+		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/Definition.bin")) return 0;
+		Def::saveHashtable(rootDtoE, "Dataset / HashTableDef.bin");
 	}
 
 	return 1;

@@ -258,17 +258,26 @@ void InputDef::draw(sf::RenderWindow& window) {
 }
 
 
-AnswerButton::AnswerButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
-	handleWString(content, 20);
-	text.setString(content);
+AnswerButton::AnswerButton(int x, int y, std::string imagePath,int r) :Button(x, y, imagePath) {
 	xx = x;
 	yy = y;
+	row = r;
 }
 
 void AnswerButton::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
+	sf::Text text;
+	handleWString(content, row);
+	text.setString(content);
+	text.setCharacterSize(30);
+	sf::Font font;
+	if (!font.loadFromFile("Font/ARIAL.TTF"));
+	text.setFont(font);
+	text.setPosition(xx + 10, yy + 10);
+	text.setFillColor(sf::Color::Black);
 	window.draw(text);
 }
+
 
 int AnswerButton::isClicked(sf::RenderWindow& window, sf::Event event) {
 	if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {

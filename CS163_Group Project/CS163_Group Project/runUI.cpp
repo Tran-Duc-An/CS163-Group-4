@@ -32,6 +32,9 @@ Button searchDefButton(98, 237, "Image/searchDef.png");
 Button heartKeyButton(45, 715, "Image/heart.png");
 Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 
+Button guessByKey(95, 28, "Image/guessByKey.png");
+Button guessByDef(95, 28, "Image/guessByDef.png");
+
 InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
 InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
 
@@ -50,10 +53,15 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition");
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
-AnswerButton A(209, 442, "Image/answerBox.png");
-AnswerButton B(209, 616, "Image/answerBox.png");
-AnswerButton C(849, 442, "Image/answerBox.png");
-AnswerButton D(849, 616, "Image/answerBox.png");
+AnswerButton A(209, 442, "Image/answerKeyBox.png",20);
+AnswerButton B(209, 616, "Image/answerKeyBox.png",20);
+AnswerButton C(849, 442, "Image/answerKeyBox.png",20);
+AnswerButton D(849, 616, "Image/answerKeyBox.png",20);
+
+AnswerButton ADef(102, 295, "Image/answerDefBox.png", 40);
+AnswerButton BDef(102, 543, "Image/answerDefBox.png", 40);
+AnswerButton CDef(804, 295, "Image/answerDefBox.png", 40);
+AnswerButton DDef(804, 543, "Image/answerDefBox.png", 40);
 
 
 sf::Font font;
@@ -503,8 +511,105 @@ void adding() {
 int posx = 0;
 int posy = 0;
 int answerFlag = 2;
-
+bool guessType = 0;
+void handleKeyAnswer() {
+	if (A.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = A.xx;
+		posy = A.yy;
+	}
+	else if (A.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = A.xx;
+		posy = A.yy;
+	}
+	else if (B.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = B.xx;
+		posy = B.yy;
+	}
+	else if (B.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = B.xx;
+		posy = B.yy;
+	}
+	else if (C.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = C.xx;
+		posy = C.yy;
+	}
+	else if (C.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = C.xx;
+		posy = C.yy;
+	}
+	else if (D.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = D.xx;
+		posy = D.yy;
+	}
+	else if (D.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = D.xx;
+		posy = D.yy;
+	}
+}
+void handleDefAnswer() {
+	if (ADef.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = ADef.xx;
+		posy = ADef.yy;
+	}
+	else if (ADef.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = ADef.xx;
+		posy = ADef.yy;
+	}
+	else if (BDef.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = BDef.xx;
+		posy = BDef.yy;
+	}
+	else if (BDef.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = BDef.xx;
+		posy = BDef.yy;
+	}
+	else if (CDef.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = CDef.xx;
+		posy = CDef.yy;
+	}
+	else if (CDef.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = CDef.xx;
+		posy = CDef.yy;
+	}
+	else if (DDef.isClicked(window, event) == 0) {
+		answerFlag = 0;
+		posx = DDef.xx;
+		posy = DDef.yy;
+	}
+	else if (DDef.isClicked(window, event) == 1) {
+		answerFlag = 1;
+		posx = DDef.xx;
+		posy = DDef.yy;
+	}
+}
 void QnA() {
+	sf::Texture questionLayout;
+	sf::Sprite qSprite;
+	qSprite.setPosition(95, 105);
+	questionLayout.setSmooth(1);
+	if (guessType == 0) {
+		if (!questionLayout.loadFromFile("Image/askDefBox.png")) return;
+	}
+	else {
+		if (!questionLayout.loadFromFile("Image/askKeyBox.png")) return;
+	}
+	qSprite.setTexture(questionLayout);
+	window.draw(qSprite);
+
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page = 0;
@@ -526,47 +631,13 @@ void QnA() {
 				qnaType = 0;
 			}
 		}
-
-		//handle answer button
-		if (A.isClicked(window, event) == 0) {
-			answerFlag = 0;
-			posx = A.xx;
-			posy = A.yy;
+		if (guessType == 0) {
+			if (guessByDef.isClicked(window, event)) guessType = 1;
+			handleKeyAnswer();
 		}
-		else if (A.isClicked(window, event) == 1){
-			answerFlag = 1;
-			posx = A.xx;
-			posy = A.yy;
-		}		
-		else if (B.isClicked(window, event) == 0) {
-			answerFlag = 0;
-			posx = B.xx;
-			posy = B.yy;
-		}
-		else if (B.isClicked(window, event) == 1) {
-			answerFlag = 1;
-			posx = B.xx;
-			posy = B.yy;
-		}		
-		else if (C.isClicked(window, event) == 0) {
-			answerFlag = 0;
-			posx = C.xx;
-			posy = C.yy;
-		}
-		else if (C.isClicked(window, event) == 1) {
-			answerFlag = 1;
-			posx = C.xx;
-			posy = C.yy;
-		}
-		else if (D.isClicked(window, event) == 0) {
-			answerFlag = 0;
-			posx = D.xx;
-			posy = D.yy;
-		}
-		else if (D.isClicked(window, event) == 1) {
-			answerFlag = 1;
-			posx = D.xx;
-			posy = D.yy;
+		else {
+			if (guessByKey.isClicked(window, event)) guessType = 0;
+			handleDefAnswer();
 		}
 
 
@@ -583,29 +654,63 @@ void QnA() {
 		ENtoENButton.draw(window);
 		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
 	}
-	A.draw(window);
-	B.draw(window);
-	C.draw(window);
-	D.draw(window);
 
-	if (answerFlag == 0) {
-		sf::Texture wrong;
-		if (wrong.loadFromFile("Image/wrong.png")) {
-			sf::Sprite sprite;
-			sprite.setTexture(wrong);
-			sprite.setPosition(posx + 350, posy + 65);
-			window.draw(sprite);
+	if (guessType == 0) {
+		guessByDef.draw(window);
+		guessByDef.isHover(window, "Image/guessByDefHover.png");
+		A.draw(window);
+		B.draw(window);
+		C.draw(window);
+		D.draw(window);
+
+		if (answerFlag == 0) {
+			sf::Texture wrong;
+			if (wrong.loadFromFile("Image/wrong.png")) {
+				sf::Sprite sprite;
+				sprite.setTexture(wrong);
+				sprite.setPosition(posx + 350, posy + 65);
+				window.draw(sprite);
+			}
+		}
+		else if (answerFlag == 1) {
+			sf::Texture correct;
+			if (correct.loadFromFile("Image/tick.png")) {
+				sf::Sprite sprite;
+				sprite.setTexture(correct);
+				sprite.setPosition(posx + 350, posy + 65);
+				window.draw(sprite);
+			}
 		}
 	}
-	else if (answerFlag == 1) {
-		sf::Texture correct;
-		if (correct.loadFromFile("Image/tick.png")) {
-			sf::Sprite sprite;
-			sprite.setTexture(correct);
-			sprite.setPosition(posx + 350, posy + 65);
-			window.draw(sprite);
+	else {
+		guessByKey.draw(window);
+		guessByKey.isHover(window, "Image/guessByKeyHover.png");
+		ADef.draw(window);
+		BDef.draw(window);
+		CDef.draw(window);
+		DDef.draw(window);
+
+		if (answerFlag == 0) {
+			sf::Texture wrong;
+			if (wrong.loadFromFile("Image/wrong.png")) {
+				sf::Sprite sprite;
+				sprite.setTexture(wrong);
+				sprite.setPosition(posx + 600, posy + 250);
+				window.draw(sprite);
+			}
+		}
+		else if (answerFlag == 1) {
+			sf::Texture correct;
+			if (correct.loadFromFile("Image/tick.png")) {
+				sf::Sprite sprite;
+				sprite.setTexture(correct);
+				sprite.setPosition(posx + 600, posy + 250);
+				window.draw(sprite);
+			}
 		}
 	}
+
+	
 }
 
 void homePage() {

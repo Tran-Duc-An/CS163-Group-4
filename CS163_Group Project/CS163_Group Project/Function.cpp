@@ -6,6 +6,7 @@
 #include <codecvt>
 #include <iostream>
 #include <sstream>
+#include <random>
 using namespace std;
 
 string toLowerCase(string& str) {
@@ -615,6 +616,91 @@ void EE::deleteTrie(EETrie*& root)
 	root = nullptr;
 }
 
+void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EE::randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+
+
 // Vietnamese to English dictionary
 short int map[7930];
 short int reverseMap[91];
@@ -848,6 +934,9 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	fin.close();
 	return true;
 }
+
+
+
 
 // Function to add word-definition pair to a vector
 void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd) {

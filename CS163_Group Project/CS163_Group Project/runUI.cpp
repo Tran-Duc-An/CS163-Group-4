@@ -5,6 +5,10 @@
 #include <chrono>
 #include <io.h>
 #include <fcntl.h>
+#include <locale>
+#include <codecvt>
+#include <cstdlib>
+
 sf::RenderWindow window(sf::VideoMode(1500,800), "Dictionary");
 sf::Event event;
 sf::View view = window.getView();
@@ -34,6 +38,8 @@ Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 
 Button guessByKey(95, 28, "Image/guessByKey.png");
 Button guessByDef(95, 28, "Image/guessByDef.png");
+
+Button nextQuestion(1342, 170, "Image/nextButton.png");
 
 InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
 InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
@@ -512,6 +518,24 @@ int posx = 0;
 int posy = 0;
 int answerFlag = 2;
 bool guessType = 0;
+std::string rightWord;
+std::string wrongWord1;
+std::string wrongWord2;
+std::string wrongWord3;
+
+vector<string> rightDef;
+vector<string> wrongDef1;
+vector<string> wrongDef2;
+vector<string> wrongDef3;
+
+
+std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+std::wstring wrightWord;
+std::wstring wrightDef;
+
+vector<std::wstring> ansWord;
+vector<std::wstring> ansDef;
+
 void handleKeyAnswer() {
 	if (A.isClicked(window, event) == 0) {
 		answerFlag = 0;
@@ -596,6 +620,46 @@ void handleDefAnswer() {
 		posy = DDef.yy;
 	}
 }
+bool rangeRandom[4] = { 1,1,1,1 };
+int getRandom(int min, int max) {
+	return min + (int)(rand() * (max - min + 1.0) / (1.0 + RAND_MAX));
+}
+
+void randomKeyAnswer(vector<std::wstring> ansWord, int k) {
+	if (k < 0) return;
+	int rand = getRandom(0, 3);
+	while (rangeRandom[rand] != 1)
+			getRandom(0, 3);
+	rangeRandom[rand] = 0;
+	rand++;
+
+	if (rand == 1) {
+		A.content = ansWord[k];
+		if (k == 0)
+			A.isRightAnswer = 1;
+		else A.isRightAnswer = 0;
+	}
+	else if (rand == 2) {
+		B.content = ansWord[k];
+		if (k == 0)
+			B.isRightAnswer = 1;
+		else B.isRightAnswer = 0;
+	}
+	else if (rand == 3) {
+		C.content = ansWord[k];
+		if (k == 0)
+			C.isRightAnswer = 1;
+		else C.isRightAnswer = 0;
+	}
+	else if (rand == 4) {
+		D.content = ansWord[k];
+		if (k == 0)
+			D.isRightAnswer = 1;
+		else D.isRightAnswer = 0;
+	}
+	randomKeyAnswer(ansWord, k--);
+}
+
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
@@ -609,7 +673,6 @@ void QnA() {
 	}
 	qSprite.setTexture(questionLayout);
 	window.draw(qSprite);
-
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page = 0;
@@ -625,12 +688,22 @@ void QnA() {
 			if (ENtoVnButton.isClicked(window, event)) {
 				qnaType = 2;
 			}
+
+			EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
+			EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
 		}
 		else {
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
 			}
+			if (nextQuestion.isClicked(window, event)) {
+				if (guessType == 1)
+					EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
+				else
+					EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
+			}
 		}
+
 		if (guessType == 0) {
 			if (guessByDef.isClicked(window, event)) guessType = 1;
 			handleKeyAnswer();
@@ -650,14 +723,40 @@ void QnA() {
 		ENtoVnButton.draw(window);
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 	}
-	else if (qnaType == 2) {
+	else if (qnaType == 2) {//Eng to Eng
 		ENtoENButton.draw(window);
 		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
+
+		if (guessType == 1) {
+			wrightWord = converter.from_bytes(rightWord);
+			ansDef.push_back(converter.from_bytes(rightDef[0]));
+			ansDef.push_back(converter.from_bytes(wrongDef1[0]));
+			ansDef.push_back(converter.from_bytes(wrongDef2[0]));
+			ansDef.push_back(converter.from_bytes(wrongDef3[0]));
+		}
+		else {
+			wrightDef = converter.from_bytes(rightDef[0]);
+			ansWord.push_back(converter.from_bytes(rightWord));
+			ansWord.push_back(converter.from_bytes(wrongWord1));
+			ansWord.push_back(converter.from_bytes(wrongWord2));
+			ansWord.push_back(converter.from_bytes(wrongWord3));
+		}
 	}
 
+	sf::Text text;
+	text.setFont(font);
+	text.setCharacterSize(30);
+	text.setFillColor(sf::Color::Black);
+	text.setPosition(100, 110);
+	
 	if (guessType == 0) {
 		guessByDef.draw(window);
 		guessByDef.isHover(window, "Image/guessByDefHover.png");
+
+		text.setString(wrightDef);
+		window.draw(text);
+
+		randomKeyAnswer(ansWord, 3);
 		A.draw(window);
 		B.draw(window);
 		C.draw(window);
@@ -685,6 +784,11 @@ void QnA() {
 	else {
 		guessByKey.draw(window);
 		guessByKey.isHover(window, "Image/guessByKeyHover.png");
+
+		text.setString(rightWord);
+		window.draw(text);
+
+
 		ADef.draw(window);
 		BDef.draw(window);
 		CDef.draw(window);
@@ -710,7 +814,8 @@ void QnA() {
 		}
 	}
 
-	
+	nextQuestion.draw(window);
+	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
 
 void homePage() {
@@ -764,15 +869,15 @@ bool loadData() {
 	window.draw(loading);
 	window.display();
 
-	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+	/*if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
 		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}
+	}*/
 	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+	/*if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
 		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	}
@@ -780,7 +885,7 @@ bool loadData() {
 	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
 		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/Definition.bin")) return 0;
 		Def::saveHashtable(rootDtoE, "Dataset / HashTableDef.bin");
-	}
+	}*/
 
 	return 1;
 }
@@ -788,7 +893,7 @@ bool loadData() {
 int run() {
 	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
-	//if (!loadData()) return 0;
+	if (!loadData()) return 0;
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)

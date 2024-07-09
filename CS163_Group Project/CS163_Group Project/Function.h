@@ -60,6 +60,11 @@ namespace EE {
 	bool loadTrieFromFile(EETrie*& root, string path);
 	void saveTrietoFile(EETrie* root, string path);
 	void deleteTrie(EETrie*& root);
+	void getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition);
+	void randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3);
+	void randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
+
+
 }
 
 

@@ -103,6 +103,7 @@ int main()
 }
 */
 
+/* 
 int main()
 {
 	trie* root = new trie();
@@ -156,8 +157,10 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
+*/
 
-/*
+
+
 int main()
 {
 	trie* root = new trie();
@@ -175,24 +178,59 @@ int main()
 	loadTrie(root, fin);
 	auto end = chrono::high_resolution_clock::now();
 	cout << "Time taken to load data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
-	string word;
+	list<string> favWords;
+	// load favorite words
+	loadFavWord(favWords);
 	// test function to save favorite words
-	cout << "Enter a word to save as favorite: ";
-	getline(cin, word);
+	string word;
+	vector<string> definition;
+	while (1)
+	{
+		cout << "Enter a word: ";
+		getline(cin, word);
+		if (word == "exit") break;
 
-	if (saveFavWord(word, root))
-	{
-		cout << "Word saved as favorite\n";
+		start = chrono::high_resolution_clock::now();
+		if (findWordMeaning(root, word, definition))
+		{
+			end = chrono::high_resolution_clock::now();
+			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+			int i = 0;
+			for (string& str : definition)
+			{
+				cout << "Meaning " << ++i << ":" << " ";
+				cout << str << endl;
+			}
+		}
+		else
+		{
+			cout << "Word not found\n";
+		}
+		bool option;
+		cout << "Enter 1 to mark this word as favorite, 0 to skip: ";
+		cin >> option;
+		cin.ignore();
+		if (option)
+		{
+			likeAWord(favWords, word, root);
+		}
 	}
-	else
+
+	// test function to unlike a word
+	cout << "These are your favorite words\n";
+	for (string& str : favWords)
 	{
-		cout << "Word not found\n";
+		cout << str << endl;
 	}
+	cout << "Enter a word to unlike: ";
+	getline(cin, word);
+	unlikeAWord(favWords, word, root);
+	// save favorite words
+	saveFavWord(favWords, root);
 	deleteTrie(root);
 	return 0;
-
 }
-*/
+
 
 /* 
 int main()
@@ -322,3 +360,84 @@ int main()
 	return 0;
 }
 */ 
+/* 
+int main()
+{
+	trie* root = new trie();
+	auto start = chrono::high_resolution_clock::now();
+	if (!loadRawData(root))
+	{
+		cout << "Failed to load data\n";
+		return 0;
+	}
+	auto end = chrono::high_resolution_clock::now();
+	cout << "Time taken to load raw data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
+	string word;
+	vector<string> definition;
+	while (true)
+	{
+		// Searching word
+		cout << "\nLet's search for a word!\n";
+		cout << "Enter a word: ";
+		getline(cin, word);
+		if (findWordMeaning(root, word, definition))
+		{
+			int i = 0;
+			for (string& str : definition)
+			{
+				cout << "Meaning " << ++i << ":" << " ";
+				cout << str << endl;
+			}
+		}
+		else
+			cout << "Word not found\n";
+
+		// Random a word and 4 definitions
+		cout << "\nLet's do a Vocabulary test!\n";
+		string rightWord;
+		vector<string> rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
+		randomAWordAnd4Definitions(root, rightWord, rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3);
+		cout << "Here is the word: " << rightWord << "\n";
+		cout << "Here are 4 definitions, choose the most correct definition for the word '" << rightWord << "'\n";
+		cout << "A. " << wrongDefinition1[0] << "\n";
+		cout << "B. " << wrongDefinition2[0] << "\n";
+		cout << "C. " << rightDefinition[0] << "\n";
+		cout << "D. " << wrongDefinition3[0] << "\n";
+		cout << "Your answer (A/B/C/D): ";
+		string answer;
+		cin >> answer;
+		if (answer == "C")
+			cout << "\nCorrect!\n";
+		else cout << "\nWrong!\n";
+
+		// Random a definition and 4 words
+		cout << "\nLet's do another Vocabulary test!\n";
+		vector<string> rightDefinitionN;
+		string rightWordN, wrongWord1N, wrongWord2N, wrongWord3N;
+		randomADefinitionAnd4Words(root, rightDefinitionN, rightWordN, wrongWord1N, wrongWord2N, wrongWord3N);
+		cout << "Here is the definition: " << rightDefinitionN[0] << "\n";
+		cout << "Here are 4 words, choose the most correct word for the definition above\n";
+		cout << "A. " << wrongWord1N << "\n";
+		cout << "B. " << wrongWord2N << "\n";
+		cout << "C. " << rightWordN << "\n";
+		cout << "D. " << wrongWord3N << "\n";
+		cout << "Your answer (A/B/C/D): ";
+		string answerN;
+		cin >> answerN;
+		if (answerN == "C")
+			cout << "\nCorrect!\n";
+		else cout << "\nWrong!\n";
+
+		// Exit the program
+		cout << "\nDo you want to exit the dictionary? (Y/N): ";
+		bool wantToExit = 0;
+		cout << "Enter 1 to exit, 0 to continue: ";
+		cin >> wantToExit;
+		if (wantToExit)
+			break;
+	}
+	cout << "\nThanks for using the dictionary!\n";
+	deleteTrie(root);
+	return 0;
+}
+*/

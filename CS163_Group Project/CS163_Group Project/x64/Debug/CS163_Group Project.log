@@ -1,6 +1,7 @@
 ﻿  functions.cpp
-C:\Users\thinh\OneDrive\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\functions.cpp(114,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\thinh\OneDrive\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\functions.cpp(118,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(123,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(564,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(568,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
   main.cpp
   Generating Code...
-  CS163_Group Project.vcxproj -> C:\Users\thinh\OneDrive\Documents\GitHub\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe
+  CS163_Group Project.vcxproj -> C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe

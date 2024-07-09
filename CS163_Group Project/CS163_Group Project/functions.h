@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <list>
 #include <cstdlib>
 #include <io.h>
 #include <fcntl.h>
@@ -10,7 +11,7 @@
 #include <fstream>
 #include <cstring>
 #include <chrono>
-
+#include <random>
 using namespace std;
 
 struct trie 
@@ -47,9 +48,15 @@ void deleteTrie(trie*& root);
 void helperDeleteAWord(trie* root, string& word);
 bool deleteAWord(trie* root, string& word);
 bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
-bool saveFavWord(string word, trie* wordNode);
-bool addToHistory(string word, trie* root);
+bool loadFavWord(list<string>& favWords);
+void likeAWord(list<string>& favWords, string word, trie* root);
+void unlikeAWord(list<string>& favWords, string word, trie* root);
+bool saveFavWord(list<string>& favWords, trie* root);
 
+bool addToHistory(string word, trie* root);
+void getWordByIndex(trie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition);
+void randomAWordAnd4Definitions(trie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3);
+void randomADefinitionAnd4Words(trie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
 // VE functions
 wstring VToLower(wstring&str);
 void fillMap();
@@ -60,7 +67,7 @@ void VDeleteTrie(Vtrie*& root);
 bool VloadRawData(Vtrie*& root);
 void saveVtrie(Vtrie* root, wofstream& fout);
 void loadVtrie(Vtrie*& root, wifstream& fin);
-void helperDeleteAWord(Vtrie* root, wstring& word);
+void VHelperDeleteAWord(Vtrie* root, wstring& word);
 bool VDeleteAWord(Vtrie* root, wstring& word);
 bool VChangeWordDefinition(Vtrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
 

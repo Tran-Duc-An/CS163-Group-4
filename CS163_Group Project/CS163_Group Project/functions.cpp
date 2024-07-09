@@ -116,7 +116,7 @@ bool findWordMeaning(trie* root, string& word, vector<string>& meaning)
 // save trie but use short int instead of int
 void saveTrie(trie* root, ofstream& fout)
 {
-	short int numDefinitions = root->definition.size();
+	short int numDefinitions = (short int) root->definition.size();
 	fout.write((char*)&numDefinitions, sizeof(short int));
 	for (string& str : root->definition)
 	{
@@ -277,7 +277,7 @@ bool deleteAWord(trie* root, string& word)
 	// if the node is leaf node, we have to call a helper function to delete it from its parent's children array
 	if (node->numChildren == 0)
 	{
-		void helperDeleteAWord(trie * root, string& word);
+		void helperDeleteAWord(trie * root, string & word);
 	}
 	else
 	{
@@ -286,25 +286,58 @@ bool deleteAWord(trie* root, string& word)
 	}
 	return true;
 }
+bool loadFavWord(list<string>& favWords)
+{
+	ifstream fin;
+	fin.open("Dataset\\favEngToEngWords.csv");
+	if (!fin.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	while(!fin.eof())
+	{
+		string word;
+		getline(fin, word, ',');
+		if (word.empty()) break;
+		favWords.push_back(word);
+		getline(fin, word, '\n');
+	}
+	fin.close();
+	return true;
+}
 
-bool saveFavWord(string word, trie* root)
+void likeAWord(list<string>& favWords, string word, trie* root)
 {
 	trie* wordNode = findWord(root, word);
-	if (wordNode->isLiked) return false;
 	wordNode->isLiked = true;
+	favWords.push_back(word);
+}
+void unlikeAWord(list<string>& favWords, string word, trie* root)
+{
+	trie* wordNode = findWord(root, word);
+	wordNode->isLiked = false;
+	favWords.remove(word);
+}
+bool saveFavWord(list<string>& favWords, trie* root)
+{
 	ofstream fout;
-	fout.open("Dataset\\favEngToEngWords.csv", ios::app);
+	fout.open("Dataset\\favEngToEngWords.csv");
 	if (!fout.is_open())
 	{
 		cout << "File not found\n";
 		return false;
 	}
-	fout << word << ",";
-	for (string& str : wordNode->definition)
+	for (string& str : favWords)
 	{
 		fout << str << ",";
+		trie* wordNode = findWord(root, str);
+		for (string& str : wordNode->definition)
+		{
+			fout << str << ",";
+		}
+		fout << "\n";
 	}
-	fout << "\n";
 	fout.close();
 	return true;
 }
@@ -327,6 +360,92 @@ bool addToHistory(string word, trie* root)
 	fout << "\n";
 	fout.close();
 	return true;
+}
+
+
+void getWordByIndex(trie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+
+void randomAWordAnd4Definitions(trie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void randomADefinitionAnd4Words(trie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	vector<string> wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 
 // Viet-Eng dictionary

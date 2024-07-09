@@ -56,6 +56,9 @@ namespace EV
 	void insertWord(EVTrie*& root, string& word, wstring& definition);
 	EVTrie* findWord(EVTrie* root, string& word);
 	bool findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EVTrie*& node);
+	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);
+	void randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
+	void randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
 	void helperDeleteAWord(EVTrie* root, string& word);
 	bool deleteAWord(EVTrie* root, string& word);
 	void deleteTrie(EVTrie* root);
@@ -71,9 +74,9 @@ namespace EE
 	EETrie* findWord(EETrie* root, string& word);
 	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning);
 	bool changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
-	void getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition);
-	void randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3);
-	void randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
+	void getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition);
+	void randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3);
+	void randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
 	void helperDeleteAWord(EETrie* root, string& word);
 	bool deleteAWord(EETrie* root, string& word);
 	void deleteTrie(EETrie*& root);
@@ -91,9 +94,9 @@ namespace VE
 	VTrie* findWord(VTrie* root, wstring& word);
 	bool findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node);
 	bool changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
-	void getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, vector<wstring>& resultDefinition);
-	void randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, vector<wstring>& rightDefinition, vector<wstring>& wrongDefinition1, vector<wstring>& wrongDefinition2, vector<wstring>& wrongDefinition3);
-	void randomADefinitionAnd4Words(VTrie* root, vector<wstring>& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
+	void getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition);
+	void randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
+	void randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
 	void helperDeleteAWord(VTrie* root, wstring& word);
 	bool deleteAWord(VTrie* root, wstring& word);
 	void deleteTrie(VTrie*& root);

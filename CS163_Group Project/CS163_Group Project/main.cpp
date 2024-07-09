@@ -34,14 +34,14 @@ int main()
 		// Random a word and 4 definitions
 		cout << "\nLet's do a Vocabulary test!\n";
 		string rightWord;
-		vector<string> rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
+		string rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
 		EE::randomAWordAnd4Definitions(root, rightWord, rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3);
 		cout << "Here is the word: " << rightWord << "\n";
 		cout << "Here are 4 definitions, choose the most correct definition for the word '" << rightWord << "'\n";
-		cout << "A. " << wrongDefinition1[0] << "\n";
-		cout << "B. " << wrongDefinition2[0] << "\n";
-		cout << "C. " << rightDefinition[0] << "\n";
-		cout << "D. " << wrongDefinition3[0] << "\n";
+		cout << "A. " << wrongDefinition1 << "\n";
+		cout << "B. " << wrongDefinition2 << "\n";
+		cout << "C. " << rightDefinition << "\n";
+		cout << "D. " << wrongDefinition3 << "\n";
 		cout << "Your answer (A/B/C/D): ";
 		string answer;
 		cin >> answer;
@@ -51,10 +51,10 @@ int main()
 
 		// Random a definition and 4 words
 		cout << "\nLet's do another Vocabulary test!\n";
-		vector<string> rightDefinitionN;
+		string rightDefinitionN;
 		string rightWordN, wrongWord1N, wrongWord2N, wrongWord3N;
 		EE::randomADefinitionAnd4Words(root, rightDefinitionN, rightWordN, wrongWord1N, wrongWord2N, wrongWord3N);
-		cout << "Here is the definition: " << rightDefinitionN[0] << "\n";
+		cout << "Here is the definition: " << rightDefinitionN << "\n";
 		cout << "Here are 4 words, choose the most correct word for the definition above\n";
 		cout << "A. " << wrongWord1N << "\n";
 		cout << "B. " << wrongWord2N << "\n";
@@ -117,14 +117,14 @@ int main()
 //		// Ngẫu nhiên một từ và 4 định nghĩa
 //		wcout << L"\nHãy cùng làm một bài tập từ vựng nhé!\n";
 //		wstring rightWord;
-//		vector<wstring> rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
+//		wstring rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
 //		VE::randomAWordAnd4Definitions(root, rightWord, rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3);
 //		wcout << L"Đây là từ: " << rightWord << "\n";
 //		wcout << L"Sau đây là 4 định nghĩa, hãy chọn định nghĩa đúng nhất với từ '" << rightWord << "'\n";
-//		wcout << L"A. " << wrongDefinition1[0] << "\n";
-//		wcout << L"B. " << wrongDefinition2[0] << "\n";
-//		wcout << L"C. " << rightDefinition[0] << "\n";
-//		wcout << L"D. " << wrongDefinition3[0] << "\n";
+//		wcout << L"A. " << wrongDefinition1 << "\n";
+//		wcout << L"B. " << wrongDefinition2 << "\n";
+//		wcout << L"C. " << rightDefinition << "\n";
+//		wcout << L"D. " << wrongDefinition3 << "\n";
 //		wcout << L"Đáp án của bạn (A/B/C/D): ";
 //		wstring answer;
 //		wcin >> answer;
@@ -134,10 +134,10 @@ int main()
 //
 //		// Ngẫu nhiên một định nghĩa và 4 từ
 //		wcout << L"\nHãy cùng làm một bài tập khác!\n";
-//		vector<wstring> rightDefinitionN;
+//		wstring rightDefinitionN;
 //		wstring rightWordN, wrongWord1N, wrongWord2N, wrongWord3N;
 //		VE::randomADefinitionAnd4Words(root, rightDefinitionN, rightWordN, wrongWord1N, wrongWord2N, wrongWord3N);
-//		wcout << L"Đây là định nghĩa: " << rightDefinitionN[0] << "\n";
+//		wcout << L"Đây là định nghĩa: " << rightDefinitionN << "\n";
 //		wcout << L"Sau đây là 4 từ, hãy chọn từ đúng nhất ứng với định nghĩa trên\n";
 //		wcout << L"A. " << wrongWord1N << "\n";
 //		wcout << L"B. " << wrongWord2N << "\n";
@@ -157,5 +157,87 @@ int main()
 //	fout.close();
 //
 //	VE::deleteTrie(root);
+//	return 0;
+//}
+
+// testing Eng-Viet
+
+//int main()
+//{
+//	_setmode(_fileno(stdout), _O_WTEXT);
+//	_setmode(_fileno(stdin), _O_WTEXT);
+//	locale loc = locale(locale(), new codecvt_utf8<wchar_t>);
+//
+//	wcout << L"Đây là từ điển Anh-Việt\n";
+//	EVTrie* root = new EVTrie();
+//	wcout << L"Đang tải dữ liệu từ điển\n";
+//	if (!EV::loadRawData(root, ".\\Dataset\\EVDictionary.csv"))
+//	{
+//		wcout << L"Tải dữ liệu thất bại!\n";
+//		return 0;
+//	}
+//	wcout << L"Tải dữ liệu thành công!\n";
+//	string word;
+//	vector<wstring> definition;
+//	while (continueProgram(1))
+//	{
+//		// Searching word
+//		wcout << L"\nHãy tra từ nào\n";
+//		wcout << L"Nhập một từ tiếng anh: ";
+//		getline(cin, word);
+//		EVTrie* curNode;
+//		if (EV::findWordMeaning(root, word, definition, curNode))
+//		{
+//			int i = 0;
+//			for (wstring& str : definition)
+//			{
+//				wcout << L"Nghĩa " << ++i << ":" << " ";
+//				wcout << str << endl;
+//			}
+//		}
+//		else
+//			wcout << L"Word not found\n";
+//
+//		// Random a word and 4 definitions
+//		wcout << L"\nHãy cùng làm một bài tập từ vựng nhé\n";
+//		string rightWord;
+//		wstring rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3;
+//		EV::randomAWordAnd4Definitions(root, rightWord, rightDefinition, wrongDefinition1, wrongDefinition2, wrongDefinition3);
+//		wcout << L"Đây là từ: ";
+//		cout << rightWord << "\n";
+//		wcout << L"Sau đây là 4 định nghĩa có thể chọn, hãy chọn 1 định nghĩa ứng với từ '";
+//		cout << rightWord << "'\n";
+//		wcout << L"A. " << wrongDefinition1 << "\n";
+//		wcout << L"B. " << wrongDefinition2 << "\n";
+//		wcout << L"C. " << rightDefinition << "\n";
+//		wcout << L"D. " << wrongDefinition3 << "\n";
+//		wcout << L"Đáp án của bạn (A/B/C/D): ";
+//		string answer;
+//		cin >> answer;
+//		if (answer == "C")
+//			wcout << L"\nĐúng!\n";
+//		else wcout << L"\nSai!\n";
+//
+//		// Random a definition and 4 words
+//		wcout << L"\nHãy cùng làm một bài tập từ vựng khác nhé!\n";
+//		wstring rightDefinitionN;
+//		string rightWordN, wrongWord1N, wrongWord2N, wrongWord3N;
+//		EV::randomADefinitionAnd4Words(root, rightDefinitionN, rightWordN, wrongWord1N, wrongWord2N, wrongWord3N);
+//		wcout << L"Đây là định nghĩa cho trước: " << rightDefinitionN << "\n";
+//		wcout << L"Sau đây là 4 từ, hãy chọn 1 từ ứng với định nghĩa trên\n";
+//		cout << "A. " << wrongWord1N << "\n";
+//		cout << "B. " << wrongWord2N << "\n";
+//		cout << "C. " << rightWordN << "\n";
+//		cout << "D. " << wrongWord3N << "\n";
+//		wcout << L"Đáp án của bạn (A/B/C/D): ";
+//		string answerN;
+//		cin >> answerN;
+//		if (answerN == "C")
+//			wcout << L"\nĐúng!\n";
+//		else wcout << L"\nSai!\n";
+//	}
+//	wcout << L"\nCảm ơn đã sử dụng từ điển!\n";
+//	EV::saveTrieToFile(root, ".\\Dataset\\userEVData");
+//	EV::deleteTrie(root);
 //	return 0;
 //}

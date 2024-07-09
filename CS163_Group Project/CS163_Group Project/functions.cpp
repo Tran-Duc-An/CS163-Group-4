@@ -22,8 +22,8 @@ bool continueProgram(int type)
 		wcout << L"\nBạn có muốn tiếp tục chương trình không?\n";
 		wcout << L"Nhập '1' để Đồng ý hoặc '0' để Từ chối\n";
 		wcout << L"Nhập một số: ";
-		wcin >> choice;
-		wcin.ignore();
+		cin >> choice;
+		cin.ignore();
 		if (choice != 1 && choice != 0)
 		{
 			wcout << L"\nBạn đã bỏ qua hướng dẫn, hãy đọc lại hướng dẫn kĩ hơn nhé!\n";
@@ -280,6 +280,89 @@ bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVT
 	if (node == 0) return false;
 	meaning = node->definition;
 	return true;
+}
+void EV::getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void EV::randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 void EV::helperDeleteAWord(EVTrie* root, string& word) {
 
@@ -551,7 +634,7 @@ bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition,
 	return true;
 
 }
-void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition)
+void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition)
 {
 	if (curNode == nullptr)
 		return;
@@ -560,7 +643,7 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 		if (index == 0)
 		{
 			resultWord = currentWord;
-			resultDefinition = curNode->definition;
+			resultDefinition = curNode->definition[0];
 			return;
 		}
 		index--;
@@ -578,7 +661,7 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 		}
 	}
 }
-void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3)
+void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3)
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -606,7 +689,7 @@ void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<stri
 	string wrongWord3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
-void EE::randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -621,17 +704,17 @@ void EE::randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinitio
 	// get wrong word 1
 	randomIndex = dis(gen);
 	currentWord = "";
-	vector<string> wrongDefinition1;
+	string wrongDefinition1;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong word 2
 	randomIndex = dis(gen);
 	currentWord = "";
-	vector<string> wrongDefinition2;
+	string wrongDefinition2;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
-	vector<string> wrongDefinition3;
+	string wrongDefinition3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 void EE::helperDeleteAWord(EETrie* root, string& word)
@@ -882,7 +965,7 @@ bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
 	return true;
 }
-void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, vector<wstring>& resultDefinition)
+void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition)
 {
 	if (curNode == nullptr)
 		return;
@@ -891,7 +974,7 @@ void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstrin
 		if (index == 0)
 		{
 			resultWord = currentWord;
-			resultDefinition = curNode->definition;
+			resultDefinition = curNode->definition[0];
 			return;
 		}
 		index--;
@@ -909,7 +992,7 @@ void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstrin
 		}
 	}
 }
-void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, vector<wstring>& rightDefinition, vector<wstring>& wrongDefinition1, vector<wstring>& wrongDefinition2, vector<wstring>& wrongDefinition3)
+void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -937,7 +1020,7 @@ void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, vector<wstr
 	wstring wrongWord3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
-void VE::randomADefinitionAnd4Words(VTrie* root, vector<wstring>& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3)
+void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3)
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -952,17 +1035,17 @@ void VE::randomADefinitionAnd4Words(VTrie* root, vector<wstring>& rightDefinitio
 	// get wrong word 1
 	randomIndex = dis(gen);
 	currentWord = L"";
-	vector<wstring> wrongDefinition1;
+	wstring wrongDefinition1;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong word 2
 	randomIndex = dis(gen);
 	currentWord = L"";
-	vector<wstring> wrongDefinition2;
+	wstring wrongDefinition2;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = L"";
-	vector<wstring> wrongDefinition3;
+	wstring wrongDefinition3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 void VE::helperDeleteAWord(VTrie* root, wstring& word)

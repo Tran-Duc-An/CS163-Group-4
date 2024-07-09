@@ -51,8 +51,8 @@ struct AnswerButton :Button {
 	std::wstring content;
 	int xx = 0;
 	int yy = 0;
-	int row = 1;
-	AnswerButton(int x, int y, std::string imagePath,int r);
+
+	AnswerButton(int x, int y, std::string imagePath);
 	void draw(sf::RenderWindow& window);
 	int isClicked(sf::RenderWindow& window, sf::Event event);
 };

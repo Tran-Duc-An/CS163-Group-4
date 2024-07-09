@@ -7,8 +7,7 @@
 #include <fcntl.h>
 #include <locale>
 #include <codecvt>
-#include <cstdlib>
-
+#include <random>
 sf::RenderWindow window(sf::VideoMode(1500,800), "Dictionary");
 sf::Event event;
 sf::View view = window.getView();
@@ -59,15 +58,15 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition");
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
-AnswerButton A(209, 442, "Image/answerKeyBox.png",20);
-AnswerButton B(209, 616, "Image/answerKeyBox.png",20);
-AnswerButton C(849, 442, "Image/answerKeyBox.png",20);
-AnswerButton D(849, 616, "Image/answerKeyBox.png",20);
+AnswerButton A(209, 442, "Image/answerKeyBox.png");
+AnswerButton B(209, 616, "Image/answerKeyBox.png");
+AnswerButton C(849, 442, "Image/answerKeyBox.png");
+AnswerButton D(849, 616, "Image/answerKeyBox.png");
 
-AnswerButton ADef(102, 295, "Image/answerDefBox.png", 40);
-AnswerButton BDef(102, 543, "Image/answerDefBox.png", 40);
-AnswerButton CDef(804, 295, "Image/answerDefBox.png", 40);
-AnswerButton DDef(804, 543, "Image/answerDefBox.png", 40);
+AnswerButton ADef(102, 295, "Image/answerDefBox.png");
+AnswerButton BDef(102, 543, "Image/answerDefBox.png");
+AnswerButton CDef(804, 295, "Image/answerDefBox.png");
+AnswerButton DDef(804, 543, "Image/answerDefBox.png");
 
 
 sf::Font font;
@@ -518,6 +517,8 @@ int posx = 0;
 int posy = 0;
 int answerFlag = 2;
 bool guessType = 0;
+
+
 std::string rightWord;
 std::string wrongWord1;
 std::string wrongWord2;
@@ -621,43 +622,126 @@ void handleDefAnswer() {
 	}
 }
 bool rangeRandom[4] = { 1,1,1,1 };
-int getRandom(int min, int max) {
-	return min + (int)(rand() * (max - min + 1.0) / (1.0 + RAND_MAX));
-}
 
+int getRandom(int min, int max) {
+	// Create a random device and use it to seed the random number generator
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(min, max);
+
+	// Generate and return the random number
+	return dis(gen);
+}
 void randomKeyAnswer(vector<std::wstring> ansWord, int k) {
+	if (ansWord.empty()) return;
 	if (k < 0) return;
 	int rand = getRandom(0, 3);
 	while (rangeRandom[rand] != 1)
-			getRandom(0, 3);
+		rand = getRandom(0, 3);
 	rangeRandom[rand] = 0;
-	rand++;
 
-	if (rand == 1) {
+	if (rand == 0) {
 		A.content = ansWord[k];
 		if (k == 0)
 			A.isRightAnswer = 1;
 		else A.isRightAnswer = 0;
 	}
-	else if (rand == 2) {
+	else if (rand == 1) {
 		B.content = ansWord[k];
 		if (k == 0)
 			B.isRightAnswer = 1;
 		else B.isRightAnswer = 0;
 	}
-	else if (rand == 3) {
+	else if (rand == 2) {
 		C.content = ansWord[k];
 		if (k == 0)
 			C.isRightAnswer = 1;
 		else C.isRightAnswer = 0;
 	}
-	else if (rand == 4) {
+	else if (rand == 3) {
 		D.content = ansWord[k];
 		if (k == 0)
 			D.isRightAnswer = 1;
 		else D.isRightAnswer = 0;
 	}
-	randomKeyAnswer(ansWord, k--);
+	randomKeyAnswer(ansWord, --k);
+}
+
+void randomDefAnswer(vector<std::wstring> ansDef, int k) {
+	if (ansDef.empty()) return;
+	if (k < 0) return;
+	int rand = getRandom(0, 3);
+	while (rangeRandom[rand] != 1)
+		rand = getRandom(0, 3);
+	rangeRandom[rand] = 0;
+
+	if (rand == 0) {
+		ADef.content = ansDef[k];
+		if (k == 0)
+			ADef.isRightAnswer = 1;
+		else ADef.isRightAnswer = 0;
+	}
+	else if (rand == 1) {
+		BDef.content = ansDef[k];
+		if (k == 0)
+			BDef.isRightAnswer = 1;
+		else BDef.isRightAnswer = 0;
+	}
+	else if (rand == 2) {
+		CDef.content = ansDef[k];
+		if (k == 0)
+			CDef.isRightAnswer = 1;
+		else CDef.isRightAnswer = 0;
+	}
+	else if (rand == 3) {
+		DDef.content = ansDef[k];
+		if (k == 0)
+			DDef.isRightAnswer = 1;
+		else DDef.isRightAnswer = 0;
+	}
+	randomDefAnswer(ansDef, --k);
+}
+
+
+void rightorwrongKey() {
+	if (answerFlag == 0) {
+		sf::Texture wrong;
+		if (wrong.loadFromFile("Image/wrong.png")) {
+			sf::Sprite sprite;
+			sprite.setTexture(wrong);
+			sprite.setPosition(posx + 350, posy + 65);
+			window.draw(sprite);
+		}
+	}
+	else if (answerFlag == 1) {
+		sf::Texture correct;
+		if (correct.loadFromFile("Image/tick.png")) {
+			sf::Sprite sprite;
+			sprite.setTexture(correct);
+			sprite.setPosition(posx + 350, posy + 65);
+			window.draw(sprite);
+		}
+	}
+}
+void rightorwrongDef() {
+	if (answerFlag == 0) {
+		sf::Texture wrong;
+		if (wrong.loadFromFile("Image/wrong.png")) {
+			sf::Sprite sprite;
+			sprite.setTexture(wrong);
+			sprite.setPosition(posx + 500, posy + 150);
+			window.draw(sprite);
+		}
+	}
+	else if (answerFlag == 1) {
+		sf::Texture correct;
+		if (correct.loadFromFile("Image/tick.png")) {
+			sf::Sprite sprite;
+			sprite.setTexture(correct);
+			sprite.setPosition(posx + 500, posy + 150);
+			window.draw(sprite);
+		}
+	}
 }
 
 void QnA() {
@@ -686,24 +770,50 @@ void QnA() {
 		}
 		else if (qnaType == 1) {
 			if (ENtoVnButton.isClicked(window, event)) {
-				qnaType = 2;
+				qnaType = 2;	
+				
 			}
-
-			EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
-			EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
 		}
 		else {
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
 			}
 			if (nextQuestion.isClicked(window, event)) {
-				if (guessType == 1)
-					EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
-				else
+				answerFlag = 2;
+
+				if (guessType == 0) {
 					EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
+					
+					wrightDef = converter.from_bytes(rightDef[0]);
+					handleWString(wrightDef, 60);
+					ansWord.push_back(converter.from_bytes(rightWord));
+					ansWord.push_back(converter.from_bytes(wrongWord1));
+					ansWord.push_back(converter.from_bytes(wrongWord2));
+					ansWord.push_back(converter.from_bytes(wrongWord3));
+
+					randomKeyAnswer(ansWord, 3);
+					memset(rangeRandom, 1, 4);
+				}
+				else {	
+					EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
+					
+					wrightWord = converter.from_bytes(rightWord);
+					ansDef.push_back(converter.from_bytes(rightDef[0]));
+					handleWString(ansDef[0],40);
+					ansDef.push_back(converter.from_bytes(wrongDef1[0]));
+					handleWString(ansDef[1], 40);
+					ansDef.push_back(converter.from_bytes(wrongDef2[0]));
+					handleWString(ansDef[2], 40);
+					ansDef.push_back(converter.from_bytes(wrongDef3[0]));
+					handleWString(ansDef[3], 40);
+
+					randomDefAnswer(ansDef, 3);
+					memset(rangeRandom, 1, 4);
+				}
 			}
 		}
 
+		//hanlde guess by keyword or definition
 		if (guessType == 0) {
 			if (guessByDef.isClicked(window, event)) guessType = 1;
 			handleKeyAnswer();
@@ -715,6 +825,7 @@ void QnA() {
 
 
 	}
+
 	if (qnaType == 0) {
 		VNtoEnButton.draw(window);
 		VNtoEnButton.isHover(window,"Image/VNtoENHover.png");
@@ -726,21 +837,6 @@ void QnA() {
 	else if (qnaType == 2) {//Eng to Eng
 		ENtoENButton.draw(window);
 		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
-
-		if (guessType == 1) {
-			wrightWord = converter.from_bytes(rightWord);
-			ansDef.push_back(converter.from_bytes(rightDef[0]));
-			ansDef.push_back(converter.from_bytes(wrongDef1[0]));
-			ansDef.push_back(converter.from_bytes(wrongDef2[0]));
-			ansDef.push_back(converter.from_bytes(wrongDef3[0]));
-		}
-		else {
-			wrightDef = converter.from_bytes(rightDef[0]);
-			ansWord.push_back(converter.from_bytes(rightWord));
-			ansWord.push_back(converter.from_bytes(wrongWord1));
-			ansWord.push_back(converter.from_bytes(wrongWord2));
-			ansWord.push_back(converter.from_bytes(wrongWord3));
-		}
 	}
 
 	sf::Text text;
@@ -749,43 +845,28 @@ void QnA() {
 	text.setFillColor(sf::Color::Black);
 	text.setPosition(100, 110);
 	
-	if (guessType == 0) {
+	if (guessType == 0) {//Guess by definition
 		guessByDef.draw(window);
 		guessByDef.isHover(window, "Image/guessByDefHover.png");
-
-		text.setString(wrightDef);
+		if (ansWord.empty())
+			text.setString("ARE YOU READY!!!!");
+		else text.setString(wrightDef);
 		window.draw(text);
 
-		randomKeyAnswer(ansWord, 3);
 		A.draw(window);
 		B.draw(window);
 		C.draw(window);
 		D.draw(window);
 
-		if (answerFlag == 0) {
-			sf::Texture wrong;
-			if (wrong.loadFromFile("Image/wrong.png")) {
-				sf::Sprite sprite;
-				sprite.setTexture(wrong);
-				sprite.setPosition(posx + 350, posy + 65);
-				window.draw(sprite);
-			}
-		}
-		else if (answerFlag == 1) {
-			sf::Texture correct;
-			if (correct.loadFromFile("Image/tick.png")) {
-				sf::Sprite sprite;
-				sprite.setTexture(correct);
-				sprite.setPosition(posx + 350, posy + 65);
-				window.draw(sprite);
-			}
-		}
+		rightorwrongKey();
+		
 	}
-	else {
+	else {//guess by keyword
 		guessByKey.draw(window);
 		guessByKey.isHover(window, "Image/guessByKeyHover.png");
-
-		text.setString(rightWord);
+		if (ansDef.empty())
+			text.setString("ARE YOU READY!!!!");
+		else text.setString(rightWord);
 		window.draw(text);
 
 
@@ -794,24 +875,7 @@ void QnA() {
 		CDef.draw(window);
 		DDef.draw(window);
 
-		if (answerFlag == 0) {
-			sf::Texture wrong;
-			if (wrong.loadFromFile("Image/wrong.png")) {
-				sf::Sprite sprite;
-				sprite.setTexture(wrong);
-				sprite.setPosition(posx + 600, posy + 250);
-				window.draw(sprite);
-			}
-		}
-		else if (answerFlag == 1) {
-			sf::Texture correct;
-			if (correct.loadFromFile("Image/tick.png")) {
-				sf::Sprite sprite;
-				sprite.setTexture(correct);
-				sprite.setPosition(posx + 600, posy + 250);
-				window.draw(sprite);
-			}
-		}
+		rightorwrongDef();
 	}
 
 	nextQuestion.draw(window);

@@ -258,16 +258,15 @@ void InputDef::draw(sf::RenderWindow& window) {
 }
 
 
-AnswerButton::AnswerButton(int x, int y, std::string imagePath,int r) :Button(x, y, imagePath) {
+AnswerButton::AnswerButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
 	xx = x;
 	yy = y;
-	row = r;
 }
 
 void AnswerButton::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 	sf::Text text;
-	handleWString(content, row);
+
 	text.setString(content);
 	text.setCharacterSize(30);
 	sf::Font font;

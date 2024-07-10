@@ -616,7 +616,7 @@ void EE::deleteTrie(EETrie*& root)
 	root = nullptr;
 }
 
-void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition)
+void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition)
 {
 	if (curNode == nullptr)
 		return;
@@ -625,7 +625,7 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 		if (index == 0)
 		{
 			resultWord = currentWord;
-			resultDefinition = curNode->definition;
+			resultDefinition = curNode->definition[0];
 			return;
 		}
 		index--;
@@ -636,14 +636,14 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 		{
 			char tempChar = 'a' + i;
 			currentWord.push_back(tempChar);
-			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			EE::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
 			currentWord.pop_back();
 			if (!resultWord.empty())
 				return;
 		}
 	}
 }
-void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3)
+void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3)
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -654,24 +654,24 @@ void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, vector<stri
 	// get right word
 	randomIndex = dis(gen);
 	currentWord = "";
-	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	EE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong definition 1
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord1;
-	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong definition 2
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord2;
-	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord3;
-	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
-void EE::randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -682,24 +682,23 @@ void EE::randomADefinitionAnd4Words(EETrie* root, vector<string>& rightDefinitio
 	// get right definition
 	randomIndex = dis(gen);
 	currentWord = "";
-	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	EE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong word 1
 	randomIndex = dis(gen);
 	currentWord = "";
-	vector<string> wrongDefinition1;
-	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	string wrongDefinition1;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong word 2
 	randomIndex = dis(gen);
 	currentWord = "";
-	vector<string> wrongDefinition2;
-	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	string wrongDefinition2;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
-	vector<string> wrongDefinition3;
-	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+	string wrongDefinition3;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
-
 
 // Vietnamese to English dictionary
 short int map[7930];

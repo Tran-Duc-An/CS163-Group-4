@@ -524,10 +524,10 @@ std::string wrongWord1;
 std::string wrongWord2;
 std::string wrongWord3;
 
-vector<string> rightDef;
-vector<string> wrongDef1;
-vector<string> wrongDef2;
-vector<string> wrongDef3;
+std::string rightDef;
+std::string wrongDef1;
+std::string wrongDef2;
+std::string wrongDef3;
 
 
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -770,8 +770,7 @@ void QnA() {
 		}
 		else if (qnaType == 1) {
 			if (ENtoVnButton.isClicked(window, event)) {
-				qnaType = 2;	
-				
+				qnaType = 2;
 			}
 		}
 		else {
@@ -781,11 +780,15 @@ void QnA() {
 			if (nextQuestion.isClicked(window, event)) {
 				answerFlag = 2;
 
-				if (guessType == 0) {
-					EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
-					
-					wrightDef = converter.from_bytes(rightDef[0]);
-					handleWString(wrightDef, 60);
+				if (guessType == 0) {//guess by definition
+					ansWord.clear();
+
+					std::string right;
+					EE::randomADefinitionAnd4Words(rootEtoE, right, rightWord, wrongWord1, wrongWord2, wrongWord3);
+					std::cout << right << endl;
+
+					wrightDef = converter.from_bytes(rightDef);
+					handleWString(wrightDef, 80);
 					ansWord.push_back(converter.from_bytes(rightWord));
 					ansWord.push_back(converter.from_bytes(wrongWord1));
 					ansWord.push_back(converter.from_bytes(wrongWord2));
@@ -798,13 +801,13 @@ void QnA() {
 					EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
 					
 					wrightWord = converter.from_bytes(rightWord);
-					ansDef.push_back(converter.from_bytes(rightDef[0]));
+					ansDef.push_back(converter.from_bytes(rightDef));
 					handleWString(ansDef[0],40);
-					ansDef.push_back(converter.from_bytes(wrongDef1[0]));
+					ansDef.push_back(converter.from_bytes(wrongDef1));
 					handleWString(ansDef[1], 40);
-					ansDef.push_back(converter.from_bytes(wrongDef2[0]));
+					ansDef.push_back(converter.from_bytes(wrongDef2));
 					handleWString(ansDef[2], 40);
-					ansDef.push_back(converter.from_bytes(wrongDef3[0]));
+					ansDef.push_back(converter.from_bytes(wrongDef3));
 					handleWString(ansDef[3], 40);
 
 					randomDefAnswer(ansDef, 3);

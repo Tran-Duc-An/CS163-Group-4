@@ -638,6 +638,7 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 			currentWord.push_back(tempChar);
 			EE::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
 			currentWord.pop_back();
+
 			if (!resultWord.empty())
 				return;
 		}

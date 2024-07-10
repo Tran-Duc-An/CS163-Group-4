@@ -743,7 +743,7 @@ void rightorwrongDef() {
 		}
 	}
 }
-
+int cnt = 0;
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
@@ -779,13 +779,19 @@ void QnA() {
 			}
 			if (nextQuestion.isClicked(window, event)) {
 				answerFlag = 2;
+				
 
 				if (guessType == 0) {//guess by definition
 					ansWord.clear();
 
-					std::string right;
-					EE::randomADefinitionAnd4Words(rootEtoE, right, rightWord, wrongWord1, wrongWord2, wrongWord3);
-					std::cout << right << endl;
+					rightDef = "";
+					rightWord = "";
+					wrongWord1 = "";
+					wrongWord2 = "";
+					wrongWord3 = "";
+
+					EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
+					
 
 					wrightDef = converter.from_bytes(rightDef);
 					handleWString(wrightDef, 80);
@@ -798,6 +804,12 @@ void QnA() {
 					memset(rangeRandom, 1, 4);
 				}
 				else {	
+					ansDef.clear();
+					rightWord = "";
+					rightDef = "";
+					wrongDef1 = "";
+					wrongDef2 = "";
+					wrongDef3 = "";
 					EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
 					
 					wrightWord = converter.from_bytes(rightWord);

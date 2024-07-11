@@ -2,22 +2,22 @@
 int main() {
     const size_t tableSize = 101;
 
-    // Load the dataset
-    auto start = chrono::high_resolution_clock::now();
-    HashTable dictionary = loadDataset("Dataset/englishDictionary2.csv", tableSize);
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
-    
-    saveHashtable(dictionary);
+    //// Load the dataset
+    //auto start = chrono::high_resolution_clock::now();
+    //HashTable dictionary = loadDataset("Dataset/englishDictionary2.csv", tableSize);
+    //auto end = chrono::high_resolution_clock::now();
+    //chrono::duration<double> duration = end - start;
+    //cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
+    //
+    //saveHashtable(dictionary);
 
     HashTable newDict;
 
     // Load the dataset
-    /*auto */start = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     newDict = loadHashTable("Dataset//Hashtable.bin");
-    /*auto*/ end = chrono::high_resolution_clock::now();
-    /*chrono::duration<double>*/ duration = end - start;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
     cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
 
 
@@ -35,6 +35,7 @@ int main() {
     duration = end - start;
     cout << "time taken to search dataset: " << duration.count() << " seconds" << endl;
 
+    ReadHistory();
 
     return 0;
 }

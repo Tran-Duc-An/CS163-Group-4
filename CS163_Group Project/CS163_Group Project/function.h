@@ -6,7 +6,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-
+#include<iomanip>
 using namespace std;
 
 struct HashTable {
@@ -35,4 +35,6 @@ HashTable loadDataset(const string& filename, size_t tableSize);
 
 void saveHashtable(HashTable& ht);
 HashTable loadHashTable(const string& filename);
+
 void History(string word, string definition);
+void ReadHistory();

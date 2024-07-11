@@ -147,3 +147,22 @@ void History(string word, string definition)
     }
     out << word << "," << definition << endl;
 }
+void ReadHistory()
+{
+    fstream in;
+    in.open("Dataset\\History.csv", ios::in);
+    if (!in.is_open()) {
+        cerr << "Error: Could not open file 'Dataset\\History.csv'." << endl;
+        return; // Return empty vector on error
+    }
+    cout << "Word" << '\t' << '\t' << "Definition" << endl;
+    string line;
+    while (getline(in, line)) {
+        stringstream ss(line);
+        string word, definition;
+        getline(ss, word, ',');
+        getline(ss, definition, ',');
+        cout << word << '\t' << '\t' << definition << endl;
+    }
+
+}

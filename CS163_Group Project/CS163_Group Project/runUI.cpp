@@ -17,6 +17,7 @@ Button searchButton(715, 155, "Image/searchButton.png");
 Button translatingButton(715, 305, "Image/translateButton.png");
 Button addNewWordButton(715, 455, "Image/addButton.png");
 Button qnaButton(715, 605, "Image/qnaButton.png");
+Button historyButton(30, 590, "Image/historyButton.png");
 
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
@@ -244,11 +245,11 @@ void translating() {
 				if (!EV::findWordMeaning(rootEtoV, transWord, transDef,nodeE)) transDef.push_back(L"No definition");
 			}
 			if (heartButton.isClicked(window, event)) {
-				if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
+				if (nodeE != nullptr) nodeE->isLiked = 1 - nodeE->isLiked;
 			}
 			if (deleteButton.isClicked(window, event)) {
 				EV::deleteAWord(rootEtoV, transWord);
-				inputVNBox.text.setString("");
+				inputENBox.text.setString("");
 				transDef.clear();
 				translateFlag = 0;
 			}
@@ -356,21 +357,23 @@ void search() {
 			if (heartKeyButton.isClicked(window, event)) {
 				if (nodeEE != nullptr) nodeEE->isLiked = 1 - nodeEE->isLiked;
 			}
+
 			if (deleteKeyButton.isClicked(window, event)) {
 				EE::deleteAWord(rootEtoE, word);
-				inputVNBox.text.setString("");
-				transDef.clear();
-				translateFlag = 0;
+				searchKeyBox.text.setString("");
+				searchDef.clear();
+				searchFlag = 0;
 			}
 
 			if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
 			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 		}
 		else {//search with definition
-			word = "";
+
 			def = "";
 			searchDefBox.isClicked(window, event);
 			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
+				word = "";
 				word = Def::findWordMeaning(rootDtoE, def);
 			}
 		}
@@ -386,11 +389,11 @@ void search() {
 			displayDef(650, 100, searchDef[orderDef], 50);
 			if (nodeEE != nullptr && nodeEE->isLiked == 0) {
 				heartKeyButton.texture.loadFromFile("Image/heart.png");
-				heartKeyButton.sprite.setTexture(heartButton.texture);
+				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
 			}
-			else if (nodeE != nullptr && nodeE->isLiked == 1) {
+			else if (nodeEE != nullptr && nodeEE->isLiked == 1) {
 				heartKeyButton.texture.loadFromFile("Image/heartHover.png");
-				heartKeyButton.sprite.setTexture(heartButton.texture);
+				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
 			}
 			heartKeyButton.draw(window);
 			deleteKeyButton.draw(window);
@@ -534,6 +537,9 @@ std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 std::wstring wrightWord;
 std::wstring wrightDef;
 
+std::wstring wwrongDef1;
+std::wstring wwrongDef2;
+std::wstring wwrongDef3;
 vector<std::wstring> ansWord;
 vector<std::wstring> ansDef;
 
@@ -579,6 +585,7 @@ void handleKeyAnswer() {
 		posy = D.yy;
 	}
 }
+
 void handleDefAnswer() {
 	if (ADef.isClicked(window, event) == 0) {
 		answerFlag = 0;
@@ -729,7 +736,7 @@ void rightorwrongDef() {
 		if (wrong.loadFromFile("Image/wrong.png")) {
 			sf::Sprite sprite;
 			sprite.setTexture(wrong);
-			sprite.setPosition(posx + 500, posy + 150);
+			sprite.setPosition(posx + 500, posy + 120);
 			window.draw(sprite);
 		}
 	}
@@ -738,12 +745,12 @@ void rightorwrongDef() {
 		if (correct.loadFromFile("Image/tick.png")) {
 			sf::Sprite sprite;
 			sprite.setTexture(correct);
-			sprite.setPosition(posx + 500, posy + 150);
+			sprite.setPosition(posx + 500, posy + 120);
 			window.draw(sprite);
 		}
 	}
 }
-int cnt = 0;
+
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
@@ -769,17 +776,67 @@ void QnA() {
 			}
 		}
 		else if (qnaType == 1) {
+			
 			if (ENtoVnButton.isClicked(window, event)) {
 				qnaType = 2;
+				answerFlag = 2;
+			}
+			if (nextQuestion.isClicked(window, event)) {
+			
+				answerFlag = 2;
+
+				if (guessType == 0) {//guess by definition
+					ansWord.clear();
+
+					wrightDef = L"";
+					rightWord = "";
+					wrongWord1 = "";
+					wrongWord2 = "";
+					wrongWord3 = "";
+
+					EV::randomADefinitionAnd4Words(rootEtoV, wrightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
+					handleWString(wrightDef, 80);
+					ansWord.push_back(converter.from_bytes(rightWord));
+					ansWord.push_back(converter.from_bytes(wrongWord1));
+					ansWord.push_back(converter.from_bytes(wrongWord2));
+					ansWord.push_back(converter.from_bytes(wrongWord3));
+
+					randomKeyAnswer(ansWord, 3);
+					memset(rangeRandom, 1, 4);
+				}
+				else {
+					ansDef.clear();
+					rightWord = "";
+					wrightDef = L"";
+					wwrongDef1 = L"";
+					wwrongDef2 = L"";
+					wwrongDef3 = L"";
+					EV::randomAWordAnd4Definitions(rootEtoV, rightWord, wrightDef, wwrongDef1, wwrongDef2, wwrongDef3);
+
+					wrightWord = converter.from_bytes(rightWord);
+					ansDef.push_back(wrightDef);
+					handleWString(ansDef[0], 40);
+					ansDef.push_back(wwrongDef1);
+					handleWString(ansDef[1], 40);
+					ansDef.push_back(wwrongDef2);
+					handleWString(ansDef[2], 40);
+					ansDef.push_back(wwrongDef3);
+					handleWString(ansDef[3], 40);
+
+					randomDefAnswer(ansDef, 3);
+					memset(rangeRandom, 1, 4);
+				}
 			}
 		}
 		else {
+			
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
+				answerFlag = 2;
 			}
 			if (nextQuestion.isClicked(window, event)) {
+			
 				answerFlag = 2;
-				
 
 				if (guessType == 0) {//guess by definition
 					ansWord.clear();
@@ -832,10 +889,12 @@ void QnA() {
 		if (guessType == 0) {
 			if (guessByDef.isClicked(window, event)) guessType = 1;
 			handleKeyAnswer();
+			//answerFlag = 2;
 		}
 		else {
 			if (guessByKey.isClicked(window, event)) guessType = 0;
 			handleDefAnswer();
+			//answerFlag = 2;
 		}
 
 
@@ -905,10 +964,21 @@ void homePage() {
 	transType = 0;
 	addingType = 0;
 
+	sf::Texture layout;
+	if (!layout.loadFromFile("Image/layout1.png"))
+		return;
+	layout.setSmooth(1);
+	sf::Sprite spriteLayout;
+	spriteLayout.setTexture(layout);
+	spriteLayout.setOrigin(0, 0);
+	window.draw(spriteLayout);
+
 	searchButton.draw(window);
 	translatingButton.draw(window);
 	addNewWordButton.draw(window);
 	qnaButton.draw(window);
+	historyButton.draw(window);
+
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -929,12 +999,15 @@ void homePage() {
 		if (qnaButton.isClicked(window, event)) {
 			page = 4;
 		}
-		addNewWordButton.isHover(window, "Image/addnewwordHover.png");
-		searchButton.isHover(window, "Image/searchHover.png");
-		translatingButton.isHover(window, "Image/translateHover.png");
-		qnaButton.isHover(window, "Image/qnaHover.png");
+		if (historyButton.isClicked(window, event)) {
+			page = 5;
+		}
 	}
-	
+	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
+	searchButton.isHover(window, "Image/searchHover.png");
+	translatingButton.isHover(window, "Image/translateHover.png");
+	qnaButton.isHover(window, "Image/qnaHover.png");
+	historyButton.isHover(window, "Image/historyHover.png");
 }
 
 bool loadData() {
@@ -947,24 +1020,27 @@ bool loadData() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
-
-	/*if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+	auto start = chrono::high_resolution_clock::now();
+	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
 		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}*/
+	}
 	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	/*if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
 		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	}
 	
 	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
-		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/Definition.bin")) return 0;
-		Def::saveHashtable(rootDtoE, "Dataset / HashTableDef.bin");
-	}*/
+		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
+		Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
+	}
+	auto end = chrono::high_resolution_clock::now();
+	chrono::duration<double> duration = end - start;
+	//cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
 
 	return 1;
 }

@@ -334,6 +334,93 @@ bool EV::deleteAWord(EVTrie* root, string& word) {
 	return true;
 }
 
+void EV::getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EV::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void EV::randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	EV::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	EV::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition1;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition2;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+
+//English to English Dictionary
+
 void EE::insertWord(EETrie*& root, string& word, string& definition)
 {
 	word = toLowerCase(word);
@@ -1001,7 +1088,7 @@ bool Def::loadRawData(HashTable& dictionary, size_t tableSize, const string& fil
 
 void Def::saveHashtable(HashTable& ht, string filename)
 {
-	fstream o;
+	ofstream o;
 	o.open(filename, ios::binary | ios::out);
 
 	if (!o.is_open())
@@ -1038,7 +1125,6 @@ bool Def::loadHashTable(HashTable& ht, const string& filename) {
 
 	ifstream in(filename, ios::binary);
 	if (!in.is_open()) {
-		cerr << "Error: Could not open file " << filename << endl;
 		return 0; // Return empty hash table on error
 	}
 

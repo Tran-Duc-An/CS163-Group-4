@@ -47,6 +47,11 @@ namespace EV {
 	bool loadTriefromFile(EVTrie*& root, string path);
 	void helperDeleteAWord(EVTrie* root, string& word);
 	bool deleteAWord(EVTrie* root, string& word);
+	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);
+	void randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
+	void randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
+
+
 }
 
 namespace EE {

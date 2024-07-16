@@ -30,12 +30,17 @@ int main() {
     start = chrono::high_resolution_clock::now();
     string word = findWord(newDict, definition);
     end = chrono::high_resolution_clock::now();
-    History(word, definition);
+    History(word, definition, "Dataset\\History.csv");
     cout << "the word for the given definition is: " << word << endl;
     duration = end - start;
     cout << "time taken to search dataset: " << duration.count() << " seconds" << endl;
 
-    ReadHistory();
+    vector<Combination> test;
+    test=ReadHistory("Dataset\\History.csv");
+    for (int i = 0; i < test.size(); i++)
+    {
+        cout << test[i].word << "  " << test[i].definition << endl;
+    }
 
     return 0;
 }

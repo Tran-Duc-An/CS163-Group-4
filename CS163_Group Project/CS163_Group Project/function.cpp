@@ -138,31 +138,34 @@ HashTable loadHashTable(const string& filename) {
     in.close();
     return ht;
 }
-void History(string word, string definition)
+void History(string word, string definition,string filename)
 {
     fstream out;
-    out.open("Dataset\\History.csv", ios::out | ios::app);
+    out.open(filename, ios::out | ios::app);
     if (!out.is_open() || word.empty() || definition.empty()) {
         return;
     }
     out << word << "," << definition << endl;
 }
-void ReadHistory()
+vector<Combination> ReadHistory(string filename)
 {
     fstream in;
-    in.open("Dataset\\History.csv", ios::in);
+    in.open(filename, ios::in);
+    vector<Combination> res;
     if (!in.is_open()) {
         cerr << "Error: Could not open file 'Dataset\\History.csv'." << endl;
-        return; // Return empty vector on error
+        return res; // Return empty vector on error
     }
-    cout << "Word" << '\t' << '\t' << "Definition" << endl;
     string line;
     while (getline(in, line)) {
         stringstream ss(line);
         string word, definition;
         getline(ss, word, ',');
         getline(ss, definition, ',');
-        cout << word << '\t' << '\t' << definition << endl;
+        Combination temp;
+        temp.definition = definition;
+        temp.word = word;
+        res.push_back(temp);
     }
-
+    return res;
 }

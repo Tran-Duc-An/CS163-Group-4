@@ -14,6 +14,10 @@ struct HashTable {
     size_t size;
     int currentLoad = 0;
 };
+struct Combination {
+    string word;
+    string definition;
+};
 // Function to add word-definition pair to a vector
 
 void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd);
@@ -36,5 +40,5 @@ HashTable loadDataset(const string& filename, size_t tableSize);
 void saveHashtable(HashTable& ht);
 HashTable loadHashTable(const string& filename);
 
-void History(string word, string definition);
-void ReadHistory();
+void History(string word, string definition, string filename);
+vector<Combination> ReadHistory(string filename);

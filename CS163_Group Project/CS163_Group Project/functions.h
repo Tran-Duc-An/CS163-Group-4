@@ -48,7 +48,7 @@ void deleteTrie(trie*& root);
 void helperDeleteAWord(trie* root, string& word);
 bool deleteAWord(trie* root, string& word);
 bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
-bool loadFavWord(list<string>& favWords);
+bool loadFavWord(list<string>& favWords, list<string>& def);
 void likeAWord(list<string>& favWords, string word, trie* root);
 void unlikeAWord(list<string>& favWords, string word, trie* root);
 bool saveFavWord(list<string>& favWords, trie* root);

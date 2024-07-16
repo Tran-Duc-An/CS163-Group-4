@@ -286,7 +286,7 @@ bool deleteAWord(trie* root, string& word)
 	}
 	return true;
 }
-bool loadFavWord(list<string>& favWords)
+bool loadFavWord(list<string>& favWords, list<string>& def)
 {
 	ifstream fin;
 	fin.open("Dataset\\favEngToEngWords.csv");
@@ -302,6 +302,7 @@ bool loadFavWord(list<string>& favWords)
 		if (word.empty()) break;
 		favWords.push_back(word);
 		getline(fin, word, '\n');
+		def.push_back(word);
 	}
 	fin.close();
 	return true;
@@ -332,11 +333,7 @@ bool saveFavWord(list<string>& favWords, trie* root)
 	{
 		fout << str << ",";
 		trie* wordNode = findWord(root, str);
-		for (string& str : wordNode->definition)
-		{
-			fout << str << ",";
-		}
-		fout << "\n";
+		fout << wordNode->definition[0] << "\n";
 	}
 	fout.close();
 	return true;
@@ -353,10 +350,7 @@ bool addToHistory(string word, trie* root)
 	}
 	fout << word << ",";
 	trie* wordNode = findWord(root, word);
-	for (string& str : wordNode->definition)
-	{
-		fout << str << ",";
-	}
+	fout << wordNode->definition[0] << "\n";
 	fout << "\n";
 	fout.close();
 	return true;

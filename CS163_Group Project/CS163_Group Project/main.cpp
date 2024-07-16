@@ -103,7 +103,7 @@ int main()
 }
 */
 
-/* 
+
 int main()
 {
 	trie* root = new trie();
@@ -157,7 +157,7 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
-*/
+
 
 
 

@@ -9,6 +9,7 @@
 #include <locale>
 #include <codecvt>
 #include <fcntl.h>
+#include <list>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ struct Vtrie
 	vector<Vtrie*> children;
 	vector<wstring> definition;
 	int numChildren = 0;
+	bool isLiked = false;
 	// 89 vietnamese characters and 2 for hyphen and space
 	Vtrie() : children(91, nullptr) {}
 };
@@ -41,7 +43,12 @@ void deleteTrie(trie*& root);
 wstring VToLower(wstring& str);
 void fillMap();
 void VInsertWord(Vtrie*& root, wstring& word, wstring& definition);
+Vtrie* VFindWord(Vtrie* root, wstring& word);
 bool VloadRawData(Vtrie*& root);
 bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning);
 void VDeleteTrie(Vtrie*& root);
 void VEupdatesearchhistory(wstring word, vector<wstring> definition);
+bool VloadFavWord(list<wstring>& favWords);
+void VlikeAWord(list<wstring>& favWords, wstring word, Vtrie* root);
+void VunlikeAWord(list<wstring>& favWords, wstring word, Vtrie* root);
+bool VsaveFavWord(list<wstring>& favWords, Vtrie* root);

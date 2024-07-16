@@ -147,6 +147,7 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dataset\favVieToEngWords.csv" />
     <None Include="Dataset\VEhistory.csv" />
     <None Include="Dataset\Vietnamese - English.csv" />
     <None Include="Dataset\VietnameseAlphabet.csv" />

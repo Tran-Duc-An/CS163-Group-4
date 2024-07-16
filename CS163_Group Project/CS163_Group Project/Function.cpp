@@ -258,6 +258,7 @@ void inputTrie(EVTrie*& root, wifstream& fin) {
 }
 
 bool EV::loadTriefromFile(EVTrie*& root, string path) {
+
 	wifstream fin;
 	fin.open(path,ios::binary);
 
@@ -925,6 +926,7 @@ void VE::deleteTrie(VTrie*& root)
 
 bool VE::loadRawData(VTrie*& root,string path)
 {
+	fillMap();
 	locale loc(locale(), new codecvt_utf8<wchar_t>);
 	wifstream fin(path);
 	fin.imbue(loc);
@@ -1009,6 +1011,7 @@ void loadVtrie(VTrie*& root, wifstream& fin)
 }
 
 bool VE::loadTrieFromFile(VTrie*& root, string path) {
+	fillMap();
 	wifstream fin;
 	fin.open(path, ios::binary);
 	// Ensure the file is opened with UTF-8 encoding

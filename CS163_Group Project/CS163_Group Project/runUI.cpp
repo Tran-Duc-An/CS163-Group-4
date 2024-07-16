@@ -219,9 +219,10 @@ void translating() {
 
 			if (translateVN.isClicked(window, event, transWword, inputVNBox.text)) {
 				transDef.clear();
-				if (!VE::findWordMeaning(rootVtoE, transWword, transDef,nodeV)) transDef.push_back(L"No definition");
-				translateFlag = 1;
 				orderDef = 0;
+				translateFlag = 1;
+				if (!VE::findWordMeaning(rootVtoE, transWword, transDef,nodeV)) transDef.push_back(L"No definition");
+		
 			}
 			if (heartButton.isClicked(window, event)) {
 				if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
@@ -259,21 +260,25 @@ void translating() {
 
 	}
 
+	if (inputVNBox.text.getString() == L"") translateFlag = 0;
+
 	//display 
 	
 	if (transType == 0) {//Vietnamese to English
 
 		if (translateFlag == 1) {
 			displayWDef(870, 300, transDef[orderDef], 30);
+
+			if (nodeV != nullptr && nodeV->isLiked == 0) {
+				heartButton.texture.loadFromFile("Image/heart.png");
+				heartButton.sprite.setTexture(heartButton.texture);
+			}
+			else if (nodeV != nullptr && nodeV->isLiked == 1) {
+				heartButton.texture.loadFromFile("Image/heartHover.png");
+				heartButton.sprite.setTexture(heartButton.texture);
+			}
 		}
-		if (nodeV!=nullptr && nodeV->isLiked == 0) {
-			heartButton.texture.loadFromFile("Image/heart.png");
-			heartButton.sprite.setTexture(heartButton.texture);
-		}
-		else if (nodeV!=nullptr && nodeV->isLiked == 1) {
-			heartButton.texture.loadFromFile("Image/heartHover.png");
-			heartButton.sprite.setTexture(heartButton.texture);
-		}
+		
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		translateVN.isHover(window, "Image/transSubHover.png");
 		translateVN.draw(window);
@@ -379,6 +384,8 @@ void search() {
 		}
 		
 	}
+	
+
 	if (searchingType == 0) { //search by keyword
 		searchKeyBox.draw(window);
 
@@ -1020,24 +1027,25 @@ bool loadData() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
+	
 	auto start = chrono::high_resolution_clock::now();
-	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
-		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
-		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
-	}
+	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	//}
+	//if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
+	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
+	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
+	//}
 	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
 		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	}
 	
-	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
-		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
-		Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
-	}
+	//if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
+	//	if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
+	//	Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
+	//}
 	auto end = chrono::high_resolution_clock::now();
 	chrono::duration<double> duration = end - start;
 	//cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;

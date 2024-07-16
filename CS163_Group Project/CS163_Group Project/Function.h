@@ -95,3 +95,4 @@ namespace Def {
 }
 
 void handleWString(wstring& s, int row);
+void fillMap();

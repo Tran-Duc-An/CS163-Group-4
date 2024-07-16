@@ -344,19 +344,23 @@ void search() {
 		if (backButton.isClicked(window, event)) page = 0;
 		backButton.isHover(window, "Image/backHover.png");
 
-		if (searchKeyButton.isClicked(window, event)) searchingType = 0;
-		if (searchDefButton.isClicked(window, event)) searchingType = 1;
+		if (searchKeyButton.isClicked(window, event)) {
+			searchingType = 0;
+		}
+		if (searchDefButton.isClicked(window, event)) {
+			searchingType = 1;
+		}
 
 		if (searchingType == 0) {//Search with keyword
-			word = "";
-			def = "";
+
 			searchKeyBox.isClicked(window, event);
 
 			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 				searchDef.clear();
+				orderDef = 0;
 				if(!EE::findWordMeaning(rootEtoE, word, searchDef,nodeEE)) searchDef.push_back("No definition");
 				searchFlag = 1;
-				orderDef = 0;
+				
 			}
 
 			if (heartKeyButton.isClicked(window, event)) {
@@ -374,13 +378,12 @@ void search() {
 			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 		}
 		else {//search with definition
-
-			def = "";
 			searchDefBox.isClicked(window, event);
 			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
-				word = "";
 				word = Def::findWordMeaning(rootDtoE, def);
+				searchFlag = 1;
 			}
+
 		}
 		
 	}
@@ -406,7 +409,7 @@ void search() {
 			deleteKeyButton.draw(window);
 			deleteKeyButton.isHover(window, "Image/deleteHover.png");
 		}
-		
+		if (searchKeyBox.text.getString() == "") searchFlag = 0;
 		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
 		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 		submitSearchKey.draw(window);
@@ -424,6 +427,8 @@ void search() {
 			window.draw(voca);
 		}
 
+		if (searchDefBox.text.getString() == "") searchFlag = 0;
+
 		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
 		submitSearchDef.draw(window);
@@ -432,12 +437,12 @@ void search() {
 
 	
 
-	if (searchKeyBox.text.getString() == "") searchFlag = 0;
+	
+
 
 	searchKeyButton.draw(window);
 	searchDefButton.draw(window);
 	backButton.draw(window);
-
 }
 
 void adding() {
@@ -1037,18 +1042,18 @@ bool loadData() {
 	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	//}
-	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	}
-	
-	//if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
-	//	if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
-	//	Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	//}
+	
+	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
+		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
+		Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
+	}
 	auto end = chrono::high_resolution_clock::now();
 	chrono::duration<double> duration = end - start;
-	//cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
+	cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
 
 	return 1;
 }

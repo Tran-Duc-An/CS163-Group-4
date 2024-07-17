@@ -155,8 +155,9 @@ void InputBox::pasteFromClipboard() {
 	textDisplay.setString(name);
 #endif
 }
-InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name) : InputBox(x, y, imagePath, name) {
-
+InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars) : InputBox(x, y, imagePath, name) {
+	numRow = numRows;
+	numChar = numChars;
 }
 
 
@@ -218,8 +219,8 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 
 	if (active) {
 		std::wstring str = text.getString(); // Directly use sf::Text as wstring
-		if (str.length() / 50 < 7) {
-			if (str.length() % 20 == 0 && str.length() > 0) {
+		if (str.length() / numChar < numRow) {
+			if (str.length() % numChar == 0 && str.length() > 0) {
 				str += L'\n';
 				text.setString(str);
 			}

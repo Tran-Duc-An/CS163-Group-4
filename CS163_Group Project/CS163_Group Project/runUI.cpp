@@ -17,7 +17,8 @@ Button searchButton(715, 155, "Image/searchButton.png");
 Button translatingButton(715, 305, "Image/translateButton.png");
 Button addNewWordButton(715, 455, "Image/addButton.png");
 Button qnaButton(715, 605, "Image/qnaButton.png");
-Button historyButton(30, 590, "Image/historyButton.png");
+Button historyButton(30, 600, "Image/historyButton.png");
+Button isLikedButton(30, 400, "Image/likedButton.png");
 
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
@@ -45,7 +46,7 @@ InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
 InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
 
 InputBox searchKeyBox(28, 412, "Image/InputBox.png", L"Text here");
-InputDef searchDefBox(75, 400, "Image/InputDef.png", L"Text here");
+InputDef searchDefBox(75, 400, "Image/InputDef.png", L"Text here",6,50);
 
 SubmitENButton translateEN(576, 600, "Image/translateSubmit.png");
 SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
@@ -54,7 +55,7 @@ SubmitENButton submitSearchKey(383, 729, "Image/searchSubmit.png");
 SubmitENButton submitSearchDef(1270, 716, "Image/searchSubmit.png");
 
 InputBox inputWord(192, 117, "Image/InputBox.png", L"Enter word");
-InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition");
+InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
 
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
@@ -968,6 +969,56 @@ void QnA() {
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
 
+AnswerButton h1(185, 90, "Image/displayBox.png");
+AnswerButton h2(185, 260, "Image/displayBox.png");
+AnswerButton h3(185, 430, "Image/displayBox.png");
+AnswerButton h4(185, 600, "Image/displayBox.png");
+AnswerButton h5(785, 90, "Image/displayBox.png");
+AnswerButton h6(785, 260, "Image/displayBox.png");
+AnswerButton h7(785, 430, "Image/displayBox.png");
+AnswerButton h8(785, 600, "Image/displayBox.png");
+
+void history() {
+
+	while (window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
+	}
+
+	h1.draw(window);
+	h2.draw(window);
+	h3.draw(window);
+	h4.draw(window);
+	h5.draw(window);
+	h6.draw(window);
+	h7.draw(window);
+	h8.draw(window);
+
+	backButton.draw(window);
+}
+
+void isLiked() {
+	while (window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event)) page = 0;
+		backButton.isHover(window, "Image/backHover.png");
+	}
+
+	h1.draw(window);
+	h2.draw(window);
+	h3.draw(window);
+	h4.draw(window);
+	h5.draw(window);
+	h6.draw(window);
+	h7.draw(window);
+	h8.draw(window);
+
+	backButton.draw(window);
+}
+
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
@@ -975,6 +1026,15 @@ void homePage() {
 	searchingType = 0;
 	transType = 0;
 	addingType = 0;
+
+	h1.content = L"";
+	h2.content = L"";
+	h3.content = L"";
+	h4.content = L"";
+	h5.content = L"";
+	h6.content = L"";
+	h7.content = L"";
+	h8.content = L"";
 
 	sf::Texture layout;
 	if (!layout.loadFromFile("Image/layout1.png"))
@@ -990,6 +1050,7 @@ void homePage() {
 	addNewWordButton.draw(window);
 	qnaButton.draw(window);
 	historyButton.draw(window);
+	isLikedButton.draw(window);
 
 	while (window.pollEvent(event)) {
 
@@ -1014,12 +1075,16 @@ void homePage() {
 		if (historyButton.isClicked(window, event)) {
 			page = 5;
 		}
+		if (isLikedButton.isClicked(window, event)) {
+			page = 6;
+		}
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 	searchButton.isHover(window, "Image/searchHover.png");
 	translatingButton.isHover(window, "Image/translateHover.png");
 	qnaButton.isHover(window, "Image/qnaHover.png");
 	historyButton.isHover(window, "Image/historyHover.png");
+	isLikedButton.isHover(window, "Image/likedHover.png");
 }
 
 bool loadData() {
@@ -1034,18 +1099,18 @@ bool loadData() {
 	window.display();
 	
 	auto start = chrono::high_resolution_clock::now();
-	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	//}
-	//if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
-	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
-	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
-	//}
-	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	//}
+	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	}
+	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
+		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
+		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
+	}
+	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	}
 	
 	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
 		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
@@ -1061,13 +1126,12 @@ bool loadData() {
 int run() {
 	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
 		{
 		case 0: {
-
 			homePage();
 			break;
 		}
@@ -1085,6 +1149,14 @@ int run() {
 		}
 		case 4: {
 			QnA();
+			break;
+		}
+		case 5: {
+			history();
+			break;
+		}
+		case 6: {
+			isLiked();
 			break;
 		}
 		default:

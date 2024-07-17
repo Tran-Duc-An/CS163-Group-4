@@ -41,7 +41,9 @@ struct SubmitENButton:Button {
 
 
 struct InputDef : InputBox {
-	InputDef(int x, int y, std::string imagePath, std::wstring name);
+	int numRow = 1;
+	int numChar = 0;
+	InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars);
 	void draw(sf::RenderWindow& window);
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 };

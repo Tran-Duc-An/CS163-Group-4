@@ -1022,8 +1022,87 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	return true;
 }
 
-
-
+void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 91; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			wchar_t tempChar = reverseMap[i];
+			currentWord.push_back(tempChar);
+			getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = L"";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = L"";
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition1;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition2;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
 
 // Function to add word-definition pair to a vector
 void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd) {

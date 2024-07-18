@@ -35,6 +35,7 @@ struct Vtrie
 	// 89 vietnamese characters and 2 for hyphen and space
 	Vtrie() : children(91, nullptr) {}
 };
+
 // EE functions
 string toLowerCase(string&str);
 string removeSpecialCharacters(string&str);
@@ -49,11 +50,10 @@ void helperDeleteAWord(trie* root, string& word);
 bool deleteAWord(trie* root, string& word);
 bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
 bool loadFavWord(list<string>& favWords, list<string>& def);
-void likeAWord(list<string>& favWords, string word, trie* root);
-void unlikeAWord(list<string>& favWords, string word, trie* root);
-bool saveFavWord(list<string>& favWords, trie* root);
-
-bool addToHistory(string word, trie* root);
+void likeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root);
+void unlikeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root);
+bool saveFavWord(list<string>& favWords, list<string>& favDefs);
+bool addToHistory(string word, string def, string fileName);
 void getWordByIndex(trie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition);
 void randomAWordAnd4Definitions(trie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3);
 void randomADefinitionAnd4Words(trie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);

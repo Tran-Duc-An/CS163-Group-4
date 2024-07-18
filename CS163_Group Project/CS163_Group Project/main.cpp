@@ -103,7 +103,7 @@ int main()
 }
 */
 
-
+/* 
 int main()
 {
 	trie* root = new trie();
@@ -157,10 +157,10 @@ int main()
 	deleteTrie(root);
 	return 0;
 }
+*/ 
 
 
-
-
+/* 
 int main()
 {
 	trie* root = new trie();
@@ -179,27 +179,29 @@ int main()
 	auto end = chrono::high_resolution_clock::now();
 	cout << "Time taken to load data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 	list<string> favWords;
+	list<string> favDefs;
 	// load favorite words
-	loadFavWord(favWords);
+	loadFavWord(favWords, favDefs);
 	// test function to save favorite words
 	string word;
 	vector<string> definition;
+	string fileHistoryName = "Dataset\\history.csv";
 	while (1)
 	{
 		cout << "Enter a word: ";
 		getline(cin, word);
 		if (word == "exit") break;
-
-		start = chrono::high_resolution_clock::now();
 		if (findWordMeaning(root, word, definition))
 		{
-			end = chrono::high_resolution_clock::now();
-			cout << "Time taken to find the word: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 			int i = 0;
 			for (string& str : definition)
 			{
 				cout << "Meaning " << ++i << ":" << " ";
 				cout << str << endl;
+			}
+			if (addToHistory(word,definition[0], fileHistoryName))
+			{
+				cout << word << " added to history\n";
 			}
 		}
 		else
@@ -212,7 +214,7 @@ int main()
 		cin.ignore();
 		if (option)
 		{
-			likeAWord(favWords, word, root);
+			likeAWord(favWords,favDefs, word, root);
 		}
 	}
 
@@ -224,12 +226,13 @@ int main()
 	}
 	cout << "Enter a word to unlike: ";
 	getline(cin, word);
-	unlikeAWord(favWords, word, root);
+	unlikeAWord(favWords,favDefs, word, root);
 	// save favorite words
-	saveFavWord(favWords, root);
+	saveFavWord(favWords, favDefs);
 	deleteTrie(root);
 	return 0;
 }
+*/ 
 
 
 /* 
@@ -441,3 +444,9 @@ int main()
 	return 0;
 }
 */
+
+
+int main()
+{
+
+}

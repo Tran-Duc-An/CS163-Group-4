@@ -308,19 +308,24 @@ bool loadFavWord(list<string>& favWords, list<string>& def)
 	return true;
 }
 
-void likeAWord(list<string>& favWords, string word, trie* root)
+void likeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root)
 {
 	trie* wordNode = findWord(root, word);
 	wordNode->isLiked = true;
 	favWords.push_back(word);
+	favDefs.push_back(wordNode->definition[0]);
 }
-void unlikeAWord(list<string>& favWords, string word, trie* root)
+void unlikeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root)
 {
 	trie* wordNode = findWord(root, word);
 	wordNode->isLiked = false;
-	favWords.remove(word);
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	it = find(favDefs.begin(), favDefs.end(), wordNode->definition[0]);
+	if (it != favDefs.end()) favDefs.erase(it);
 }
-bool saveFavWord(list<string>& favWords, trie* root)
+bool saveFavWord(list<string>& favWords, list<string>& favDefs)
 {
 	ofstream fout;
 	fout.open("Dataset\\favEngToEngWords.csv");
@@ -329,33 +334,37 @@ bool saveFavWord(list<string>& favWords, trie* root)
 		cout << "File not found\n";
 		return false;
 	}
-	for (string& str : favWords)
+	int n = favWords.size();
+	for(int i = 0; i < n; ++i)
 	{
-		fout << str << ",";
-		trie* wordNode = findWord(root, str);
-		fout << wordNode->definition[0] << "\n";
+		fout << favWords.front() << "," << favDefs.front() << "\n";
+		favWords.pop_front();
+		favDefs.pop_front();
 	}
 	fout.close();
 	return true;
 }
 
-bool addToHistory(string word, trie* root)
+bool addToHistory(string word,string def, string fileName)
 {
 	ofstream fout;
-	fout.open("Dataset\\EngToEngHistory.csv", ios::app);
+	fout.open(fileName, ios::app);
 	if (!fout.is_open())
 	{
 		cout << "File not found\n";
 		return false;
 	}
 	fout << word << ",";
-	trie* wordNode = findWord(root, word);
-	fout << wordNode->definition[0] << "\n";
-	fout << "\n";
+	fout << def << "\n";
 	fout.close();
 	return true;
 }
-
+bool isLiked(string word, trie* root)
+{
+	trie* wordNode = findWord(root, word);
+	if (wordNode == nullptr) return false;
+	return wordNode->isLiked;
+}
 
 void getWordByIndex(trie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition)
 {
@@ -647,5 +656,89 @@ bool VChangeWordDefinition(Vtrie* root, wstring& word, wstring& newDefinition, i
 	if (node == nullptr) return false;
 	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+}
+
+
+
+bool EVloadFavWord(list<wstring>& favWords, list<wstring>& def)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin;
+	fin.imbue(loc);
+	fin.open("Dataset\\favEngToVietWords.csv");
+	if (!fin.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	while (!fin.eof())
+	{
+		wstring word;
+		getline(fin, word, L',');
+		if (word.empty()) break;
+		favWords.push_back(word);
+		getline(fin, word, L'\n');
+		def.push_back(word);
+	}
+	fin.close();
+	return true;
+}
+
+void EVlikeAWord(list<wstring>& favWords, list<wstring>& favDefs, string wword, trie* root)
+{
+	//trie* wordNode = findWord(root, word);
+	wordNode->isLiked = true;
+	favWords.push_back(word);
+	favDefs.push_back(wordNode->definition[0]);
+}
+void EVunlikeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root)
+{
+	//trie* wordNode = findWord(root, word);
+	wordNode->isLiked = false;
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	it = find(favDefs.begin(), favDefs.end(), wordNode->definition[0]);
+	if (it != favDefs.end()) favDefs.erase(it);
+}
+bool EVsaveFavWord(list<wstring>& favWords, list<wstring>& favDefs)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	fout.imbue(loc);
+	fout.open("Dataset\\favEngToVietWords.csv");
+	if (!fout.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	int n = favWords.size();
+	for(int i = 0; i < n; ++i)
+	{
+		fout << favWords.front() << L"," << favDefs.front() << L"\n";
+		favWords.pop_front();
+		favDefs.pop_front();
+	}
+	fout.close();
+	return true;
+}
+
+bool addToHistory(string word, string def, string fileName)
+{
+	ofstream fout;
+	fout.open(fileName, ios::app);
+	if (!fout.is_open())
+	{
+		cout << "File not found\n";
+		return false;
+	}
+	fout << word << ",";
+	fout << def << "\n";
+	fout.close();
 	return true;
 }

@@ -48,6 +48,7 @@ bool VloadRawData(Vtrie*& root);
 bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning);
 void VDeleteTrie(Vtrie*& root);
 void VEupdatesearchhistory(wstring word, vector<wstring> definition);
+void VEloadsearchhistory(vector<wstring>& info, vector<wstring>& time);
 bool VloadFavWord(list<wstring>& favWords);
 void VlikeAWord(list<wstring>& favWords, wstring word, Vtrie* root);
 void VunlikeAWord(list<wstring>& favWords, wstring word, Vtrie* root);

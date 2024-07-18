@@ -152,12 +152,10 @@
     <None Include="Dataset\Vietnamese - English.csv" />
     <None Include="Dataset\VietnameseAlphabet.csv" />
     <None Include="EV.csv" />
-    <None Include="output.csv" />
     <None Include="VE.csv" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dataset\EnglishDictionary.txt" />
-    <Text Include="output.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

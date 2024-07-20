@@ -7,7 +7,11 @@
 #include <iostream>
 #include <sstream>
 #include <random>
+#include <list>
+#include <chrono>
 using namespace std;
+std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter2;
+
 
 string toLowerCase(string& str) {
 	for (int i = 0; i < str.length(); i++) {
@@ -80,7 +84,7 @@ void EV::insertWord(EVTrie*& root, string& word, wstring& definition)
 
 }
 
-EVTrie* EV::findWord(EVTrie* root, string& word)
+EVTrie* EV::findWord(EVTrie* root, string word)
 {
 	word = toLowerCase(word);
 	EVTrie* current = root;
@@ -419,6 +423,67 @@ void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, stri
 	wstring wrongDefinition3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
+
+void EV::loadFavWord(EVTrie*root,list<string>& favWords, list<wstring>& def, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin;
+	fin.imbue(loc);
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		return;
+	}
+	while (!fin.eof())
+	{
+		wstring word = L"";
+		getline(fin, word, L',');
+		if (word.empty()) break;
+		EVTrie* node = EV::findWord(root, converter2.to_bytes(word));
+		if (node != nullptr) node->isLiked = 1;
+		favWords.push_back(converter2.to_bytes(word));
+		getline(fin, word, L'\n');
+		def.push_back(word);
+		
+	}
+	fin.close();
+	return;
+}
+
+void EV::unLikeAWord(list<string>& favWords, list<wstring>& favDefs, string word, wstring Def)
+{
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	auto it2 = find(favDefs.begin(), favDefs.end(), Def);
+	if (it2 != favDefs.end()) favDefs.erase(it2);
+}
+
+void EV::saveFavWord(list<string>& favWords, list<wstring>& favDefs, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	fout.imbue(loc);
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	int n = favWords.size();
+	for (int i = 0; i < n; ++i)
+	{
+		fout << converter2.from_bytes(favWords.front()) << L"," << favDefs.front() << L"\n";
+		favWords.pop_front();
+		favDefs.pop_front();
+	}
+	fout.close();
+	return;
+}
+
 
 //English to English Dictionary
 
@@ -789,6 +854,8 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 
+
+
 // Vietnamese to English dictionary
 short int map[7930];
 short int reverseMap[91];
@@ -1025,7 +1092,67 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	return true;
 }
 
+void VE::loadFavWord(VTrie*root,list<wstring>& favWords, list<wstring>& def, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin;
+	fin.imbue(loc);
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		return;
+	}
+	while (!fin.eof())
+	{
+		wstring word;
+		getline(fin, word, L',');
+		if (word.empty()) break;
 
+		VTrie* node = VE::findWord(root, word);
+		if (node != nullptr) node->isLiked = 1;
+
+		favWords.push_back(word);
+		getline(fin, word, L'\n');
+		def.push_back(word);
+		
+	}
+	fin.close();
+	return;
+}
+
+void VE::unLikeAWord(list<wstring>& favWords, list<wstring>& favDefs, wstring word, wstring Def)
+{
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	it = find(favDefs.begin(), favDefs.end(), Def);
+	if (it != favDefs.end()) favDefs.erase(it);
+}
+
+void VE::saveFavWord(list<wstring>& favWords, list<wstring>& favDefs, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	fout.imbue(loc);
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	int n = favWords.size();
+	for (int i = 0; i < n; ++i)
+	{
+		fout << favWords.front() << L"," << favDefs.front() << L"\n";
+		favWords.pop_front();
+		favDefs.pop_front();
+	}
+	fout.close();
+	return;
+}
 
 
 // Function to add word-definition pair to a vector
@@ -1166,3 +1293,31 @@ bool Def::loadHashTable(HashTable& ht, const string& filename) {
 	in.close();
 	return 1;
 }
+
+void addToHistory(wstring word, wstring def, string fileName)
+{
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout(fileName, ios::app);
+	fout.imbue(loc);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	else
+	{
+		time_t now;
+		time(&now);
+		tm* local = localtime(&now);
+		//Print out by this format: word, d/m/yyyy h:m:sAM/PM, definition
+		fout << word << ',' << local->tm_mday << '/' << local->tm_mon + 1 << '/' << local->tm_year + 1900
+			<< ' ' << (local->tm_hour >= 12 ? local->tm_hour - 12 : local->tm_hour) << ':' << local->tm_min << ':'
+			<< local->tm_sec << (local->tm_hour >= 12 ? "PM" : "AM") << ',';
+		fout << def << endl;
+	}
+	fout.close();
+}
+
+
+

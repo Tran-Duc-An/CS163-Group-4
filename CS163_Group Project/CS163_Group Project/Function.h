@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
-
+#include <list>
 using namespace std;
 struct EVTrie {
 	vector<EVTrie*>  children;
@@ -38,7 +38,7 @@ struct HashTable {
 };
 
 namespace EV {
-	EVTrie* findWord(EVTrie* root, string& word);
+	EVTrie* findWord(EVTrie* root, string word);
 	void deleteTrie(EVTrie* root);
 	void insertWord(EVTrie*& root, string& word, wstring& definition);
 	bool loadRawData(EVTrie*& root, string path);
@@ -50,7 +50,9 @@ namespace EV {
 	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);
 	void randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
 	void randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
-
+	void unLikeAWord(list<string>& favWords, list<wstring>& favDefs, string word, wstring Def);
+	void saveFavWord(list<string>& favWords, list<wstring>& favDefs, string filename);
+	void loadFavWord(EVTrie* root, list<string>& favWords, list<wstring>& def, string filename);
 
 }
 
@@ -84,6 +86,9 @@ namespace VE {
 	bool loadRawData(VTrie*& root,string path);
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
+	void unLikeAWord(list<wstring>& favWords, list<wstring>& favDefs, wstring word, wstring Def);
+	void saveFavWord(list<wstring>& favWords, list<wstring>& favDefs, string filename);
+	void loadFavWord(VTrie* root, list<wstring>& favWords, list<wstring>& def, string filename);
 }
 
 namespace Def {
@@ -94,5 +99,7 @@ namespace Def {
 	bool loadHashTable(HashTable& ht, const string& filename);
 }
 
-void handleWString(wstring& s, int row);
+void handleWString(wstring& s, int row, int maxRows);
 void fillMap();
+void addToHistory(wstring word, wstring def, string fileName);
+

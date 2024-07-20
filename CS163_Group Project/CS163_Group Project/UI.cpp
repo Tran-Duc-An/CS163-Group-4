@@ -66,6 +66,27 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 }
 
 
+
+
+void InputBox::pasteFromClipboard() {
+#ifdef _WIN32
+	if (OpenClipboard(nullptr)) {
+		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
+		wchar_t* pszText = static_cast<wchar_t*>(GlobalLock(hData));
+		if (pszText) {
+			std::wstring str = text.getString();
+			str += pszText;
+			text.setString(str);
+			GlobalUnlock(hData);
+		}
+		CloseClipboard();
+	}
+#else
+	name = sf::Clipboard::getString().toWideString();
+	textDisplay.setString(name);
+#endif
+}
+
 void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -92,13 +113,13 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			}
 		}
 		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.control && event.key.code == sf::Keyboard::C) {
-				copyToClipboard();
-			}
-			else if (event.key.control && event.key.code == sf::Keyboard::V) {
+
+			if (event.key.control && event.key.code == sf::Keyboard::V) {
+			
 				pasteFromClipboard();
+
 			}
-			if (event.key.code == sf::Keyboard::BackSpace) {
+			else if (event.key.code == sf::Keyboard::BackSpace) {
 				if (!str.empty()) {
 					if (str.back() == L'\n') str.pop_back();
 					str.pop_back();
@@ -110,7 +131,7 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 }
 void InputBox::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
-	std::string str = text.getString().toAnsiString();
+	std::wstring str = text.getString();
 	if (str.empty() && active == 0) {
 		window.draw(nameHolder);
 	}
@@ -123,38 +144,7 @@ void InputBox::draw(sf::RenderWindow& window) {
 	}
 }
 
-void InputBox::copyToClipboard() {
-#ifdef _WIN32
-	if (OpenClipboard(nullptr)) {
-		EmptyClipboard();
-		HGLOBAL hGlob = GlobalAlloc(GMEM_FIXED, (name.size() + 1) * sizeof(wchar_t));
-		memcpy(hGlob, name.c_str(), (name.size() + 1) * sizeof(wchar_t));
-		SetClipboardData(CF_UNICODETEXT, hGlob);
-		CloseClipboard();
-		GlobalFree(hGlob);
-	}
-#else
-	sf::Clipboard::setString(name);
-#endif
-}
 
-void InputBox::pasteFromClipboard() {
-#ifdef _WIN32
-	if (OpenClipboard(nullptr)) {
-		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
-		wchar_t* pszText = static_cast<wchar_t*>(GlobalLock(hData));
-		if (pszText) {
-			name = pszText;
-			textDisplay.setString(name);
-			GlobalUnlock(hData);
-		}
-		CloseClipboard();
-	}
-#else
-	name = sf::Clipboard::getString().toWideString();
-	textDisplay.setString(name);
-#endif
-}
 InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars) : InputBox(x, y, imagePath, name) {
 	numRow = numRows;
 	numChar = numChars;

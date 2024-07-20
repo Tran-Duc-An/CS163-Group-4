@@ -8,11 +8,12 @@
 #include <locale>
 #include <codecvt>
 #include <random>
-sf::RenderWindow window(sf::VideoMode(1500,800), "Dictionary");
-sf::Event event;
-sf::View view = window.getView();
-float scrollSpeed = 50.f;
+#include <list>
 
+ sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
+ sf::Event event;
+
+// home page
 Button searchButton(715, 155, "Image/searchButton.png");
 Button translatingButton(715, 305, "Image/translateButton.png");
 Button addNewWordButton(715, 455, "Image/addButton.png");
@@ -20,45 +21,36 @@ Button qnaButton(715, 605, "Image/qnaButton.png");
 Button historyButton(30, 600, "Image/historyButton.png");
 Button isLikedButton(30, 400, "Image/likedButton.png");
 
+//switch dataset
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
 Button ENtoENButton(1034, 33, "Image/ENtoENButton.png");
 
-
+//function button
 Button backButton(12, 18, "Image/backButton.png");
 Button nextDefButton(1275, 710, "Image/nextButton.png");
 Button backDefButton(820, 710, "Image/backDefButton.png");
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
 
+//searching
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
 
-Button heartKeyButton(45, 715, "Image/heart.png");
-Button deleteKeyButton(180, 715, "Image/deleteButton.png");
-
-Button guessByKey(95, 28, "Image/guessByKey.png");
-Button guessByDef(95, 28, "Image/guessByDef.png");
-
-Button nextQuestion(1342, 170, "Image/nextButton.png");
-
-InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
-InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
-
 InputBox searchKeyBox(28, 412, "Image/InputBox.png", L"Text here");
-InputDef searchDefBox(75, 400, "Image/InputDef.png", L"Text here",6,50);
-
-SubmitENButton translateEN(576, 600, "Image/translateSubmit.png");
-SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
+InputDef searchDefBox(75, 400, "Image/InputDef.png", L"Text here", 6, 50);
 
 SubmitENButton submitSearchKey(383, 729, "Image/searchSubmit.png");
 SubmitENButton submitSearchDef(1270, 716, "Image/searchSubmit.png");
 
-InputBox inputWord(192, 117, "Image/InputBox.png", L"Enter word");
-InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
 
-SubmitENButton addENButton(1157, 238, "Image/add.png");
-SubmitVNButton addVNButton(1157, 238, "Image/add.png");
+Button heartKeyButton(45, 715, "Image/heart.png");
+Button deleteKeyButton(180, 715, "Image/deleteButton.png");
+
+//QNA
+Button guessByKey(95, 28, "Image/guessByKey.png");
+Button guessByDef(95, 28, "Image/guessByDef.png");
+Button nextQuestion(1342, 170, "Image/nextButton.png");
 
 AnswerButton A(209, 442, "Image/answerKeyBox.png");
 AnswerButton B(209, 616, "Image/answerKeyBox.png");
@@ -71,6 +63,22 @@ AnswerButton CDef(804, 295, "Image/answerDefBox.png");
 AnswerButton DDef(804, 543, "Image/answerDefBox.png");
 
 
+//Translating
+InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
+InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
+
+SubmitENButton translateEN(576, 600, "Image/translateSubmit.png");
+SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
+
+//Adding
+InputBox inputWord(192, 117, "Image/InputBox.png", L"Enter word");
+InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
+
+SubmitENButton addENButton(1157, 238, "Image/add.png");
+SubmitVNButton addVNButton(1157, 238, "Image/add.png");
+
+
+
 sf::Font font;
 vector<wstring> transDef;
 vector<string> searchDef;
@@ -79,6 +87,10 @@ EVTrie* rootEtoV = new EVTrie();
 EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
 HashTable rootDtoE;
+
+
+
+std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 
 int page = 0;
 int orderDef = 0;
@@ -89,10 +101,11 @@ bool searchingType = 0;
 int addingType = 0;
 int qnaType = 0;
 
-void handleWString(wstring& s, int row) {
-	int end = 0;
+void handleWString(wstring& s, int row, int maxRows) {
 	int l = 0;
 	double cnt = 0;
+	int insertedRows = 0;
+
 	while (l < s.length()) {
 		cnt++;
 		if (cnt >= row) {
@@ -100,15 +113,21 @@ void handleWString(wstring& s, int row) {
 				s.insert(l, 1, L'\n');
 				cnt = 0;
 				l++; // Move past the inserted newline
+				insertedRows++; // Increment the number of inserted new lines
+				if (insertedRows >= maxRows) {
+					s = s.substr(0, l) + L"...";
+					break;
+				}
 			}
 		}
 		l++;
 	}
 }
-void handleString(string& s, int row) {
-	int end = 0;
+void handleString(string& s, int row, int maxRows) {
 	int l = 0;
 	double cnt = 0;
+	int insertedRows = 0;
+
 	while (l < s.length()) {
 		cnt++;
 		if (cnt >= row) {
@@ -116,15 +135,30 @@ void handleString(string& s, int row) {
 				s.insert(l, 1, '\n');
 				cnt = 0;
 				l++; // Move past the inserted newline
+				insertedRows++; // Increment the number of inserted new lines
+				if (insertedRows >= maxRows) {
+					s = s.substr(0, l) + "...";
+					break;
+				}
 			}
 		}
 		l++;
 	}
 }
 
+void removeEndline(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] == L'\n') s.erase(s.begin() + i);
+	}
+}
+void removeWEndline(wstring& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] == L'\n') s.erase(s.begin() + i);
+	}
+}
 
 void displayWDef(int x, int y, wstring meaning,int row) {
-	handleWString(meaning, row);
+	handleWString(meaning, row,5);
 	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(30);
@@ -137,7 +171,7 @@ void displayWDef(int x, int y, wstring meaning,int row) {
 }
 
 void displayDef(int x, int y, string meaning, int row) {
-	handleString(meaning, row);
+	handleString(meaning, row,5);
 	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(30);
@@ -165,6 +199,12 @@ VTrie* nodeV = nullptr;
 EVTrie* nodeE = nullptr;
 std::string transWord;
 std::wstring transWword;
+
+list<wstring> favWordsVE;
+list<wstring> favDefsVE;
+
+list<string> favWordsEV;
+list<wstring> favDefsEV;
 
 void translating() {
 
@@ -215,6 +255,7 @@ void translating() {
 		if (transType == 0) {//Vietnamese to English
 			if (VNtoEnButton.isClicked(window, event)) {
 				transType = 1;
+				translateFlag = 0;
 			}
 			inputVNBox.isClicked(window, event);
 
@@ -222,11 +263,24 @@ void translating() {
 				transDef.clear();
 				orderDef = 0;
 				translateFlag = 1;
+				removeWEndline(transWword);
 				if (!VE::findWordMeaning(rootVtoE, transWword, transDef,nodeV)) transDef.push_back(L"No definition");
+				else {
+					addToHistory(transWword, transDef[0], "Dataset/History.txt");
+				}
 		
 			}
 			if (heartButton.isClicked(window, event)) {
-				if (nodeV != nullptr) nodeV->isLiked = 1 - nodeV->isLiked;
+				if (nodeV != nullptr) {
+					nodeV->isLiked = 1 - nodeV->isLiked;
+					if (nodeV->isLiked == 1) {
+						favWordsVE.push_back(transWword);
+						favDefsVE.push_back(transDef[0]);
+					}
+					else {
+						VE::unLikeAWord(favWordsVE, favDefsVE, transWword, transDef[0]);
+					}
+				}
 			}
 			if (deleteButton.isClicked(window, event)) {
 				VE::deleteAWord(rootVtoE, transWword);
@@ -238,16 +292,30 @@ void translating() {
 		else {//English to Vietnamese
 			if (ENtoVnButton.isClicked(window, event)) {
 				transType = 0;
+				translateFlag = 0;
 			}
 			inputENBox.isClicked(window, event);
 			if (translateEN.isClicked(window, event, transWord, inputENBox.text)) {
 				transDef.clear();
 				translateFlag = 1;
 				orderDef = 0;
+				removeEndline(transWord);
 				if (!EV::findWordMeaning(rootEtoV, transWord, transDef,nodeE)) transDef.push_back(L"No definition");
+				else {
+					addToHistory(converter.from_bytes(transWord), transDef[0], "Dataset/History.txt");
+				}
 			}
 			if (heartButton.isClicked(window, event)) {
-				if (nodeE != nullptr) nodeE->isLiked = 1 - nodeE->isLiked;
+				if (nodeE != nullptr) {
+					nodeE->isLiked = 1 - nodeE->isLiked;
+					if (nodeE->isLiked == 1) {
+						favWordsEV.push_back(transWord);
+						favDefsEV.push_back(transDef[0]);
+					}
+					else {
+						EV::unLikeAWord(favWordsEV, favDefsEV, transWord, transDef[0]);
+					}
+				}
 			}
 			if (deleteButton.isClicked(window, event)) {
 				EV::deleteAWord(rootEtoV, transWord);
@@ -261,11 +329,17 @@ void translating() {
 
 	}
 
-	if (inputVNBox.text.getString() == L"") translateFlag = 0;
+
 
 	//display 
 	
 	if (transType == 0) {//Vietnamese to English
+
+		if (inputVNBox.text.getString() == L"") {
+			translateFlag = 0;
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
 
 		if (translateFlag == 1) {
 			displayWDef(870, 300, transDef[orderDef], 30);
@@ -280,23 +354,32 @@ void translating() {
 			}
 		}
 		
+		
+
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		translateVN.isHover(window, "Image/transSubHover.png");
 		translateVN.draw(window);
 
 	}
 	else {//English to Vietnamese
-		if (translateFlag == 1) {
-			displayWDef(870, 300, transDef[orderDef], 30);
-		}
-		if (nodeE!=nullptr && nodeE->isLiked == 0) {
+
+		if (inputENBox.text.getString() == L"") {
+			translateFlag = 0;
 			heartButton.texture.loadFromFile("Image/heart.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
-		else if (nodeE!=nullptr && nodeE->isLiked == 1) {
-			heartButton.texture.loadFromFile("Image/heartHover.png");
-			heartButton.sprite.setTexture(heartButton.texture);
+		if (translateFlag == 1) {
+			displayWDef(870, 300, transDef[orderDef], 30);
+			if (nodeE != nullptr && nodeE->isLiked == 0) {
+				heartButton.texture.loadFromFile("Image/heart.png");
+				heartButton.sprite.setTexture(heartButton.texture);
+			}
+			else if (nodeE != nullptr && nodeE->isLiked == 1) {
+				heartButton.texture.loadFromFile("Image/heartHover.png");
+				heartButton.sprite.setTexture(heartButton.texture);
+			}
 		}
+
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 		translateEN.isHover(window, "Image/transSubHover.png");
 		translateEN.draw(window);
@@ -359,7 +442,11 @@ void search() {
 			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 				searchDef.clear();
 				orderDef = 0;
+				removeEndline(word);
 				if(!EE::findWordMeaning(rootEtoE, word, searchDef,nodeEE)) searchDef.push_back("No definition");
+				else {	
+					addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
+				}
 				searchFlag = 1;
 				
 			}
@@ -381,7 +468,11 @@ void search() {
 		else {//search with definition
 			searchDefBox.isClicked(window, event);
 			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
+				removeEndline(def);
 				word = Def::findWordMeaning(rootDtoE, def);
+				if (word != "") {
+					addToHistory(converter.from_bytes(word), converter.from_bytes(def), "Dataset/History.csv");
+				}
 				searchFlag = 1;
 			}
 
@@ -467,6 +558,8 @@ void adding() {
 			}
 			if (addENButton.isClicked(window, event, word, inputWord.text) &&
 				addVNButton.isClicked(window, event, wdef, inputDef.text)) {
+				removeEndline(word);
+				removeWEndline(wdef);
 				EV::insertWord(rootEtoV, word, wdef);
 			}
 		}
@@ -476,6 +569,8 @@ void adding() {
 			}
 			if (addVNButton.isClicked(window, event, wword, inputWord.text) &&
 				addVNButton.isClicked(window, event, wdef, inputDef.text)) {
+				removeWEndline(wword);
+				removeWEndline(wdef);
 				VE::insertWord(rootVtoE, wword, wdef);
 			}
 		}
@@ -484,6 +579,8 @@ void adding() {
 				addingType = 0;
 			if (addENButton.isClicked(window, event, word, inputWord.text) &&
 				addENButton.isClicked(window, event, def, inputDef.text)) {
+				removeEndline(word);
+				removeEndline(def);
 				EE::insertWord(rootEtoE, word, def);
 			}
 		}
@@ -546,7 +643,7 @@ std::string wrongDef2;
 std::string wrongDef3;
 
 
-std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+
 std::wstring wrightWord;
 std::wstring wrightDef;
 
@@ -808,7 +905,7 @@ void QnA() {
 					wrongWord3 = "";
 
 					EV::randomADefinitionAnd4Words(rootEtoV, wrightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
-					handleWString(wrightDef, 80);
+					handleWString(wrightDef, 80,6);
 					ansWord.push_back(converter.from_bytes(rightWord));
 					ansWord.push_back(converter.from_bytes(wrongWord1));
 					ansWord.push_back(converter.from_bytes(wrongWord2));
@@ -828,13 +925,13 @@ void QnA() {
 
 					wrightWord = converter.from_bytes(rightWord);
 					ansDef.push_back(wrightDef);
-					handleWString(ansDef[0], 40);
+					handleWString(ansDef[0], 40,4);
 					ansDef.push_back(wwrongDef1);
-					handleWString(ansDef[1], 40);
+					handleWString(ansDef[1], 40,4);
 					ansDef.push_back(wwrongDef2);
-					handleWString(ansDef[2], 40);
+					handleWString(ansDef[2], 40,4);
 					ansDef.push_back(wwrongDef3);
-					handleWString(ansDef[3], 40);
+					handleWString(ansDef[3], 40,4);
 
 					randomDefAnswer(ansDef, 3);
 					memset(rangeRandom, 1, 4);
@@ -864,7 +961,7 @@ void QnA() {
 					
 
 					wrightDef = converter.from_bytes(rightDef);
-					handleWString(wrightDef, 80);
+					handleWString(wrightDef, 80,6);
 					ansWord.push_back(converter.from_bytes(rightWord));
 					ansWord.push_back(converter.from_bytes(wrongWord1));
 					ansWord.push_back(converter.from_bytes(wrongWord2));
@@ -884,13 +981,13 @@ void QnA() {
 					
 					wrightWord = converter.from_bytes(rightWord);
 					ansDef.push_back(converter.from_bytes(rightDef));
-					handleWString(ansDef[0],40);
+					handleWString(ansDef[0],40,4);
 					ansDef.push_back(converter.from_bytes(wrongDef1));
-					handleWString(ansDef[1], 40);
+					handleWString(ansDef[1], 40,4);
 					ansDef.push_back(converter.from_bytes(wrongDef2));
-					handleWString(ansDef[2], 40);
+					handleWString(ansDef[2], 40,4);
 					ansDef.push_back(converter.from_bytes(wrongDef3));
-					handleWString(ansDef[3], 40);
+					handleWString(ansDef[3], 40,4);
 
 					randomDefAnswer(ansDef, 3);
 					memset(rangeRandom, 1, 4);
@@ -1116,17 +1213,21 @@ bool loadData() {
 		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
 		Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
 	}
+
+	EV::loadFavWord(rootEtoV,favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	VE::loadFavWord(rootVtoE,favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+
 	auto end = chrono::high_resolution_clock::now();
-	chrono::duration<double> duration = end - start;
-	cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
+	//chrono::duration<double> duration = end - start;
+	//cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
 
 	return 1;
 }
 
 int run() {
-	font.loadFromFile("Font/ARIAL.TTF");
 	setBackground();
-	//if (!loadData()) return 0;
+	font.loadFromFile("Font/ARIAL.TTF");
+	if (!loadData()) return 0;
 	while (window.isOpen()) {
 		setBackground();
 		switch (page)
@@ -1165,6 +1266,10 @@ int run() {
 		window.display();
 		window.clear(sf::Color::White);
 	}
+
+	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+
 	EV::deleteTrie(rootEtoV);
 	VE::deleteTrie(rootVtoE);
 	EE::deleteTrie(rootEtoE);

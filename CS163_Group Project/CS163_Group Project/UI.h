@@ -24,7 +24,6 @@ struct InputBox : Button {
 	InputBox(int x, int y, std::string imagePath, std::wstring name);
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 	void draw(sf::RenderWindow& window);
-	void copyToClipboard();
 	void pasteFromClipboard();
 };
 

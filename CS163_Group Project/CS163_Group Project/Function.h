@@ -58,7 +58,7 @@ namespace EV {
 
 namespace EE {
 	void insertWord(EETrie*& root, string& word, string& definition);
-	EETrie* findWord(EETrie* root, string& word);
+	EETrie* findWord(EETrie* root, string word);
 	bool changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EETrie* root, string& word);
 	bool deleteAWord(EETrie* root, string& word);
@@ -70,7 +70,9 @@ namespace EE {
 	void getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition);
 	void randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3);
 	void randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
-
+	void unLikeAWord(list<string>& favWords, list<string>& favDefs, string word, string Def);
+	void saveFavWord(list<string>& favWords, list<string>& favDefs, string filename);
+	void loadFavWord(EETrie* root, list<string>& favWords, list<string>& def, string filename);
 
 }
 

@@ -101,6 +101,79 @@ bool searchingType = 0;
 int addingType = 0;
 int qnaType = 0;
 
+list<wstring> favWordsVE;
+list<wstring> favDefsVE;
+
+list<string> favWordsEV;
+list<wstring> favDefsEV;
+
+list<string> favWordsEE;
+list<string> favDefsEE;
+
+void setBackground();
+void translating();
+void searching();
+void adding();
+void QnA();
+void history();
+void isLiked();
+void homePage();
+bool loadData();
+
+int run() {
+	setBackground();
+	font.loadFromFile("Font/ARIAL.TTF");
+	if (!loadData()) return 0;
+	while (window.isOpen()) {
+		setBackground();
+		switch (page)
+		{
+		case 0: {
+			homePage();
+			break;
+		}
+		case 1: {
+			searching();
+			break;
+		}
+		case 2: {
+			translating();
+			break;
+		}
+		case 3: {
+			adding();
+			break;
+		}
+		case 4: {
+			QnA();
+			break;
+		}
+		case 5: {
+			history();
+			break;
+		}
+		case 6: {
+			isLiked();
+			break;
+		}
+		default:
+			break;
+		}
+		window.display();
+		window.clear(sf::Color::White);
+	}
+
+	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+
+	EV::deleteTrie(rootEtoV);
+	VE::deleteTrie(rootVtoE);
+	EE::deleteTrie(rootEtoE);
+	return 0;
+}
+
+
 void handleWString(wstring& s, int row, int maxRows) {
 	int l = 0;
 	double cnt = 0;
@@ -157,8 +230,8 @@ void removeWEndline(wstring& s) {
 	}
 }
 
-void displayWDef(int x, int y, wstring meaning,int row) {
-	handleWString(meaning, row,5);
+void displayWDef(int x, int y, wstring meaning, int row) {
+	handleWString(meaning, row, 5);
 	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(30);
@@ -171,7 +244,7 @@ void displayWDef(int x, int y, wstring meaning,int row) {
 }
 
 void displayDef(int x, int y, string meaning, int row) {
-	handleString(meaning, row,5);
+	handleString(meaning, row, 5);
 	if (!meaning.empty()) {
 		sf::Text def;
 		def.setCharacterSize(30);
@@ -200,11 +273,6 @@ EVTrie* nodeE = nullptr;
 std::string transWord;
 std::wstring transWword;
 
-list<wstring> favWordsVE;
-list<wstring> favDefsVE;
-
-list<string> favWordsEV;
-list<wstring> favDefsEV;
 
 void translating() {
 
@@ -264,11 +332,11 @@ void translating() {
 				orderDef = 0;
 				translateFlag = 1;
 				removeWEndline(transWword);
-				if (!VE::findWordMeaning(rootVtoE, transWword, transDef,nodeV)) transDef.push_back(L"No definition");
+				if (!VE::findWordMeaning(rootVtoE, transWword, transDef, nodeV)) transDef.push_back(L"No definition");
 				else {
 					addToHistory(transWword, transDef[0], "Dataset/History.txt");
 				}
-		
+
 			}
 			if (heartButton.isClicked(window, event)) {
 				if (nodeV != nullptr) {
@@ -300,7 +368,7 @@ void translating() {
 				translateFlag = 1;
 				orderDef = 0;
 				removeEndline(transWord);
-				if (!EV::findWordMeaning(rootEtoV, transWord, transDef,nodeE)) transDef.push_back(L"No definition");
+				if (!EV::findWordMeaning(rootEtoV, transWord, transDef, nodeE)) transDef.push_back(L"No definition");
 				else {
 					addToHistory(converter.from_bytes(transWord), transDef[0], "Dataset/History.txt");
 				}
@@ -332,7 +400,7 @@ void translating() {
 
 
 	//display 
-	
+
 	if (transType == 0) {//Vietnamese to English
 
 		if (inputVNBox.text.getString() == L"") {
@@ -353,8 +421,8 @@ void translating() {
 				heartButton.sprite.setTexture(heartButton.texture);
 			}
 		}
-		
-		
+
+
 
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		translateVN.isHover(window, "Image/transSubHover.png");
@@ -385,7 +453,7 @@ void translating() {
 		translateEN.draw(window);
 	}
 
-	if (translateFlag == 1 && transDef[0]!=L"No definition") {
+	if (translateFlag == 1 && transDef[0] != L"No definition") {
 
 		backDefButton.draw(window);
 		nextDefButton.draw(window);
@@ -394,7 +462,7 @@ void translating() {
 		backDefButton.isHover(window, "Image/backDefHover.png");
 		nextDefButton.isHover(window, "Image/nextDefHover.png");
 		deleteButton.isHover(window, "Image/deleteHover.png");
-		
+
 	}
 
 	backButton.draw(window);
@@ -404,7 +472,7 @@ EETrie* nodeEE = nullptr;
 std::string def = "";
 std::string word = "";
 
-void search() {
+void searching() {
 	sf::Texture layout2;
 	if (searchingType == 0) {
 		if (!layout2.loadFromFile("Image/layout2.png")) {
@@ -443,16 +511,25 @@ void search() {
 				searchDef.clear();
 				orderDef = 0;
 				removeEndline(word);
-				if(!EE::findWordMeaning(rootEtoE, word, searchDef,nodeEE)) searchDef.push_back("No definition");
-				else {	
+				if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
+				else {
 					addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
 				}
 				searchFlag = 1;
-				
+
 			}
 
 			if (heartKeyButton.isClicked(window, event)) {
-				if (nodeEE != nullptr) nodeEE->isLiked = 1 - nodeEE->isLiked;
+				if (nodeEE != nullptr) {
+					nodeEE->isLiked = 1 - nodeEE->isLiked;
+					if (nodeEE->isLiked == 1) {
+						favWordsEE.push_back(word);
+						favDefsEE.push_back(searchDef[0]);
+					}
+					else {
+						EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
+					}
+				}
 			}
 
 			if (deleteKeyButton.isClicked(window, event)) {
@@ -477,13 +554,17 @@ void search() {
 			}
 
 		}
-		
+
 	}
-	
+
 
 	if (searchingType == 0) { //search by keyword
 		searchKeyBox.draw(window);
-
+		if (searchKeyBox.text.getString() == "") {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+			searchFlag = 0;
+		}
 		if (searchFlag == 1) {
 			nextDefButton.draw(window);
 			backDefButton.draw(window);
@@ -497,11 +578,12 @@ void search() {
 				heartKeyButton.texture.loadFromFile("Image/heartHover.png");
 				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
 			}
+
 			heartKeyButton.draw(window);
 			deleteKeyButton.draw(window);
 			deleteKeyButton.isHover(window, "Image/deleteHover.png");
 		}
-		if (searchKeyBox.text.getString() == "") searchFlag = 0;
+		
 		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
 		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
 		submitSearchKey.draw(window);
@@ -527,9 +609,6 @@ void search() {
 		submitSearchDef.isHover(window, "Image/searchSubmitHover.png");
 	}
 
-	
-
-	
 
 
 	searchKeyButton.draw(window);
@@ -749,6 +828,7 @@ int getRandom(int min, int max) {
 	// Generate and return the random number
 	return dis(gen);
 }
+
 void randomKeyAnswer(vector<std::wstring> ansWord, int k) {
 	if (ansWord.empty()) return;
 	if (k < 0) return;
@@ -819,7 +899,6 @@ void randomDefAnswer(vector<std::wstring> ansDef, int k) {
 	randomDefAnswer(ansDef, --k);
 }
 
-
 void rightorwrongKey() {
 	if (answerFlag == 0) {
 		sf::Texture wrong;
@@ -840,6 +919,7 @@ void rightorwrongKey() {
 		}
 	}
 }
+
 void rightorwrongDef() {
 	if (answerFlag == 0) {
 		sf::Texture wrong;
@@ -886,13 +966,13 @@ void QnA() {
 			}
 		}
 		else if (qnaType == 1) {
-			
+
 			if (ENtoVnButton.isClicked(window, event)) {
 				qnaType = 2;
 				answerFlag = 2;
 			}
 			if (nextQuestion.isClicked(window, event)) {
-			
+
 				answerFlag = 2;
 
 				if (guessType == 0) {//guess by definition
@@ -905,7 +985,7 @@ void QnA() {
 					wrongWord3 = "";
 
 					EV::randomADefinitionAnd4Words(rootEtoV, wrightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
-					handleWString(wrightDef, 80,6);
+					handleWString(wrightDef, 80, 6);
 					ansWord.push_back(converter.from_bytes(rightWord));
 					ansWord.push_back(converter.from_bytes(wrongWord1));
 					ansWord.push_back(converter.from_bytes(wrongWord2));
@@ -925,13 +1005,13 @@ void QnA() {
 
 					wrightWord = converter.from_bytes(rightWord);
 					ansDef.push_back(wrightDef);
-					handleWString(ansDef[0], 40,4);
+					handleWString(ansDef[0], 40, 4);
 					ansDef.push_back(wwrongDef1);
-					handleWString(ansDef[1], 40,4);
+					handleWString(ansDef[1], 40, 4);
 					ansDef.push_back(wwrongDef2);
-					handleWString(ansDef[2], 40,4);
+					handleWString(ansDef[2], 40, 4);
 					ansDef.push_back(wwrongDef3);
-					handleWString(ansDef[3], 40,4);
+					handleWString(ansDef[3], 40, 4);
 
 					randomDefAnswer(ansDef, 3);
 					memset(rangeRandom, 1, 4);
@@ -939,13 +1019,13 @@ void QnA() {
 			}
 		}
 		else {
-			
+
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
 				answerFlag = 2;
 			}
 			if (nextQuestion.isClicked(window, event)) {
-			
+
 				answerFlag = 2;
 
 				if (guessType == 0) {//guess by definition
@@ -958,10 +1038,10 @@ void QnA() {
 					wrongWord3 = "";
 
 					EE::randomADefinitionAnd4Words(rootEtoE, rightDef, rightWord, wrongWord1, wrongWord2, wrongWord3);
-					
+
 
 					wrightDef = converter.from_bytes(rightDef);
-					handleWString(wrightDef, 80,6);
+					handleWString(wrightDef, 80, 6);
 					ansWord.push_back(converter.from_bytes(rightWord));
 					ansWord.push_back(converter.from_bytes(wrongWord1));
 					ansWord.push_back(converter.from_bytes(wrongWord2));
@@ -970,7 +1050,7 @@ void QnA() {
 					randomKeyAnswer(ansWord, 3);
 					memset(rangeRandom, 1, 4);
 				}
-				else {	
+				else {
 					ansDef.clear();
 					rightWord = "";
 					rightDef = "";
@@ -978,16 +1058,16 @@ void QnA() {
 					wrongDef2 = "";
 					wrongDef3 = "";
 					EE::randomAWordAnd4Definitions(rootEtoE, rightWord, rightDef, wrongDef1, wrongDef2, wrongDef3);
-					
+
 					wrightWord = converter.from_bytes(rightWord);
 					ansDef.push_back(converter.from_bytes(rightDef));
-					handleWString(ansDef[0],40,4);
+					handleWString(ansDef[0], 40, 4);
 					ansDef.push_back(converter.from_bytes(wrongDef1));
-					handleWString(ansDef[1], 40,4);
+					handleWString(ansDef[1], 40, 4);
 					ansDef.push_back(converter.from_bytes(wrongDef2));
-					handleWString(ansDef[2], 40,4);
+					handleWString(ansDef[2], 40, 4);
 					ansDef.push_back(converter.from_bytes(wrongDef3));
-					handleWString(ansDef[3], 40,4);
+					handleWString(ansDef[3], 40, 4);
 
 					randomDefAnswer(ansDef, 3);
 					memset(rangeRandom, 1, 4);
@@ -1012,7 +1092,7 @@ void QnA() {
 
 	if (qnaType == 0) {
 		VNtoEnButton.draw(window);
-		VNtoEnButton.isHover(window,"Image/VNtoENHover.png");
+		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 	}
 	else if (qnaType == 1) {
 		ENtoVnButton.draw(window);
@@ -1028,7 +1108,7 @@ void QnA() {
 	text.setCharacterSize(30);
 	text.setFillColor(sf::Color::Black);
 	text.setPosition(100, 110);
-	
+
 	if (guessType == 0) {//Guess by definition
 		guessByDef.draw(window);
 		guessByDef.isHover(window, "Image/guessByDefHover.png");
@@ -1043,7 +1123,7 @@ void QnA() {
 		D.draw(window);
 
 		rightorwrongKey();
-		
+
 	}
 	else {//guess by keyword
 		guessByKey.draw(window);
@@ -1194,7 +1274,7 @@ bool loadData() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
-	
+
 	auto start = chrono::high_resolution_clock::now();
 	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
 		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
@@ -1208,14 +1288,15 @@ bool loadData() {
 		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	}
-	
+
 	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
 		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
 		Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
 	}
 
-	EV::loadFavWord(rootEtoV,favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
-	VE::loadFavWord(rootVtoE,favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
 	auto end = chrono::high_resolution_clock::now();
 	//chrono::duration<double> duration = end - start;
@@ -1223,57 +1304,3 @@ bool loadData() {
 
 	return 1;
 }
-
-int run() {
-	setBackground();
-	font.loadFromFile("Font/ARIAL.TTF");
-	if (!loadData()) return 0;
-	while (window.isOpen()) {
-		setBackground();
-		switch (page)
-		{
-		case 0: {
-			homePage();
-			break;
-		}
-		case 1: {
-			search();
-			break;
-		}
-		case 2: {
-			translating();
-			break;
-		}
-		case 3: {
-			adding();
-			break;
-		}
-		case 4: {
-			QnA();
-			break;
-		}
-		case 5: {
-			history();
-			break;
-		}
-		case 6: {
-			isLiked();
-			break;
-		}
-		default:
-			break;
-		}
-		window.display();
-		window.clear(sf::Color::White);
-	}
-
-	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
-	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
-
-	EV::deleteTrie(rootEtoV);
-	VE::deleteTrie(rootVtoE);
-	EE::deleteTrie(rootEtoE);
-	return 0;
-}
-
-

@@ -539,7 +539,7 @@ void EE::insertWord(EETrie*& root, string& word, string& definition)
 	current->definition.push_back(definition);
 }
 
-EETrie* EE::findWord(EETrie* root, string& word)
+EETrie* EE::findWord(EETrie* root, string word)
 {
 	word = toLowerCase(word);
 	EETrie* current = root;
@@ -854,6 +854,57 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 
+void EE::loadFavWord(EETrie* root, list<string>& favWords, list<string>& def, string filename)
+{
+	ifstream fin;
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		return;
+	}
+	while (!fin.eof())
+	{
+		string word;
+		getline(fin, word, ',');
+		if (word.empty()) break;
+		EETrie* node = EE::findWord(root, word);
+		if (node != nullptr) node->isLiked = 1;
+		favWords.push_back(word);
+		getline(fin, word, '\n');
+		def.push_back(word);
+
+	}
+	fin.close();
+	return;
+}
+
+void EE::unLikeAWord(list<string>& favWords, list<string>& favDefs, string word, string Def)
+{
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	auto it2 = find(favDefs.begin(), favDefs.end(), Def);
+	if (it2 != favDefs.end()) favDefs.erase(it2);
+}
+
+void EE::saveFavWord(list<string>& favWords, list<string>& favDefs, string filename)
+{
+	ofstream fout;
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	int n = favWords.size();
+	for (int i = 0; i < n; ++i)
+	{
+		fout << favWords.front() << "," << favDefs.front() << "\n";
+		favWords.pop_front();
+		favDefs.pop_front();
+	}
+	fout.close();
+	return;
+}
 
 
 // Vietnamese to English dictionary

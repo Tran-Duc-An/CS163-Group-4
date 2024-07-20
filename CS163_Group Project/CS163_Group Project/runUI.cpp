@@ -8,7 +8,7 @@
 #include <locale>
 #include <codecvt>
 #include <random>
-#include <list>
+#include <stack>
 
  sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
  sf::Event event;
@@ -92,7 +92,7 @@ HashTable rootDtoE;
 
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 
-int page = 0;
+stack<int> page;
 int orderDef = 0;
 bool translateFlag = 0;
 bool searchFlag = 0;
@@ -101,14 +101,14 @@ bool searchingType = 0;
 int addingType = 0;
 int qnaType = 0;
 
-list<wstring> favWordsVE;
-list<wstring> favDefsVE;
+vector<wstring> favWordsVE;
+vector<wstring> favDefsVE;
 
-list<string> favWordsEV;
-list<wstring> favDefsEV;
+vector<string> favWordsEV;
+vector<wstring> favDefsEV;
 
-list<string> favWordsEE;
-list<string> favDefsEE;
+vector<string> favWordsEE;
+vector<string> favDefsEE;
 
 void setBackground();
 void translating();
@@ -124,9 +124,11 @@ int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
 	if (!loadData()) return 0;
+	page.push(0);
+
 	while (window.isOpen()) {
 		setBackground();
-		switch (page)
+		switch (page.top())
 		{
 		case 0: {
 			homePage();
@@ -315,7 +317,7 @@ void translating() {
 
 	while (window.pollEvent(event))
 	{
-		if (backButton.isClicked(window, event)) page = 0;
+		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -493,7 +495,7 @@ void searching() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page = 0;
+		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
 
 		if (searchKeyButton.isClicked(window, event)) {
@@ -623,7 +625,7 @@ void adding() {
 	std::wstring wdef;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
-		if (backButton.isClicked(window, event)) page = 0;
+		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
 
 
@@ -956,7 +958,7 @@ void QnA() {
 	window.draw(qSprite);
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
-		if (backButton.isClicked(window, event)) page = 0;
+		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
 
 		//change type of question
@@ -1146,21 +1148,24 @@ void QnA() {
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
 
-AnswerButton h1(185, 90, "Image/displayBox.png");
-AnswerButton h2(185, 260, "Image/displayBox.png");
-AnswerButton h3(185, 430, "Image/displayBox.png");
-AnswerButton h4(185, 600, "Image/displayBox.png");
-AnswerButton h5(785, 90, "Image/displayBox.png");
-AnswerButton h6(785, 260, "Image/displayBox.png");
-AnswerButton h7(785, 430, "Image/displayBox.png");
-AnswerButton h8(785, 600, "Image/displayBox.png");
+AnswerButton h1(180, 110, "Image/displayBox.png");
+AnswerButton h2(180, 280, "Image/displayBox.png");
+AnswerButton h3(180, 450, "Image/displayBox.png");
+AnswerButton h4(180, 620, "Image/displayBox.png");
+AnswerButton h5(780, 110, "Image/displayBox.png");
+AnswerButton h6(780, 280, "Image/displayBox.png");
+AnswerButton h7(780, 450, "Image/displayBox.png");
+AnswerButton h8(780, 620, "Image/displayBox.png");
+
+Button nextHisButton(1325, 725, "Image/nextButton.png");
+Button backHisButton(10, 725, "Image/backDefButton.png");
 
 void history() {
 
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page = 0;
+		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
 	}
 
@@ -1176,12 +1181,335 @@ void history() {
 	backButton.draw(window);
 }
 
+int favType = 0;
+int orderFav = 0;
+bool firstTime = 0;
+void setContentEV() {
+	if (orderFav < favWordsEV.size())
+		h1.content = converter.from_bytes(favWordsEV[orderFav]) + L" :" + favDefsEV[orderFav];
+	else h1.content = L"";
+	if (orderFav + 1 < favWordsEV.size())
+		h2.content = converter.from_bytes(favWordsEV[orderFav + 1]) + L" :" + favDefsEV[orderFav + 1];
+	else h2.content = L"";
+	if (orderFav + 2 < favWordsEV.size())
+		h3.content = converter.from_bytes(favWordsEV[orderFav + 2]) + L" :" + favDefsEV[orderFav + 2];
+	else h3.content = L"";
+	if (orderFav + 3 < favWordsEV.size())
+		h4.content = converter.from_bytes(favWordsEV[orderFav + 3]) + L" :" + favDefsEV[orderFav + 3];
+	else h4.content = L"";
+	if (orderFav + 4 < favWordsEV.size())
+		h5.content = converter.from_bytes(favWordsEV[orderFav + 4]) + L" :" + favDefsEV[orderFav + 4];
+	else h5.content = L"";
+	if (orderFav + 5 < favWordsEV.size())
+		h6.content = converter.from_bytes(favWordsEV[orderFav + 5]) + L" :" + favDefsEV[orderFav + 5];
+	else h6.content = L"";
+	if (orderFav + 6 < favWordsEV.size())
+		h7.content = converter.from_bytes(favWordsEV[orderFav + 6]) + L" :" + favDefsEV[orderFav + 6];
+	else h7.content = L"";
+	if (orderFav + 7 < favWordsEV.size())
+		h8.content = converter.from_bytes(favWordsEV[orderFav + 7]) + L" :" + favDefsEV[orderFav + 7];
+	else h8.content = L"";
+	handleWString(h1.content, 35, 2);
+	handleWString(h2.content, 35, 2);
+	handleWString(h3.content, 35, 2);
+	handleWString(h4.content, 35, 2);
+	handleWString(h5.content, 35, 2);
+	handleWString(h6.content, 35, 2);
+	handleWString(h7.content, 35, 2);
+	handleWString(h8.content, 35, 2);
+
+}
+
+void setContentVE() {
+	if (orderFav < favWordsVE.size())
+		h1.content = favWordsVE[orderFav] + L" :" + favDefsVE[orderFav];
+	else h1.content = L"";
+	if (orderFav + 1 < favWordsVE.size())
+		h2.content = favWordsVE[orderFav + 1] + L" :" + favDefsVE[orderFav + 1];
+	else h2.content = L"";
+	if (orderFav + 2 < favWordsVE.size())
+		h3.content = favWordsVE[orderFav + 2] + L" :" + favDefsVE[orderFav + 2];
+	else h3.content = L"";
+	if (orderFav + 3 < favWordsVE.size())
+		h4.content = favWordsVE[orderFav + 3] + L" :" + favDefsVE[orderFav + 3];
+	else h4.content = L"";
+	if (orderFav + 4 < favWordsVE.size())
+		h5.content = favWordsVE[orderFav + 4] + L" :" + favDefsVE[orderFav + 4];
+	else h5.content = L"";
+	if (orderFav + 5 < favWordsVE.size())
+		h6.content = favWordsVE[orderFav + 5] + L" :" + favDefsVE[orderFav + 5];
+	else h6.content = L"";
+	if (orderFav + 6 < favWordsVE.size())
+		h7.content = favWordsVE[orderFav + 6] + L" :" + favDefsVE[orderFav + 6];
+	else h7.content = L"";
+	if (orderFav + 7 < favWordsVE.size())
+		h8.content = favWordsVE[orderFav + 7] + L" :" + favDefsVE[orderFav + 7];
+	else h8.content = L"";
+
+	handleWString(h1.content, 35, 2);
+	handleWString(h2.content, 35, 2);
+	handleWString(h3.content, 35, 2);
+	handleWString(h4.content, 35, 2);
+	handleWString(h5.content, 35, 2);
+	handleWString(h6.content, 35, 2);
+	handleWString(h7.content, 35, 2);
+	handleWString(h8.content, 35, 2);
+}
+
+void setContentEE() {
+	if (orderFav < favWordsEE.size())
+		h1.content = converter.from_bytes(favWordsEE[orderFav]) + L" :" + converter.from_bytes(favDefsEE[orderFav]);
+	else h1.content = L"";
+	if (orderFav+1 < favWordsEE.size())
+		h2.content = converter.from_bytes(favWordsEE[orderFav+1]) + L" :" + converter.from_bytes(favDefsEE[orderFav+1]);
+	else h2.content = L"";
+	if (orderFav+2 < favWordsEE.size())
+		h3.content = converter.from_bytes(favWordsEE[orderFav+2]) + L" :" + converter.from_bytes(favDefsEE[orderFav+2]);
+	else h3.content = L"";
+	if (orderFav+3 < favWordsEE.size())
+		h4.content = converter.from_bytes(favWordsEE[orderFav+3]) + L" :" + converter.from_bytes(favDefsEE[orderFav+3]);
+	else h4.content = L"";
+	if (orderFav+4 < favWordsEE.size())
+		h5.content = converter.from_bytes(favWordsEE[orderFav+4]) + L" :" + converter.from_bytes(favDefsEE[orderFav+4]);
+	else h5.content = L"";
+	if (orderFav+5 < favWordsEE.size())
+		h6.content = converter.from_bytes(favWordsEE[orderFav+5]) + L" :" + converter.from_bytes(favDefsEE[orderFav+5]);
+	else h6.content = L"";
+	if (orderFav+6 < favWordsEE.size())
+		h7.content = converter.from_bytes(favWordsEE[orderFav+6]) + L" :" + converter.from_bytes(favDefsEE[orderFav+6]);
+	else h7.content = L"";
+	if (orderFav+7 < favWordsEE.size())
+		h8.content = converter.from_bytes(favWordsEE[orderFav+7]) + L" :" + converter.from_bytes(favDefsEE[orderFav+7]);
+	else h8.content = L"";
+
+	handleWString(h1.content, 35, 2);
+	handleWString(h2.content, 35, 2);
+	handleWString(h3.content, 35, 2);
+	handleWString(h4.content, 35, 2);
+	handleWString(h5.content, 35, 2);
+	handleWString(h6.content, 35, 2);
+	handleWString(h7.content, 35, 2);
+	handleWString(h8.content, 35, 2);
+}
+
+void handleChangePageEV() {
+	if (h1.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav]);
+	}
+	if (h2.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+1 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+1]);
+	}
+	if (h3.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+2 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+2]);
+	}
+	if (h4.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+3 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+3]);
+	}
+	if (h5.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+4 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+4]);
+	}
+	if (h6.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+5 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+5]);
+	}
+	if (h7.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+6< favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+6]);
+	}
+	if (h8.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 1;
+		if (orderFav+7 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav+7]);
+	}
+}
+
+void handleChangePageVE() {
+	if (h1.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav]);
+	}
+	if (h2.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+1 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+1]);
+	}
+	if (h3.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+2 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+2]);
+	}
+	if (h4.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+3 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+3]);
+	}
+	if (h5.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+4 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+4]);
+	}	
+	if (h6.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+5 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+5]);
+	}
+	if (h7.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+6 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+6]);
+	}
+	if (h8.isClicked(window, event) == 0) {
+		page.push(2);
+		transType = 0;
+		if (orderFav+7 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav+7]);
+	}
+
+}
+
+void handleChangePageEE() {
+	if (h1.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav]);
+	}
+	if (h2.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+1 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+1]);
+	}
+	if (h3.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+2 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+2]);
+	}
+	if (h4.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+3 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+3]);
+	}
+	if (h5.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+4 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+4]);
+	}
+	if (h6.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+5 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+5]);
+	}
+	if (h7.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+6 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+6]);
+	}
+	if (h8.isClicked(window, event) == 0) {
+		page.push(1);
+		searchingType = 0;
+		if (orderFav+7 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav+7]);
+	}
+
+}
+
 void isLiked() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page = 0;
+		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
+
+		if (favType == 0) {
+			if (h1.content == L"") setContentEV;
+			if (ENtoVnButton.isClicked(window, event)) {
+				favType = 1;
+				setContentVE();
+			}
+
+			handleChangePageEV();
+
+			if (nextHisButton.isClicked(window, event))
+				if (orderFav + 8 < favWordsEV.size()) orderFav += 8;
+			if (backHisButton.isClicked(window, event))
+				if (orderFav >= 8) orderFav -= 8;
+		}
+		else if (favType == 1) {
+			if (VNtoEnButton.isClicked(window, event)) {
+				favType = 2;
+				setContentEE();
+			}
+
+			handleChangePageVE();
+
+			if (nextHisButton.isClicked(window, event))
+				if (orderFav + 8 < favWordsVE.size()) orderFav += 8;
+			if (backHisButton.isClicked(window, event))
+				if (orderFav >= 8) orderFav -= 8;
+		}
+		else {
+			if (ENtoENButton.isClicked(window, event)) {
+				favType = 0;
+				setContentEV();
+			}
+
+			handleChangePageEE();
+
+			if (nextHisButton.isClicked(window, event))
+				if (orderFav + 8 < favWordsEE.size()) orderFav += 8;
+			if (backHisButton.isClicked(window, event))
+				if (orderFav >= 8) orderFav -= 8;
+		}
+		
+	}
+
+
+	if (favType == 0) {
+		ENtoVnButton.draw(window);
+		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
+		
+	}
+	else if (favType == 1) {
+		VNtoEnButton.draw(window);
+		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
+	}
+	else if (favType == 2) {
+		ENtoENButton.draw(window);
+		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
 	}
 
 	h1.draw(window);
@@ -1193,6 +1521,10 @@ void isLiked() {
 	h7.draw(window);
 	h8.draw(window);
 
+	nextHisButton.draw(window);
+	nextHisButton.isHover(window, "Image/nextDefHover.png");
+	backHisButton.draw(window);
+	backHisButton.isHover(window, "Image/backDefHover.png");
 	backButton.draw(window);
 }
 
@@ -1234,26 +1566,26 @@ void homePage() {
 		if (event.type == sf::Event::Closed) window.close();
 
 		if (searchButton.isClicked(window, event)) {
-			page = 1;
+			page.push(1);
 			searchKeyBox.text.setString("");
 			searchDefBox.text.setString("");
 		}
 		if (translatingButton.isClicked(window, event)) {
-			page = 2;
+			page.push(2);
 			inputENBox.text.setString("");
 			inputVNBox.text.setString("");
 		}
 		if (addNewWordButton.isClicked(window, event)) {
-			page = 3;
+			page.push(3);
 		}
 		if (qnaButton.isClicked(window, event)) {
-			page = 4;
+			page.push(4);
 		}
 		if (historyButton.isClicked(window, event)) {
-			page = 5;
+			page.push(5);
 		}
 		if (isLikedButton.isClicked(window, event)) {
-			page = 6;
+			page.push(6);
 		}
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");

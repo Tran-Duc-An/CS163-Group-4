@@ -424,7 +424,7 @@ void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, stri
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 
-void EV::loadFavWord(EVTrie*root,list<string>& favWords, list<wstring>& def, string filename)
+void EV::loadFavWord(EVTrie*root,vector<string>& favWords, vector<wstring>& def, string filename)
 {
 	_setmode(_fileno(stdin), _O_WTEXT);
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -452,7 +452,7 @@ void EV::loadFavWord(EVTrie*root,list<string>& favWords, list<wstring>& def, str
 	return;
 }
 
-void EV::unLikeAWord(list<string>& favWords, list<wstring>& favDefs, string word, wstring Def)
+void EV::unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def)
 {
 	// remove the word from the list of favWords its definition from the list of favDefs
 	auto it = find(favWords.begin(), favWords.end(), word);
@@ -461,7 +461,7 @@ void EV::unLikeAWord(list<string>& favWords, list<wstring>& favDefs, string word
 	if (it2 != favDefs.end()) favDefs.erase(it2);
 }
 
-void EV::saveFavWord(list<string>& favWords, list<wstring>& favDefs, string filename)
+void EV::saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename)
 {
 	_setmode(_fileno(stdin), _O_WTEXT);
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -476,9 +476,7 @@ void EV::saveFavWord(list<string>& favWords, list<wstring>& favDefs, string file
 	int n = favWords.size();
 	for (int i = 0; i < n; ++i)
 	{
-		fout << converter2.from_bytes(favWords.front()) << L"," << favDefs.front() << L"\n";
-		favWords.pop_front();
-		favDefs.pop_front();
+		fout << converter2.from_bytes(favWords[i]) << L"," << favDefs[i] << L"\n";
 	}
 	fout.close();
 	return;
@@ -854,7 +852,7 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 
-void EE::loadFavWord(EETrie* root, list<string>& favWords, list<string>& def, string filename)
+void EE::loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename)
 {
 	ifstream fin;
 	fin.open(filename);
@@ -878,7 +876,7 @@ void EE::loadFavWord(EETrie* root, list<string>& favWords, list<string>& def, st
 	return;
 }
 
-void EE::unLikeAWord(list<string>& favWords, list<string>& favDefs, string word, string Def)
+void EE::unLikeAWord(vector<string>& favWords, vector<string>& favDefs, string word, string Def)
 {
 	// remove the word from the list of favWords its definition from the list of favDefs
 	auto it = find(favWords.begin(), favWords.end(), word);
@@ -887,7 +885,7 @@ void EE::unLikeAWord(list<string>& favWords, list<string>& favDefs, string word,
 	if (it2 != favDefs.end()) favDefs.erase(it2);
 }
 
-void EE::saveFavWord(list<string>& favWords, list<string>& favDefs, string filename)
+void EE::saveFavWord(vector<string>& favWords, vector<string>& favDefs, string filename)
 {
 	ofstream fout;
 	fout.open(filename);
@@ -898,9 +896,7 @@ void EE::saveFavWord(list<string>& favWords, list<string>& favDefs, string filen
 	int n = favWords.size();
 	for (int i = 0; i < n; ++i)
 	{
-		fout << favWords.front() << "," << favDefs.front() << "\n";
-		favWords.pop_front();
-		favDefs.pop_front();
+		fout << favWords[i] << "," << favDefs[i] << "\n";
 	}
 	fout.close();
 	return;
@@ -1143,7 +1139,7 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	return true;
 }
 
-void VE::loadFavWord(VTrie*root,list<wstring>& favWords, list<wstring>& def, string filename)
+void VE::loadFavWord(VTrie*root,vector<wstring>& favWords, vector<wstring>& def, string filename)
 {
 	_setmode(_fileno(stdin), _O_WTEXT);
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -1173,7 +1169,7 @@ void VE::loadFavWord(VTrie*root,list<wstring>& favWords, list<wstring>& def, str
 	return;
 }
 
-void VE::unLikeAWord(list<wstring>& favWords, list<wstring>& favDefs, wstring word, wstring Def)
+void VE::unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def)
 {
 	// remove the word from the list of favWords its definition from the list of favDefs
 	auto it = find(favWords.begin(), favWords.end(), word);
@@ -1182,7 +1178,7 @@ void VE::unLikeAWord(list<wstring>& favWords, list<wstring>& favDefs, wstring wo
 	if (it != favDefs.end()) favDefs.erase(it);
 }
 
-void VE::saveFavWord(list<wstring>& favWords, list<wstring>& favDefs, string filename)
+void VE::saveFavWord(vector<wstring>& favWords, vector<wstring>& favDefs, string filename)
 {
 	_setmode(_fileno(stdin), _O_WTEXT);
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -1197,9 +1193,7 @@ void VE::saveFavWord(list<wstring>& favWords, list<wstring>& favDefs, string fil
 	int n = favWords.size();
 	for (int i = 0; i < n; ++i)
 	{
-		fout << favWords.front() << L"," << favDefs.front() << L"\n";
-		favWords.pop_front();
-		favDefs.pop_front();
+		fout << favWords[i] << L"," << favDefs[i] << L"\n";
 	}
 	fout.close();
 	return;

@@ -18,9 +18,9 @@ Button searchButton(715, 155, "Image/searchButton.png");
 Button translatingButton(715, 305, "Image/translateButton.png");
 Button addNewWordButton(715, 455, "Image/addButton.png");
 Button qnaButton(715, 605, "Image/qnaButton.png");
-Button historyButton(30, 600, "Image/historyButton.png");
-Button isLikedButton(30, 400, "Image/likedButton.png");
-
+Button historyButton(30, 650, "Image/historyButton.png");
+Button isLikedButton(30, 500, "Image/likedButton.png");
+Button resetButton(30, 363, "Image/resetButton.png");
 //switch dataset
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
@@ -32,6 +32,10 @@ Button nextDefButton(1275, 710, "Image/nextButton.png");
 Button backDefButton(820, 710, "Image/backDefButton.png");
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
+Button submitResetButton(1220, 582, "Image/submitResetButton.png");
+Button tickEEButton(70, 82, "Image/untickedboxEE.png");
+Button tickEVButton(70, 232, "Image/untickedboxEV.png");
+Button tickVEButton(70, 382, "Image/untickedboxVE.png");
 
 //searching
 Button searchKeyButton(98, 138, "Image/searchKey.png");
@@ -77,6 +81,9 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
+// hint
+Button guideUserTickButton(160, 13, "Image/hintToTick.png");
+Button warningButton(45, 582, "Image/warning.png");
 
 
 sf::Font font;
@@ -123,7 +130,7 @@ bool loadData();
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -158,6 +165,7 @@ int run() {
 			isLiked();
 			break;
 		}
+		
 		default:
 			break;
 		}
@@ -1560,7 +1568,7 @@ void homePage() {
 	qnaButton.draw(window);
 	historyButton.draw(window);
 	isLikedButton.draw(window);
-
+	resetButton.draw(window);
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -1594,6 +1602,7 @@ void homePage() {
 	qnaButton.isHover(window, "Image/qnaHover.png");
 	historyButton.isHover(window, "Image/historyHover.png");
 	isLikedButton.isHover(window, "Image/likedHover.png");
+	resetButton.isHover(window, "Image/resetButtonHover.png");
 }
 
 bool loadData() {
@@ -1631,8 +1640,8 @@ bool loadData() {
 	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
 	auto end = chrono::high_resolution_clock::now();
-	//chrono::duration<double> duration = end - start;
-	//cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
+	/*chrono::duration<double> duration = end - start;
+	cout << L"Time taken to load dataset: " << duration.count() << " seconds" << endl;*/
 
 	return 1;
 }

@@ -1,0 +1,21 @@
+﻿  Function.cpp
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(183,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(187,18): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(666,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(670,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(952,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(956,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1104,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1112,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1116,42): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\main.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  runUI.cpp
+  UI.cpp
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.h(3,10): error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  (compiling source file 'main.cpp')
+  
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1,10): error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.h(3,10): error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  (compiling source file 'UI.cpp')
+  

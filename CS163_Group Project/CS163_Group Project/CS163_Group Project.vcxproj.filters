@@ -24,7 +24,7 @@
     <ClCompile Include="runUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="functions.cpp">
+    <ClCompile Include="Function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="functions.h">
+    <ClInclude Include="Function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

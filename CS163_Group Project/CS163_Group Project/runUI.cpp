@@ -1,7 +1,7 @@
 ﻿#include <SFML/Graphics.hpp>
 #include "UI.h"
 #include <iostream>
-#include "Function.h"
+#include "functions.h"
 #include <chrono>
 #include <io.h>
 #include <fcntl.h>
@@ -176,6 +176,10 @@ int run() {
 	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
 	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
 	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+
+	EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
+	VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+	EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
 
 	EV::deleteTrie(rootEtoV);
 	VE::deleteTrie(rootVtoE);
@@ -1641,19 +1645,20 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	//}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
+	
+	if (!EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin")) {
+		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	}
+	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	//}
-
+	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
+		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	}
+	
 	Def::loadDataset(table, "Dataset/englishDictionary.csv");
 
 
@@ -1662,8 +1667,9 @@ bool loadData() {
 	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
 	auto end = chrono::high_resolution_clock::now();
-	/*chrono::duration<double> duration = end - start;
-	cout << L"Time taken to load dataset: " << duration.count() << " seconds" << endl;*/
+	wcout << L"Time to load data: " << chrono::duration_cast<chrono::seconds>(end - start).count() << L"s" << endl;
 
 	return 1;
 }
+
+

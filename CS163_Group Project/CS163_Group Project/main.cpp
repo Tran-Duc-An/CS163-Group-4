@@ -1,5 +1,14 @@
-﻿#include "functions.h"
-#include <fstream>
+﻿#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <io.h>
+#include <fcntl.h>
+#include <locale>
+#include <codecvt>
+#include "functions.h"
+#include "UI.h";
+using namespace std; 
 /* 
 int main()
 {
@@ -446,7 +455,7 @@ int main()
 */
 
 
-int main()
-{
-
+int main() {
+	run();
+	return 0;
 }

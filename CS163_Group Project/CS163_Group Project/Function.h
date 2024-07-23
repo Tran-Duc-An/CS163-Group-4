@@ -91,6 +91,10 @@ namespace VE {
 	void unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def);
 	void saveFavWord(vector<wstring>& favWords, vector<wstring>& favDefs, string filename);
 	void loadFavWord(VTrie* root, vector<wstring>& favWords, vector<wstring>& def, string filename);
+	void getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition);
+	void randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
+	void randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
+
 }
 
 namespace Def {
@@ -101,4 +105,5 @@ namespace Def {
 void handleWString(wstring& s, int row, int maxRows);
 void fillMap();
 void addToHistory(wstring word, wstring def, string fileName);
+void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename);
 

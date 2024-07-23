@@ -1199,6 +1199,89 @@ void VE::saveFavWord(vector<wstring>& favWords, vector<wstring>& favDefs, string
 	return;
 }
 
+void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 91; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			wchar_t tempChar = reverseMap[i];
+			currentWord.push_back(tempChar);
+			VE::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = L"";
+	VE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord1;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord2;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = L"";
+	VE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition1;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition2;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition3;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+
+
 bool checkSubstring(const std::string& s, const std::string& x) {//KMP x in s
 	int m = x.length();
 	int n = s.length();
@@ -1318,4 +1401,30 @@ void addToHistory(wstring word, wstring def, string fileName)
 }
 
 
+void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filename)
+{
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin(filename);
+	fin.imbue(loc);
+	if (!fin.is_open())
+	{
+		wcout << L"Cannot open search history!!!" << endl;
+		return;
+	}
+	else
+	{
+		wstring word, t, def;
+		while (getline(fin, word, L','))
+		{
+			getline(fin, t, L',');
+			getline(fin, def);
+			info.push_back(word + L": " + def);
+			time.push_back(t);
+		}
+	}
+	
+	fin.close();
+}
 

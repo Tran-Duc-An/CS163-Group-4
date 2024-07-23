@@ -55,6 +55,7 @@ Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 Button guessByKey(95, 28, "Image/guessByKey.png");
 Button guessByDef(95, 28, "Image/guessByDef.png");
 Button nextQuestion(1342, 170, "Image/nextButton.png");
+Button heartQnAButton(1380, 100, "Image/heart.png");
 
 AnswerButton A(209, 442, "Image/answerKeyBox.png");
 AnswerButton B(209, 616, "Image/answerKeyBox.png");
@@ -95,7 +96,8 @@ EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
 vector<pair<string, string>> table;
 
-
+vector<std::wstring> searchHistory;
+vector<std::wstring> searchRealTime;
 
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 
@@ -198,7 +200,7 @@ void handleWString(wstring& s, int row, int maxRows) {
 				l++; // Move past the inserted newline
 				insertedRows++; // Increment the number of inserted new lines
 				if (insertedRows >= maxRows) {
-					s = s.substr(0, l) + L"...";
+					s = s.substr(0, l-3) + L"...";
 					break;
 				}
 			}
@@ -530,7 +532,7 @@ void searching() {
 
 			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 
-			searchwithKeyword:
+			searchwithKeyword: 
 
 				searchDef.clear();
 				orderDef = 0;
@@ -540,6 +542,7 @@ void searching() {
 					addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
 				}
 				searchFlag = 1;
+				
 
 			}
 
@@ -573,12 +576,15 @@ void searching() {
 				orderKey = 0;
 				words.clear();	
 				words = Def::searchByDef(table, def);
-				searchFlag = 1;
+				if (!words.empty())
+					searchFlag = 1;
 			}
+
 			if (searchDefRes.isClicked(window, event)) {
 				page.push(1);
 				searchingType.push(0);
 				searchKeyBox.text.setString(searchDefRes.content);
+				word = converter.to_bytes(searchDefRes.content);
 				goto searchwithKeyword;
 			}
 			if (nextKeyButton.isClicked(window, event) && orderKey < words.size() - 1) orderKey++;
@@ -751,6 +757,9 @@ std::string wrongDef1;
 std::string wrongDef2;
 std::string wrongDef3;
 
+std::wstring wWrongWord1;
+std::wstring wWrongWord2;
+std::wstring wWrongWord3;
 
 
 std::wstring wrightWord;
@@ -759,6 +768,7 @@ std::wstring wrightDef;
 std::wstring wwrongDef1;
 std::wstring wwrongDef2;
 std::wstring wwrongDef3;
+
 vector<std::wstring> ansWord;
 vector<std::wstring> ansDef;
 
@@ -971,6 +981,7 @@ void rightorwrongDef() {
 	}
 }
 
+
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
@@ -990,12 +1001,59 @@ void QnA() {
 		backButton.isHover(window, "Image/backHover.png");
 
 		//change type of question
-		if (qnaType == 0) {
+		if (qnaType == 0) {//VE
 			if (VNtoEnButton.isClicked(window, event)) {
 				qnaType = 1;
+				answerFlag = 2;
+			}
+			if (nextQuestion.isClicked(window, event)) {
+
+				answerFlag = 2;
+
+				if (guessType == 0) {//guess by definition
+					ansWord.clear();
+
+					wrightDef = L"";
+					wrightWord = L"";
+					wWrongWord1 = L"";
+					wWrongWord2 = L"";
+					wWrongWord3 = L"";
+
+					VE::randomADefinitionAnd4Words(rootVtoE, wrightDef, wrightWord, wWrongWord1, wWrongWord2, wWrongWord3);
+					handleWString(wrightDef, 80, 6);
+					ansWord.push_back(wrightWord);
+					ansWord.push_back(wWrongWord1);
+					ansWord.push_back(wWrongWord2);
+					ansWord.push_back(wWrongWord3);
+
+					randomKeyAnswer(ansWord, 3);
+					memset(rangeRandom, 1, 4);
+				}
+				else {
+					ansDef.clear();
+					rightWord = "";
+					wrightDef = L"";
+					wwrongDef1 = L"";
+					wwrongDef2 = L"";
+					wwrongDef3 = L"";
+					EV::randomAWordAnd4Definitions(rootEtoV, rightWord, wrightDef, wwrongDef1, wwrongDef2, wwrongDef3);
+
+					wrightWord = converter.from_bytes(rightWord);
+					ansDef.push_back(wrightDef);
+					handleWString(ansDef[0], 40, 4);
+					ansDef.push_back(wwrongDef1);
+					handleWString(ansDef[1], 40, 4);
+					ansDef.push_back(wwrongDef2);
+					handleWString(ansDef[2], 40, 4);
+					ansDef.push_back(wwrongDef3);
+					handleWString(ansDef[3], 40, 4);
+
+					randomDefAnswer(ansDef, 3);
+					memset(rangeRandom, 1, 4);
+				}
 			}
 		}
-		else if (qnaType == 1) {
+		else if (qnaType == 1) {//EV
 
 			if (ENtoVnButton.isClicked(window, event)) {
 				qnaType = 2;
@@ -1048,7 +1106,7 @@ void QnA() {
 				}
 			}
 		}
-		else {
+		else {//EE
 
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
@@ -1172,6 +1230,8 @@ void QnA() {
 		rightorwrongDef();
 	}
 
+	heartQnAButton.draw(window);
+	heartQnAButton.isHover(window, "Image/heartHover.png");
 	nextQuestion.draw(window);
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
@@ -1188,6 +1248,51 @@ ChoiceButton h8(780, 620, "Image/displayBox.png");
 Button nextHisButton(1325, 725, "Image/nextButton.png");
 Button backHisButton(10, 725, "Image/backDefButton.png");
 
+int orderHis = 0;
+
+void setHisContent() {
+	if (orderHis < searchHistory.size()) {
+		h1.content = searchHistory[orderHis];
+		handleWString(h1.content,35,2);
+		h1.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis];
+	}
+	if (orderHis + 1 < searchHistory.size()) {
+		h2.content = searchHistory[orderHis + 1];
+		handleWString(h2.content, 35, 2);
+		h2.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 1];
+	}
+	if (orderHis + 2 < searchHistory.size()) {
+		h3.content = searchHistory[orderHis + 2];
+		handleWString(h3.content, 35, 2);
+		h3.content += L"\n" + std::wstring(30, L' ')  + searchRealTime[orderHis + 2];
+	}
+	if (orderHis + 3 < searchHistory.size()) {
+		h4.content = searchHistory[orderHis + 3];
+		handleWString(h4.content, 35, 2);
+		h4.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 3];
+	}
+	if (orderHis + 4 < searchHistory.size()) {
+		h5.content = searchHistory[orderHis + 4];
+		handleWString(h5.content, 35, 2);
+		h5.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 4];
+	}
+	if (orderHis + 5 < searchHistory.size()) {
+		h6.content = searchHistory[orderHis + 5];
+		handleWString(h6.content, 35, 2);
+		h6.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 5];
+	}
+	if (orderHis + 6 < searchHistory.size()) {
+		h7.content = searchHistory[orderHis + 6];
+		handleWString(h7.content, 35, 2);
+		h7.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 6];
+	}
+	if (orderHis + 7 < searchHistory.size()) {
+		h8.content = searchHistory[orderHis + 7];
+		handleWString(h8.content, 35, 2);
+		h8.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 7];
+	}
+}
+
 void history() {
 
 	while (window.pollEvent(event)) {
@@ -1195,7 +1300,22 @@ void history() {
 
 		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
+
+		if (nextHisButton.isClicked(window, event)) {
+			if (orderHis + 8 < searchHistory.size()) {
+				orderHis += 8;
+				setHisContent();
+			}
+		}
+		if (backHisButton.isClicked(window, event)) {
+			if (orderHis-8 >= 0) {
+				orderHis -= 8;
+				setHisContent();
+			}
+		}
 	}
+
+	if (h1.content == L"") setHisContent();
 
 	h1.draw(window);
 	h2.draw(window);
@@ -1206,12 +1326,17 @@ void history() {
 	h7.draw(window);
 	h8.draw(window);
 
+	nextHisButton.draw(window);
+	nextHisButton.isHover(window, "Image/nextDefHover.png");
+	backHisButton.draw(window);
+	backHisButton.isHover(window, "Image/backDefHover.png");
+	
 	backButton.draw(window);
 }
 
 int favType = 0;
 int orderFav = 0;
-bool firstTime = 0;
+
 void setContentEV() {
 	if (orderFav < favWordsEV.size())
 		h1.content = converter.from_bytes(favWordsEV[orderFav]) + L" :" + favDefsEV[orderFav];
@@ -1656,14 +1781,14 @@ bool loadData() {
 
 	Def::loadDataset(table, "Dataset/englishDictionary.csv");
 
+	loadSearchHistory(searchHistory,searchRealTime, "Dataset/History.txt");
 
 	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
 	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
 	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
 	auto end = chrono::high_resolution_clock::now();
-	/*chrono::duration<double> duration = end - start;
-	cout << L"Time taken to load dataset: " << duration.count() << " seconds" << endl;*/
+	wcout << L"Time to load data: " << chrono::duration_cast<chrono::seconds>(end - start).count() << L"s" << endl;
 
 	return 1;
 }

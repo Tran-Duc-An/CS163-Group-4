@@ -1,74 +1,103 @@
 #pragma once
-#include <iostream>
-#include <list>
-#include <cstdlib>
-#include <io.h>
-#include <fcntl.h>
-#include <clocale>
-#include <codecvt>
 #include <vector>
 #include <string>
-#include <fstream>
-#include <cstring>
-#include <chrono>
-#include <random>
+#include <list>
 using namespace std;
-
-struct trie 
+struct EVTrie {
+	vector<EVTrie*>  children;
+	bool isEnd = false;
+	vector<wstring> definition;
+	short int numChildren = 0;
+	bool isLiked = 0;
+	EVTrie() : children(38, nullptr) {}
+};
+struct EETrie
 {
-
-	vector<trie*>  children;
+	vector<EETrie*>  children;
 	bool isend = false;
 	vector<string> definition;
 	short int numChildren = 0;
-	bool isLiked = false;
-	trie() : children(38, nullptr) {}
+	bool isLiked = 0;
+	EETrie() : children(38, nullptr) {}
 };
 
-// struct for vietnamese trie
-struct Vtrie
+struct VTrie
 {
-	vector<Vtrie*> children;
+	vector<VTrie*> children;
 	vector<wstring> definition;
 	short int numChildren = 0;
-	bool isLiked = false;
+	bool isLiked = 0;
 	// 89 vietnamese characters and 2 for hyphen and space
-	Vtrie() : children(91, nullptr) {}
+	VTrie() : children(91, nullptr) {}
 };
 
-// EE functions
-string toLowerCase(string&str);
-string removeSpecialCharacters(string&str);
-void insertWord(trie*& root, string& word, string& definition);
-trie* findWord(trie* root, string& word);
-bool findWordMeaning(trie* root, string& word, vector<string>& meaning);
-bool loadRawData(trie*& root);
-void loadTrie(trie*& root, ifstream& fin);
-void saveTrie(trie* root, ofstream& fout);
-void deleteTrie(trie*& root);
-void helperDeleteAWord(trie* root, string& word);
-bool deleteAWord(trie* root, string& word);
-bool changeWordDefinition(trie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
-bool loadFavWord(list<string>& favWords, list<string>& def);
-void likeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root);
-void unlikeAWord(list<string>& favWords, list<string>& favDefs, string word, trie* root);
-bool saveFavWord(list<string>& favWords, list<string>& favDefs);
-bool addToHistory(string word, string def, string fileName);
-void getWordByIndex(trie* curNode, int& index, string& currentWord, string& resultWord, vector<string>& resultDefinition);
-void randomAWordAnd4Definitions(trie* root, string& rightWord, vector<string>& rightDefinition, vector<string>& wrongDefinition1, vector<string>& wrongDefinition2, vector<string>& wrongDefinition3);
-void randomADefinitionAnd4Words(trie* root, vector<string>& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
-// VE functions
-wstring VToLower(wstring&str);
+struct HashTable {
+	vector<vector<pair<string, string>>> table;
+	size_t size;
+	int currentLoad = 0;
+};
+
+namespace EV {
+	EVTrie* findWord(EVTrie* root, string word);
+	void deleteTrie(EVTrie* root);
+	void insertWord(EVTrie*& root, string& word, wstring& definition);
+	bool loadRawData(EVTrie*& root, string path);
+	void saveTrietoFile(EVTrie* root, string path);
+	bool findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EVTrie*& node);
+	bool loadTriefromFile(EVTrie*& root, string path);
+	void helperDeleteAWord(EVTrie* root, string& word);
+	bool deleteAWord(EVTrie* root, string& word);
+	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);
+	void randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
+	void randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
+	void unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def);
+	void saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename);
+	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
+
+}
+
+namespace EE {
+	void insertWord(EETrie*& root, string& word, string& definition);
+	EETrie* findWord(EETrie* root, string word);
+	bool changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
+	void helperDeleteAWord(EETrie* root, string& word);
+	bool deleteAWord(EETrie* root, string& word);
+	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
+	bool loadRawData(EETrie*& root, string path);
+	bool loadTrieFromFile(EETrie*& root, string path);
+	void saveTrietoFile(EETrie* root, string path);
+	void deleteTrie(EETrie*& root);
+	void getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition);
+	void randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3);
+	void randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
+	void unLikeAWord(vector<string>& favWords, vector<string>& favDefs, string word, string Def);
+	void saveFavWord(vector<string>& favWords, vector<string>& favDefs, string filename);
+	void loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename);
+
+}
+
+
+namespace VE {
+	void insertWord(VTrie*& root, wstring& word, wstring& definition);
+	VTrie* findWord(VTrie* root, wstring& word);
+	bool findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node);
+	bool changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
+	void helperDeleteAWord(VTrie* root, wstring& word);
+	bool deleteAWord(VTrie* root, wstring& word);
+	void deleteTrie(VTrie*& root);
+	bool loadRawData(VTrie*& root, string path);
+	void saveTrieToFile(VTrie* root, string path);
+	bool loadTrieFromFile(VTrie*& root, string path);
+	void unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def);
+	void saveFavWord(vector<wstring>& favWords, vector<wstring>& favDefs, string filename);
+	void loadFavWord(VTrie* root, vector<wstring>& favWords, vector<wstring>& def, string filename);
+}
+
+namespace Def {
+	void loadDataset(vector<pair<string, string>>& table, string filename);
+	vector<string> searchByDef(vector<pair<string, string>>& table, string def);
+}
+
+void handleWString(wstring& s, int row, int maxRows);
 void fillMap();
-void VInsertWord(Vtrie*& root, wstring& word,wstring& definition);
-Vtrie* VFindWord(Vtrie* root, wstring& word);
-bool VFindWordMeaning(Vtrie* root, wstring& word, vector<wstring>& meaning);
-void VDeleteTrie(Vtrie*& root);
-bool VloadRawData(Vtrie*& root);
-void saveVtrie(Vtrie* root, wofstream& fout);
-void loadVtrie(Vtrie*& root, wifstream& fin);
-void VHelperDeleteAWord(Vtrie* root, wstring& word);
-bool VDeleteAWord(Vtrie* root, wstring& word);
-bool VChangeWordDefinition(Vtrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
-
-
+void addToHistory(wstring word, wstring def, string fileName);

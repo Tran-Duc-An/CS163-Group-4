@@ -20,3 +20,9 @@ Abatement,23/7/2024 3:22:16PM,"The act of abating, or the state of being abated;
 ,23/7/2024 3:31:45PM, or an . PCP.  It is presumably an older spelling of scanned. --2. ",,"Specifically (Pros.), to go through with, as a verse, marking and distinguishing the feet of which it is composed; to show, in reading, the metrical structure of; to recite metrically."
 hello,23/7/2024 3:33:29PM,See Halloo.
 cat,23/7/2024 3:33:34PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+key,23/7/2024 9:0:27PM,"An instrument by means of which the bolt of a lock is shot or drawn; usually, a removable metal instrument fitted to the mechanism of a particular lock and operated by turning in its place."
+ant,23/7/2024 9:0:31PM,A contraction for are and am not; also used for is not; -- now usually written ain't.
+short,23/7/2024 9:0:35PM,"Not long; having brief length or linear extension; as, a short distance; a short piece of timber; a short flight."
+key,23/7/2024 9:3:26PM,"An instrument by means of which the bolt of a lock is shot or drawn; usually, a removable metal instrument fitted to the mechanism of a particular lock and operated by turning in its place."
+short,23/7/2024 9:3:34PM,"Not long; having brief length or linear extension; as, a short distance; a short piece of timber; a short flight."
+ant,23/7/2024 9:22:0PM,A contraction for are and am not; also used for is not; -- now usually written ain't.

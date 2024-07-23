@@ -94,11 +94,8 @@ namespace VE {
 }
 
 namespace Def {
-	void insertWord(HashTable& ht, const string& word, const string& definition);
-	string findWordMeaning(HashTable& ht, const string& definition);
-	bool loadRawData(HashTable& dictionary, size_t tableSize, const string& filename);
-	void saveHashtable(HashTable& ht, string filename);
-	bool loadHashTable(HashTable& ht, const string& filename);
+	void loadDataset(vector<pair<string, string>>& table, string filename);
+	vector<string> searchByDef(vector<pair<string, string>>& table, string def);
 }
 
 void handleWString(wstring& s, int row, int maxRows);

@@ -1199,145 +1199,98 @@ void VE::saveFavWord(vector<wstring>& favWords, vector<wstring>& favDefs, string
 	return;
 }
 
+bool checkSubstring(const std::string& s, const std::string& x) {//KMP x in s
+	int m = x.length();
+	int n = s.length();
 
-// Function to add word-definition pair to a vector
-void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd) {
-	da.push_back(wd);
-}
-
-// Initialize the hash table
-void initHashTable(HashTable& ht, size_t tableSize) {
-	ht.table.resize(tableSize);
-	ht.size = tableSize;
-}
-
-// Hash function
-size_t hashFunction(const string& key, size_t tableSize) {
-	const size_t FNV_PRIME = 0x00000000811C9DC5;
-	size_t hash = 0;
-	for (char ch : key) {
-		hash = hash * FNV_PRIME ^ ch;
+	if (n < m) {
+		return false;
 	}
-	return hash % tableSize;
-}
 
-// Insert word and definition into the hash table
-void Def::insertWord(HashTable& ht, const string& word, const string& definition) {
-	size_t index = hashFunction(definition, ht.size);
-	if (ht.table[index].size() == 0) ht.currentLoad += 1;
-	addWordDefinition(ht.table[index], { word, definition });
-}
+	// PREPROCESSING
+	// longest_border array
+	std::vector<int> longest_border(m, 0);
+	// Length of Longest Border for prefix before it.
+	int len = 0;
+	// Iterating from index-1. longest_border[0] will always be 0
+	int i = 1;
 
-// Find the word based on its definition
-string Def::findWordMeaning(HashTable& ht, const string& definition) {
-	size_t index = hashFunction(definition, ht.size);
-	for (const auto& pair : ht.table[index]) {
-		if (pair.second == definition) {
-			return pair.first;
+	while (i < m) {
+		if (x[i] == x[len]) {
+			// Length of Longest Border Increased
+			len += 1;
+			longest_border[i] = len;
+			i += 1;
+		}
+		else {
+			// Only empty border exists
+			if (len == 0) {
+				longest_border[i] = 0;
+				i += 1;
+			}
+			else {
+				// Try finding longest border for this i with reduced len
+				len = longest_border[len - 1];
+			}
 		}
 	}
-	return "Word not found.";
-}
 
-// Load the dataset into the hash table
-bool Def::loadRawData(HashTable& dictionary, size_t tableSize, const string& filename) {
-	initHashTable(dictionary, tableSize);
-	ifstream file(filename);
-	if (!file.is_open()) {
-		cerr << "Error: Could not open file " << filename << endl;
-		return 0;
+	int s_Pointer = 0;
+	int x_Pointer = 0;
+
+	while (s_Pointer < n) {
+		if (s[s_Pointer] == x[x_Pointer]) {
+			// Matched, Increment Both
+			x_Pointer += 1;
+			s_Pointer += 1;
+			// All characters matched
+			if (x_Pointer == m) {
+				return true;
+			}
+		}
+		else {
+			if (x_Pointer == 0) {
+				// Zero Matched
+				s_Pointer += 1;
+			}
+			else {
+				x_Pointer = longest_border[x_Pointer - 1];
+			}
+		}
 	}
 
+	return false;
+}
+void Def::loadDataset(vector<pair<string, string>>& table,string filename)
+{
+	ifstream file(filename);
+	if (!file.is_open()) {
+	
+		return;
+	}
 	string line;
 	while (getline(file, line)) {
 		istringstream stream(line);
 		string word, speech, definition;
 		if (getline(stream, word, ',') && getline(stream, speech, ',') && getline(stream, definition)) {
-			Def::insertWord(dictionary, word, definition);
+			definition = toLowerCase(definition);
+			pair<string, string>temp{ word,definition };
+			table.push_back(temp);
 		}
 	}
 	file.close();
-	return 1;
 }
-
-
-void Def::saveHashtable(HashTable& ht, string filename)
+vector<string> Def:: searchByDef(vector<pair<string, string>>& table, string def)
 {
-	ofstream o;
-	o.open(filename, ios::binary | ios::out);
-
-	if (!o.is_open())
+	vector<string> word;
+	for (int i = 0; i < table.size(); i++)
 	{
-		cout << "Cannot open file";
-		return;
+		if (checkSubstring(table[i].second, def))
+			word.push_back(table[i].first);
 	}
-	o.write((char*)&ht.size, sizeof(ht.size));
-	o.write((char*)&ht.currentLoad, sizeof(int));
-
-	for (int i = 0; i < ht.size; i++)
-	{
-		int row_size = ht.table[i].size();
-		if (row_size != 0)
-		{
-			o.write((char*)&i, sizeof(i));
-			o.write((char*)&row_size, sizeof(int));
-			for (int j = 0; j < row_size; j++)
-			{
-				int length = 0;
-				length = ht.table[i][j].first.length();
-				o.write((char*)&length, sizeof(length));
-				o.write((char*)ht.table[i][j].first.c_str(), length);
-
-				length = ht.table[i][j].second.length();
-				o.write((char*)&length, sizeof(length));
-				o.write((char*)ht.table[i][j].second.c_str(), length);
-			}
-		}
-	}
+	return word;
 }
-bool Def::loadHashTable(HashTable& ht, const string& filename) {
 
-
-	ifstream in(filename, ios::binary);
-	if (!in.is_open()) {
-		return 0; // Return empty hash table on error
-	}
-
-	// Read table size and current load
-	in.read((char*)&ht.size, sizeof(ht.size));
-	in.read((char*)&ht.currentLoad, sizeof(int));
-
-	// Resize the hash table based on the loaded size
-	ht.table.resize(ht.size);
-
-	for (int i = 0; i < ht.currentLoad; i++)
-	{
-		int index = 0, row_size = 0;
-		in.read((char*)&index, sizeof(int));
-		in.read((char*)&row_size, sizeof(int));
-
-		for (int j = 0; j < row_size; j++)
-		{
-			int length = 0;
-			in.read((char*)&length, sizeof(int));
-			char* word = new char[length + 1];
-			in.read(word, length);
-			word[length] = '\0';
-
-			in.read((char*)&length, sizeof(int));
-			char* def = new char[length + 1];
-			in.read(def, length);
-			def[length] = '\0';
-
-			ht.table[index].push_back({ word,def });
-			delete[]word;
-			delete[]def;
-		}
-
-	}
-	in.close();
-	return 1;
-}
 
 void addToHistory(wstring word, wstring def, string fileName)
 {

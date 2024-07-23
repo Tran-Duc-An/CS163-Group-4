@@ -13,3 +13,10 @@ an,20/7/2024 10:27:1AM,"This word is properly an adjective, but is commonly call
 abase,20/7/2024 10:27:11AM,"To lower or depress; to throw or cast down; as, to abase the eye."
 abasement,20/7/2024 10:27:16AM,"The act of abasing, humbling, or bringing low; the state of being abased or humbled; humiliation."
 an,20/7/2024 10:28:30AM,"This word is properly an adjective, but is commonly called the indefinite article. It is used before nouns of the singular number only, and signifies one, or any, but somewhat less emphatically. In such expressions as  ""twice an hour,"" ""once an age,"" a shilling an ounce  (see 2d A, 2), it has a distributive force, and is equivalent to each, every."
+Abate,23/7/2024 3:11:42PM,To beat down; to overthrow.
+Abate,23/7/2024 3:20:18PM,To beat down; to overthrow.
+Abatement,23/7/2024 3:22:16PM,"The act of abating, or the state of being abated; a lessening, diminution, or reduction; removal or putting an end to; as, the abatement of a nuisance is the suppression thereof."
+,23/7/2024 3:31:18PM, or an . PCP.  It is presumably an older spelling of scanned. --2. ",,"Specifically (Pros.), to go through with, as a verse, marking and distinguishing the feet of which it is composed; to show, in reading, the metrical structure of; to recite metrically."
+,23/7/2024 3:31:45PM, or an . PCP.  It is presumably an older spelling of scanned. --2. ",,"Specifically (Pros.), to go through with, as a verse, marking and distinguishing the feet of which it is composed; to show, in reading, the metrical structure of; to recite metrically."
+hello,23/7/2024 3:33:29PM,See Halloo.
+cat,23/7/2024 3:33:34PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."

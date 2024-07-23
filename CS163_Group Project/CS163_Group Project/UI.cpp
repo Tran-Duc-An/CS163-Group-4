@@ -284,3 +284,22 @@ int AnswerButton::isClicked(sf::RenderWindow& window, sf::Event event) {
 	}
 	return 2;
 }
+
+ChoiceButton::ChoiceButton(int x, int y, std::string imagePath):Button(x,y,imagePath) {
+	xx = x;
+	yy = y;
+}
+
+void ChoiceButton::draw(sf::RenderWindow& window) {
+	window.draw(sprite);
+	sf::Text text;
+
+	text.setString(content);
+	text.setCharacterSize(30);
+	sf::Font font;
+	if (!font.loadFromFile("Font/ARIAL.TTF"));
+	text.setFont(font);
+	text.setPosition(xx + 10, yy + 10);
+	text.setFillColor(sf::Color::Black);
+	window.draw(text);
+}

@@ -47,6 +47,13 @@ struct InputDef : InputBox {
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 };
 
+struct ChoiceButton :Button {
+	std::wstring content;
+	int xx = 0;
+	int yy = 0;
+	ChoiceButton(int x, int y, std::string imagePath);
+	void draw(sf::RenderWindow& window);
+}; 
 struct AnswerButton :Button {
 	bool isRightAnswer = 0;
 	std::wstring content;

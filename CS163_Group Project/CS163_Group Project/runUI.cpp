@@ -93,7 +93,7 @@ vector<string> searchDef;
 EVTrie* rootEtoV = new EVTrie();
 EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
-HashTable rootDtoE;
+vector<pair<string, string>> table;
 
 
 
@@ -104,7 +104,7 @@ int orderDef = 0;
 bool translateFlag = 0;
 bool searchFlag = 0;
 bool transType = 0;
-bool searchingType = 0;
+
 int addingType = 0;
 int qnaType = 0;
 
@@ -130,7 +130,7 @@ bool loadData();
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	//if (!loadData()) return 0;
+	if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -481,10 +481,16 @@ void translating() {
 EETrie* nodeEE = nullptr;
 std::string def = "";
 std::string word = "";
+stack<bool> searchingType;
+vector<string> words;
+int orderKey = 0;
+ChoiceButton searchDefRes(900, 125, "Image/searchDefRes.png");
+Button nextKeyButton(1335, 320, "Image/nextButton.png");
+Button backKeyButton(700, 320, "Image/backDefButton.png");
 
 void searching() {
 	sf::Texture layout2;
-	if (searchingType == 0) {
+	if (searchingType.top() == 0) {
 		if (!layout2.loadFromFile("Image/layout2.png")) {
 
 		}
@@ -503,21 +509,29 @@ void searching() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			searchingType.pop();
+		}
 		backButton.isHover(window, "Image/backHover.png");
 
 		if (searchKeyButton.isClicked(window, event)) {
-			searchingType = 0;
+			searchingType.push(0);
+			searchFlag = 0;
 		}
 		if (searchDefButton.isClicked(window, event)) {
-			searchingType = 1;
+			searchingType.push(1);
+			searchFlag = 0;
 		}
 
-		if (searchingType == 0) {//Search with keyword
+		if (searchingType.top()== 0) {//Search with keyword
 
 			searchKeyBox.isClicked(window, event);
 
 			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
+
+			searchwithKeyword:
+
 				searchDef.clear();
 				orderDef = 0;
 				removeEndline(word);
@@ -556,19 +570,25 @@ void searching() {
 			searchDefBox.isClicked(window, event);
 			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
 				removeEndline(def);
-				word = Def::findWordMeaning(rootDtoE, def);
-				if (word != "") {
-					addToHistory(converter.from_bytes(word), converter.from_bytes(def), "Dataset/History.csv");
-				}
+				orderKey = 0;
+				words.clear();	
+				words = Def::searchByDef(table, def);
 				searchFlag = 1;
 			}
-
+			if (searchDefRes.isClicked(window, event)) {
+				page.push(1);
+				searchingType.push(0);
+				searchKeyBox.text.setString(searchDefRes.content);
+				goto searchwithKeyword;
+			}
+			if (nextKeyButton.isClicked(window, event) && orderKey < words.size() - 1) orderKey++;
+			if (backKeyButton.isClicked(window, event) && orderKey > 0) orderKey--;
 		}
 
 	}
 
 
-	if (searchingType == 0) { //search by keyword
+	if (searchingType.top() == 0) { //search by keyword
 		searchKeyBox.draw(window);
 		if (searchKeyBox.text.getString() == "") {
 			heartButton.texture.loadFromFile("Image/heart.png");
@@ -602,13 +622,13 @@ void searching() {
 	else { //search by definition
 		searchDefBox.draw(window);
 		if (searchFlag == 1) {
-			sf::Text voca;
-			voca.setCharacterSize(40);
-			voca.setFont(font);
-			voca.setFillColor(sf::Color::Black);
-			voca.setPosition(775, 45);
-			voca.setString(word);
-			window.draw(voca);
+			searchDefRes.content = converter.from_bytes(words[orderKey]);
+
+			searchDefRes.draw(window);
+			nextKeyButton.draw(window);
+			nextKeyButton.isHover(window, "Image/nextDefHover.png");
+			backKeyButton.draw(window);
+			backKeyButton.isHover(window, "Image/backDefHover.png");
 		}
 
 		if (searchDefBox.text.getString() == "") searchFlag = 0;
@@ -1156,14 +1176,14 @@ void QnA() {
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
 
-AnswerButton h1(180, 110, "Image/displayBox.png");
-AnswerButton h2(180, 280, "Image/displayBox.png");
-AnswerButton h3(180, 450, "Image/displayBox.png");
-AnswerButton h4(180, 620, "Image/displayBox.png");
-AnswerButton h5(780, 110, "Image/displayBox.png");
-AnswerButton h6(780, 280, "Image/displayBox.png");
-AnswerButton h7(780, 450, "Image/displayBox.png");
-AnswerButton h8(780, 620, "Image/displayBox.png");
+ChoiceButton h1(180, 110, "Image/displayBox.png");
+ChoiceButton h2(180, 280, "Image/displayBox.png");
+ChoiceButton h3(180, 450, "Image/displayBox.png");
+ChoiceButton h4(180, 620, "Image/displayBox.png");
+ChoiceButton h5(780, 110, "Image/displayBox.png");
+ChoiceButton h6(780, 280, "Image/displayBox.png");
+ChoiceButton h7(780, 450, "Image/displayBox.png");
+ChoiceButton h8(780, 620, "Image/displayBox.png");
 
 Button nextHisButton(1325, 725, "Image/nextButton.png");
 Button backHisButton(10, 725, "Image/backDefButton.png");
@@ -1301,49 +1321,49 @@ void setContentEE() {
 }
 
 void handleChangePageEV() {
-	if (h1.isClicked(window, event) == 0) {
+	if (h1.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav < favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav]);
 	}
-	if (h2.isClicked(window, event) == 0) {
+	if (h2.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+1 < favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav+1]);
 	}
-	if (h3.isClicked(window, event) == 0) {
+	if (h3.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+2 < favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav+2]);
 	}
-	if (h4.isClicked(window, event) == 0) {
+	if (h4.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+3 < favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav+3]);
 	}
-	if (h5.isClicked(window, event) == 0) {
+	if (h5.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+4 < favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav+4]);
 	}
-	if (h6.isClicked(window, event) == 0) {
+	if (h6.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+5 < favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav+5]);
 	}
-	if (h7.isClicked(window, event) == 0) {
+	if (h7.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+6< favWordsEV.size())
 			inputENBox.text.setString(favWordsEV[orderFav+6]);
 	}
-	if (h8.isClicked(window, event) == 0) {
+	if (h8.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
 		if (orderFav+7 < favWordsEV.size())
@@ -1352,49 +1372,49 @@ void handleChangePageEV() {
 }
 
 void handleChangePageVE() {
-	if (h1.isClicked(window, event) == 0) {
+	if (h1.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav]);
 	}
-	if (h2.isClicked(window, event) == 0) {
+	if (h2.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+1 < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav+1]);
 	}
-	if (h3.isClicked(window, event) == 0) {
+	if (h3.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+2 < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav+2]);
 	}
-	if (h4.isClicked(window, event) == 0) {
+	if (h4.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+3 < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav+3]);
 	}
-	if (h5.isClicked(window, event) == 0) {
+	if (h5.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+4 < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav+4]);
 	}	
-	if (h6.isClicked(window, event) == 0) {
+	if (h6.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+5 < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav+5]);
 	}
-	if (h7.isClicked(window, event) == 0) {
+	if (h7.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+6 < favWordsVE.size())
 			inputVNBox.text.setString(favWordsVE[orderFav+6]);
 	}
-	if (h8.isClicked(window, event) == 0) {
+	if (h8.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
 		if (orderFav+7 < favWordsVE.size())
@@ -1404,51 +1424,51 @@ void handleChangePageVE() {
 }
 
 void handleChangePageEE() {
-	if (h1.isClicked(window, event) == 0) {
+	if (h1.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav]);
 	}
-	if (h2.isClicked(window, event) == 0) {
+	if (h2.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+1 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+1]);
 	}
-	if (h3.isClicked(window, event) == 0) {
+	if (h3.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+2 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+2]);
 	}
-	if (h4.isClicked(window, event) == 0) {
+	if (h4.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+3 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+3]);
 	}
-	if (h5.isClicked(window, event) == 0) {
+	if (h5.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+4 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+4]);
 	}
-	if (h6.isClicked(window, event) == 0) {
+	if (h6.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+5 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+5]);
 	}
-	if (h7.isClicked(window, event) == 0) {
+	if (h7.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+6 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+6]);
 	}
-	if (h8.isClicked(window, event) == 0) {
+	if (h8.isClicked(window, event) == 1) {
 		page.push(1);
-		searchingType = 0;
+		searchingType.push(0);
 		if (orderFav+7 < favWordsEE.size())
 			searchKeyBox.text.setString(favWordsEE[orderFav+7]);
 	}
@@ -1540,9 +1560,13 @@ void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
 	searchFlag = 0;
-	searchingType = 0;
 	transType = 0;
 	addingType = 0;
+
+	while (!searchingType.empty()) {
+		searchingType.pop();
+	}
+	searchingType.push(0);
 
 	h1.content = L"";
 	h2.content = L"";
@@ -1617,23 +1641,21 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}
+	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	//}
 	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	}
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	//}
 
-	if (!Def::loadHashTable(rootDtoE, "Dataset/HashTableDef.bin")) {
-		if (!Def::loadRawData(rootDtoE, 10000, "Dataset/englishDictionary.csv")) return 0;
-		Def::saveHashtable(rootDtoE, "Dataset/HashTableDef.bin");
-	}
+	Def::loadDataset(table, "Dataset/englishDictionary.csv");
+
 
 	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
 	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");

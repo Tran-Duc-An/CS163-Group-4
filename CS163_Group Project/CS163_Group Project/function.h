@@ -9,36 +9,18 @@
 #include<iomanip>
 using namespace std;
 
-struct HashTable {
-    vector<vector<pair<string, string>>> table;
-    size_t size;
-    int currentLoad = 0;
-};
-struct Combination {
-    string word;
-    string definition;
-};
-// Function to add word-definition pair to a vector
-
-void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd);
-
-// Initialize the hash table
-void initHashTable(HashTable& ht, size_t tableSize);
-
-// Hash function
-size_t hashFunction(const string& key, size_t tableSize);
-
-// Insert word and definition into the hash table
-void insertWordDefinition(HashTable& ht, const string& word, const string& definition);
-
-// Find the word based on its definition
-string findWord(HashTable& ht, const string& definition);
-
-// Load the dataset into the hash table
-HashTable loadDataset(const string& filename, size_t tableSize);
-
-void saveHashtable(HashTable& ht);
-HashTable loadHashTable(const string& filename);
-
-void History(string word, string definition, string filename);
-vector<Combination> ReadHistory(string filename);
+//struct HashTable {
+//    vector<vector<pair<string, string>>> table;
+//    size_t size;
+//    int currentLoad = 0;
+//};
+//struct Combination {
+//    string word;
+//    string definition;
+//};
+//void History(string word, string definition, string filename);
+//vector<Combination> ReadHistory(string filename);
+string toLowerCase(string& str);
+bool checkSubstring(const std::string& s, const std::string& x);
+void loadDataset(vector<pair<string, string>>& table);
+vector<string> searchByDef(vector<pair<string, string>>& table, string def);

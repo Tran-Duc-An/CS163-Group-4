@@ -1,7 +1,7 @@
 ﻿#include <SFML/Graphics.hpp>
 #include "UI.h"
 #include <iostream>
-#include "functions.h"
+#include "Function.h"
 #include <chrono>
 #include <io.h>
 #include <fcntl.h>

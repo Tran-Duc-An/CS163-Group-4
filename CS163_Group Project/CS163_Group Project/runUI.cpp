@@ -32,8 +32,10 @@ Button ENtoENButton(1034, 33, "Image/ENtoENButton.png");
 
 //function button
 Button backButton(12, 18, "Image/backButton.png");
-Button nextDefButton(1275, 710, "Image/nextButton.png");
-Button backDefButton(820, 710, "Image/backDefButton.png");
+
+Button nextDefButton(1300, 710, "Image/nextButton.png");
+Button backDefButton(700, 710, "Image/backDefButton.png");
+
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
 Button submitResetButton(1220, 582, "Image/submitResetButton.png");
@@ -58,7 +60,7 @@ Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 //QNA
 Button guessByKey(130, 28, "Image/guessByKey.png");
 Button guessByDef(130, 28, "Image/guessByDef.png");
-Button nextQuestion(1342, 170, "Image/nextButton.png");
+Button nextQuestion(1360, 170, "Image/nextButton.png");
 
 AnswerButton A(209, 442, "Image/answerKeyBox.png");
 AnswerButton B(209, 616, "Image/answerKeyBox.png");
@@ -614,7 +616,9 @@ void searching() {
 			}
 			if (searchFlag == 1) {
 				nextDefButton.draw(window);
+				nextDefButton.isHover(window, "Image/nextDefHover.png");
 				backDefButton.draw(window);
+				backDefButton.isHover(window, "Image/backDefHover.png");
 
 				displayDef(650, 100, searchDef[orderDef], 50);
 				if (nodeEE != nullptr && nodeEE->isLiked == 0) {
@@ -1696,11 +1700,7 @@ void isLiked() {
 
 
 void emoji() {
-	
-	sf::Font fontEmoji;
-	if (!fontEmoji.loadFromFile("Font/NotoColorEmoji-Regular.ttf") {
-		return;
-	}
+	if (!fontEmoji.loadFromFile("Font/NotoColorEmoji-Regular.ttf")) return;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
@@ -1710,12 +1710,13 @@ void emoji() {
 	vector<string> res = Emoji::findbyNameUntil(emojiTable,"balloon");
 	pair<string,string> s = Emoji::findBycode(emojiTable, "1F383");
 	sf::Text text;
-	text.setFont(fontEmoji);	
+	text.setFont(font);	
 	text.setCharacterSize(40);
 	text.setPosition(500, 500);
 	text.setFillColor(sf::Color::Black);	
 
 	sf::String str{ sf::String::fromUtf8(s.second.begin(), s.second.end())};
+
 	text.setString(str);
 
 	window.draw(text);

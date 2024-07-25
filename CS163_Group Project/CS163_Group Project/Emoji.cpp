@@ -108,14 +108,15 @@ void insertEmo(Emo& ht, const string& name, const string& utf8) {
 }
 
 // Find the word based on its definition
-string findBycode(Emo& ht, const string& utf8) {
+pair<string, string> findBycode(Emo& ht, string utf8) {
+    utf8 = hexCodePointSequenceToUtf8(utf8);
     size_t index = hashFunction(utf8, ht.size);
     for (const auto& pair : ht.Emo_table[index]) {
         if (pair.second == utf8) {
-            return pair.first;
+            return pair;
         }
     }
-    return "Word not found.";
+
 }
 string findByname(Emo& ht, const string& name, int& index, int& inside)
 {

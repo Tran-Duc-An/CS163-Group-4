@@ -513,7 +513,7 @@ void searching() {
 
 		if (backButton.isClicked(window, event)) {
 			page.pop();
-			searchingType.pop();
+			if (!searchingType.empty()) searchingType.pop();
 		}
 		backButton.isHover(window, "Image/backHover.png");
 
@@ -525,126 +525,127 @@ void searching() {
 			searchingType.push(1);
 			searchFlag = 0;
 		}
+		if (!searchingType.empty()) {
+			if (searchingType.top() == 0) {//Search with keyword
 
-		if (searchingType.top()== 0) {//Search with keyword
+				searchKeyBox.isClicked(window, event);
 
-			searchKeyBox.isClicked(window, event);
+				if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 
-			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
+				searchwithKeyword:
 
-			searchwithKeyword: 
-
-				searchDef.clear();
-				orderDef = 0;
-				removeEndline(word);
-				if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
-				else {
-					addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
-				}
-				searchFlag = 1;
-				
-
-			}
-
-			if (heartKeyButton.isClicked(window, event)) {
-				if (nodeEE != nullptr) {
-					nodeEE->isLiked = 1 - nodeEE->isLiked;
-					if (nodeEE->isLiked == 1) {
-						favWordsEE.push_back(word);
-						favDefsEE.push_back(searchDef[0]);
-					}
+					searchDef.clear();
+					orderDef = 0;
+					removeEndline(word);
+					if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
 					else {
-						EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
+						addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
+					}
+					searchFlag = 1;
+
+
+				}
+
+				if (heartKeyButton.isClicked(window, event)) {
+					if (nodeEE != nullptr) {
+						nodeEE->isLiked = 1 - nodeEE->isLiked;
+						if (nodeEE->isLiked == 1) {
+							favWordsEE.push_back(word);
+							favDefsEE.push_back(searchDef[0]);
+						}
+						else {
+							EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
+						}
 					}
 				}
+
+				if (deleteKeyButton.isClicked(window, event)) {
+					EE::deleteAWord(rootEtoE, word);
+					searchKeyBox.text.setString("");
+					searchDef.clear();
+					searchFlag = 0;
+				}
+
+				if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
+				if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+			}
+			else {//search with definition
+				searchDefBox.isClicked(window, event);
+				if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
+					removeEndline(def);
+					orderKey = 0;
+					words.clear();
+					words = Def::searchByDef(table, def);
+					if (!words.empty())
+						searchFlag = 1;
+				}
+
+				if (searchDefRes.isClicked(window, event)) {
+					page.push(1);
+					searchingType.push(0);
+					searchKeyBox.text.setString(searchDefRes.content);
+					word = converter.to_bytes(searchDefRes.content);
+					goto searchwithKeyword;
+				}
+				if (nextKeyButton.isClicked(window, event) && orderKey < words.size() - 1) orderKey++;
+				if (backKeyButton.isClicked(window, event) && orderKey > 0) orderKey--;
 			}
 
-			if (deleteKeyButton.isClicked(window, event)) {
-				EE::deleteAWord(rootEtoE, word);
-				searchKeyBox.text.setString("");
-				searchDef.clear();
+		}
+
+	}
+	if (!searchingType.empty()) {
+		if (searchingType.top() == 0) { //search by keyword
+			searchKeyBox.draw(window);
+			if (searchKeyBox.text.getString() == "") {
+				heartButton.texture.loadFromFile("Image/heart.png");
+				heartButton.sprite.setTexture(heartButton.texture);
 				searchFlag = 0;
 			}
+			if (searchFlag == 1) {
+				nextDefButton.draw(window);
+				backDefButton.draw(window);
 
-			if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
-			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
-		}
-		else {//search with definition
-			searchDefBox.isClicked(window, event);
-			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
-				removeEndline(def);
-				orderKey = 0;
-				words.clear();	
-				words = Def::searchByDef(table, def);
-				if (!words.empty())
-					searchFlag = 1;
+				displayDef(650, 100, searchDef[orderDef], 50);
+				if (nodeEE != nullptr && nodeEE->isLiked == 0) {
+					heartKeyButton.texture.loadFromFile("Image/heart.png");
+					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
+				}
+				else if (nodeEE != nullptr && nodeEE->isLiked == 1) {
+					heartKeyButton.texture.loadFromFile("Image/heartHover.png");
+					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
+				}
+
+				heartKeyButton.draw(window);
+				deleteKeyButton.draw(window);
+				deleteKeyButton.isHover(window, "Image/deleteHover.png");
 			}
 
-			if (searchDefRes.isClicked(window, event)) {
-				page.push(1);
-				searchingType.push(0);
-				searchKeyBox.text.setString(searchDefRes.content);
-				word = converter.to_bytes(searchDefRes.content);
-				goto searchwithKeyword;
-			}
-			if (nextKeyButton.isClicked(window, event) && orderKey < words.size() - 1) orderKey++;
-			if (backKeyButton.isClicked(window, event) && orderKey > 0) orderKey--;
+			searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
+			searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
+			submitSearchKey.draw(window);
+			submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
 		}
+		else { //search by definition
+			searchDefBox.draw(window);
+			if (searchFlag == 1) {
+				searchDefRes.content = converter.from_bytes(words[orderKey]);
 
+				searchDefRes.draw(window);
+				nextKeyButton.draw(window);
+				nextKeyButton.isHover(window, "Image/nextDefHover.png");
+				backKeyButton.draw(window);
+				backKeyButton.isHover(window, "Image/backDefHover.png");
+			}
+
+			if (searchDefBox.text.getString() == "") searchFlag = 0;
+
+			searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
+			searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
+			submitSearchDef.draw(window);
+			submitSearchDef.isHover(window, "Image/searchSubmitHover.png");
+		}
 	}
-
-
-	if (searchingType.top() == 0) { //search by keyword
-		searchKeyBox.draw(window);
-		if (searchKeyBox.text.getString() == "") {
-			heartButton.texture.loadFromFile("Image/heart.png");
-			heartButton.sprite.setTexture(heartButton.texture);
-			searchFlag = 0;
-		}
-		if (searchFlag == 1) {
-			nextDefButton.draw(window);
-			backDefButton.draw(window);
-
-			displayDef(650, 100, searchDef[orderDef], 50);
-			if (nodeEE != nullptr && nodeEE->isLiked == 0) {
-				heartKeyButton.texture.loadFromFile("Image/heart.png");
-				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
-			}
-			else if (nodeEE != nullptr && nodeEE->isLiked == 1) {
-				heartKeyButton.texture.loadFromFile("Image/heartHover.png");
-				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
-			}
-
-			heartKeyButton.draw(window);
-			deleteKeyButton.draw(window);
-			deleteKeyButton.isHover(window, "Image/deleteHover.png");
-		}
-		
-		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
-		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
-		submitSearchKey.draw(window);
-		submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
-	}
-	else { //search by definition
-		searchDefBox.draw(window);
-		if (searchFlag == 1) {
-			searchDefRes.content = converter.from_bytes(words[orderKey]);
-
-			searchDefRes.draw(window);
-			nextKeyButton.draw(window);
-			nextKeyButton.isHover(window, "Image/nextDefHover.png");
-			backKeyButton.draw(window);
-			backKeyButton.isHover(window, "Image/backDefHover.png");
-		}
-
-		if (searchDefBox.text.getString() == "") searchFlag = 0;
-
-		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
-		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
-		submitSearchDef.draw(window);
-		submitSearchDef.isHover(window, "Image/searchSubmitHover.png");
-	}
-
 
 
 	searchKeyButton.draw(window);
@@ -1681,6 +1682,8 @@ void isLiked() {
 	backButton.draw(window);
 }
 
+
+
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
@@ -1688,10 +1691,7 @@ void homePage() {
 	transType = 0;
 	addingType = 0;
 
-	while (!searchingType.empty()) {
-		searchingType.pop();
-	}
-	searchingType.push(0);
+	
 
 	h1.content = L"";
 	h2.content = L"";
@@ -1724,6 +1724,11 @@ void homePage() {
 
 		if (searchButton.isClicked(window, event)) {
 			page.push(1);
+			while (!searchingType.empty()) {
+				searchingType.pop();
+			}
+			searchingType.push(0);
+
 			searchKeyBox.text.setString("");
 			searchDefBox.text.setString("");
 		}

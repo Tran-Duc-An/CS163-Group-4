@@ -35,3 +35,8 @@ Cat,23/7/2024 9:16:53PM,"An animal of various species of the genera Felis and Ly
 Batman,23/7/2024 9:17:11PM,"A weight used in the East, varying according to the locality; in Turkey, the greater batman is about 157 pounds, the lesser only a fourth of this; at Aleppo and Smyrna, the batman is 17 pounds."
 A,23/7/2024 9:17:29PM,"The first letter of the English and of many other alphabets. The capital A of the alphabets of Middle and Western Europe, as also the small letter (a), besides the forms in Italic, black letter, etc., are all descended from the old Latin A, which was borrowed from the Greek Alpha, of the same form; and this was made from the first letter (/) of the Phoenician alphabet, the equivalent of the Hebrew Aleph, and itself from the Egyptian origin. The Aleph was a consonant letter, with a guttural breath sound that was not an element of Greek articulation; and the Greeks took it to represent their vowel Alpha with the a sound, the Phoenician alphabet having no vowel symbols."
 A 1,23/7/2024 9:19:54PM,A registry mark given by underwriters (as at Lloyd's) to ships in first-class condition. Inferior grades are indicated by A 2 and A 3.
+Abate,24/7/2024 9:48:1AM,To beat down; to overthrow.
+boy,24/7/2024 9:48:12AM,"A male child, from birth to the age of puberty; a lad; hence, a son."
+Albigenses,24/7/2024 9:55:12AM,Alt. of Albigeois
+Amphibological,24/7/2024 9:55:24AM,Of doubtful meaning; ambiguous.
+Big,24/7/2024 9:55:33AM,Having largeness of size; of much bulk or magnitude; of great size; large.

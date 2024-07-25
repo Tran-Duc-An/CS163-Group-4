@@ -1,15 +1,33 @@
-﻿  runUI.cpp
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(254,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(254,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(267,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(267,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(942,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(942,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(951,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(951,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(963,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(963,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(972,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(972,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1490,27): warning C4551: function call missing argument list
+﻿  UI.cpp
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(16,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(16,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(52,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(52,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(58,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(58,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(62,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(62,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(266,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(266,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(264,43): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(302,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(302,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(300,43): warning C4390: ';': empty controlled statement found; is this the intent?
+  main.cpp
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\main.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  runUI.cpp
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(252,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(252,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(265,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(265,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(949,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(949,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(958,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(958,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(970,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(970,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(979,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(979,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1612,27): warning C4551: function call missing argument list
+  Generating Code...
   CS163_Group Project.vcxproj -> C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe

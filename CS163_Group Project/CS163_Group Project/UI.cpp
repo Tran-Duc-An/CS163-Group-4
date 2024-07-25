@@ -30,7 +30,7 @@ void Button::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 
-void Button::isHover(sf::RenderWindow& window,std::string path) {
+void Button::isHover(sf::RenderWindow& window, std::string path) {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 	if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
 		texture.loadFromFile(path);
@@ -115,7 +115,7 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 		if (event.type == sf::Event::KeyPressed) {
 
 			if (event.key.control && event.key.code == sf::Keyboard::V) {
-			
+
 				pasteFromClipboard();
 
 			}
@@ -145,7 +145,7 @@ void InputBox::draw(sf::RenderWindow& window) {
 }
 
 
-InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars) : InputBox(x, y, imagePath, name) {
+InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name, int numRows, int numChars) : InputBox(x, y, imagePath, name) {
 	numRow = numRows;
 	numChar = numChars;
 }
@@ -285,7 +285,7 @@ int AnswerButton::isClicked(sf::RenderWindow& window, sf::Event event) {
 	return 2;
 }
 
-ChoiceButton::ChoiceButton(int x, int y, std::string imagePath):Button(x,y,imagePath) {
+ChoiceButton::ChoiceButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
 	xx = x;
 	yy = y;
 }

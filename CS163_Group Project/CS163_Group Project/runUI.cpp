@@ -10,8 +10,8 @@
 #include <random>
 #include <stack>
 
- sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
- sf::Event event;
+sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
+sf::Event event;
 
 // home page
 Button searchButton(715, 155, "Image/searchButton.png");
@@ -55,6 +55,7 @@ Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 Button guessByKey(95, 28, "Image/guessByKey.png");
 Button guessByDef(95, 28, "Image/guessByDef.png");
 Button nextQuestion(1342, 170, "Image/nextButton.png");
+Button heartQnAButton(1380, 100, "Image/heart.png");
 
 AnswerButton A(209, 442, "Image/answerKeyBox.png");
 AnswerButton B(209, 616, "Image/answerKeyBox.png");
@@ -76,7 +77,7 @@ SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
 
 //Adding
 InputBox inputWord(192, 117, "Image/InputBox.png", L"Enter word");
-InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
+InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition", 6, 50);
 
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
@@ -95,7 +96,8 @@ EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
 vector<pair<string, string>> table;
 
-
+vector<std::wstring> searchHistory;
+vector<std::wstring> searchRealTime;
 
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 
@@ -165,7 +167,7 @@ int run() {
 			isLiked();
 			break;
 		}
-		
+
 		default:
 			break;
 		}
@@ -176,10 +178,6 @@ int run() {
 	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
 	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
 	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
-
-	EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
-	VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
-	EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
 
 	EV::deleteTrie(rootEtoV);
 	VE::deleteTrie(rootVtoE);
@@ -202,7 +200,7 @@ void handleWString(wstring& s, int row, int maxRows) {
 				l++; // Move past the inserted newline
 				insertedRows++; // Increment the number of inserted new lines
 				if (insertedRows >= maxRows) {
-					s = s.substr(0, l) + L"...";
+					s = s.substr(0, l - 3) + L"...";
 					break;
 				}
 			}
@@ -515,7 +513,7 @@ void searching() {
 
 		if (backButton.isClicked(window, event)) {
 			page.pop();
-			searchingType.pop();
+			if (!searchingType.empty()) searchingType.pop();
 		}
 		backButton.isHover(window, "Image/backHover.png");
 
@@ -527,122 +525,127 @@ void searching() {
 			searchingType.push(1);
 			searchFlag = 0;
 		}
+		if (!searchingType.empty()) {
+			if (searchingType.top() == 0) {//Search with keyword
 
-		if (searchingType.top()== 0) {//Search with keyword
+				searchKeyBox.isClicked(window, event);
 
-			searchKeyBox.isClicked(window, event);
+				if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 
-			if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
+				searchwithKeyword:
 
-			searchwithKeyword:
-
-				searchDef.clear();
-				orderDef = 0;
-				removeEndline(word);
-				if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
-				else {
-					addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
-				}
-				searchFlag = 1;
-
-			}
-
-			if (heartKeyButton.isClicked(window, event)) {
-				if (nodeEE != nullptr) {
-					nodeEE->isLiked = 1 - nodeEE->isLiked;
-					if (nodeEE->isLiked == 1) {
-						favWordsEE.push_back(word);
-						favDefsEE.push_back(searchDef[0]);
-					}
+					searchDef.clear();
+					orderDef = 0;
+					removeEndline(word);
+					if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
 					else {
-						EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
+						addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
+					}
+					searchFlag = 1;
+
+
+				}
+
+				if (heartKeyButton.isClicked(window, event)) {
+					if (nodeEE != nullptr) {
+						nodeEE->isLiked = 1 - nodeEE->isLiked;
+						if (nodeEE->isLiked == 1) {
+							favWordsEE.push_back(word);
+							favDefsEE.push_back(searchDef[0]);
+						}
+						else {
+							EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
+						}
 					}
 				}
+
+				if (deleteKeyButton.isClicked(window, event)) {
+					EE::deleteAWord(rootEtoE, word);
+					searchKeyBox.text.setString("");
+					searchDef.clear();
+					searchFlag = 0;
+				}
+
+				if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
+				if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+			}
+			else {//search with definition
+				searchDefBox.isClicked(window, event);
+				if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
+					removeEndline(def);
+					orderKey = 0;
+					words.clear();
+					words = Def::searchByDef(table, def);
+					if (!words.empty())
+						searchFlag = 1;
+				}
+
+				if (searchDefRes.isClicked(window, event)) {
+					page.push(1);
+					searchingType.push(0);
+					searchKeyBox.text.setString(searchDefRes.content);
+					word = converter.to_bytes(searchDefRes.content);
+					goto searchwithKeyword;
+				}
+				if (nextKeyButton.isClicked(window, event) && orderKey < words.size() - 1) orderKey++;
+				if (backKeyButton.isClicked(window, event) && orderKey > 0) orderKey--;
 			}
 
-			if (deleteKeyButton.isClicked(window, event)) {
-				EE::deleteAWord(rootEtoE, word);
-				searchKeyBox.text.setString("");
-				searchDef.clear();
+		}
+
+	}
+	if (!searchingType.empty()) {
+		if (searchingType.top() == 0) { //search by keyword
+			searchKeyBox.draw(window);
+			if (searchKeyBox.text.getString() == "") {
+				heartButton.texture.loadFromFile("Image/heart.png");
+				heartButton.sprite.setTexture(heartButton.texture);
 				searchFlag = 0;
 			}
+			if (searchFlag == 1) {
+				nextDefButton.draw(window);
+				backDefButton.draw(window);
 
-			if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
-			if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
-		}
-		else {//search with definition
-			searchDefBox.isClicked(window, event);
-			if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
-				removeEndline(def);
-				orderKey = 0;
-				words.clear();	
-				words = Def::searchByDef(table, def);
-				searchFlag = 1;
-			}
-			if (searchDefRes.isClicked(window, event)) {
-				page.push(1);
-				searchingType.push(0);
-				searchKeyBox.text.setString(searchDefRes.content);
-				goto searchwithKeyword;
-			}
-			if (nextKeyButton.isClicked(window, event) && orderKey < words.size() - 1) orderKey++;
-			if (backKeyButton.isClicked(window, event) && orderKey > 0) orderKey--;
-		}
+				displayDef(650, 100, searchDef[orderDef], 50);
+				if (nodeEE != nullptr && nodeEE->isLiked == 0) {
+					heartKeyButton.texture.loadFromFile("Image/heart.png");
+					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
+				}
+				else if (nodeEE != nullptr && nodeEE->isLiked == 1) {
+					heartKeyButton.texture.loadFromFile("Image/heartHover.png");
+					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
+				}
 
+				heartKeyButton.draw(window);
+				deleteKeyButton.draw(window);
+				deleteKeyButton.isHover(window, "Image/deleteHover.png");
+			}
+
+			searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
+			searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
+			submitSearchKey.draw(window);
+			submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
+		}
+		else { //search by definition
+			searchDefBox.draw(window);
+			if (searchFlag == 1) {
+				searchDefRes.content = converter.from_bytes(words[orderKey]);
+
+				searchDefRes.draw(window);
+				nextKeyButton.draw(window);
+				nextKeyButton.isHover(window, "Image/nextDefHover.png");
+				backKeyButton.draw(window);
+				backKeyButton.isHover(window, "Image/backDefHover.png");
+			}
+
+			if (searchDefBox.text.getString() == "") searchFlag = 0;
+
+			searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
+			searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
+			submitSearchDef.draw(window);
+			submitSearchDef.isHover(window, "Image/searchSubmitHover.png");
+		}
 	}
-
-
-	if (searchingType.top() == 0) { //search by keyword
-		searchKeyBox.draw(window);
-		if (searchKeyBox.text.getString() == "") {
-			heartButton.texture.loadFromFile("Image/heart.png");
-			heartButton.sprite.setTexture(heartButton.texture);
-			searchFlag = 0;
-		}
-		if (searchFlag == 1) {
-			nextDefButton.draw(window);
-			backDefButton.draw(window);
-
-			displayDef(650, 100, searchDef[orderDef], 50);
-			if (nodeEE != nullptr && nodeEE->isLiked == 0) {
-				heartKeyButton.texture.loadFromFile("Image/heart.png");
-				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
-			}
-			else if (nodeEE != nullptr && nodeEE->isLiked == 1) {
-				heartKeyButton.texture.loadFromFile("Image/heartHover.png");
-				heartKeyButton.sprite.setTexture(heartKeyButton.texture);
-			}
-
-			heartKeyButton.draw(window);
-			deleteKeyButton.draw(window);
-			deleteKeyButton.isHover(window, "Image/deleteHover.png");
-		}
-		
-		searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
-		searchDefButton.texture.loadFromFile(searchDefButton.orgImage);
-		submitSearchKey.draw(window);
-		submitSearchKey.isHover(window, "Image/searchSubmitHover.png");
-	}
-	else { //search by definition
-		searchDefBox.draw(window);
-		if (searchFlag == 1) {
-			searchDefRes.content = converter.from_bytes(words[orderKey]);
-
-			searchDefRes.draw(window);
-			nextKeyButton.draw(window);
-			nextKeyButton.isHover(window, "Image/nextDefHover.png");
-			backKeyButton.draw(window);
-			backKeyButton.isHover(window, "Image/backDefHover.png");
-		}
-
-		if (searchDefBox.text.getString() == "") searchFlag = 0;
-
-		searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
-		searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
-		submitSearchDef.draw(window);
-		submitSearchDef.isHover(window, "Image/searchSubmitHover.png");
-	}
-
 
 
 	searchKeyButton.draw(window);
@@ -755,6 +758,9 @@ std::string wrongDef1;
 std::string wrongDef2;
 std::string wrongDef3;
 
+std::wstring wWrongWord1;
+std::wstring wWrongWord2;
+std::wstring wWrongWord3;
 
 
 std::wstring wrightWord;
@@ -763,6 +769,7 @@ std::wstring wrightDef;
 std::wstring wwrongDef1;
 std::wstring wwrongDef2;
 std::wstring wwrongDef3;
+
 vector<std::wstring> ansWord;
 vector<std::wstring> ansDef;
 
@@ -975,6 +982,7 @@ void rightorwrongDef() {
 	}
 }
 
+
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
@@ -994,12 +1002,59 @@ void QnA() {
 		backButton.isHover(window, "Image/backHover.png");
 
 		//change type of question
-		if (qnaType == 0) {
+		if (qnaType == 0) {//VE
 			if (VNtoEnButton.isClicked(window, event)) {
 				qnaType = 1;
+				answerFlag = 2;
+			}
+			if (nextQuestion.isClicked(window, event)) {
+
+				answerFlag = 2;
+
+				if (guessType == 0) {//guess by definition
+					ansWord.clear();
+
+					wrightDef = L"";
+					wrightWord = L"";
+					wWrongWord1 = L"";
+					wWrongWord2 = L"";
+					wWrongWord3 = L"";
+
+					VE::randomADefinitionAnd4Words(rootVtoE, wrightDef, wrightWord, wWrongWord1, wWrongWord2, wWrongWord3);
+					handleWString(wrightDef, 80, 6);
+					ansWord.push_back(wrightWord);
+					ansWord.push_back(wWrongWord1);
+					ansWord.push_back(wWrongWord2);
+					ansWord.push_back(wWrongWord3);
+
+					randomKeyAnswer(ansWord, 3);
+					memset(rangeRandom, 1, 4);
+				}
+				else {
+					ansDef.clear();
+					rightWord = "";
+					wrightDef = L"";
+					wwrongDef1 = L"";
+					wwrongDef2 = L"";
+					wwrongDef3 = L"";
+					EV::randomAWordAnd4Definitions(rootEtoV, rightWord, wrightDef, wwrongDef1, wwrongDef2, wwrongDef3);
+
+					wrightWord = converter.from_bytes(rightWord);
+					ansDef.push_back(wrightDef);
+					handleWString(ansDef[0], 40, 4);
+					ansDef.push_back(wwrongDef1);
+					handleWString(ansDef[1], 40, 4);
+					ansDef.push_back(wwrongDef2);
+					handleWString(ansDef[2], 40, 4);
+					ansDef.push_back(wwrongDef3);
+					handleWString(ansDef[3], 40, 4);
+
+					randomDefAnswer(ansDef, 3);
+					memset(rangeRandom, 1, 4);
+				}
 			}
 		}
-		else if (qnaType == 1) {
+		else if (qnaType == 1) {//EV
 
 			if (ENtoVnButton.isClicked(window, event)) {
 				qnaType = 2;
@@ -1052,7 +1107,7 @@ void QnA() {
 				}
 			}
 		}
-		else {
+		else {//EE
 
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
@@ -1176,6 +1231,8 @@ void QnA() {
 		rightorwrongDef();
 	}
 
+	heartQnAButton.draw(window);
+	heartQnAButton.isHover(window, "Image/heartHover.png");
 	nextQuestion.draw(window);
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
@@ -1192,6 +1249,51 @@ ChoiceButton h8(780, 620, "Image/displayBox.png");
 Button nextHisButton(1325, 725, "Image/nextButton.png");
 Button backHisButton(10, 725, "Image/backDefButton.png");
 
+int orderHis = 0;
+
+void setHisContent() {
+	if (orderHis < searchHistory.size()) {
+		h1.content = searchHistory[orderHis];
+		handleWString(h1.content, 35, 2);
+		h1.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis];
+	}
+	if (orderHis + 1 < searchHistory.size()) {
+		h2.content = searchHistory[orderHis + 1];
+		handleWString(h2.content, 35, 2);
+		h2.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 1];
+	}
+	if (orderHis + 2 < searchHistory.size()) {
+		h3.content = searchHistory[orderHis + 2];
+		handleWString(h3.content, 35, 2);
+		h3.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 2];
+	}
+	if (orderHis + 3 < searchHistory.size()) {
+		h4.content = searchHistory[orderHis + 3];
+		handleWString(h4.content, 35, 2);
+		h4.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 3];
+	}
+	if (orderHis + 4 < searchHistory.size()) {
+		h5.content = searchHistory[orderHis + 4];
+		handleWString(h5.content, 35, 2);
+		h5.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 4];
+	}
+	if (orderHis + 5 < searchHistory.size()) {
+		h6.content = searchHistory[orderHis + 5];
+		handleWString(h6.content, 35, 2);
+		h6.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 5];
+	}
+	if (orderHis + 6 < searchHistory.size()) {
+		h7.content = searchHistory[orderHis + 6];
+		handleWString(h7.content, 35, 2);
+		h7.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 6];
+	}
+	if (orderHis + 7 < searchHistory.size()) {
+		h8.content = searchHistory[orderHis + 7];
+		handleWString(h8.content, 35, 2);
+		h8.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 7];
+	}
+}
+
 void history() {
 
 	while (window.pollEvent(event)) {
@@ -1199,7 +1301,22 @@ void history() {
 
 		if (backButton.isClicked(window, event)) page.pop();
 		backButton.isHover(window, "Image/backHover.png");
+
+		if (nextHisButton.isClicked(window, event)) {
+			if (orderHis + 8 < searchHistory.size()) {
+				orderHis += 8;
+				setHisContent();
+			}
+		}
+		if (backHisButton.isClicked(window, event)) {
+			if (orderHis - 8 >= 0) {
+				orderHis -= 8;
+				setHisContent();
+			}
+		}
 	}
+
+	if (h1.content == L"") setHisContent();
 
 	h1.draw(window);
 	h2.draw(window);
@@ -1210,12 +1327,17 @@ void history() {
 	h7.draw(window);
 	h8.draw(window);
 
+	nextHisButton.draw(window);
+	nextHisButton.isHover(window, "Image/nextDefHover.png");
+	backHisButton.draw(window);
+	backHisButton.isHover(window, "Image/backDefHover.png");
+
 	backButton.draw(window);
 }
 
 int favType = 0;
 int orderFav = 0;
-bool firstTime = 0;
+
 void setContentEV() {
 	if (orderFav < favWordsEV.size())
 		h1.content = converter.from_bytes(favWordsEV[orderFav]) + L" :" + favDefsEV[orderFav];
@@ -1292,26 +1414,26 @@ void setContentEE() {
 	if (orderFav < favWordsEE.size())
 		h1.content = converter.from_bytes(favWordsEE[orderFav]) + L" :" + converter.from_bytes(favDefsEE[orderFav]);
 	else h1.content = L"";
-	if (orderFav+1 < favWordsEE.size())
-		h2.content = converter.from_bytes(favWordsEE[orderFav+1]) + L" :" + converter.from_bytes(favDefsEE[orderFav+1]);
+	if (orderFav + 1 < favWordsEE.size())
+		h2.content = converter.from_bytes(favWordsEE[orderFav + 1]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 1]);
 	else h2.content = L"";
-	if (orderFav+2 < favWordsEE.size())
-		h3.content = converter.from_bytes(favWordsEE[orderFav+2]) + L" :" + converter.from_bytes(favDefsEE[orderFav+2]);
+	if (orderFav + 2 < favWordsEE.size())
+		h3.content = converter.from_bytes(favWordsEE[orderFav + 2]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 2]);
 	else h3.content = L"";
-	if (orderFav+3 < favWordsEE.size())
-		h4.content = converter.from_bytes(favWordsEE[orderFav+3]) + L" :" + converter.from_bytes(favDefsEE[orderFav+3]);
+	if (orderFav + 3 < favWordsEE.size())
+		h4.content = converter.from_bytes(favWordsEE[orderFav + 3]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 3]);
 	else h4.content = L"";
-	if (orderFav+4 < favWordsEE.size())
-		h5.content = converter.from_bytes(favWordsEE[orderFav+4]) + L" :" + converter.from_bytes(favDefsEE[orderFav+4]);
+	if (orderFav + 4 < favWordsEE.size())
+		h5.content = converter.from_bytes(favWordsEE[orderFav + 4]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 4]);
 	else h5.content = L"";
-	if (orderFav+5 < favWordsEE.size())
-		h6.content = converter.from_bytes(favWordsEE[orderFav+5]) + L" :" + converter.from_bytes(favDefsEE[orderFav+5]);
+	if (orderFav + 5 < favWordsEE.size())
+		h6.content = converter.from_bytes(favWordsEE[orderFav + 5]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 5]);
 	else h6.content = L"";
-	if (orderFav+6 < favWordsEE.size())
-		h7.content = converter.from_bytes(favWordsEE[orderFav+6]) + L" :" + converter.from_bytes(favDefsEE[orderFav+6]);
+	if (orderFav + 6 < favWordsEE.size())
+		h7.content = converter.from_bytes(favWordsEE[orderFav + 6]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 6]);
 	else h7.content = L"";
-	if (orderFav+7 < favWordsEE.size())
-		h8.content = converter.from_bytes(favWordsEE[orderFav+7]) + L" :" + converter.from_bytes(favDefsEE[orderFav+7]);
+	if (orderFav + 7 < favWordsEE.size())
+		h8.content = converter.from_bytes(favWordsEE[orderFav + 7]) + L" :" + converter.from_bytes(favDefsEE[orderFav + 7]);
 	else h8.content = L"";
 
 	handleWString(h1.content, 35, 2);
@@ -1334,44 +1456,44 @@ void handleChangePageEV() {
 	if (h2.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+1 < favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+1]);
+		if (orderFav + 1 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 1]);
 	}
 	if (h3.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+2 < favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+2]);
+		if (orderFav + 2 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 2]);
 	}
 	if (h4.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+3 < favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+3]);
+		if (orderFav + 3 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 3]);
 	}
 	if (h5.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+4 < favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+4]);
+		if (orderFav + 4 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 4]);
 	}
 	if (h6.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+5 < favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+5]);
+		if (orderFav + 5 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 5]);
 	}
 	if (h7.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+6< favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+6]);
+		if (orderFav + 6 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 6]);
 	}
 	if (h8.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 1;
-		if (orderFav+7 < favWordsEV.size())
-			inputENBox.text.setString(favWordsEV[orderFav+7]);
+		if (orderFav + 7 < favWordsEV.size())
+			inputENBox.text.setString(favWordsEV[orderFav + 7]);
 	}
 }
 
@@ -1385,44 +1507,44 @@ void handleChangePageVE() {
 	if (h2.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+1 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+1]);
+		if (orderFav + 1 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 1]);
 	}
 	if (h3.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+2 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+2]);
+		if (orderFav + 2 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 2]);
 	}
 	if (h4.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+3 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+3]);
+		if (orderFav + 3 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 3]);
 	}
 	if (h5.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+4 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+4]);
-	}	
+		if (orderFav + 4 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 4]);
+	}
 	if (h6.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+5 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+5]);
+		if (orderFav + 5 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 5]);
 	}
 	if (h7.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+6 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+6]);
+		if (orderFav + 6 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 6]);
 	}
 	if (h8.isClicked(window, event) == 1) {
 		page.push(2);
 		transType = 0;
-		if (orderFav+7 < favWordsVE.size())
-			inputVNBox.text.setString(favWordsVE[orderFav+7]);
+		if (orderFav + 7 < favWordsVE.size())
+			inputVNBox.text.setString(favWordsVE[orderFav + 7]);
 	}
 
 }
@@ -1437,44 +1559,44 @@ void handleChangePageEE() {
 	if (h2.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+1 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+1]);
+		if (orderFav + 1 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 1]);
 	}
 	if (h3.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+2 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+2]);
+		if (orderFav + 2 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 2]);
 	}
 	if (h4.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+3 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+3]);
+		if (orderFav + 3 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 3]);
 	}
 	if (h5.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+4 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+4]);
+		if (orderFav + 4 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 4]);
 	}
 	if (h6.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+5 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+5]);
+		if (orderFav + 5 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 5]);
 	}
 	if (h7.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+6 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+6]);
+		if (orderFav + 6 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 6]);
 	}
 	if (h8.isClicked(window, event) == 1) {
 		page.push(1);
 		searchingType.push(0);
-		if (orderFav+7 < favWordsEE.size())
-			searchKeyBox.text.setString(favWordsEE[orderFav+7]);
+		if (orderFav + 7 < favWordsEE.size())
+			searchKeyBox.text.setString(favWordsEE[orderFav + 7]);
 	}
 
 }
@@ -1526,14 +1648,14 @@ void isLiked() {
 			if (backHisButton.isClicked(window, event))
 				if (orderFav >= 8) orderFav -= 8;
 		}
-		
+
 	}
 
 
 	if (favType == 0) {
 		ENtoVnButton.draw(window);
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
-		
+
 	}
 	else if (favType == 1) {
 		VNtoEnButton.draw(window);
@@ -1560,6 +1682,8 @@ void isLiked() {
 	backButton.draw(window);
 }
 
+
+
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
@@ -1567,10 +1691,7 @@ void homePage() {
 	transType = 0;
 	addingType = 0;
 
-	while (!searchingType.empty()) {
-		searchingType.pop();
-	}
-	searchingType.push(0);
+
 
 	h1.content = L"";
 	h2.content = L"";
@@ -1603,6 +1724,11 @@ void homePage() {
 
 		if (searchButton.isClicked(window, event)) {
 			page.push(1);
+			while (!searchingType.empty()) {
+				searchingType.pop();
+			}
+			searchingType.push(0);
+
 			searchKeyBox.text.setString("");
 			searchDefBox.text.setString("");
 		}
@@ -1645,22 +1771,22 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	
-	if (!EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin")) {
-		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
+	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	//}
+	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
-		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	}
-	
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	//}
+
 	Def::loadDataset(table, "Dataset/englishDictionary.csv");
 
+	loadSearchHistory(searchHistory, searchRealTime, "Dataset/History.txt");
 
 	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
 	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
@@ -1671,5 +1797,3 @@ bool loadData() {
 
 	return 1;
 }
-
-

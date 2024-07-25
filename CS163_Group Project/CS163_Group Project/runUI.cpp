@@ -14,13 +14,17 @@
  sf::Event event;
 
 // home page
-Button searchButton(715, 155, "Image/searchButton.png");
-Button translatingButton(715, 305, "Image/translateButton.png");
-Button addNewWordButton(715, 455, "Image/addButton.png");
-Button qnaButton(715, 605, "Image/qnaButton.png");
-Button historyButton(30, 650, "Image/historyButton.png");
+Button searchButton(800, 55, "Image/searchButton.png");
+Button translatingButton(800, 205, "Image/translateButton.png");
+Button addNewWordButton(800, 355, "Image/addButton.png");
+Button qnaButton(800, 505, "Image/qnaButton.png");
+Button emojiSearchButton(800, 665, "Image/emojiButton.png");
+
+Button historyButton(30, 350, "Image/historyButton.png");
 Button isLikedButton(30, 500, "Image/likedButton.png");
-Button resetButton(30, 363, "Image/resetButton.png");
+Button resetButton(30, 650, "Image/resetButton.png");
+
+
 //switch dataset
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
@@ -52,10 +56,9 @@ Button heartKeyButton(45, 715, "Image/heart.png");
 Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 
 //QNA
-Button guessByKey(95, 28, "Image/guessByKey.png");
-Button guessByDef(95, 28, "Image/guessByDef.png");
+Button guessByKey(130, 28, "Image/guessByKey.png");
+Button guessByDef(130, 28, "Image/guessByDef.png");
 Button nextQuestion(1342, 170, "Image/nextButton.png");
-Button heartQnAButton(1380, 100, "Image/heart.png");
 
 AnswerButton A(209, 442, "Image/answerKeyBox.png");
 AnswerButton B(209, 616, "Image/answerKeyBox.png");
@@ -88,6 +91,7 @@ Button warningButton(45, 582, "Image/warning.png");
 
 
 sf::Font font;
+sf::Font fontEmoji;
 vector<wstring> transDef;
 vector<string> searchDef;
 
@@ -95,6 +99,7 @@ EVTrie* rootEtoV = new EVTrie();
 EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
 vector<pair<string, string>> table;
+Emo emojiTable;
 
 vector<std::wstring> searchHistory;
 vector<std::wstring> searchRealTime;
@@ -128,6 +133,7 @@ void history();
 void isLiked();
 void homePage();
 bool loadData();
+void emoji();
 
 int run() {
 	setBackground();
@@ -167,7 +173,10 @@ int run() {
 			isLiked();
 			break;
 		}
-		
+		case 7: {
+			emoji();
+			break;
+		}
 		default:
 			break;
 		}
@@ -328,7 +337,7 @@ void translating() {
 	while (window.pollEvent(event))
 	{
 		if (backButton.isClicked(window, event)) page.pop();
-		backButton.isHover(window, "Image/backHover.png");
+		
 
 		if (event.type == sf::Event::Closed) window.close();
 
@@ -478,6 +487,7 @@ void translating() {
 	}
 
 	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 }
 
 EETrie* nodeEE = nullptr;
@@ -515,7 +525,7 @@ void searching() {
 			page.pop();
 			if (!searchingType.empty()) searchingType.pop();
 		}
-		backButton.isHover(window, "Image/backHover.png");
+
 
 		if (searchKeyButton.isClicked(window, event)) {
 			searchingType.push(0);
@@ -651,6 +661,7 @@ void searching() {
 	searchKeyButton.draw(window);
 	searchDefButton.draw(window);
 	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 }
 
 void adding() {
@@ -661,7 +672,7 @@ void adding() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page.pop();
-		backButton.isHover(window, "Image/backHover.png");
+		
 
 
 		inputWord.isClicked(window, event);
@@ -740,6 +751,7 @@ void adding() {
 	inputWord.draw(window);
 	inputDef.draw(window);
 	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 }
 
 int posx = 0;
@@ -986,7 +998,7 @@ void rightorwrongDef() {
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
-	qSprite.setPosition(95, 105);
+	qSprite.setPosition(105, 115);
 	questionLayout.setSmooth(1);
 	if (guessType == 0) {
 		if (!questionLayout.loadFromFile("Image/askDefBox.png")) return;
@@ -999,7 +1011,7 @@ void QnA() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page.pop();
-		backButton.isHover(window, "Image/backHover.png");
+		
 
 		//change type of question
 		if (qnaType == 0) {//VE
@@ -1196,7 +1208,7 @@ void QnA() {
 	text.setFont(font);
 	text.setCharacterSize(30);
 	text.setFillColor(sf::Color::Black);
-	text.setPosition(100, 110);
+	text.setPosition(120, 115);
 
 	if (guessType == 0) {//Guess by definition
 		guessByDef.draw(window);
@@ -1231,8 +1243,8 @@ void QnA() {
 		rightorwrongDef();
 	}
 
-	heartQnAButton.draw(window);
-	heartQnAButton.isHover(window, "Image/heartHover.png");
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 	nextQuestion.draw(window);
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
@@ -1683,6 +1695,34 @@ void isLiked() {
 }
 
 
+void emoji() {
+	
+	sf::Font fontEmoji;
+	if (!fontEmoji.loadFromFile("Font/NotoColorEmoji-Regular.ttf") {
+		return;
+	}
+	while (window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event)) page.pop();
+		
+	}
+	vector<string> res = Emoji::findbyNameUntil(emojiTable,"balloon");
+	pair<string,string> s = Emoji::findBycode(emojiTable, "1F383");
+	sf::Text text;
+	text.setFont(fontEmoji);	
+	text.setCharacterSize(40);
+	text.setPosition(500, 500);
+	text.setFillColor(sf::Color::Black);	
+
+	sf::String str{ sf::String::fromUtf8(s.second.begin(), s.second.end())};
+	text.setString(str);
+
+	window.draw(text);
+
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
+}
 
 void homePage() {
 	orderDef = 0;
@@ -1715,9 +1755,12 @@ void homePage() {
 	translatingButton.draw(window);
 	addNewWordButton.draw(window);
 	qnaButton.draw(window);
+	emojiSearchButton.draw(window);
+
 	historyButton.draw(window);
 	isLikedButton.draw(window);
 	resetButton.draw(window);
+
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -1749,11 +1792,16 @@ void homePage() {
 		if (isLikedButton.isClicked(window, event)) {
 			page.push(6);
 		}
+		if (emojiSearchButton.isClicked(window, event)) {
+			page.push(7);
+		}
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 	searchButton.isHover(window, "Image/searchHover.png");
 	translatingButton.isHover(window, "Image/translateHover.png");
 	qnaButton.isHover(window, "Image/qnaHover.png");
+	emojiSearchButton.isHover(window, "Image/emojiHover.png");
+
 	historyButton.isHover(window, "Image/historyHover.png");
 	isLikedButton.isHover(window, "Image/likedHover.png");
 	resetButton.isHover(window, "Image/resetButtonHover.png");
@@ -1775,16 +1823,18 @@ bool loadData() {
 	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
 	//}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
-		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
-		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
-	}
+	//if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
+	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
+	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
+	//}
 	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
 	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	//}
 
-	Def::loadDataset(table, "Dataset/englishDictionary.csv");
+	//Def::loadDataset(table, "Dataset/englishDictionary.csv");
+
+	emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
 
 	loadSearchHistory(searchHistory,searchRealTime, "Dataset/History.txt");
 
@@ -1797,3 +1847,4 @@ bool loadData() {
 
 	return 1;
 }
+

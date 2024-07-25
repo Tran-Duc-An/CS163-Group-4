@@ -1698,21 +1698,31 @@ void isLiked() {
 	backButton.draw(window);
 }
 
-Button findCodeButton(1045, 35, "Image/findByCode.png");
-bool emojiType = 1;
+Button findbyCodeButton(1045, 35, "Image/findByCode.png");
+Button findbyWordButton(1045, 35, "Image/findByWord.png");
+bool emojiType = 0;
 InputBox emojiInput(390, 170, "Image/emojiBox.png", L"Text here");
 string str;
 SubmitENButton searchEmojiSubmit(1020, 170, "Image/searchImage.png");
 
 void emoji() {
 
-	if (!fontEmoji.loadFromFile("Font/NotoColorEmoji-Regular.ttf")) return;
+
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
 		if (backButton.isClicked(window, event)) page.pop();
 
 		emojiInput.isClicked(window, event);
+
+		if (emojiType == 0) {
+			if (findbyWordButton.isClicked(window, event))
+				emojiType = 1;
+		}
+		else {
+			if (findbyCodeButton.isClicked(window, event))
+				emojiType = 0;
+		}
 
 
 		
@@ -1734,11 +1744,12 @@ void emoji() {
 	searchEmojiSubmit.isHover(window, "Image/searchImageHover.png");
 
 	if (emojiType == 0) {
-
+		findbyWordButton.draw(window);
+		findbyWordButton.isHover(window, "Image/findByWordHover.png");
 	}
 	else {
-		findCodeButton.draw(window);
-		findCodeButton.isHover(window, "Image/findByCodeHover.png");
+		findbyCodeButton.draw(window);
+		findbyCodeButton.isHover(window, "Image/findByCodeHover.png");
 	}
 	backButton.draw(window);
 	backButton.isHover(window, "Image/backHover.png");

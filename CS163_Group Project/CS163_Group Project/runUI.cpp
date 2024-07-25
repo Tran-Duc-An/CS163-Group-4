@@ -1698,13 +1698,23 @@ void isLiked() {
 	backButton.draw(window);
 }
 
+Button findCodeButton(1045, 35, "Image/findByCode.png");
+bool emojiType = 1;
+InputBox emojiInput(390, 170, "Image/emojiBox.png", L"Text here");
+string str;
+SubmitENButton searchEmojiSubmit(1020, 170, "Image/searchImage.png");
 
 void emoji() {
+
 	if (!fontEmoji.loadFromFile("Font/NotoColorEmoji-Regular.ttf")) return;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
 		if (backButton.isClicked(window, event)) page.pop();
+
+		emojiInput.isClicked(window, event);
+
+
 		
 	}
 	vector<string> res = Emoji::findbyNameUntil(emojiTable,"balloon");
@@ -1716,11 +1726,20 @@ void emoji() {
 	text.setFillColor(sf::Color::Black);	
 
 	sf::String str{ sf::String::fromUtf8(s.second.begin(), s.second.end())};
-
 	text.setString(str);
-
 	window.draw(text);
 
+	emojiInput.draw(window);
+	searchEmojiSubmit.draw(window);
+	searchEmojiSubmit.isHover(window, "Image/searchImageHover.png");
+
+	if (emojiType == 0) {
+
+	}
+	else {
+		findCodeButton.draw(window);
+		findCodeButton.isHover(window, "Image/findByCodeHover.png");
+	}
 	backButton.draw(window);
 	backButton.isHover(window, "Image/backHover.png");
 }

@@ -1,11 +1,17 @@
-#include "functions.h"
+#include "Function.h"
 #include <io.h>
 #include <fcntl.h>
 #include <fstream>
 #include <locale>
 #include <codecvt>
 #include <iostream>
+#include <sstream>
+#include <random>
+#include <list>
+#include <chrono>
 using namespace std;
+std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter2;
+
 
 string toLowerCase(string& str) {
 	for (int i = 0; i < str.length(); i++) {
@@ -78,7 +84,7 @@ void EV::insertWord(EVTrie*& root, string& word, wstring& definition)
 
 }
 
-EVTrie* EV::findWord(EVTrie* root, string& word)
+EVTrie* EV::findWord(EVTrie* root, string word)
 {
 	word = toLowerCase(word);
 	EVTrie* current = root;
@@ -256,6 +262,7 @@ void inputTrie(EVTrie*& root, wifstream& fin) {
 }
 
 bool EV::loadTriefromFile(EVTrie*& root, string path) {
+
 	wifstream fin;
 	fin.open(path,ios::binary);
 
@@ -332,6 +339,152 @@ bool EV::deleteAWord(EVTrie* root, string& word) {
 	return true;
 }
 
+void EV::getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EV::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void EV::randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	EV::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	EV::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition1;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition2;
+	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	wstring wrongDefinition3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+
+void EV::loadFavWord(EVTrie*root,vector<string>& favWords, vector<wstring>& def, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin;
+	fin.imbue(loc);
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		return;
+	}
+	while (!fin.eof())
+	{
+		wstring word = L"";
+		getline(fin, word, L',');
+		if (word.empty()) break;
+		EVTrie* node = EV::findWord(root, converter2.to_bytes(word));
+		if (node != nullptr) node->isLiked = 1;
+		favWords.push_back(converter2.to_bytes(word));
+		getline(fin, word, L'\n');
+		def.push_back(word);
+		
+	}
+	fin.close();
+	return;
+}
+
+void EV::unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def)
+{
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	auto it2 = find(favDefs.begin(), favDefs.end(), Def);
+	if (it2 != favDefs.end()) favDefs.erase(it2);
+}
+
+void EV::saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	fout.imbue(loc);
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	int n = favWords.size();
+	for (int i = 0; i < n; ++i)
+	{
+		fout << converter2.from_bytes(favWords[i]) << L"," << favDefs[i] << L"\n";
+	}
+	fout.close();
+	return;
+}
+
+
+//English to English Dictionary
+
 void EE::insertWord(EETrie*& root, string& word, string& definition)
 {
 	word = toLowerCase(word);
@@ -384,7 +537,7 @@ void EE::insertWord(EETrie*& root, string& word, string& definition)
 	current->definition.push_back(definition);
 }
 
-EETrie* EE::findWord(EETrie* root, string& word)
+EETrie* EE::findWord(EETrie* root, string word)
 {
 	word = toLowerCase(word);
 	EETrie* current = root;
@@ -415,9 +568,9 @@ EETrie* EE::findWord(EETrie* root, string& word)
 	return current;
 }
 
-bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning)
+bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning,EETrie*&node)
 {
-	EETrie* node = findWord(root, word);
+	node = findWord(root, word);
 	if (node == 0) return false;
 	meaning = node->definition;
 	return true;
@@ -614,6 +767,142 @@ void EE::deleteTrie(EETrie*& root)
 	root = nullptr;
 }
 
+void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EE::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = "";
+	EE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord1;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord2;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongWord3;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+	int randomIndex;
+	string currentWord;
+
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = "";
+	EE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongDefinition1;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongDefinition2;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = "";
+	string wrongDefinition3;
+	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+
+void EE::loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename)
+{
+	ifstream fin;
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		return;
+	}
+	while (!fin.eof())
+	{
+		string word;
+		getline(fin, word, ',');
+		if (word.empty()) break;
+		EETrie* node = EE::findWord(root, word);
+		if (node != nullptr) node->isLiked = 1;
+		favWords.push_back(word);
+		getline(fin, word, '\n');
+		def.push_back(word);
+
+	}
+	fin.close();
+	return;
+}
+
+void EE::unLikeAWord(vector<string>& favWords, vector<string>& favDefs, string word, string Def)
+{
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	auto it2 = find(favDefs.begin(), favDefs.end(), Def);
+	if (it2 != favDefs.end()) favDefs.erase(it2);
+}
+
+void EE::saveFavWord(vector<string>& favWords, vector<string>& favDefs, string filename)
+{
+	ofstream fout;
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	int n = favWords.size();
+	for (int i = 0; i < n; ++i)
+	{
+		fout << favWords[i] << "," << favDefs[i] << "\n";
+	}
+	fout.close();
+	return;
+}
+
+
 // Vietnamese to English dictionary
 short int map[7930];
 short int reverseMap[91];
@@ -751,6 +1040,7 @@ void VE::deleteTrie(VTrie*& root)
 
 bool VE::loadRawData(VTrie*& root,string path)
 {
+	fillMap();
 	locale loc(locale(), new codecvt_utf8<wchar_t>);
 	wifstream fin(path);
 	fin.imbue(loc);
@@ -835,6 +1125,7 @@ void loadVtrie(VTrie*& root, wifstream& fin)
 }
 
 bool VE::loadTrieFromFile(VTrie*& root, string path) {
+	fillMap();
 	wifstream fin;
 	fin.open(path, ios::binary);
 	// Ensure the file is opened with UTF-8 encoding
@@ -847,150 +1138,429 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	fin.close();
 	return true;
 }
+
+void VE::loadFavWord(VTrie*root,vector<wstring>& favWords, vector<wstring>& def, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin;
+	fin.imbue(loc);
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		return;
+	}
+	while (!fin.eof())
+	{
+		wstring word;
+		getline(fin, word, L',');
+		if (word.empty()) break;
+
+		VTrie* node = VE::findWord(root, word);
+		if (node != nullptr) node->isLiked = 1;
+
+		favWords.push_back(word);
+		getline(fin, word, L'\n');
+		def.push_back(word);
+		
+	}
+	fin.close();
+	return;
+}
+
+void VE::unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def)
+{
+	// remove the word from the list of favWords its definition from the list of favDefs
+	auto it = find(favWords.begin(), favWords.end(), word);
+	if (it != favWords.end()) favWords.erase(it);
+	it = find(favDefs.begin(), favDefs.end(), Def);
+	if (it != favDefs.end()) favDefs.erase(it);
+}
+
+void VE::saveFavWord(vector<wstring>& favWords, vector<wstring>& favDefs, string filename)
+{
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout;
+	fout.imbue(loc);
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	int n = favWords.size();
+	for (int i = 0; i < n; ++i)
+	{
+		fout << favWords[i] << L"," << favDefs[i] << L"\n";
+	}
+	fout.close();
+	return;
+}
+
+void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultDefinition = curNode->definition[0];
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 91; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			wchar_t tempChar = reverseMap[i];
+			currentWord.push_back(tempChar);
+			VE::getWordByIndex(curNode->children[i], index, currentWord, resultWord, resultDefinition);
+			currentWord.pop_back();
+			if (!resultWord.empty())
+				return;
+		}
+	}
+}
+void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+	// get right word
+	randomIndex = dis(gen);
+	currentWord = L"";
+	VE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong definition 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord1;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong definition 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord2;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongWord3;
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+	int randomIndex;
+	wstring currentWord;
+	// get right definition
+	randomIndex = dis(gen);
+	currentWord = L"";
+	VE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	// get wrong word 1
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition1;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	// get wrong word 2
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition2;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	// get wrong definition 3
+	randomIndex = dis(gen);
+	currentWord = L"";
+	wstring wrongDefinition3;
+	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+
+
+bool checkSubstring(const std::string& s, const std::string& x) {//KMP x in s
+	int m = x.length();
+	int n = s.length();
+
+	if (n < m) {
+		return false;
+	}
+
+	// PREPROCESSING
+	// longest_border array
+	std::vector<int> longest_border(m, 0);
+	// Length of Longest Border for prefix before it.
+	int len = 0;
+	// Iterating from index-1. longest_border[0] will always be 0
+	int i = 1;
+
+	while (i < m) {
+		if (x[i] == x[len]) {
+			// Length of Longest Border Increased
+			len += 1;
+			longest_border[i] = len;
+			i += 1;
+		}
+		else {
+			// Only empty border exists
+			if (len == 0) {
+				longest_border[i] = 0;
+				i += 1;
+			}
+			else {
+				// Try finding longest border for this i with reduced len
+				len = longest_border[len - 1];
+			}
+		}
+	}
+
+	int s_Pointer = 0;
+	int x_Pointer = 0;
+
+	while (s_Pointer < n) {
+		if (s[s_Pointer] == x[x_Pointer]) {
+			// Matched, Increment Both
+			x_Pointer += 1;
+			s_Pointer += 1;
+			// All characters matched
+			if (x_Pointer == m) {
+				return true;
+			}
+		}
+		else {
+			if (x_Pointer == 0) {
+				// Zero Matched
+				s_Pointer += 1;
+			}
+			else {
+				x_Pointer = longest_border[x_Pointer - 1];
+			}
+		}
+	}
+
+	return false;
+}
+void Def::loadDataset(vector<pair<string, string>>& table,string filename)
+{
+	ifstream file(filename);
+	if (!file.is_open()) {
+	
+		return;
+	}
+	string line;
+	while (getline(file, line)) {
+		istringstream stream(line);
+		string word, speech, definition;
+		if (getline(stream, word, ',') && getline(stream, speech, ',') && getline(stream, definition)) {
+			definition = toLowerCase(definition);
+			pair<string, string>temp{ word,definition };
+			table.push_back(temp);
+		}
+	}
+	file.close();
+}
+vector<string> Def:: searchByDef(vector<pair<string, string>>& table, string def)
+{
+	vector<string> word;
+	for (int i = 0; i < table.size(); i++)
+	{
+		if (checkSubstring(table[i].second, def))
+			word.push_back(table[i].first);
+	}
+	return word;
+}
+
+
+std::string hexCodePointSequenceToUtf8(const std::string& hexCodePointSequence) {
+	std::istringstream iss(hexCodePointSequence);
+	std::string hexCodePoint;
+	std::vector<char32_t> codePoints;
+
+	while (iss >> hexCodePoint) {
+		char32_t codePoint = std::stoul(hexCodePoint, nullptr, 16);
+		codePoints.push_back(codePoint);
+	}
+
+	std::u32string u32str(codePoints.begin(), codePoints.end());
+	std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert;
+	return convert.to_bytes(u32str);
+}
+
+
 void addWordDefinition(vector<pair<string, string>>& da, const pair<string, string>& wd) {
-    da.push_back(wd);
+	da.push_back(wd);
 }
 
 // Initialize the hash table
-void initHashTable(HashTable& ht, size_t tableSize) {
-    ht.table.resize(tableSize);
-    ht.size = tableSize;
+void initHashTable(Emo& ht, size_t tableSize) {
+	ht.Emo_table.resize(tableSize);
+	ht.size = tableSize;
 }
 
 // Hash function
 size_t hashFunction(const string& key, size_t tableSize) {
-    const size_t FNV_PRIME = 0x00000000811C9DC5;
-    size_t hash = 0;
-    for (char ch : key) {
-        hash = hash * FNV_PRIME ^ ch;
-    }
-    return hash % tableSize;
+	const size_t FNV_PRIME = 0x00000000811C9DC5;
+	size_t hash = 0;
+	for (char ch : key) {
+		hash = hash * FNV_PRIME ^ ch;
+	}
+	return hash % tableSize;
 }
 
 // Insert word and definition into the hash table
-void insertWordDefinition(HashTable& ht, const string& word, const string& definition) {
-    size_t index = hashFunction(definition, ht.size);
-    if (ht.table[index].size() == 0) ht.currentLoad += 1;
-    addWordDefinition(ht.table[index], { word, definition });
+void Emoji::insertEmo(Emo& ht, const string& name, const string& utf8) {
+	size_t index = hashFunction(utf8, ht.size);
+	if (ht.Emo_table[index].size() == 0) ht.currentLoad += 1;
+	addWordDefinition(ht.Emo_table[index], { name, utf8 });
 }
 
 // Find the word based on its definition
-string findWord(HashTable& ht, const string& definition) {
-    size_t index = hashFunction(definition, ht.size);
-    for (const auto& pair : ht.table[index]) {
-        if (pair.second == definition) {
-            return pair.first;
-        }
-    }
-    return "Word not found.";
+pair<string,string> Emoji::findBycode(Emo& ht, string utf8) {
+	utf8 = hexCodePointSequenceToUtf8(utf8);
+	size_t index = hashFunction(utf8, ht.size);
+	for (const auto& pair : ht.Emo_table[index]) {
+		if (pair.second == utf8) {
+			return pair;
+		}
+	}
+	return make_pair("", "");
 }
+string Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
+{
+	int size = ht.Emo_table.size();
+	for (; index < size; index++)
+	{
+		for (; inside < ht.Emo_table[index].size(); inside++) {
+			pair<string, string> pair = ht.Emo_table[index][inside];
+			if (checkSubstring(pair.first, name))
+			{
+				inside++;
+				return pair.second;
+			}
+		}
+		inside = 0;
+	}
+	return "";
+}
+vector<string> Emoji::findbyNameUntil(Emo& ht, const string& name)
+{
+	int index = 0;
+	int inside = 0;
+	int size = ht.Emo_table.size();
+	int count = 10000;
+	vector<string> find;
 
+	while (true)
+	{
+		if (index >= size)
+		{
+			return find;
+		}
+
+		while (count--)
+		{
+			if (index >= size)
+			{
+				return find;
+			}
+			string result = findByname(ht, name, index, inside);
+			if (!result.empty()) {
+				find.push_back(result);
+			}
+			else {
+				break;
+			}
+		}
+	}
+	return find;
+}
 // Load the dataset into the hash table
-HashTable loadDataset(const string& filename, size_t tableSize) {
-    HashTable dictionary;
-    initHashTable(dictionary, tableSize);
-    ifstream file(filename);
-    if (!file.is_open()) {
-        cerr << "Error: Could not open file " << filename << endl;
-        return dictionary;
-    }
+Emo Emoji:: loadDataset(const string& filename, size_t tableSize) {
+	Emo dictionary;
+	initHashTable(dictionary, tableSize);
+	ifstream file(filename);
+	if (!file.is_open()) {
+		cerr << "Error: Could not open file " << filename << endl;
+		return dictionary;
+	}
 
-    string line;
-    while (getline(file, line)) {
-        istringstream stream(line);
-        string word, speech, definition;
-        if (getline(stream, word, ',') && getline(stream, speech, ',') && getline(stream, definition)) {
-            insertWordDefinition(dictionary, word, definition);
-        }
-    }
-    file.close();
-    return dictionary;
+	std::string line;
+	// skip the header line
+	std::getline(file, line);
+	while (std::getline(file, line)) {
+		std::stringstream ss(line);
+		std::string group, subgroup, codepoint, status, representation, name, section;
+
+		std::getline(ss, group, ',');
+		std::getline(ss, subgroup, ',');
+		std::getline(ss, codepoint, ',');
+		std::getline(ss, status, ',');
+		std::getline(ss, representation, ',');
+		std::getline(ss, name, ',');
+		std::getline(ss, section, ',');
+
+		// convert the code point to utf-8
+		std::string utf8str = hexCodePointSequenceToUtf8(codepoint);
+
+		insertEmo(dictionary, name, utf8str);
+	}
+	file.close();
+	return dictionary;
 }
 
-void saveHashtable(HashTable& ht)
+void addToHistory(wstring word, wstring def, string fileName)
 {
-    fstream o;
-    o.open("Dataset//Hashtable.bin", ios::binary | ios::out);
-
-    if (!o.is_open())
-    {
-        cout << "Cannot open file";
-        return;
-    }
-    o.write((char*)&ht.size, sizeof(ht.size));
-    o.write((char*)&ht.currentLoad, sizeof(int));
-
-    for (int i = 0; i < ht.size; i++)
-    {
-        int row_size = ht.table[i].size();
-        if (row_size != 0)
-        {
-            o.write((char*)&i, sizeof(i));
-            o.write((char*)&row_size, sizeof(int));
-            for (int j = 0; j < row_size; j++)
-            {
-                int length = 0;
-                length = ht.table[i][j].first.length();
-                o.write((char*)&length, sizeof(length));
-                o.write((char*)ht.table[i][j].first.c_str(), length);
-
-                length = ht.table[i][j].second.length();
-                o.write((char*)&length, sizeof(length));
-                o.write((char*)ht.table[i][j].second.c_str(), length);
-            }
-        }
-    }
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wofstream fout(fileName, ios::app);
+	fout.imbue(loc);
+	if (!fout.is_open())
+	{
+		return;
+	}
+	else
+	{
+		time_t now;
+		time(&now);
+		tm* local = localtime(&now);
+		//Print out by this format: word, d/m/yyyy h:m:sAM/PM, definition
+		fout << word << ',' << local->tm_mday << '/' << local->tm_mon + 1 << '/' << local->tm_year + 1900
+			<< ' ' << (local->tm_hour >= 12 ? local->tm_hour - 12 : local->tm_hour) << ':' << local->tm_min << ':'
+			<< local->tm_sec << (local->tm_hour >= 12 ? "PM" : "AM") << ',';
+		fout << def << endl;
+	}
+	fout.close();
 }
-HashTable loadHashTable(const string& filename) {
-    HashTable ht;
 
-    ifstream in(filename, ios::binary);
-    if (!in.is_open()) {
-        cerr << "Error: Could not open file " << filename << endl;
-        return ht; // Return empty hash table on error
-    }
 
-    // Read table size and current load
-    in.read((char*)&ht.size, sizeof(ht.size));
-    in.read((char*)&ht.currentLoad, sizeof(int));
-
-    // Resize the hash table based on the loaded size
-    ht.table.resize(ht.size);
-
-    for (int i = 0; i < ht.currentLoad; i++)
-    {
-        int index = 0, row_size = 0;
-        in.read((char*)&index, sizeof(int));
-        in.read((char*)&row_size, sizeof(int));
-
-        for (int j = 0; j < row_size; j++)
-        {
-            int length = 0;
-            in.read((char*)&length, sizeof(int));
-            char* word = new char[length + 1];
-            in.read(word, length);
-            word[length] = '\0';
-
-            in.read((char*)&length, sizeof(int));
-            char* def = new char[length + 1];
-            in.read(def, length);
-            def[length] = '\0';
-
-            ht.table[index].push_back({ word,def });
-            delete[]word;
-            delete[]def;
-        }
-
-    }
-    in.close();
-    return ht;
-}
-void History(string word, string definition)
+void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filename)
 {
-    fstream out;
-    out.open("Dataset\\History.csv", ios::out | ios::app);
-    if (!out.is_open() || word.empty() || definition.empty()) {
-        return;
-    }
-    out << word << "," << definition << endl;
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+	wifstream fin(filename);
+	fin.imbue(loc);
+	if (!fin.is_open())
+	{
+		wcout << L"Cannot open search history!!!" << endl;
+		return;
+	}
+	else
+	{
+		wstring word, t, def;
+		while (getline(fin, word, L','))
+		{
+			getline(fin, t, L',');
+			getline(fin, def);
+			info.push_back(word + L": " + def);
+			time.push_back(t);
+		}
+	}
+	
+	fin.close();
 }

@@ -32,10 +32,7 @@ Button nextDefButton(1275, 710, "Image/nextButton.png");
 Button backDefButton(820, 710, "Image/backDefButton.png");
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
-Button submitResetButton(1220, 582, "Image/submitResetButton.png");
-Button tickEEButton(70, 82, "Image/untickedboxEE.png");
-Button tickEVButton(70, 232, "Image/untickedboxEV.png");
-Button tickVEButton(70, 382, "Image/untickedboxVE.png");
+
 
 //searching
 Button searchKeyButton(98, 138, "Image/searchKey.png");
@@ -82,9 +79,7 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition", 6, 50);
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
-// hint
-Button guideUserTickButton(160, 13, "Image/hintToTick.png");
-Button warningButton(45, 582, "Image/warning.png");
+
 
 
 sf::Font font;
@@ -128,6 +123,7 @@ void history();
 void isLiked();
 void homePage();
 bool loadData();
+void reset();
 
 int run() {
 	setBackground();
@@ -167,7 +163,10 @@ int run() {
 			isLiked();
 			break;
 		}
-
+		
+		case 8:
+			reset();
+			break;
 		default:
 			break;
 		}
@@ -178,6 +177,10 @@ int run() {
 	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
 	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
 	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+
+	EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
+	VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+	EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
 
 	EV::deleteTrie(rootEtoV);
 	VE::deleteTrie(rootVtoE);
@@ -1749,6 +1752,9 @@ void homePage() {
 		if (isLikedButton.isClicked(window, event)) {
 			page.push(6);
 		}
+		if(resetButton.isClicked(window, event)) {
+			page.push(8);
+		}
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 	searchButton.isHover(window, "Image/searchHover.png");
@@ -1771,15 +1777,15 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin")) {
 	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
 	//}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
+	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
 	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	//}
@@ -1796,4 +1802,128 @@ bool loadData() {
 	wcout << L"Time to load data: " << chrono::duration_cast<chrono::seconds>(end - start).count() << L"s" << endl;
 
 	return 1;
+}
+
+void reset()
+{
+	Button submitResetButton(1220, 582, "Image/submitResetButton.png");
+	Button tickEEButton(70, 82, "Image/untickedboxEE.png");
+	Button tickEVButton(70, 232, "Image/untickedboxEV.png");
+	Button tickVEButton(70, 382, "Image/untickedboxVE.png");
+	// hint
+	sf::Text guideUser;
+	sf::Text warning;
+	guideUser.setFont(font);
+	guideUser.setCharacterSize(20);
+	guideUser.setFillColor(sf::Color::Black);
+	guideUser.setPosition(160, 13);
+	guideUser.setString("Please tick the box to choose the type of dictionary you want to reset");
+
+	warning.setFont(font);
+	warning.setCharacterSize(20);
+	warning.setFillColor(sf::Color::Red);
+	warning.setPosition(45, 582);
+	warning.setString("This will reset your dictionary to the original state, deleting all your edited words");
+	window.draw(guideUser);
+	window.draw(warning);
+	tickEEButton.draw(window);
+	tickEVButton.draw(window);
+	tickVEButton.draw(window);
+	submitResetButton.draw(window);
+	bool EE = 0, EV = 0, VE = 0;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event))
+		{
+			page.pop();
+		}
+		backButton.isHover(window, "Image/backHover.png");
+
+		tickEEButton.isHover(window, "Image/tickedboxEE.png");
+		tickEVButton.isHover(window, "Image/tickedboxEV.png");
+		tickVEButton.isHover(window, "Image/tickedboxVE.png");
+		submitResetButton.isHover(window, "Image/submitResetButtonHover.png");
+		if (tickEEButton.isClicked(window, event))
+		{
+			if (EE) EE = 0;
+			else EE = 1;
+		}
+		if (EE)
+		{
+			sf::Texture isChosen;
+			if (!isChosen.loadFromFile("Image/tickedboxEE.png"))
+				return;
+			isChosen.setSmooth(1);
+			tickEEButton.sprite.setTexture(isChosen);
+			tickEEButton.draw(window);
+		}
+		else if (!EE)
+		{
+			sf::Texture isChosen;
+			if (!isChosen.loadFromFile("Image/untickedboxEE.png"))
+				return;
+			isChosen.setSmooth(1);
+			tickEEButton.sprite.setTexture(isChosen);
+			tickEEButton.draw(window);
+		}
+
+		if (tickEVButton.isClicked(window, event))
+		{
+			if (EV) EV = 0;
+			else EV = 1;
+		}
+		if (EV)
+		{
+			sf::Texture isChosen;
+			if (!isChosen.loadFromFile("Image/tickedboxEV.png"))
+				return;
+			isChosen.setSmooth(1);
+			tickEVButton.sprite.setTexture(isChosen);
+			tickEVButton.draw(window);
+		}
+		else if (!EV)
+		{
+			sf::Texture isChosen;
+			if (!isChosen.loadFromFile("Image/untickedboxEV.png"))
+				return;
+			isChosen.setSmooth(1);
+			tickEVButton.sprite.setTexture(isChosen);
+			tickEVButton.draw(window);
+		}
+		if (tickVEButton.isClicked(window, event))
+		{
+			if (VE) VE = 0;
+			else VE = 1;
+		}
+		if (VE)
+		{
+			sf::Texture isChosen;
+			if (!isChosen.loadFromFile("Image/tickedboxVE.png"))
+				return;
+			isChosen.setSmooth(1);
+			tickVEButton.sprite.setTexture(isChosen);
+			tickVEButton.draw(window);
+		}
+		else if (!VE)
+		{
+			sf::Texture isChosen;
+			if (!isChosen.loadFromFile("Image/untickedboxVE.png"))
+				return;
+			isChosen.setSmooth(1);
+			tickVEButton.sprite.setTexture(isChosen);
+			tickVEButton.draw(window);
+		}
+		if (submitResetButton.isClicked(window, event))
+		{
+			resetToOriginal(EE, EV, VE);
+			page.pop();
+		}
+
+		
+
+
+	}
+
 }

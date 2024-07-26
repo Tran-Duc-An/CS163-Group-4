@@ -26,3 +26,6 @@ short,23/7/2024 9:0:35PM,"Not long; having brief length or linear extension; as,
 key,23/7/2024 9:3:26PM,"An instrument by means of which the bolt of a lock is shot or drawn; usually, a removable metal instrument fitted to the mechanism of a particular lock and operated by turning in its place."
 short,23/7/2024 9:3:34PM,"Not long; having brief length or linear extension; as, a short distance; a short piece of timber; a short flight."
 ant,23/7/2024 9:22:0PM,A contraction for are and am not; also used for is not; -- now usually written ain't.
+swear,25/7/2024 10:34:41AM,"To affirm or utter a solemn declaration, with an appeal to God for the truth of what is affirmed; to make a promise, threat, or resolve on oath; also, to affirm solemnly by some sacred object, or one regarded as sacred, as the Bible, the Koran, etc."
+seat,25/7/2024 10:34:48AM,"The place or thing upon which one sits; hence; anything made to be sat in or upon, as a chair, bench, stool, saddle, or the like."
+cost,25/7/2024 10:34:55AM,A rib; a side; a region or coast.

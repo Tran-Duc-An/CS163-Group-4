@@ -106,3 +106,4 @@ void handleWString(wstring& s, int row, int maxRows);
 void fillMap();
 void addToHistory(wstring word, wstring def, string fileName);
 void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename);
+bool resetToOriginal(bool EE, bool EV, bool VE);

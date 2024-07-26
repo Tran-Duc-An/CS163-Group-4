@@ -9,6 +9,7 @@
 #include <random>
 #include <list>
 #include <chrono>
+#include "runUI.cpp"
 using namespace std;
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter2;
 
@@ -904,23 +905,23 @@ void EE::saveFavWord(vector<string>& favWords, vector<string>& favDefs, string f
 
 
 // Vietnamese to English dictionary
-short int map[7930];
+short int mp[7930];
 short int reverseMap[91];
 void fillMap()
 {
-	memset(map, -1, 7929 * sizeof(short int));
+	memset(mp, -1, 7929 * sizeof(short int));
 	wstring word = L"a á à ả ã ạ ă ắ ằ ẳ ẵ ặ â ấ ầ ẩ ẫ ậ b c d đ e é è ẻ ẽ ẹ ê ế ề ể ễ ệ g h i í ì ỉ ĩ ị k l m n o ó ò ỏ õ ọ ô ố ồ ổ ỗ ộ ơ ớ ờ ở ỡ ợ p q r s t u ú ù ủ ũ ụ ư ứ ừ ử ữ ự v x y ý ỳ ỷ ỹ ỵ";
 	wstring temp = L"";
 	for (wchar_t& c : word) if (c != L' ') temp.push_back(c);
 	int i = 0;
 	for (wchar_t& c : temp)
 	{
-		map[c] = i;
+		mp[c] = i;
 		reverseMap[i] = c;
 		i++;
 	}
-	map[L'-'] = 89;
-	map[L' '] = 90;
+	mp[L'-'] = 89;
+	mp[L' '] = 90;
 	reverseMap[89] = L'-';
 	reverseMap[90] = L' ';
 }
@@ -930,12 +931,12 @@ wstring VToLower(wstring& str)
 	{
 		if (c == L'-' || c == L' ' || c > 7929) continue;
 		else if (c >= 65 && c <= 89) c += 32;
-		else if (map[c] == -1)
+		else if (mp[c] == -1)
 		{
 			wchar_t temp1 = c + 1;
 			wchar_t temp2 = c + 32;
-			if (map[temp1] != -1) c = temp1;
-			else if (map[temp2] != -1) c = temp2;
+			if (mp[temp1] != -1) c = temp1;
+			else if (mp[temp2] != -1) c = temp2;
 		}
 
 	}
@@ -948,13 +949,13 @@ void VE::insertWord(VTrie*& root, wstring& word, wstring& definition)
 	VTrie* current = root;
 	for (wchar_t& c : word)
 	{
-		if ((int)c > 7929 || map[c] == -1) continue;
-		if (current->children[map[c]] == nullptr)
+		if ((int)c > 7929 || mp[c] == -1) continue;
+		if (current->children[mp[c]] == nullptr)
 		{
-			current->children[map[c]] = new VTrie();
+			current->children[mp[c]] = new VTrie();
 			current->numChildren++;
 		}
-		current = current->children[map[c]];
+		current = current->children[mp[c]];
 	}
 	current->definition.push_back(definition);
 }
@@ -965,9 +966,9 @@ VTrie* VE::findWord(VTrie* root, wstring& word)
 	VTrie* current = root;
 	for (wchar_t& c : word)
 	{
-		if ((int)c > 7929 || map[c] == -1) return nullptr;
-		if (current->children[map[c]] == nullptr) return nullptr;
-		current = current->children[map[c]];
+		if ((int)c > 7929 || mp[c] == -1) return nullptr;
+		if (current->children[mp[c]] == nullptr) return nullptr;
+		current = current->children[mp[c]];
 	}
 	if (current->definition.empty()) return nullptr;
 	return current;
@@ -998,11 +999,11 @@ void VE::helperDeleteAWord(VTrie* root, wstring& word)
 	int childIndex = -1;
 	for (wchar_t& c : word)
 	{
-		if ((int)c > 7929 || map[c] == -1) return;
-		if (current->children[map[c]] == nullptr) return;
+		if ((int)c > 7929 || mp[c] == -1) return;
+		if (current->children[mp[c]] == nullptr) return;
 		parent = current;
-		childIndex = map[c];
-		current = current->children[map[c]];
+		childIndex = mp[c];
+		current = current->children[mp[c]];
 	}
 	if (parent != nullptr)
 	{
@@ -1116,10 +1117,10 @@ void loadVtrie(VTrie*& root, wifstream& fin)
 	{
 		wchar_t c;
 		fin.read((wchar_t*)&c, sizeof(wchar_t));
-		if (map[c] != -1)
+		if (mp[c] != -1)
 		{
-			root->children[map[c]] = new VTrie();
-			loadVtrie(root->children[map[c]], fin);
+			root->children[mp[c]] = new VTrie();
+			loadVtrie(root->children[mp[c]], fin);
 		}
 	}
 }
@@ -1428,3 +1429,55 @@ void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string file
 	fin.close();
 }
 
+bool resetToOriginal(bool EE, bool EV, bool VE)
+{
+	if (EE)
+	{
+		EE::deleteTrie(rootEtoE);
+		rootEtoE = new EETrie();
+		// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+		ifstream fin("TrieEN.bin", ios::binary);
+		ofstream fout("UserTrieEN.bin", ios::binary);
+		if (!fin.is_open() || !fout.is_open())
+		{
+			return false;
+		}
+		fout << fin.rdbuf();
+		fin.close();
+		fout.close();
+		EE::loadTrieFromFile(rootEtoE, "UserTrieEN.bin");
+	}
+	if (EV)
+	{
+		VE::deleteTrie(rootVtoE);
+		rootVtoE = new VTrie();
+		// copy data from file "TrieVN.bin" to file "UserTrieVN.bin" by using rdbuf() function
+		ifstream fin("TrieVN.bin", ios::binary);
+		ofstream fout("UserTrieVN.bin", ios::binary);
+		if (!fin.is_open() || !fout.is_open())
+		{
+			return false;
+		}
+		fout << fin.rdbuf();
+		fin.close();
+		fout.close();
+		VE::loadTrieFromFile(rootVtoE, "UserTrieVN.bin");
+	}
+	if (VE)
+	{
+		VE::deleteTrie(rootVtoE);
+		rootVtoE = new VTrie();
+		// copy data from file "TrieVN.bin" to file "UserTrieVN.bin" by using rdbuf() function
+		ifstream fin("TrieVN.bin", ios::binary);
+		ofstream fout("UserTrieVN.bin", ios::binary);
+		if (!fin.is_open() || !fout.is_open())
+		{
+			return false;
+		}
+		fout << fin.rdbuf();
+		fin.close();
+		fout.close();
+		VE::loadTrieFromFile(rootVtoE, "UserTrieVN.bin");
+	}
+	return true;
+}

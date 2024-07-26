@@ -1,33 +1,163 @@
-﻿  UI.cpp
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(16,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(16,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(52,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(52,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(58,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(58,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(62,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(62,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(266,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(266,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(264,43): warning C4390: ';': empty controlled statement found; is this the intent?
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(302,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(302,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(300,43): warning C4390: ';': empty controlled statement found; is this the intent?
-  main.cpp
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\main.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  runUI.cpp
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(252,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(252,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(265,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(265,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(949,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(949,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(958,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(958,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(970,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(970,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(979,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(979,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1612,27): warning C4551: function call missing argument list
-  Generating Code...
-  CS163_Group Project.vcxproj -> C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe
+﻿  runUI.cpp
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(255,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(255,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(268,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(268,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(952,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(952,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(961,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(961,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(973,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(973,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(982,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(982,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1615,27): warning C4551: function call missing argument list
+runUI.obj : error LNK2005: "void __cdecl QnA(void)" (?QnA@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl adding(void)" (?adding@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl displayDef(int,int,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,int)" (?displayDef@@YAXHHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl displayWDef(int,int,class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,int)" (?displayWDef@@YAXHHV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "int __cdecl getRandom(int,int)" (?getRandom@@YAHHH@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleChangePageEE(void)" (?handleChangePageEE@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleChangePageEV(void)" (?handleChangePageEV@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleChangePageVE(void)" (?handleChangePageVE@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleDefAnswer(void)" (?handleDefAnswer@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleKeyAnswer(void)" (?handleKeyAnswer@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleString(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &,int,int)" (?handleString@@YAXAEAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HH@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl handleWString(class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > &,int,int)" (?handleWString@@YAXAEAV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HH@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl history(void)" (?history@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl homePage(void)" (?homePage@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl isLiked(void)" (?isLiked@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "bool __cdecl loadData(void)" (?loadData@@YA_NXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl randomDefAnswer(class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > >,int)" (?randomDefAnswer@@YAXV?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@H@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl randomKeyAnswer(class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > >,int)" (?randomKeyAnswer@@YAXV?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@H@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl removeEndline(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)" (?removeEndline@@YAXAEAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl removeWEndline(class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > &)" (?removeWEndline@@YAXAEAV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@Z) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl reset(void)" (?reset@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl rightorwrongDef(void)" (?rightorwrongDef@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl rightorwrongKey(void)" (?rightorwrongKey@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "int __cdecl run(void)" (?run@@YAHXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl searching(void)" (?searching@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl setBackground(void)" (?setBackground@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl setContentEE(void)" (?setContentEE@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl setContentEV(void)" (?setContentEV@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl setContentVE(void)" (?setContentVE@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl setHisContent(void)" (?setHisContent@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "void __cdecl translating(void)" (?translating@@YAXXZ) already defined in Function.obj
+runUI.obj : error LNK2005: "class sf::Event event" (?event@@3VEvent@sf@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "int orderDef" (?orderDef@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "bool translateFlag" (?translateFlag@@3_NA) already defined in Function.obj
+runUI.obj : error LNK2005: "bool searchFlag" (?searchFlag@@3_NA) already defined in Function.obj
+runUI.obj : error LNK2005: "bool transType" (?transType@@3_NA) already defined in Function.obj
+runUI.obj : error LNK2005: "int addingType" (?addingType@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "int qnaType" (?qnaType@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "struct VTrie * nodeV" (?nodeV@@3PEAUVTrie@@EA) already defined in Function.obj
+runUI.obj : error LNK2005: "struct EVTrie * nodeE" (?nodeE@@3PEAUEVTrie@@EA) already defined in Function.obj
+runUI.obj : error LNK2005: "struct EETrie * nodeEE" (?nodeEE@@3PEAUEETrie@@EA) already defined in Function.obj
+runUI.obj : error LNK2005: "int orderKey" (?orderKey@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "int posx" (?posx@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "int posy" (?posy@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "int answerFlag" (?answerFlag@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "bool guessType" (?guessType@@3_NA) already defined in Function.obj
+runUI.obj : error LNK2005: "bool * rangeRandom" (?rangeRandom@@3PA_NA) already defined in Function.obj
+runUI.obj : error LNK2005: "int orderHis" (?orderHis@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "int favType" (?favType@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "int orderFav" (?orderFav@@3HA) already defined in Function.obj
+runUI.obj : error LNK2005: "class sf::RenderWindow window" (?window@@3VRenderWindow@sf@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button searchButton" (?searchButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button translatingButton" (?translatingButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button addNewWordButton" (?addNewWordButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button qnaButton" (?qnaButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button historyButton" (?historyButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button isLikedButton" (?isLikedButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button resetButton" (?resetButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button VNtoEnButton" (?VNtoEnButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button ENtoVnButton" (?ENtoVnButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button ENtoENButton" (?ENtoENButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button backButton" (?backButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button nextDefButton" (?nextDefButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button backDefButton" (?backDefButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button heartButton" (?heartButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button deleteButton" (?deleteButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button searchKeyButton" (?searchKeyButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button searchDefButton" (?searchDefButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct InputBox searchKeyBox" (?searchKeyBox@@3UInputBox@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct InputDef searchDefBox" (?searchDefBox@@3UInputDef@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct SubmitENButton submitSearchKey" (?submitSearchKey@@3USubmitENButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct SubmitENButton submitSearchDef" (?submitSearchDef@@3USubmitENButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button heartKeyButton" (?heartKeyButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button deleteKeyButton" (?deleteKeyButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button guessByKey" (?guessByKey@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button guessByDef" (?guessByDef@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button nextQuestion" (?nextQuestion@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button heartQnAButton" (?heartQnAButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton A" (?A@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton B" (?B@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton C" (?C@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton D" (?D@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton ADef" (?ADef@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton BDef" (?BDef@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton CDef" (?CDef@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct AnswerButton DDef" (?DDef@@3UAnswerButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct InputBox inputVNBox" (?inputVNBox@@3UInputBox@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct InputBox inputENBox" (?inputENBox@@3UInputBox@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct SubmitENButton translateEN" (?translateEN@@3USubmitENButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct SubmitVNButton translateVN" (?translateVN@@3USubmitVNButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct InputBox inputWord" (?inputWord@@3UInputBox@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct InputDef inputDef" (?inputDef@@3UInputDef@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct SubmitENButton addENButton" (?addENButton@@3USubmitENButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct SubmitVNButton addVNButton" (?addVNButton@@3USubmitVNButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class sf::Font font" (?font@@3VFont@sf@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > transDef" (?transDef@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > searchDef" (?searchDef@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct EVTrie * rootEtoV" (?rootEtoV@@3PEAUEVTrie@@EA) already defined in Function.obj
+runUI.obj : error LNK2005: "struct EETrie * rootEtoE" (?rootEtoE@@3PEAUEETrie@@EA) already defined in Function.obj
+runUI.obj : error LNK2005: "struct VTrie * rootVtoE" (?rootVtoE@@3PEAUVTrie@@EA) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<struct std::pair<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > >,class std::allocator<struct std::pair<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > > table" (?table@@3V?$vector@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@V?$allocator@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > searchHistory" (?searchHistory@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > searchRealTime" (?searchRealTime@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::wstring_convert<class std::codecvt_utf8_utf16<wchar_t,1114111,0>,wchar_t,class std::allocator<wchar_t>,class std::allocator<char> > converter" (?converter@@3V?$wstring_convert@V?$codecvt_utf8_utf16@_W$0BAPPPP@$0A@@std@@_WV?$allocator@_W@2@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::stack<int,class std::deque<int,class std::allocator<int> > > page" (?page@@3V?$stack@HV?$deque@HV?$allocator@H@std@@@std@@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > favWordsVE" (?favWordsVE@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > favDefsVE" (?favDefsVE@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > favWordsEV" (?favWordsEV@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > favDefsEV" (?favDefsEV@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > favWordsEE" (?favWordsEE@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > favDefsEE" (?favDefsEE@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > transWord" (?transWord@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > transWword" (?transWword@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > def" (?def@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > word" (?word@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::stack<bool,class std::deque<bool,class std::allocator<bool> > > searchingType" (?searchingType@@3V?$stack@_NV?$deque@_NV?$allocator@_N@std@@@std@@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > words" (?words@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton searchDefRes" (?searchDefRes@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button nextKeyButton" (?nextKeyButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button backKeyButton" (?backKeyButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rightWord" (?rightWord@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > wrongWord1" (?wrongWord1@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > wrongWord2" (?wrongWord2@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > wrongWord3" (?wrongWord3@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rightDef" (?rightDef@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > wrongDef1" (?wrongDef1@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > wrongDef2" (?wrongDef2@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > wrongDef3" (?wrongDef3@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wWrongWord1" (?wWrongWord1@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wWrongWord2" (?wWrongWord2@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wWrongWord3" (?wWrongWord3@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wrightWord" (?wrightWord@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wrightDef" (?wrightDef@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wwrongDef1" (?wwrongDef1@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wwrongDef2" (?wwrongDef2@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > wwrongDef3" (?wwrongDef3@@3V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > ansWord" (?ansWord@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "class std::vector<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,class std::allocator<class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> > > > ansDef" (?ansDef@@3V?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h1" (?h1@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h2" (?h2@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h3" (?h3@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h4" (?h4@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h5" (?h5@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h6" (?h6@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h7" (?h7@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct ChoiceButton h8" (?h8@@3UChoiceButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button nextHisButton" (?nextHisButton@@3UButton@@A) already defined in Function.obj
+runUI.obj : error LNK2005: "struct Button backHisButton" (?backHisButton@@3UButton@@A) already defined in Function.obj
+C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe : fatal error LNK1169: one or more multiply defined symbols found

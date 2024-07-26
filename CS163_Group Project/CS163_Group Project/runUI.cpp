@@ -14,13 +14,17 @@ sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
 sf::Event event;
 
 // home page
-Button searchButton(715, 155, "Image/searchButton.png");
-Button translatingButton(715, 305, "Image/translateButton.png");
-Button addNewWordButton(715, 455, "Image/addButton.png");
-Button qnaButton(715, 605, "Image/qnaButton.png");
-Button historyButton(30, 650, "Image/historyButton.png");
+Button searchButton(800, 55, "Image/searchButton.png");
+Button translatingButton(800, 205, "Image/translateButton.png");
+Button addNewWordButton(800, 355, "Image/addButton.png");
+Button qnaButton(800, 505, "Image/qnaButton.png");
+Button emojiSearchButton(800, 665, "Image/emojiButton.png");
+
+Button historyButton(30, 350, "Image/historyButton.png");
 Button isLikedButton(30, 500, "Image/likedButton.png");
-Button resetButton(30, 363, "Image/resetButton.png");
+Button resetButton(30, 650, "Image/resetButton.png");
+
+
 //switch dataset
 Button VNtoEnButton(1034, 33, "Image/VNtoENButton.png");
 Button ENtoVnButton(1034, 33, "Image/ENtoVNButton.png");
@@ -28,8 +32,10 @@ Button ENtoENButton(1034, 33, "Image/ENtoENButton.png");
 
 //function button
 Button backButton(12, 18, "Image/backButton.png");
-Button nextDefButton(1275, 710, "Image/nextButton.png");
-Button backDefButton(820, 710, "Image/backDefButton.png");
+
+Button nextDefButton(1300, 710, "Image/nextButton.png");
+Button backDefButton(700, 710, "Image/backDefButton.png");
+
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
 
@@ -49,10 +55,9 @@ Button heartKeyButton(45, 715, "Image/heart.png");
 Button deleteKeyButton(180, 715, "Image/deleteButton.png");
 
 //QNA
-Button guessByKey(95, 28, "Image/guessByKey.png");
-Button guessByDef(95, 28, "Image/guessByDef.png");
-Button nextQuestion(1342, 170, "Image/nextButton.png");
-Button heartQnAButton(1380, 100, "Image/heart.png");
+Button guessByKey(130, 28, "Image/guessByKey.png");
+Button guessByDef(130, 28, "Image/guessByDef.png");
+Button nextQuestion(1360, 170, "Image/nextButton.png");
 
 AnswerButton A(209, 442, "Image/answerKeyBox.png");
 AnswerButton B(209, 616, "Image/answerKeyBox.png");
@@ -83,6 +88,7 @@ SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
 
 sf::Font font;
+sf::Font fontEmoji;
 vector<wstring> transDef;
 vector<string> searchDef;
 
@@ -90,6 +96,7 @@ EVTrie* rootEtoV = new EVTrie();
 EETrie* rootEtoE = new EETrie();
 VTrie* rootVtoE = new VTrie();
 vector<pair<string, string>> table;
+Emo emojiTable;
 
 vector<std::wstring> searchHistory;
 vector<std::wstring> searchRealTime;
@@ -164,9 +171,6 @@ int run() {
 			break;
 		}
 		
-		case 8:
-			reset();
-			break;
 		default:
 			break;
 		}
@@ -331,7 +335,7 @@ void translating() {
 	while (window.pollEvent(event))
 	{
 		if (backButton.isClicked(window, event)) page.pop();
-		backButton.isHover(window, "Image/backHover.png");
+		
 
 		if (event.type == sf::Event::Closed) window.close();
 
@@ -481,6 +485,7 @@ void translating() {
 	}
 
 	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 }
 
 EETrie* nodeEE = nullptr;
@@ -518,7 +523,7 @@ void searching() {
 			page.pop();
 			if (!searchingType.empty()) searchingType.pop();
 		}
-		backButton.isHover(window, "Image/backHover.png");
+
 
 		if (searchKeyButton.isClicked(window, event)) {
 			searchingType.push(0);
@@ -528,10 +533,10 @@ void searching() {
 			searchingType.push(1);
 			searchFlag = 0;
 		}
-		if (!searchingType.empty()) {
-			if (searchingType.top() == 0) {//Search with keyword
 
-				searchKeyBox.isClicked(window, event);
+		if (searchingType.top()== 0) {//Search with keyword
+
+			searchKeyBox.isClicked(window, event);
 
 				if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 
@@ -596,18 +601,17 @@ void searching() {
 
 		}
 
-	}
-	if (!searchingType.empty()) {
-		if (searchingType.top() == 0) { //search by keyword
-			searchKeyBox.draw(window);
-			if (searchKeyBox.text.getString() == "") {
-				heartButton.texture.loadFromFile("Image/heart.png");
-				heartButton.sprite.setTexture(heartButton.texture);
-				searchFlag = 0;
-			}
-			if (searchFlag == 1) {
-				nextDefButton.draw(window);
-				backDefButton.draw(window);
+
+	if (searchingType.top() == 0) { //search by keyword
+		searchKeyBox.draw(window);
+		if (searchKeyBox.text.getString() == "") {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+			searchFlag = 0;
+		}
+		if (searchFlag == 1) {
+			nextDefButton.draw(window);
+			backDefButton.draw(window);
 
 				displayDef(650, 100, searchDef[orderDef], 50);
 				if (nodeEE != nullptr && nodeEE->isLiked == 0) {
@@ -654,6 +658,7 @@ void searching() {
 	searchKeyButton.draw(window);
 	searchDefButton.draw(window);
 	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 }
 
 void adding() {
@@ -664,7 +669,7 @@ void adding() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page.pop();
-		backButton.isHover(window, "Image/backHover.png");
+		
 
 
 		inputWord.isClicked(window, event);
@@ -743,6 +748,7 @@ void adding() {
 	inputWord.draw(window);
 	inputDef.draw(window);
 	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 }
 
 int posx = 0;
@@ -989,7 +995,7 @@ void rightorwrongDef() {
 void QnA() {
 	sf::Texture questionLayout;
 	sf::Sprite qSprite;
-	qSprite.setPosition(95, 105);
+	qSprite.setPosition(105, 115);
 	questionLayout.setSmooth(1);
 	if (guessType == 0) {
 		if (!questionLayout.loadFromFile("Image/askDefBox.png")) return;
@@ -1002,7 +1008,7 @@ void QnA() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 		if (backButton.isClicked(window, event)) page.pop();
-		backButton.isHover(window, "Image/backHover.png");
+		
 
 		//change type of question
 		if (qnaType == 0) {//VE
@@ -1199,7 +1205,7 @@ void QnA() {
 	text.setFont(font);
 	text.setCharacterSize(30);
 	text.setFillColor(sf::Color::Black);
-	text.setPosition(100, 110);
+	text.setPosition(120, 115);
 
 	if (guessType == 0) {//Guess by definition
 		guessByDef.draw(window);
@@ -1234,8 +1240,8 @@ void QnA() {
 		rightorwrongDef();
 	}
 
-	heartQnAButton.draw(window);
-	heartQnAButton.isHover(window, "Image/heartHover.png");
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 	nextQuestion.draw(window);
 	nextQuestion.isHover(window, "Image/nextDefHover.png");
 }
@@ -1685,8 +1691,6 @@ void isLiked() {
 	backButton.draw(window);
 }
 
-
-
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
@@ -1694,7 +1698,10 @@ void homePage() {
 	transType = 0;
 	addingType = 0;
 
-
+	while (!searchingType.empty()) {
+		searchingType.pop();
+	}
+	searchingType.push(0);
 
 	h1.content = L"";
 	h2.content = L"";
@@ -1718,9 +1725,12 @@ void homePage() {
 	translatingButton.draw(window);
 	addNewWordButton.draw(window);
 	qnaButton.draw(window);
+	emojiSearchButton.draw(window);
+
 	historyButton.draw(window);
 	isLikedButton.draw(window);
 	resetButton.draw(window);
+
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -1752,14 +1762,13 @@ void homePage() {
 		if (isLikedButton.isClicked(window, event)) {
 			page.push(6);
 		}
-		if(resetButton.isClicked(window, event)) {
-			page.push(8);
-		}
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 	searchButton.isHover(window, "Image/searchHover.png");
 	translatingButton.isHover(window, "Image/translateHover.png");
 	qnaButton.isHover(window, "Image/qnaHover.png");
+	emojiSearchButton.isHover(window, "Image/emojiHover.png");
+
 	historyButton.isHover(window, "Image/historyHover.png");
 	isLikedButton.isHover(window, "Image/likedHover.png");
 	resetButton.isHover(window, "Image/resetButtonHover.png");
@@ -1781,16 +1790,18 @@ bool loadData() {
 	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
 	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
 	//}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
+	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
 		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
 		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
 	}
-	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
 	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
 	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
 	//}
 
-	Def::loadDataset(table, "Dataset/englishDictionary.csv");
+	//Def::loadDataset(table, "Dataset/englishDictionary.csv");
+
+	emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
 
 	loadSearchHistory(searchHistory, searchRealTime, "Dataset/History.txt");
 
@@ -1802,128 +1813,4 @@ bool loadData() {
 	wcout << L"Time to load data: " << chrono::duration_cast<chrono::seconds>(end - start).count() << L"s" << endl;
 
 	return 1;
-}
-
-void reset()
-{
-	Button submitResetButton(1220, 582, "Image/submitResetButton.png");
-	Button tickEEButton(70, 82, "Image/untickedboxEE.png");
-	Button tickEVButton(70, 232, "Image/untickedboxEV.png");
-	Button tickVEButton(70, 382, "Image/untickedboxVE.png");
-	// hint
-	sf::Text guideUser;
-	sf::Text warning;
-	guideUser.setFont(font);
-	guideUser.setCharacterSize(20);
-	guideUser.setFillColor(sf::Color::Black);
-	guideUser.setPosition(160, 13);
-	guideUser.setString("Please tick the box to choose the type of dictionary you want to reset");
-
-	warning.setFont(font);
-	warning.setCharacterSize(20);
-	warning.setFillColor(sf::Color::Red);
-	warning.setPosition(45, 582);
-	warning.setString("This will reset your dictionary to the original state, deleting all your edited words");
-	window.draw(guideUser);
-	window.draw(warning);
-	tickEEButton.draw(window);
-	tickEVButton.draw(window);
-	tickVEButton.draw(window);
-	submitResetButton.draw(window);
-	bool EE = 0, EV = 0, VE = 0;
-	while (window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed) window.close();
-
-		if (backButton.isClicked(window, event))
-		{
-			page.pop();
-		}
-		backButton.isHover(window, "Image/backHover.png");
-
-		tickEEButton.isHover(window, "Image/tickedboxEE.png");
-		tickEVButton.isHover(window, "Image/tickedboxEV.png");
-		tickVEButton.isHover(window, "Image/tickedboxVE.png");
-		submitResetButton.isHover(window, "Image/submitResetButtonHover.png");
-		if (tickEEButton.isClicked(window, event))
-		{
-			if (EE) EE = 0;
-			else EE = 1;
-		}
-		if (EE)
-		{
-			sf::Texture isChosen;
-			if (!isChosen.loadFromFile("Image/tickedboxEE.png"))
-				return;
-			isChosen.setSmooth(1);
-			tickEEButton.sprite.setTexture(isChosen);
-			tickEEButton.draw(window);
-		}
-		else if (!EE)
-		{
-			sf::Texture isChosen;
-			if (!isChosen.loadFromFile("Image/untickedboxEE.png"))
-				return;
-			isChosen.setSmooth(1);
-			tickEEButton.sprite.setTexture(isChosen);
-			tickEEButton.draw(window);
-		}
-
-		if (tickEVButton.isClicked(window, event))
-		{
-			if (EV) EV = 0;
-			else EV = 1;
-		}
-		if (EV)
-		{
-			sf::Texture isChosen;
-			if (!isChosen.loadFromFile("Image/tickedboxEV.png"))
-				return;
-			isChosen.setSmooth(1);
-			tickEVButton.sprite.setTexture(isChosen);
-			tickEVButton.draw(window);
-		}
-		else if (!EV)
-		{
-			sf::Texture isChosen;
-			if (!isChosen.loadFromFile("Image/untickedboxEV.png"))
-				return;
-			isChosen.setSmooth(1);
-			tickEVButton.sprite.setTexture(isChosen);
-			tickEVButton.draw(window);
-		}
-		if (tickVEButton.isClicked(window, event))
-		{
-			if (VE) VE = 0;
-			else VE = 1;
-		}
-		if (VE)
-		{
-			sf::Texture isChosen;
-			if (!isChosen.loadFromFile("Image/tickedboxVE.png"))
-				return;
-			isChosen.setSmooth(1);
-			tickVEButton.sprite.setTexture(isChosen);
-			tickVEButton.draw(window);
-		}
-		else if (!VE)
-		{
-			sf::Texture isChosen;
-			if (!isChosen.loadFromFile("Image/untickedboxVE.png"))
-				return;
-			isChosen.setSmooth(1);
-			tickVEButton.sprite.setTexture(isChosen);
-			tickVEButton.draw(window);
-		}
-		if (submitResetButton.isClicked(window, event))
-		{
-			resetToOriginal(EE, EV, VE);
-			page.pop();
-		}
-
-		
-
-
-	}
-
 }

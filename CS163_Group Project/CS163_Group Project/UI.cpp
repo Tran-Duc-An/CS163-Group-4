@@ -77,7 +77,7 @@ void InputBox::pasteFromClipboard() {
 			std::wstring str = text.getString();
 			str += pszText;
 			text.setString(str);
-			GlobalUnlock(hData);
+			GlobalUnlock(hData);	
 		}
 		CloseClipboard();
 	}

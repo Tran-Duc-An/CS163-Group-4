@@ -1,48 +1,15 @@
 ﻿  Function.cpp
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(187,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(191,18): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(476,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(730,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(734,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(896,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1068,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1072,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1193,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1286,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1287,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1434,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\Function.cpp(1453,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  UI.cpp
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(16,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(16,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(52,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(52,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(58,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(58,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(62,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(62,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(266,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(266,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(264,43): warning C4390: ';': empty controlled statement found; is this the intent?
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(302,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(302,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\UI.cpp(300,43): warning C4390: ';': empty controlled statement found; is this the intent?
-  main.cpp
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\main.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  runUI.cpp
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(263,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(263,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(276,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(276,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(965,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(965,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(974,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(974,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(986,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(986,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(995,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(995,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1628,27): warning C4551: function call missing argument list
-  Generating Code...
-  LINK : C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe not found or not built by the last incremental link; performing full link
-  CS163_Group Project.vcxproj -> C:\Users\DUC AN\Documents\GitHub\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(187,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(191,18): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(476,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(730,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(734,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(896,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1068,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1072,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1193,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1286,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1287,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1434,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\Function.cpp(1453,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  CS163_Group Project.vcxproj -> C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe

@@ -109,3 +109,28 @@ sò,27/7/2024 6:19:56PM,dtừ|- arca
 chó,27/7/2024 6:19:59PM,dog; bitch|=thức ăn dành cho chó dog food|=chết như một con chó to die like a dog; to die a dog's death
 gà,27/7/2024 6:20:6PM,cock; fowl; chicken|=nuôi gà to keep chickenschicken
 heo,27/7/2024 6:20:14PM,hog; pig; swine (heo vòi)|=thịt heo pork|=bầy heo heard of swine
+cross,30/7/2024 8:56:46AM,"A gibbet, consisting of two pieces of timber placed transversely upon one another, in various forms, as a T, or +, with the horizontal piece below the upper end of the upright, or as an X. It was anciently used in the execution of criminals."
+cross,30/7/2024 9:4:48AM,"A gibbet, consisting of two pieces of timber placed transversely upon one another, in various forms, as a T, or +, with the horizontal piece below the upper end of the upright, or as an X. It was anciently used in the execution of criminals."
+cross,30/7/2024 9:5:0AM,"A gibbet, consisting of two pieces of timber placed transversely upon one another, in various forms, as a T, or +, with the horizontal piece below the upper end of the upright, or as an X. It was anciently used in the execution of criminals."
+cross,30/7/2024 9:5:11AM,"A gibbet, consisting of two pieces of timber placed transversely upon one another, in various forms, as a T, or +, with the horizontal piece below the upper end of the upright, or as an X. It was anciently used in the execution of criminals."
+sõ,30/7/2024 9:23:8AM,
+sõ,30/7/2024 9:23:9AM,
+cosx,30/7/2024 9:28:35AM,cosine of x
+cosx,30/7/2024 9:32:37AM,cosine of x
+cosx,30/7/2024 9:33:12AM,cô sin của x
+sõ,30/7/2024 9:34:18AM,
+sõ,30/7/2024 9:39:29AM,
+sõ,30/7/2024 9:39:30AM,
+cosx,30/7/2024 9:39:41AM,cosine of x
+cosx,30/7/2024 9:41:13AM,cô sin của x
+,30/7/2024 9:44:42AM, or an . PCP.  It is presumably an older spelling of scanned. --2. ",,"Specifically (Pros.), to go through with, as a verse, marking and distinguishing the feet of which it is composed; to show, in reading, the metrical structure of; to recite metrically."
+ant,30/7/2024 10:52:25AM,A contraction for are and am not; also used for is not; -- now usually written ain't.
+cross,30/7/2024 10:52:31AM,"A gibbet, consisting of two pieces of timber placed transversely upon one another, in various forms, as a T, or +, with the horizontal piece below the upper end of the upright, or as an X. It was anciently used in the execution of criminals."
+hash,30/7/2024 10:52:37AM,"That which is hashed or chopped up; meat and vegetables, especially such as have been already cooked, chopped into small pieces and mixed."
+map,30/7/2024 10:52:41AM,"A representation of the surface of the earth, or of some portion of it, showing the relative position of the parts represented; -- usually on a flat surface. Also, such a representation of the celestial sphere, or of some part of it."
+ngõ,30/7/2024 10:52:50AM,dtừ|- gate, by-street; lane; alley|=ngõ tối dark alley
+từ chối,30/7/2024 10:52:57AM,to refuse; to decline|=người ta mời bà ấy làm chủ tịch, nhưng bà ấy khăng khăng từ chối they invited her to become president, but she refused persistently
+captain,30/7/2024 10:53:5AM,  danh từ|- người cầm đầu, người chỉ huy, thủ lĩnh|- tướng lão luyện; nhà chiến lược|- (quân sự) đại uý|- (hàng hải) thuyền trưởng, hạm trưởng|- (thể dục,thể thao) đội trưởng, thủ quân|-(ngôn ngữ nhà trường) trường lớp|- (ngành mỏ) trưởng kíp|- (hàng không) phi công
+america,30/7/2024 10:53:14AM, danh từ|- (địa lý) châu mỹ|- như united states of america
+teach,30/7/2024 10:54:19AM,"To impart the knowledge of; to give intelligence concerning; to impart, as knowledge before unknown, or rules for practice; to inculcate as true or important; to exhibit impressively; as, to teach arithmetic, dancing, music, or the like; to teach morals."
+teach,30/7/2024 10:54:34AM,"To impart the knowledge of; to give intelligence concerning; to impart, as knowledge before unknown, or rules for practice; to inculcate as true or important; to exhibit impressively; as, to teach arithmetic, dancing, music, or the like; to teach morals."

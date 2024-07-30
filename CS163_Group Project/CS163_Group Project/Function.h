@@ -60,7 +60,7 @@ namespace EV {
 	void unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def);
 	void saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename);
 	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
-
+	
 }
 
 namespace EE {

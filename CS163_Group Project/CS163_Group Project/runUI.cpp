@@ -9,6 +9,7 @@
 #include <codecvt>
 #include <random>
 #include <stack>
+#include <thread>
 
  sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
  sf::Event event;
@@ -39,9 +40,9 @@ Button backDefButton(700, 710, "Image/backDefButton.png");
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
 Button submitResetButton(1220, 582, "Image/submitResetButton.png");
-Button tickEEButton(70, 82, "Image/untickedboxEE.png");
-Button tickEVButton(70, 232, "Image/untickedboxEV.png");
-Button tickVEButton(70, 382, "Image/untickedboxVE.png");
+Button tickEEButton(70, 179, "Image/untickedboxEE.png");
+Button tickEVButton(70, 319, "Image/untickedboxEV.png");
+Button tickVEButton(70, 459, "Image/untickedboxVE.png");
 
 //searching
 Button searchKeyButton(98, 138, "Image/searchKey.png");
@@ -87,9 +88,7 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
-// hint
-Button guideUserTickButton(160, 13, "Image/hintToTick.png");
-Button warningButton(45, 582, "Image/warning.png");
+
 
 
 sf::Font font;
@@ -1863,31 +1862,54 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	if (!EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin")) {
-		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
-		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
-		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
-	}
-	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
-		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	}
+	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin")) {
+	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	//}
+	//if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
+	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
+	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
+	//}
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
+	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	//}
 
-	Def::loadDataset(table, "Dataset/englishDictionary.csv");
+	//Def::loadDataset(table, "Dataset/englishDictionary.csv");
 
-	emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
+	//emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
 
-	loadSearchHistory(searchHistory,searchRealTime, "Dataset/History.txt");
+	//loadSearchHistory(searchHistory,searchRealTime, "Dataset/History.txt");
 
-	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
-	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
-	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+	//EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	//VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	//EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+
+	//use threads to load data faster
+	thread t1(EV::loadTriefromFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+	thread t2(EE::loadTrieFromFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+	thread t3(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+	thread t4(Def::loadDataset, std::ref(table), "Dataset/englishDictionary.csv");
+	// Modify Emoji::loadDataset to accept a reference
+	thread t5([](Emo& ht, const string& filename, size_t tableSize) {
+		ht = Emoji::loadDataset(filename, tableSize);
+		}, std::ref(emojiTable), "Dataset/emojis.csv", 101);
+	thread t6(loadSearchHistory, std::ref(searchHistory), std::ref(searchRealTime), "Dataset/History.txt");
+	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
+	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
+	thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+	t5.join();
+	t6.join();
+	t7.join();
+	t8.join();
+	t9.join();
 
 	auto end = chrono::high_resolution_clock::now();
-	wcout << L"Time to load data: " << chrono::duration_cast<chrono::seconds>(end - start).count() << L"s" << endl;
+	wcout << L"Time to load data: " << chrono::duration_cast<chrono::microseconds>(end - start).count()/1000 << L"ms" << endl;
 
 	return 1;
 }
@@ -1902,14 +1924,14 @@ void reset()
 	guideUser.setFont(font);
 	guideUser.setCharacterSize(20);
 	guideUser.setFillColor(sf::Color::Black);
-	guideUser.setPosition(160, 13);
+	guideUser.setPosition(181, 59);
 	guideUser.setString("Please tick the box to choose the type of dictionary you want to reset");
 
 	warning.setFont(font);
 	warning.setCharacterSize(20);
 	warning.setFillColor(sf::Color::Red);
-	warning.setPosition(45, 582);
-	warning.setString("This will reset your dictionary to the original state, deleting all your edited words");
+	warning.setPosition(70, 632);
+	warning.setString("This will reset your dictionary to original state,\n including added, edited, deleted words !");
 	window.draw(guideUser);
 	window.draw(warning);
 	tickEEButton.draw(window);
@@ -2011,3 +2033,5 @@ void reset()
 	tickVEButton.isHover(window, "Image/tickedboxVE.png");
 	submitResetButton.isHover(window, "Image/submitResetButtonHover.png");
 }
+
+

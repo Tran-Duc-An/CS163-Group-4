@@ -1617,3 +1617,5 @@ bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& root
 	}
 	return true;
 }
+
+

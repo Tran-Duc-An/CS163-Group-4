@@ -140,7 +140,8 @@ void emoji();
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	if (!loadData()) return 0;
+	fontEmoji.loadFromFile("Font/Emoji.ttf");
+	//if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -1701,9 +1702,11 @@ void isLiked() {
 Button findbyCodeButton(1045, 35, "Image/findByCode.png");
 Button findbyWordButton(1045, 35, "Image/findByWord.png");
 bool emojiType = 0;
-InputBox emojiInput(390, 170, "Image/emojiBox.png", L"Text here");
-string str;
-SubmitENButton searchEmojiSubmit(1020, 170, "Image/searchImage.png");
+
+Button desTag(140, 145, "Image/Destag.png");
+Button emojiTag(820, 145, "Image/Emojitag.png");
+InputDef emojiInput(170, 325, "Image/InputBox.png",L"Text Here", 3, 20);
+SubmitENButton searchEmoji(650, 490, "Image/searchImage.png");
 
 void emoji() {
 
@@ -1713,7 +1716,7 @@ void emoji() {
 
 		if (backButton.isClicked(window, event)) page.pop();
 
-		emojiInput.isClicked(window, event);
+		emojiInput.isClicked(window,event);
 
 		if (emojiType == 0) {
 			if (findbyWordButton.isClicked(window, event))
@@ -1727,21 +1730,7 @@ void emoji() {
 
 		
 	}
-	vector<string> res = Emoji::findbyNameUntil(emojiTable,"balloon");
-	pair<string,string> s = Emoji::findBycode(emojiTable, "1F383");
-	sf::Text text;
-	text.setFont(font);	
-	text.setCharacterSize(40);
-	text.setPosition(500, 500);
-	text.setFillColor(sf::Color::Black);	
-
-	sf::String str{ sf::String::fromUtf8(s.second.begin(), s.second.end())};
-	text.setString(str);
-	window.draw(text);
-
-	emojiInput.draw(window);
-	searchEmojiSubmit.draw(window);
-	searchEmojiSubmit.isHover(window, "Image/searchImageHover.png");
+	
 
 	if (emojiType == 0) {
 		findbyWordButton.draw(window);
@@ -1751,6 +1740,15 @@ void emoji() {
 		findbyCodeButton.draw(window);
 		findbyCodeButton.isHover(window, "Image/findByCodeHover.png");
 	}
+	emojiInput.draw(window);
+
+	desTag.draw(window);
+	emojiTag.draw(window);
+
+	emojiInput.draw(window);
+	searchEmoji.draw(window);
+	searchEmoji.isHover(window, "Image/searchImageHover.png");
+
 	backButton.draw(window);
 	backButton.isHover(window, "Image/backHover.png");
 }
@@ -1850,20 +1848,20 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	//}
-	//if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
-	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
-	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
-	//}
-	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	//}
+	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
+		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	}
+	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
+		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
+		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
+	}
+	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
+		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	}
 
-	//Def::loadDataset(table, "Dataset/englishDictionary.csv");
+	Def::loadDataset(table, "Dataset/englishDictionary.csv");
 
 	emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
 

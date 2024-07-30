@@ -68,7 +68,7 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 
 
 
-void InputBox::pasteFromClipboard() {
+void InputBox::pasteFromClipboard(int numRow,int numChar) {
 #ifdef _WIN32
 	if (OpenClipboard(nullptr)) {
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
@@ -76,6 +76,7 @@ void InputBox::pasteFromClipboard() {
 		if (pszText) {
 			std::wstring str = text.getString();
 			str += pszText;
+			handleWString(str, numRow, numChar);
 			text.setString(str);
 			GlobalUnlock(hData);	
 		}
@@ -116,7 +117,7 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 
 			if (event.key.control && event.key.code == sf::Keyboard::V) {
 			
-				pasteFromClipboard();
+				pasteFromClipboard(4,20);
 
 			}
 			else if (event.key.code == sf::Keyboard::BackSpace) {
@@ -222,7 +223,13 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			}
 		}
 		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::BackSpace) {
+
+			if (event.key.control && event.key.code == sf::Keyboard::V) {
+
+				pasteFromClipboard(numRow, numChar);
+
+			}
+			else if (event.key.code == sf::Keyboard::BackSpace) {
 				if (!str.empty()) {
 					if (str.back() == L'\n') str.pop_back();
 					str.pop_back();

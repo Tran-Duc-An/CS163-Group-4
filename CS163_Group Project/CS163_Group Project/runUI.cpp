@@ -1,14 +1,15 @@
-﻿#include <SFML/Graphics.hpp>
+﻿#include "Function.h"
 #include "UI.h"
-#include <iostream>
-#include "Function.h"
 #include <chrono>
-#include <io.h>
-#include <fcntl.h>
-#include <locale>
 #include <codecvt>
+#include <fcntl.h>
+#include <io.h>
+#include <iostream>
+#include <locale>
 #include <random>
+#include <SFML/Graphics.hpp>
 #include <stack>
+#include <thread>
 
  sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
  sf::Event event;
@@ -136,12 +137,13 @@ void isLiked();
 void homePage();
 bool loadData();
 void emoji();
+void reset();
 
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
 	fontEmoji.loadFromFile("Font/Emoji.ttf");
-	//if (!loadData()) return 0;
+	if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -180,6 +182,10 @@ int run() {
 			emoji();
 			break;
 		}
+		case 8: {
+			reset();
+			break;
+		}
 		default:
 			break;
 		}
@@ -191,9 +197,14 @@ int run() {
 	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
 	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
+	EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
+	VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+	EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
+
 	EV::deleteTrie(rootEtoV);
 	VE::deleteTrie(rootVtoE);
 	EE::deleteTrie(rootEtoE);
+
 	return 0;
 }
 
@@ -1707,9 +1718,14 @@ Button desTag(140, 145, "Image/Destag.png");
 Button emojiTag(820, 145, "Image/Emojitag.png");
 InputDef emojiInput(170, 325, "Image/InputBox.png",L"Text Here", 3, 20);
 SubmitENButton searchEmoji(650, 490, "Image/searchImage.png");
-
+string emo;
+vector<string> listEmoji;
+pair<string, string> emoCode;
 void emoji() {
-
+	sf::Text displayEmo;
+	displayEmo.setFont(fontEmoji);
+	displayEmo.setCharacterSize(40);
+	displayEmo.setPosition(850, 160);
 
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
@@ -1717,7 +1733,20 @@ void emoji() {
 		if (backButton.isClicked(window, event)) page.pop();
 
 		emojiInput.isClicked(window,event);
+		if (searchEmoji.isClicked(window, event,emo,emojiInput.text)) {
+			listEmoji.clear();
 
+			if (emojiType == 0) {
+				listEmoji = Emoji::findbyNameUntil(emojiTable, emo);
+				sf::String str{ sf::String::fromUtf8(listEmoji[0].begin(),listEmoji[0].end()) };
+				displayEmo.setString(str);
+			}
+			else {
+				emoCode = Emoji::findBycode(emojiTable, emo);
+				sf::String str{ sf::String::fromUtf8(emoCode.first.begin(),emoCode.first.end()) };
+				displayEmo.setString(str + ": " + emoCode.second);
+			}
+		}
 		if (emojiType == 0) {
 			if (findbyWordButton.isClicked(window, event))
 				emojiType = 1;
@@ -1727,18 +1756,21 @@ void emoji() {
 				emojiType = 0;
 		}
 
-
-		
 	}
+	
 	
 
 	if (emojiType == 0) {
 		findbyWordButton.draw(window);
 		findbyWordButton.isHover(window, "Image/findByWordHover.png");
+		
+		window.draw(displayEmo);
 	}
 	else {
 		findbyCodeButton.draw(window);
 		findbyCodeButton.isHover(window, "Image/findByCodeHover.png");
+		
+		window.draw(displayEmo);
 	}
 	emojiInput.draw(window);
 
@@ -1751,6 +1783,126 @@ void emoji() {
 
 	backButton.draw(window);
 	backButton.isHover(window, "Image/backHover.png");
+}
+
+bool ee = 0, ev = 0, ve = 0;
+void reset()
+{
+
+	// hint
+	sf::Text guideUser;
+	sf::Text warning;
+	guideUser.setFont(font);
+	guideUser.setCharacterSize(20);
+	guideUser.setFillColor(sf::Color::Black);
+	guideUser.setPosition(181, 59);
+	guideUser.setString("Please tick the box to choose the type of dictionary you want to reset");
+
+	warning.setFont(font);
+	warning.setCharacterSize(20);
+	warning.setFillColor(sf::Color::Red);
+	warning.setPosition(70, 632);
+	warning.setString("This will reset your dictionary to original state,\n including added, edited, deleted words !");
+	window.draw(guideUser);
+	window.draw(warning);
+	tickEEButton.draw(window);
+	tickEVButton.draw(window);
+	tickVEButton.draw(window);
+	submitResetButton.draw(window);
+	backButton.draw(window);
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event))
+		{
+			page.pop();
+		}
+		if (tickEEButton.isClicked(window, event))
+		{
+			if (ee) ee = 0;
+			else ee = 1;
+		}
+		if (tickEVButton.isClicked(window, event))
+		{
+			if (ev) ev = 0;
+			else ev = 1;
+		}
+		if (tickVEButton.isClicked(window, event))
+		{
+			if (ve) ve = 0;
+			else ve = 1;
+		}
+		if (submitResetButton.isClicked(window, event))
+		{
+			resetToOriginal(ee, ev, ve, rootEtoE, rootEtoV, rootVtoE);
+			ee = 0;
+			ev = 0;
+			ve = 0;
+			page.pop();
+		}
+
+	}
+	if (ee)
+	{
+		sf::Texture isChosen;
+		if (!isChosen.loadFromFile("Image/tickedboxEE.png"))
+			return;
+		isChosen.setSmooth(1);
+		tickEEButton.sprite.setTexture(isChosen);
+		tickEEButton.draw(window);
+	}
+	else
+	{
+		sf::Texture isChosen;
+		if (!isChosen.loadFromFile("Image/untickedboxEE.png"))
+			return;
+		isChosen.setSmooth(1);
+		tickEEButton.sprite.setTexture(isChosen);
+		tickEEButton.draw(window);
+	}
+	if (ev)
+	{
+		sf::Texture isChosen;
+		if (!isChosen.loadFromFile("Image/tickedboxEV.png"))
+			return;
+		isChosen.setSmooth(1);
+		tickEVButton.sprite.setTexture(isChosen);
+		tickEVButton.draw(window);
+	}
+	else
+	{
+		sf::Texture isChosen;
+		if (!isChosen.loadFromFile("Image/untickedboxEV.png"))
+			return;
+		isChosen.setSmooth(1);
+		tickEVButton.sprite.setTexture(isChosen);
+		tickEVButton.draw(window);
+	}
+	if (ve)
+	{
+		sf::Texture isChosen;
+		if (!isChosen.loadFromFile("Image/tickedboxVE.png"))
+			return;
+		isChosen.setSmooth(1);
+		tickVEButton.sprite.setTexture(isChosen);
+		tickVEButton.draw(window);
+	}
+	else
+	{
+		sf::Texture isChosen;
+		if (!isChosen.loadFromFile("Image/untickedboxVE.png"))
+			return;
+		isChosen.setSmooth(1);
+		tickVEButton.sprite.setTexture(isChosen);
+		tickVEButton.draw(window);
+	}
+	backButton.isHover(window, "Image/backHover.png");
+
+	tickEEButton.isHover(window, "Image/tickedboxEE.png");
+	tickEVButton.isHover(window, "Image/tickedboxEV.png");
+	tickVEButton.isHover(window, "Image/tickedboxVE.png");
+	submitResetButton.isHover(window, "Image/submitResetButtonHover.png");
 }
 
 void homePage() {
@@ -1824,6 +1976,9 @@ void homePage() {
 		if (emojiSearchButton.isClicked(window, event)) {
 			page.push(7);
 		}
+		if (resetButton.isClicked(window, event)) {
+			page.push(8);
+		}
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 	searchButton.isHover(window, "Image/searchHover.png");
@@ -1848,32 +2003,56 @@ bool loadData() {
 	window.display();
 
 	auto start = chrono::high_resolution_clock::now();
-	if (!EV::loadTriefromFile(rootEtoV, "Dataset/TrieENVN.bin")) {
-		if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
-		EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
-	}
-	if (!EE::loadTrieFromFile(rootEtoE, "Dataset/TrieEN.bin")) {
-		if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
-		EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
-	}
-	if (!VE::loadTrieFromFile(rootVtoE, "Dataset/TrieVNEN.bin")) {
-		if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
-		VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
-	}
+	//if (!EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin")) {
+	//	if (!EV::loadRawData(rootEtoV, "Dataset/ENVN.txt")) return 0;
+	//	EV::saveTrietoFile(rootEtoV, "Dataset/TrieENVN.bin");
+	//}
+	//if (!EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin")) {
+	//	if (!EE::loadRawData(rootEtoE, "Dataset/englishDictionary.csv")) return 0;
+	//	EE::saveTrietoFile(rootEtoE, "Dataset/TrieEN.bin");
+	//}
+	//if (!VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin")) {
+	//	if (!VE::loadRawData(rootVtoE, "Dataset/VE.csv")) return 0;
+	//	VE::saveTrieToFile(rootVtoE, "Dataset/TrieVNEN.bin");
+	//}
 
-	Def::loadDataset(table, "Dataset/englishDictionary.csv");
+	//Def::loadDataset(table, "Dataset/englishDictionary.csv");
 
-	emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
+	//emojiTable = Emoji::loadDataset("Dataset/emojis.csv", 101);
 
-	loadSearchHistory(searchHistory,searchRealTime, "Dataset/History.txt");
+	//loadSearchHistory(searchHistory,searchRealTime, "Dataset/History.txt");
 
-	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
-	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
-	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+	//EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	//VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	//EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+
+	//use threads to load data faster
+	thread t1(EV::loadTriefromFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+	thread t2(EE::loadTrieFromFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+	thread t3(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+	thread t4(Def::loadDataset, std::ref(table), "Dataset/englishDictionary.csv");
+	// Modify Emoji::loadDataset to accept a reference
+	thread t5([](Emo& ht, const string& filename, size_t tableSize) {
+		ht = Emoji::loadDataset(filename, tableSize);
+		}, std::ref(emojiTable), "Dataset/emojis.csv", 101);
+	thread t6(loadSearchHistory, std::ref(searchHistory), std::ref(searchRealTime), "Dataset/History.txt");
+	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
+	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
+	thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+	t5.join();
+	t6.join();
+	t7.join();
+	t8.join();
+	t9.join();
 
 	auto end = chrono::high_resolution_clock::now();
-	wcout << L"Time to load data: " << chrono::duration_cast<chrono::seconds>(end - start).count() << L"s" << endl;
+	wcout << L"Time to load data: " << chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000 << L"ms" << endl;
 
 	return 1;
 }
+
 

@@ -1565,3 +1565,55 @@ void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filen
 	fin.close();
 }
 
+bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE)
+{
+	if (EE)
+	{
+		EE::deleteTrie(rootEtoE);
+		rootEtoE = new EETrie();
+		// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+		ifstream fin("Dataset/TrieEN.bin", ios::binary);
+		ofstream fout("Dataset/UserTrieEN.bin", ios::binary);
+		if (!fin.is_open() || !fout.is_open())
+		{
+			return false;
+		}
+		fout << fin.rdbuf();
+		fin.close();
+		fout.close();
+		EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin");
+	}
+	if (EV)
+	{
+		EV::deleteTrie(rootEtoV);
+		rootEtoV = new EVTrie();
+		// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+		ifstream fin("Dataset/TrieENVN.bin", ios::binary);
+		ofstream fout("Dataset/UserTrieENVN.bin", ios::binary);
+		if (!fin.is_open() || !fout.is_open())
+		{
+			return false;
+		}
+		fout << fin.rdbuf();
+		fin.close();
+		fout.close();
+		EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin");
+	}
+	if (VE)
+	{
+		VE::deleteTrie(rootVtoE);
+		rootVtoE = new VTrie();
+		// copy data from file "TrieVN.bin" to file "UserTrieVN.bin" by using rdbuf() function
+		ifstream fin("Dataset/TrieVNEN.bin", ios::binary);
+		ofstream fout("Dataset/UserTrieVNEN.bin", ios::binary);
+		if (!fin.is_open() || !fout.is_open())
+		{
+			return false;
+		}
+		fout << fin.rdbuf();
+		fin.close();
+		fout.close();
+		VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+	}
+	return true;
+}

@@ -190,18 +190,47 @@ int run() {
 		window.display();
 		window.clear(sf::Color::White);
 	}
+	auto start = chrono::high_resolution_clock::now();
+	//EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	//VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	//EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
-	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
-	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
-	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+	//EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
+	//VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+	//EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
 
-	EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
-	VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
-	EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
+	//EV::deleteTrie(rootEtoV);
+	//VE::deleteTrie(rootVtoE);
+	//EE::deleteTrie(rootEtoE);
+	
+	
+	// call thread with reference to save data faster
+	thread t1(EV::saveFavWord, ref(favWordsEV), ref(favDefsEV), "Dataset/favWordsEV.txt");
+	thread t2(VE::saveFavWord, ref(favWordsVE), ref(favDefsVE), "Dataset/favWordsVE.txt");
+	thread t3(EE::saveFavWord, ref(favWordsEE), ref(favDefsEE), "Dataset/favWordsEE.txt");
+	thread t4(EE::saveTrietoFile, ref(rootEtoE), "Dataset/UserTrieEN.bin");
+	thread t5(VE::saveTrieToFile, ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+	thread t6(EV::saveTrietoFile, ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+	t5.join();
+	t6.join();
+	
 
-	EV::deleteTrie(rootEtoV);
-	VE::deleteTrie(rootVtoE);
-	EE::deleteTrie(rootEtoE);
+
+	thread t7(EV::deleteTrie, ref(rootEtoV));
+	thread t8(VE::deleteTrie, ref(rootVtoE));
+	thread t9(EE::deleteTrie, ref(rootEtoE));
+	t7.join();
+	t8.join();
+	t9.join();
+
+	auto end = chrono::high_resolution_clock::now();
+	// print out time to save and delete data in ms
+	wcout << L"Time to save and delete data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
+	
 	return 0;
 }
 
@@ -1895,18 +1924,19 @@ bool loadData() {
 		ht = Emoji::loadDataset(filename, tableSize);
 		}, std::ref(emojiTable), "Dataset/emojis.csv", 101);
 	thread t6(loadSearchHistory, std::ref(searchHistory), std::ref(searchRealTime), "Dataset/History.txt");
-	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
-	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
-	thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");
+	//thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
+	//thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
+	//thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");
 	t1.join();
 	t2.join();
 	t3.join();
 	t4.join();
 	t5.join();
 	t6.join();
-	t7.join();
-	t8.join();
-	t9.join();
+
+	EV::loadFavWord(rootEtoV, favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
+	VE::loadFavWord(rootVtoE, favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
+	EE::loadFavWord(rootEtoE, favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
 
 	auto end = chrono::high_resolution_clock::now();
 	wcout << L"Time to load data: " << chrono::duration_cast<chrono::microseconds>(end - start).count()/1000 << L"ms" << endl;

@@ -60,6 +60,8 @@ namespace EV {
 	void unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def);
 	void saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename);
 	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
+	bool copyAndReload(EVTrie*& rootEtoV);
+
 	
 }
 
@@ -80,6 +82,8 @@ namespace EE {
 	void unLikeAWord(vector<string>& favWords, vector<string>& favDefs, string word, string Def);
 	void saveFavWord(vector<string>& favWords, vector<string>& favDefs, string filename);
 	void loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename);
+	bool copyAndReload(EETrie*& rootEtoE);
+
 
 }
 
@@ -101,6 +105,8 @@ namespace VE {
 	void getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition);
 	void randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
 	void randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
+	bool copyAndReload(VTrie*& rootVtoE);
+
 
 }
 

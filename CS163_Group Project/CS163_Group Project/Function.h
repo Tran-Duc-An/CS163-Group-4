@@ -60,6 +60,8 @@ namespace EV {
 	void unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def);
 	void saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename);
 	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
+	bool copyAndReload(EVTrie*& rootEtoV);
+
 
 }
 
@@ -70,7 +72,7 @@ namespace EE {
 	void helperDeleteAWord(EETrie* root, string& word);
 	bool deleteAWord(EETrie* root, string& word);
 	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
-	bool loadRawData(EETrie*& root,string path);
+	bool loadRawData(EETrie*& root, string path);
 	bool loadTrieFromFile(EETrie*& root, string path);
 	void saveTrietoFile(EETrie* root, string path);
 	void deleteTrie(EETrie*& root);
@@ -80,6 +82,8 @@ namespace EE {
 	void unLikeAWord(vector<string>& favWords, vector<string>& favDefs, string word, string Def);
 	void saveFavWord(vector<string>& favWords, vector<string>& favDefs, string filename);
 	void loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename);
+	bool copyAndReload(EETrie*& rootEtoE);
+
 
 }
 
@@ -92,7 +96,7 @@ namespace VE {
 	void helperDeleteAWord(VTrie* root, wstring& word);
 	bool deleteAWord(VTrie* root, wstring& word);
 	void deleteTrie(VTrie*& root);
-	bool loadRawData(VTrie*& root,string path);
+	bool loadRawData(VTrie*& root, string path);
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
 	void unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def);
@@ -101,6 +105,8 @@ namespace VE {
 	void getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition);
 	void randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
 	void randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
+	bool copyAndReload(VTrie*& rootVtoE);
+
 
 }
 
@@ -125,4 +131,3 @@ void fillMap();
 void addToHistory(wstring word, wstring def, string fileName);
 void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename);
 bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE);
-

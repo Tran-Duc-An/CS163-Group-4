@@ -9,6 +9,7 @@
 #include <random>
 #include <list>
 #include <chrono>
+#include <thread>
 using namespace std;
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter2;
 
@@ -1559,53 +1560,113 @@ void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filen
 
 bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE)
 {
+	auto start = chrono::high_resolution_clock::now();
+	// Use threads to delete old trie faster
+	std::thread t1, t2, t3, t4, t5, t6;
 	if (EE)
 	{
-		EE::deleteTrie(rootEtoE);
-		rootEtoE = new EETrie();
-		// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
-		ifstream fin("Dataset/TrieEN.bin", ios::binary);
-		ofstream fout("Dataset/UserTrieEN.bin", ios::binary);
-		if (!fin.is_open() || !fout.is_open())
-		{
-			return false;
-		}
-		fout << fin.rdbuf();
-		fin.close();
-		fout.close();
-		EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin");
+		t1 = std::thread(EE::deleteTrie, std::ref(rootEtoE));
 	}
 	if (EV)
 	{
-		EV::deleteTrie(rootEtoV);
-		rootEtoV = new EVTrie();
-		// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
-		ifstream fin("Dataset/TrieENVN.bin", ios::binary);
-		ofstream fout("Dataset/UserTrieENVN.bin", ios::binary);
-		if (!fin.is_open() || !fout.is_open())
-		{
-			return false;
-		}
-		fout << fin.rdbuf();
-		fin.close();
-		fout.close();
-		EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin");
+		t2 = std::thread(EV::deleteTrie, std::ref(rootEtoV));
 	}
 	if (VE)
 	{
-		VE::deleteTrie(rootVtoE);
-		rootVtoE = new VTrie();
-		// copy data from file "TrieVN.bin" to file "UserTrieVN.bin" by using rdbuf() function
-		ifstream fin("Dataset/TrieVNEN.bin", ios::binary);
-		ofstream fout("Dataset/UserTrieVNEN.bin", ios::binary);
-		if (!fin.is_open() || !fout.is_open())
-		{
-			return false;
-		}
-		fout << fin.rdbuf();
-		fin.close();
-		fout.close();
-		VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+		t3 = std::thread(VE::deleteTrie, std::ref(rootVtoE));
 	}
+
+	// Wait for all delete threads to finish
+	if (EE && t1.joinable())
+	{
+		t1.join();
+	}
+	if (EV && t2.joinable())
+	{
+		t2.join();
+	}
+	if (VE && t3.joinable())
+	{
+		t3.join();
+	}
+
+	// Use threads to reload new trie faster by function copyAndReload
+	if (EV)
+	{
+		t4 = std::thread(EV::copyAndReload, std::ref(rootEtoV));
+	}
+	if (VE)
+	{
+		t5 = std::thread(VE::copyAndReload, std::ref(rootVtoE));
+	}
+	if (EE)
+	{
+		t6 = std::thread(EE::copyAndReload, std::ref(rootEtoE));
+	}
+
+	// Wait for all reload threads to finish
+	if (EV && t4.joinable())
+	{
+		t4.join();
+	}
+	if (VE && t5.joinable())
+	{
+		t5.join();
+	}
+	if (EE && t6.joinable())
+	{
+		t6.join();
+	}
+	auto end = chrono::high_resolution_clock::now();
+	wcout << L"Time taken to reset to original: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L" milliseconds" << endl;
 	return true;
+}
+
+bool EE::copyAndReload(EETrie*& rootEtoE)
+{
+
+	rootEtoE = new EETrie();
+	// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+	ifstream fin("Dataset/TrieEN.bin", ios::binary);
+	ofstream fout("Dataset/UserTrieEN.bin", ios::binary);
+	if (!fin.is_open() || !fout.is_open())
+	{
+		return false;
+	}
+	fout << fin.rdbuf();
+	fin.close();
+	fout.close();
+	EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin");
+}
+bool EV::copyAndReload(EVTrie*& rootEtoV)
+{
+
+	rootEtoV = new EVTrie();
+	// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+	ifstream fin("Dataset/TrieENVN.bin", ios::binary);
+	ofstream fout("Dataset/UserTrieENVN.bin", ios::binary);
+	if (!fin.is_open() || !fout.is_open())
+	{
+		return false;
+	}
+	fout << fin.rdbuf();
+	fin.close();
+	fout.close();
+	EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin");
+}
+bool VE::copyAndReload(VTrie*& rootVtoE)
+{
+
+	rootVtoE = new VTrie();
+	// copy data from file "TrieVN.bin" to file "UserTrieVN.bin" by using rdbuf() function
+	ifstream fin("Dataset/TrieVNEN.bin", ios::binary);
+	ofstream fout("Dataset/UserTrieVNEN.bin", ios::binary);
+	if (!fin.is_open() || !fout.is_open())
+	{
+		return false;
+	}
+	fout << fin.rdbuf();
+	fin.close();
+	fout.close();
+	VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
 }

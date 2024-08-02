@@ -142,7 +142,6 @@ void reset();
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	fontEmoji.loadFromFile("Font/Emoji.ttf");
 	if (!loadData()) return 0;
 	page.push(0);
 
@@ -192,18 +191,34 @@ int run() {
 		window.display();
 		window.clear(sf::Color::White);
 	}
+	auto start = chrono::high_resolution_clock::now();
 
-	EV::saveFavWord(favWordsEV, favDefsEV, "Dataset/favWordsEV.txt");
-	VE::saveFavWord(favWordsVE, favDefsVE, "Dataset/favWordsVE.txt");
-	EE::saveFavWord(favWordsEE, favDefsEE, "Dataset/favWordsEE.txt");
+	// call thread with reference to save data faster
+	thread t1(EV::saveFavWord, ref(favWordsEV), ref(favDefsEV), "Dataset/favWordsEV.txt");
+	thread t2(VE::saveFavWord, ref(favWordsVE), ref(favDefsVE), "Dataset/favWordsVE.txt");
+	thread t3(EE::saveFavWord, ref(favWordsEE), ref(favDefsEE), "Dataset/favWordsEE.txt");
+	thread t4(EE::saveTrietoFile, ref(rootEtoE), "Dataset/UserTrieEN.bin");
+	thread t5(VE::saveTrieToFile, ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+	thread t6(EV::saveTrietoFile, ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+	t5.join();
+	t6.join();
 
-	EE::saveTrietoFile(rootEtoE, "Dataset/UserTrieEN.bin");
-	VE::saveTrieToFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
-	EV::saveTrietoFile(rootEtoV, "Dataset/UserTrieENVN.bin");
 
-	EV::deleteTrie(rootEtoV);
-	VE::deleteTrie(rootVtoE);
-	EE::deleteTrie(rootEtoE);
+
+	thread t7(EV::deleteTrie, ref(rootEtoV));
+	thread t8(VE::deleteTrie, ref(rootVtoE));
+	thread t9(EE::deleteTrie, ref(rootEtoE));
+	t7.join();
+	t8.join();
+	t9.join();
+
+	auto end = chrono::high_resolution_clock::now();
+	// print out time to save and delete data in ms
+	wcout << L"Time to save and delete data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
 
 	return 0;
 }

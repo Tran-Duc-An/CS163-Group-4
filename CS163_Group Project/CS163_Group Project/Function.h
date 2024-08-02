@@ -114,8 +114,8 @@ namespace Emoji {
 
 	// Find the word based on its definition
 	pair<string, string> findBycode(Emo& ht, string utf8);
-	string findByname(Emo& ht, const string& name, int& index, int& inside);
-	vector<string> findbyNameUntil(Emo& ht, const string& name);
+	pair<string,string> findByname(Emo& ht, const string& name, int& index, int& inside);
+	vector<pair<string,string>> findbyNameUntil(Emo& ht, const string& name);
 	// Load the dataset into the hash table
 	Emo loadDataset(const string& filename, size_t tableSize);
 }

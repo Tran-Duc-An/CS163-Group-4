@@ -1719,13 +1719,13 @@ Button emojiTag(820, 145, "Image/Emojitag.png");
 InputDef emojiInput(170, 325, "Image/InputBox.png",L"Text Here", 3, 20);
 SubmitENButton searchEmoji(650, 490, "Image/searchImage.png");
 string emo;
-vector<string> listEmoji;
+vector<pair<string, string>> listEmoji;
 pair<string, string> emoCode;
+int orderEmo = 0;
+bool isFound = 0;
 void emoji() {
-	sf::Text displayEmo;
-	displayEmo.setFont(fontEmoji);
-	displayEmo.setCharacterSize(40);
-	displayEmo.setPosition(850, 160);
+	sf::Texture displayEmo;
+	
 
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
@@ -1734,43 +1734,53 @@ void emoji() {
 
 		emojiInput.isClicked(window,event);
 		if (searchEmoji.isClicked(window, event,emo,emojiInput.text)) {
-			listEmoji.clear();
-
+			string path;
+			if (!listEmoji.empty()) listEmoji.clear();
 			if (emojiType == 0) {
 				listEmoji = Emoji::findbyNameUntil(emojiTable, emo);
-				sf::String str{ sf::String::fromUtf8(listEmoji[0].begin(),listEmoji[0].end()) };
-				displayEmo.setString(str);
+			if(!listEmoji.empty())
+				path = "Emoji-PNG/" + listEmoji[orderEmo].second + "-" + listEmoji[orderEmo].first + ".png";
 			}
 			else {
 				emoCode = Emoji::findBycode(emojiTable, emo);
-				sf::String str{ sf::String::fromUtf8(emoCode.first.begin(),emoCode.first.end()) };
-				displayEmo.setString(str + ": " + emoCode.second);
+				if (emoCode.first=="")
+					path = "Emoji-PNG/" + emoCode.second + "-" + emoCode.first + ".png";
 			}
+			if (!displayEmo.loadFromFile(path)) return;
+			isFound = 1;
 		}
 		if (emojiType == 0) {
-			if (findbyWordButton.isClicked(window, event))
+			if (findbyWordButton.isClicked(window, event)) {
 				emojiType = 1;
+				isFound = 0;
+			}
 		}
 		else {
-			if (findbyCodeButton.isClicked(window, event))
+			if (findbyCodeButton.isClicked(window, event)) {
 				emojiType = 0;
+				isFound = 0;
+			}
 		}
 
 	}
 	
+	if (emojiInput.text.getString() == "") isFound = 0;
 	
-
+	if (isFound == 1) {
+		sf::Sprite sprite;
+		sprite.setTexture(displayEmo);
+		sprite.setPosition(900, 160);
+		window.draw(sprite);
+	}
 	if (emojiType == 0) {
 		findbyWordButton.draw(window);
 		findbyWordButton.isHover(window, "Image/findByWordHover.png");
-		
-		window.draw(displayEmo);
 	}
 	else {
+
 		findbyCodeButton.draw(window);
 		findbyCodeButton.isHover(window, "Image/findByCodeHover.png");
 		
-		window.draw(displayEmo);
 	}
 	emojiInput.draw(window);
 

@@ -1419,8 +1419,7 @@ void Emoji::insertEmo(Emo& ht, const string& name, const string& utf8) {
 }
 
 // Find the word based on its definition
-pair<string,string> Emoji::findBycode(Emo& ht, string utf8) {
-	utf8 = hexCodePointSequenceToUtf8(utf8);
+pair<string, string> Emoji::findBycode(Emo& ht, string utf8) {
 	size_t index = hashFunction(utf8, ht.size);
 	for (const auto& pair : ht.Emo_table[index]) {
 		if (pair.second == utf8) {
@@ -1429,7 +1428,7 @@ pair<string,string> Emoji::findBycode(Emo& ht, string utf8) {
 	}
 	return make_pair("", "");
 }
-string Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
+pair<string, string> Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
 {
 	int size = ht.Emo_table.size();
 	for (; index < size; index++)
@@ -1439,20 +1438,20 @@ string Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
 			if (checkSubstring(pair.first, name))
 			{
 				inside++;
-				return pair.second;
+				return pair;
 			}
 		}
 		inside = 0;
 	}
-	return "";
+	return { "","" };
 }
-vector<string> Emoji::findbyNameUntil(Emo& ht, const string& name)
+vector<pair<string, string>> Emoji::findbyNameUntil(Emo& ht, const string& name)
 {
 	int index = 0;
 	int inside = 0;
 	int size = ht.Emo_table.size();
-	int count = 10000;
-	vector<string> find;
+	int count = 5;
+	vector<pair<string, string>> find;
 
 	while (true)
 	{
@@ -1461,25 +1460,23 @@ vector<string> Emoji::findbyNameUntil(Emo& ht, const string& name)
 			return find;
 		}
 
-		while (count--)
+		if (index >= size)
 		{
-			if (index >= size)
-			{
-				return find;
-			}
-			string result = findByname(ht, name, index, inside);
-			if (!result.empty()) {
-				find.push_back(result);
-			}
-			else {
-				break;
-			}
+			return find;
 		}
+		pair<string, string> result = Emoji::findByname(ht, name, index, inside);
+		if (!result.first.empty() && !result.second.empty()) {
+			find.push_back(result);
+		}
+		else {
+			break;
+		}
+
 	}
 	return find;
 }
 // Load the dataset into the hash table
-Emo Emoji:: loadDataset(const string& filename, size_t tableSize) {
+Emo Emoji::loadDataset(const string& filename, size_t tableSize) {
 	Emo dictionary;
 	initHashTable(dictionary, tableSize);
 	ifstream file(filename);
@@ -1493,25 +1490,20 @@ Emo Emoji:: loadDataset(const string& filename, size_t tableSize) {
 	std::getline(file, line);
 	while (std::getline(file, line)) {
 		std::stringstream ss(line);
-		std::string group, subgroup, codepoint, status, representation, name, section;
+		std::string No, emoji, codepoint, name;
 
-		std::getline(ss, group, ',');
-		std::getline(ss, subgroup, ',');
+		std::getline(ss, No, ',');
+		std::getline(ss, emoji, ',');
 		std::getline(ss, codepoint, ',');
-		std::getline(ss, status, ',');
-		std::getline(ss, representation, ',');
 		std::getline(ss, name, ',');
-		std::getline(ss, section, ',');
+
 
 		// convert the code point to utf-8
-		std::string utf8str = hexCodePointSequenceToUtf8(codepoint);
-
-		insertEmo(dictionary, name, utf8str);
+		insertEmo(dictionary, name, codepoint);
 	}
 	file.close();
 	return dictionary;
 }
-
 void addToHistory(wstring word, wstring def, string fileName)
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);

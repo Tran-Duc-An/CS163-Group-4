@@ -26,12 +26,13 @@
 //}
 
 #include"Emoji.h"
+#include "UI.h"
 int main()
 {
 	SetConsoleOutputCP(CP_UTF8);
 	const size_t tableSize(101);
 	auto start = chrono::high_resolution_clock::now();
-	Emo ht = loadDataset("Dataset_emoji\\emojis.csv", tableSize);
+	Emo ht = Emoji::loadDataset("Dataset_emoji\\Emoji_Filter.csv", tableSize);
 	auto end = chrono::high_resolution_clock::now();
 	chrono::duration<double> duration = end - start;
 	cout << "Time taken to load dataset: " << duration.count() << " seconds" << endl;
@@ -39,7 +40,7 @@ int main()
 	string name;
 	/*cout << "Enter the definition to search for: ";
 	getline(cin,name);*/
-	pair<string, string> find = findBycode(ht, "1F383");
+	pair<string, string> find = Emoji::findBycode(ht, "U+1F383");
 	cout << find.first << " " << find.second;
 
 }

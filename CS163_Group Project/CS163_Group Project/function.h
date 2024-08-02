@@ -37,12 +37,6 @@ struct HashTable {
 	int currentLoad = 0;
 };
 
-struct Emo
-{
-	vector<vector<pair<string, string>>> Emo_table; //name,utf8
-	size_t size;
-	int currentLoad = 0;
-};
 
 namespace EV {
 	EVTrie* findWord(EVTrie* root, string word);
@@ -109,16 +103,7 @@ namespace Def {
 	vector<string> searchByDef(vector<pair<string, string>>& table, string def);
 }
 
-namespace Emoji {
-	void insertEmo(Emo& ht, const string& name, const string& utf8);
 
-	// Find the word based on its definition
-	pair<string, string> findBycode(Emo& ht, string utf8);
-	string findByname(Emo& ht, const string& name, int& index, int& inside);
-	vector<string> findbyNameUntil(Emo& ht, const string& name);
-	// Load the dataset into the hash table
-	Emo loadDataset(const string& filename, size_t tableSize);
-}
 
 void handleWString(wstring& s, int row, int maxRows);
 void fillMap();

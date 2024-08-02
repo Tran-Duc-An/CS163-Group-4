@@ -1718,11 +1718,16 @@ Button desTag(140, 145, "Image/Destag.png");
 Button emojiTag(820, 145, "Image/Emojitag.png");
 InputDef emojiInput(170, 325, "Image/InputBox.png",L"Text Here", 3, 20);
 SubmitENButton searchEmoji(650, 490, "Image/searchImage.png");
+Button nextEmo(1400, 700, "Image/nextButton.png");
+Button prevEmo(800, 700, "Image/backDefButton.png");
+
 string emo;
 vector<pair<string, string>> listEmoji;
 pair<string, string> emoCode;
 int orderEmo = 0;
 bool isFound = 0;
+string path;
+
 void emoji() {
 	sf::Texture displayEmo;
 	
@@ -1734,26 +1739,29 @@ void emoji() {
 
 		emojiInput.isClicked(window,event);
 		if (searchEmoji.isClicked(window, event,emo,emojiInput.text)) {
-			string path;
+			isFound = 1;
+			orderEmo = 0;
 			if (!listEmoji.empty()) listEmoji.clear();
 			if (emojiType == 0) {
 				listEmoji = Emoji::findbyNameUntil(emojiTable, emo);
-			if(!listEmoji.empty())
-				path = "Emoji-PNG/" + listEmoji[orderEmo].second + "-" + listEmoji[orderEmo].first + ".png";
+				if (listEmoji.empty()) isFound = 0;
 			}
 			else {
 				emoCode = Emoji::findBycode(emojiTable, emo);
-				if (emoCode.first=="")
-					path = "Emoji-PNG/" + emoCode.second + "-" + emoCode.first + ".png";
+				if (emoCode.first == "") isFound = 0;
 			}
-			if (!displayEmo.loadFromFile(path)) return;
-			isFound = 1;
+	
+
 		}
 		if (emojiType == 0) {
 			if (findbyWordButton.isClicked(window, event)) {
 				emojiType = 1;
 				isFound = 0;
 			}
+			if (nextEmo.isClicked(window, event) && orderEmo < listEmoji.size() - 1)
+				orderEmo++;
+			if (prevEmo.isClicked(window, event) && orderEmo > 0)
+				orderEmo--;
 		}
 		else {
 			if (findbyCodeButton.isClicked(window, event)) {
@@ -1763,15 +1771,22 @@ void emoji() {
 		}
 
 	}
+	emojiInput.draw(window);
+
+	desTag.draw(window);
+	emojiTag.draw(window);
+
+
+	emojiInput.draw(window);
+	searchEmoji.draw(window);
+	searchEmoji.isHover(window, "Image/searchImageHover.png");
+	
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
 	
 	if (emojiInput.text.getString() == "") isFound = 0;
 	
-	if (isFound == 1) {
-		sf::Sprite sprite;
-		sprite.setTexture(displayEmo);
-		sprite.setPosition(900, 160);
-		window.draw(sprite);
-	}
+
 	if (emojiType == 0) {
 		findbyWordButton.draw(window);
 		findbyWordButton.isHover(window, "Image/findByWordHover.png");
@@ -1782,17 +1797,42 @@ void emoji() {
 		findbyCodeButton.isHover(window, "Image/findByCodeHover.png");
 		
 	}
-	emojiInput.draw(window);
 
-	desTag.draw(window);
-	emojiTag.draw(window);
+	if (isFound == 1) {
 
-	emojiInput.draw(window);
-	searchEmoji.draw(window);
-	searchEmoji.isHover(window, "Image/searchImageHover.png");
+		string content;
+		if (emojiType == 0) {
+			content = listEmoji[orderEmo].first;
+			if (!listEmoji.empty())
+				path = "Emoji-PNG/" + listEmoji[orderEmo].second + "-" + listEmoji[orderEmo].first + ".png";
+		
+		}
+		else {
+			content = emoCode.first;
+			if (emoCode.first != "")
+				path = "Emoji-PNG/" + emoCode.second + "-" + emoCode.first + ".png";
+		}
+		if (!displayEmo.loadFromFile(path)) return;
+		sf::Sprite sprite;
+		sprite.setTexture(displayEmo);
+		sprite.setPosition(900, 300);
+		window.draw(sprite);
 
-	backButton.draw(window);
-	backButton.isHover(window, "Image/backHover.png");
+		sf::Text text;
+		text.setFont(font);
+		text.setFillColor(sf::Color::Black);
+		text.setCharacterSize(40);
+		text.setPosition(900, 400);
+
+		handleString(content, 20, 2);
+		text.setString(content);
+		window.draw(text);
+
+		nextEmo.draw(window);
+		nextEmo.isHover(window, "Image/nextDefHover.png");
+		prevEmo.draw(window);
+		prevEmo.isHover(window, "Image/backDefHover.png");
+	}
 }
 
 bool ee = 0, ev = 0, ve = 0;
@@ -1985,6 +2025,8 @@ void homePage() {
 		}
 		if (emojiSearchButton.isClicked(window, event)) {
 			page.push(7);
+			emojiInput.text.setString("");
+			emojiType = 0;
 		}
 		if (resetButton.isClicked(window, event)) {
 			page.push(8);
@@ -2044,7 +2086,7 @@ bool loadData() {
 	// Modify Emoji::loadDataset to accept a reference
 	thread t5([](Emo& ht, const string& filename, size_t tableSize) {
 		ht = Emoji::loadDataset(filename, tableSize);
-		}, std::ref(emojiTable), "Dataset/emojis.csv", 101);
+		}, std::ref(emojiTable), "Dataset/Emoji_Filter.csv", 101);
 	thread t6(loadSearchHistory, std::ref(searchHistory), std::ref(searchRealTime), "Dataset/History.txt");
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
 	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");

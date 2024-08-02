@@ -76,7 +76,7 @@ void InputBox::pasteFromClipboard(int numRow,int numChar) {
 		if (pszText) {
 			std::wstring str = text.getString();
 			str += pszText;
-			handleWString(str, numRow, numChar);
+			handleWString(str, numChar, numRow);
 			text.setString(str);
 			GlobalUnlock(hData);	
 		}

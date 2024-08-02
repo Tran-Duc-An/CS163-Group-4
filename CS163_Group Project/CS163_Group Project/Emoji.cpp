@@ -161,6 +161,7 @@ vector<pair<string, string>> Emoji::findbyNameUntil(Emo& ht, const string& name)
 				break;
 			}
 		}
+		break;
 	}
 	return find;
 }

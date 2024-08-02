@@ -62,7 +62,7 @@ namespace EV {
 	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
 	bool copyAndReload(EVTrie*& rootEtoV);
 
-	
+
 }
 
 namespace EE {
@@ -72,7 +72,7 @@ namespace EE {
 	void helperDeleteAWord(EETrie* root, string& word);
 	bool deleteAWord(EETrie* root, string& word);
 	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
-	bool loadRawData(EETrie*& root,string path);
+	bool loadRawData(EETrie*& root, string path);
 	bool loadTrieFromFile(EETrie*& root, string path);
 	void saveTrietoFile(EETrie* root, string path);
 	void deleteTrie(EETrie*& root);
@@ -96,7 +96,7 @@ namespace VE {
 	void helperDeleteAWord(VTrie* root, wstring& word);
 	bool deleteAWord(VTrie* root, wstring& word);
 	void deleteTrie(VTrie*& root);
-	bool loadRawData(VTrie*& root,string path);
+	bool loadRawData(VTrie*& root, string path);
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
 	void unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def);
@@ -120,8 +120,8 @@ namespace Emoji {
 
 	// Find the word based on its definition
 	pair<string, string> findBycode(Emo& ht, string utf8);
-	string findByname(Emo& ht, const string& name, int& index, int& inside);
-	vector<string> findbyNameUntil(Emo& ht, const string& name);
+	pair<string, string> findByname(Emo& ht, const string& name, int& index, int& inside);
+	vector<pair<string, string>> findbyNameUntil(Emo& ht, const string& name);
 	// Load the dataset into the hash table
 	Emo loadDataset(const string& filename, size_t tableSize);
 }
@@ -131,6 +131,3 @@ void fillMap();
 void addToHistory(wstring word, wstring def, string fileName);
 void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename);
 bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE);
-
-
-

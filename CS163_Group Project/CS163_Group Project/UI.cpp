@@ -30,7 +30,7 @@ void Button::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 
-void Button::isHover(sf::RenderWindow& window,std::string path) {
+void Button::isHover(sf::RenderWindow& window, std::string path) {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 	if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
 		texture.loadFromFile(path);
@@ -68,7 +68,7 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 
 
 
-void InputBox::pasteFromClipboard() {
+void InputBox::pasteFromClipboard(int numRow, int numChar) {
 #ifdef _WIN32
 	if (OpenClipboard(nullptr)) {
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
@@ -76,8 +76,9 @@ void InputBox::pasteFromClipboard() {
 		if (pszText) {
 			std::wstring str = text.getString();
 			str += pszText;
+			handleWString(str, numChar, numRow);
 			text.setString(str);
-			GlobalUnlock(hData);	
+			GlobalUnlock(hData);
 		}
 		CloseClipboard();
 	}
@@ -115,8 +116,8 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 		if (event.type == sf::Event::KeyPressed) {
 
 			if (event.key.control && event.key.code == sf::Keyboard::V) {
-			
-				pasteFromClipboard();
+
+				pasteFromClipboard(4, 20);
 
 			}
 			else if (event.key.code == sf::Keyboard::BackSpace) {
@@ -145,7 +146,7 @@ void InputBox::draw(sf::RenderWindow& window) {
 }
 
 
-InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars) : InputBox(x, y, imagePath, name) {
+InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name, int numRows, int numChars) : InputBox(x, y, imagePath, name) {
 	numRow = numRows;
 	numChar = numChars;
 }
@@ -222,7 +223,13 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			}
 		}
 		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::BackSpace) {
+
+			if (event.key.control && event.key.code == sf::Keyboard::V) {
+
+				pasteFromClipboard(numRow, numChar);
+
+			}
+			else if (event.key.code == sf::Keyboard::BackSpace) {
 				if (!str.empty()) {
 					if (str.back() == L'\n') str.pop_back();
 					str.pop_back();
@@ -285,7 +292,7 @@ int AnswerButton::isClicked(sf::RenderWindow& window, sf::Event event) {
 	return 2;
 }
 
-ChoiceButton::ChoiceButton(int x, int y, std::string imagePath):Button(x,y,imagePath) {
+ChoiceButton::ChoiceButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
 	xx = x;
 	yy = y;
 }

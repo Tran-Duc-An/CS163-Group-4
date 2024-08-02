@@ -8,7 +8,7 @@ struct Button {
 	Button(int x, int y, std::string imagePath);
 	bool isClicked(sf::RenderWindow& window, sf::Event event);
 	void draw(sf::RenderWindow& window);
-	void isHover(sf::RenderWindow& window,std::string path);
+	void isHover(sf::RenderWindow& window, std::string path);
 };
 
 
@@ -23,7 +23,7 @@ struct InputBox : Button {
 	InputBox(int x, int y, std::string imagePath, std::wstring name);
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 	void draw(sf::RenderWindow& window);
-	void pasteFromClipboard();
+	void pasteFromClipboard(int numRow, int numChar);
 };
 
 struct SubmitVNButton : Button {
@@ -31,7 +31,7 @@ struct SubmitVNButton : Button {
 	SubmitVNButton(int x, int y, std::string imagePath);
 };
 
-struct SubmitENButton:Button {
+struct SubmitENButton :Button {
 	bool isClicked(sf::RenderWindow& window, sf::Event& event, std::string& word, sf::Text& text);
 	SubmitENButton(int x, int y, std::string imagePath);
 
@@ -41,7 +41,7 @@ struct SubmitENButton:Button {
 struct InputDef : InputBox {
 	int numRow = 1;
 	int numChar = 0;
-	InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars);
+	InputDef(int x, int y, std::string imagePath, std::wstring name, int numRows, int numChars);
 	void draw(sf::RenderWindow& window);
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 };
@@ -52,7 +52,7 @@ struct ChoiceButton :Button {
 	int yy = 0;
 	ChoiceButton(int x, int y, std::string imagePath);
 	void draw(sf::RenderWindow& window);
-}; 
+};
 struct AnswerButton :Button {
 	bool isRightAnswer = 0;
 	std::wstring content;

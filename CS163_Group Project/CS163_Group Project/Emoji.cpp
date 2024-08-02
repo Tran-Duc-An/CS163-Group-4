@@ -147,12 +147,10 @@ vector<pair<string, string>> Emoji::findbyNameUntil(Emo& ht, const string& name)
 			return find;
 		}
 
-		while (count--)
+		if (index >= size)
 		{
-			if (index >= size)
-			{
-				return find;
-			}
+			return find;
+		}
 			pair<string, string> result = Emoji::findByname(ht, name, index, inside);
 			if (!result.first.empty() && !result.second.empty()) {
 				find.push_back(result);
@@ -160,8 +158,7 @@ vector<pair<string, string>> Emoji::findbyNameUntil(Emo& ht, const string& name)
 			else {
 				break;
 			}
-		}
-		break;
+
 	}
 	return find;
 }

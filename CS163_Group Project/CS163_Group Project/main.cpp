@@ -41,6 +41,7 @@ int main()
 	/*cout << "Enter the definition to search for: ";
 	getline(cin,name);*/
 	pair<string, string> find = Emoji::findBycode(ht, "U+1F383");
+	vector<pair<string, string>> find_v = Emoji::findbyNameUntil(ht,"family");
 	cout << find.first << " " << find.second;
 
 }

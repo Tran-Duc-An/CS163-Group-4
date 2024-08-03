@@ -36,12 +36,12 @@
 35,😐,U+1F610,neutral face
 36,😑,U+1F611,expressionless face
 37,😶,U+1F636,face without mouth
-38,😶‍🌫️,U+1F636 U+200D U+1F32B U+FE0F,⊛ face in clouds
+38,😶‍🌫️,U+1F636 U+200D U+1F32B U+FE0F,face in clouds
 39,😏,U+1F60F,smirking face
 40,😒,U+1F612,unamused face
 41,🙄,U+1F644,face with rolling eyes
 42,😬,U+1F62C,grimacing face
-43,😮‍💨,U+1F62E U+200D U+1F4A8,⊛ face exhaling
+43,😮‍💨,U+1F62E U+200D U+1F4A8,face exhaling
 44,🤥,U+1F925,lying face
 45,😌,U+1F60C,relieved face
 46,😔,U+1F614,pensive face
@@ -58,7 +58,7 @@
 57,🥶,U+1F976,cold face
 58,🥴,U+1F974,woozy face
 59,😵,U+1F635,knocked-out face
-60,😵‍💫,U+1F635 U+200D U+1F4AB,⊛ face with spiral eyes
+60,😵‍💫,U+1F635 U+200D U+1F4AB,face with spiral eyes
 61,🤯,U+1F92F,exploding head
 62,🤠,U+1F920,cowboy hat face
 63,🥳,U+1F973,partying face
@@ -130,8 +130,8 @@
 129,💟,U+1F49F,heart decoration
 130,❣,U+2763,heart exclamation
 131,💔,U+1F494,broken heart
-132,❤️‍🔥,U+2764 U+FE0F U+200D U+1F525,⊛ heart on fire
-133,❤️‍🩹,U+2764 U+FE0F U+200D U+1FA79,⊛ mending heart
+132,❤️‍🔥,U+2764 U+FE0F U+200D U+1F525,heart on fire
+133,❤️‍🩹,U+2764 U+FE0F U+200D U+1FA79,mending heart
 134,❤,U+2764,red heart
 135,🧡,U+1F9E1,orange heart
 136,💛,U+1F49B,yellow heart
@@ -214,8 +214,8 @@
 213,👱,U+1F471,person blond hair
 214,👨,U+1F468,man
 215,🧔,U+1F9D4,person beard
-216,🧔‍♂️,U+1F9D4 U+200D U+2642 U+FE0F,⊛ man beard
-217,🧔‍♀️,U+1F9D4 U+200D U+2640 U+FE0F,⊛ woman beard
+216,🧔‍♂️,U+1F9D4 U+200D U+2642 U+FE0F,man beard
+217,🧔‍♀️,U+1F9D4 U+200D U+2640 U+FE0F,woman beard
 218,👨‍🦰,U+1F468 U+200D U+1F9B0,man red hair
 219,👨‍🦱,U+1F468 U+200D U+1F9B1,man curly hair
 220,👨‍🦳,U+1F468 U+200D U+1F9B3,man white hair

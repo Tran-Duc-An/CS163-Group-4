@@ -1568,16 +1568,19 @@ bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& root
 	if (EE)
 	{
 		t1 = std::thread(EE::deleteTrie, std::ref(rootEtoE));
+		remove("Dataset\\favWordsEE.txt");
 	}
 	if (EV)
 	{
 		t2 = std::thread(EV::deleteTrie, std::ref(rootEtoV));
+		remove("Dataset\\favWordsEV.txt");
 	}
 	if (VE)
 	{
 		t3 = std::thread(VE::deleteTrie, std::ref(rootVtoE));
+		remove("Dataset\\favWordsVE.txt");
 	}
-
+	remove("Dataset\\History.txt");
 	// Wait for all delete threads to finish
 	if (EE && t1.joinable())
 	{
@@ -1619,6 +1622,7 @@ bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& root
 	{
 		t6.join();
 	}
+
 	auto end = chrono::high_resolution_clock::now();
 	wcout << L"Time taken to reset to original: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L" milliseconds" << endl;
 	return true;

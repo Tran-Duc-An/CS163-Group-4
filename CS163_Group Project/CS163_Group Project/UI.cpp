@@ -63,6 +63,7 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 	text.setFillColor(sf::Color::Black);
 
 	textDisplay = text;
+
 }
 
 
@@ -115,10 +116,10 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			if (event.type == sf::Event::TextEntered) {
 				if (event.text.unicode > 31 && event.text.unicode != 127) {
 					str.insert(cursorPosition, 1, static_cast<wchar_t>(event.text.unicode));
-					cursorPosition++;
+					cursorPosition = str.length();
 					text.setString(str);
 				}
-			}
+			}	
 		}
 
 		if (event.type == sf::Event::KeyPressed) {
@@ -257,8 +258,8 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			}
 			if (event.type == sf::Event::TextEntered) {
 				if (event.text.unicode > 31 && event.text.unicode != 127) {
-					str.insert(cursorPosition, 1, static_cast<wchar_t>(event.text.unicode));
-					cursorPosition++;
+					str += static_cast<wchar_t>(event.text.unicode);
+					cursorPosition = str.length(); // Move cursor to the end of the string
 					text.setString(str);
 				}
 			}
@@ -269,12 +270,10 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 				pasteFromClipboard(numRow, numChar);
 			}
 			else if (event.key.code == sf::Keyboard::BackSpace) {
-				if (cursorPosition > 0) {
-					if (str[cursorPosition - 1] == L'\n') {
-						str.erase(cursorPosition - 1, 1);
-					}
-					str.erase(cursorPosition - 1, 1);
-					cursorPosition--;
+				if (!str.empty()) {
+					if (str.back() == L'\n') str.pop_back();
+					str.pop_back();
+					cursorPosition = str.length(); // Move cursor to the end of the string
 					text.setString(str);
 				}
 			}

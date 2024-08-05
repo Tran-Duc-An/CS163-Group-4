@@ -227,3 +227,83 @@ cat,5/8/2024 2:10:39PM,"An animal of various species of the genera Felis and Lyn
 cat,5/8/2024 2:17:57PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
 cat,5/8/2024 2:18:2PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
 cat,5/8/2024 2:18:5PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+clone,5/8/2024 2:26:42PM,  danh từ|- (thực vật học) dòng vô tính, hệ vô tính||@clone|- (tech) bắt chước, nhái theo, mô phỏng
+clone,5/8/2024 2:26:58PM,  danh từ|- (thực vật học) dòng vô tính, hệ vô tính||@clone|- (tech) bắt chước, nhái theo, mô phỏng
+clone,5/8/2024 2:35:11PM,  danh từ|- (thực vật học) dòng vô tính, hệ vô tính||@clone|- (tech) bắt chước, nhái theo, mô phỏng
+clone,5/8/2024 2:35:34PM,mô phỏng
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+clone,5/8/2024 2:40:23PM,mô phỏng
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+blue,5/8/2024 2:40:30PM,  tính từ|- xanh|=dark blue|+ xanh sẫm|- mặc quần áo xanh|- (thông tục) chán nản, thất vọng|=to feel blue|+ cảm thấy chán nản|=things look blue|+ mọi việc có vẻ đáng chán, mọi việc có vẻ đáng buồn|=blue study|+ sự ưu tư buồn bã, sự suy nghĩ ủ ê|- hay chữ (đàn bà)|- tục tĩu (câu chuyện)|- (chính trị) (thuộc) đảng tô rõi rệu 1 chĩu phĩu uống say mèm, uống say bí tỉ|- chửi tục|- (xem) moon|*  danh từ|- màu xanh|=to be dressed in blue|+ mặc quần áo màu xanh|- phẩm xanh, thuốc xanh|=paris blue|+ xanh pa-ri|- (the blue) bầu trời|- (the blue) biển cả|- vận động viên điền kinh (trường đại học ôc-phớt và căm-brít); huy hiệu vận động điền kinh (trường đại học ôc-phớt và căm-brít)|=the dark blues|+ những vận động viên điền kinh của trường đại học ôc-phớt|=the light blues|+ những vận động viên điền kinh của trường đại học căm-brít|- nữ học giả, nữ sĩ ((cũng) blue stocking)|- (số nhiều) sự buồn chán|=to be in the blues; to have the blues|+ buồn chán|=to give someone the blues|+ gây nỗi buồn chán cho ai|- (xem) bolt|- hoàn toàn bất ngờ|*  ngoại động từ|- làm xanh, nhuộm xanh|- hồ lơ (quần áo)|- (từ lóng) xài phí, phung phí (tiền bạc)
+blue,5/8/2024 2:41:9PM,blue|+ mọi việc có vẻ đáng chán, mọi việc có vẻ đáng buồn|=blue study|+ sự ưu tư buồn bã, sự suy nghĩ ủ ê|- hay chữ (đàn bà)|- tục tĩu (câu chuyện)|- (chính trị) (thuộc) đả...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cal,5/8/2024 2:42:14PM, (viết tắt)|- học tập với sự trợ giúp của máy tính (computer- aided learning)
+cal,5/8/2024 2:42:55PM, (viết tắt)|- học tập với sự trợ giúp của máy tính (computer- aided learning)
+cal,5/8/2024 2:43:26PM, (viết tắt)|- học tập với sự trợ giúp của máy tính (computer- aided learning)
+kiến,5/8/2024 2:54:6PM,dtừ|- antcon kiến|=ổ kiến ant-holl; ant's nest
+kiến,5/8/2024 2:54:18PM,dtừ|- antcon kiến|=ổ kiến ant-holl;
+ant,5/8/2024 2:54:34PM,  (viết tắt) của am not khoành is not,  are not
+kiến,5/8/2024 2:57:38PM,dtừ|- antcon kiến|=ổ kiến ant-holl; ant's nest
+kiến,5/8/2024 2:58:0PM,ant
+kiến,5/8/2024 2:58:26PM,ant
+kiến,5/8/2024 2:58:33PM,ant
+kiến,5/8/2024 2:58:42PM,an ant 

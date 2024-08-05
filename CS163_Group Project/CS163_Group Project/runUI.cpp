@@ -422,6 +422,7 @@ void translating() {
 				page.push(9);
 				editType = 0;
 				editedWord.content = transWword;
+				handleWString(transDef[orderDef],50,7);
 				inputEditedDef.text.setString(transDef[orderDef]);
 			}
 		}
@@ -464,6 +465,7 @@ void translating() {
 				page.push(9);
 				editType = 1;
 				editedWord.content = converter.from_bytes(transWord);
+				handleWString(transDef[orderDef], 50, 7);
 				inputEditedDef.text.setString(transDef[orderDef]);
 			}
 		}
@@ -2035,21 +2037,25 @@ void edit() {
 		if (backButton.isClicked(window, event))
 		{
 			page.pop();
+			inputEditedDef.reset();
 		}
 		inputEditedDef.isClicked(window,event);
 		if (submitEdit.isClicked(window, event)) {
 			wstring newDef = inputEditedDef.text.getString();
+			removeWEndline(newDef);
 			if (editType == 0) {
+				
 				VE::changeWordDefinition(nodeV,newDef, orderDef);
 			}
 			else if (editType == 1) {
-				VE::changeWordDefinition(nodeV, newDef, orderDef);
+				EV::changeWordDefinition(nodeE, newDef, orderDef);
 			}
 			else {
 				EE::changeWordDefinition(nodeEE, converter.to_bytes(newDef), orderDef);
 			}
 			searchFlag = 0;
 			translateFlag=0;
+			inputEditedDef.reset();
 			page.pop();
 		}
 	}

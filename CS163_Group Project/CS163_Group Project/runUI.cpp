@@ -368,7 +368,11 @@ void translating() {
 
 	while (window.pollEvent(event))
 	{
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			inputENBox.reset();
+			inputVNBox.reset();
+		}
 		
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -554,6 +558,8 @@ ChoiceButton searchDefRes(900, 125, "Image/searchDefRes.png");
 Button nextKeyButton(1335, 320, "Image/nextButton.png");
 Button backKeyButton(700, 320, "Image/backDefButton.png");
 
+Button editSearchButton(1335, 50, "Image/editButton.png");
+
 void searching() {
 	sf::Texture layout2;
 	if (searchingType.top() == 0) {
@@ -578,12 +584,16 @@ void searching() {
 		if (backButton.isClicked(window, event)) {
 			page.pop();
 			if (!searchingType.empty()) searchingType.pop();
+
+			searchKeyBox.reset();
+			searchDefBox.reset();
+			
 		}
 
 
 		if (searchKeyButton.isClicked(window, event)) {
 			searchingType.push(0);
-			searchFlag = 0;
+			searchFlag = 0;	
 		}
 		if (searchDefButton.isClicked(window, event)) {
 			searchingType.push(1);
@@ -632,6 +642,14 @@ void searching() {
 
 				if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
 				if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+				
+				if (editSearchButton.isClicked(window, event)) {
+					page.push(9);
+					editType = 2;
+					editedWord.content = converter.from_bytes(word);
+					handleString(searchDef[orderDef],50,7);
+					inputEditedDef.text.setString(searchDef[orderDef]);
+				}
 			}
 			else {//search with definition
 				searchDefBox.isClicked(window, event);
@@ -682,6 +700,9 @@ void searching() {
 					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
 				}
 
+				editSearchButton.draw(window);
+				editSearchButton.isHover(window, "Image/editButtonHover.png");
+
 				heartKeyButton.draw(window);
 				deleteKeyButton.draw(window);
 				deleteKeyButton.isHover(window, "Image/deleteHover.png");
@@ -727,7 +748,11 @@ void adding() {
 	std::wstring wdef;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			inputWord.reset();
+			inputDef.reset();
+		}
 		
 
 
@@ -1775,7 +1800,10 @@ void emoji() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			emojiInput.reset();
+		}
 
 		emojiInput.isClicked(window,event);
 		if (searchEmoji.isClicked(window, event,emo,emojiInput.text)) {
@@ -2017,6 +2045,10 @@ void edit() {
 			else if (editType == 1) {
 				VE::changeWordDefinition(nodeV, newDef, orderDef);
 			}
+			else {
+				EE::changeWordDefinition(nodeEE, converter.to_bytes(newDef), orderDef);
+			}
+			searchFlag = 0;
 			translateFlag=0;
 			page.pop();
 		}
@@ -2048,7 +2080,7 @@ void homePage() {
 	transType = 0;
 	addingType = 0;
 
-	
+	emojiType = 0;
 
 	h1.content = L"";
 	h2.content = L"";
@@ -2089,13 +2121,11 @@ void homePage() {
 			}
 			searchingType.push(0);
 
-			searchKeyBox.text.setString("");
-			searchDefBox.text.setString("");
+			
 		}
 		if (translatingButton.isClicked(window, event)) {
 			page.push(2);
-			inputENBox.text.setString("");
-			inputVNBox.text.setString("");
+			
 		}
 		if (addNewWordButton.isClicked(window, event)) {
 			page.push(3);
@@ -2111,8 +2141,7 @@ void homePage() {
 		}
 		if (emojiSearchButton.isClicked(window, event)) {
 			page.push(7);
-			emojiInput.text.setString("");
-			emojiType = 0;
+			
 		}
 		if (resetButton.isClicked(window, event)) {
 			page.push(8);

@@ -583,13 +583,11 @@ bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning,EETr
 	return true;
 }
 
-bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void EE::changeWordDefinition(EETrie*& node, string newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	EETrie* node = EE::findWord(root, word);
-	if (node == 0) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == 0) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
 
 }
 

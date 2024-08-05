@@ -80,3 +80,150 @@ Cynarrhodium,5/8/2024 0:52:58PM,"A fruit like that of the rose, consisting of a 
 Exocarp,5/8/2024 0:53:3PM,"The outer portion of a fruit, as the flesh of a peach or the rind of an orange. See Illust. of Drupe."
 kiến,5/8/2024 1:3:43PM,dtừ|- antcon kiến|=ổ kiến ant-holl; ant's nest
 kiến,5/8/2024 1:3:59PM,dtừ|- antcon kiến|=ổ kiến ant-holl;
+cat,5/8/2024 1:42:1PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:45:31PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:48:0PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:50:9PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:50:35PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:50:52PM,nera
+ Felis and Lynx. The domestic cat is Felis
+ domestica. The European wild cat (Felis
+ catus) is much larger than the domestic
+ cat. In the United States the name wild
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cat,5/8/2024 1:50:53PM,nera
+ Felis and Lynx. The domestic cat is Felis
+ domestica. The European wild cat (Felis
+ catus) is much larger than the domestic
+ cat. In the United States the name wild
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cat,5/8/2024 1:53:12PM,nera
+ Felis and Lynx. The domestic cat is Felis
+ domestica. The European wild cat (Felis
+ catus) is much larger than the domestic
+ cat. In the United States the name wild
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cat,5/8/2024 1:56:9PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:56:36PM, of the genera Felis
+ and Lynx. The domestic cat is Felis domestica. The
+ European wild cat (Felis catus) is much larger than
+ the domestic cat. In the United States the name wild
+ cat is commonly applied to the bay lynx (Lynx rufus
+) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:56:39PM, of the genera Felis
+ and Lynx. The domestic cat is Felis domestica. The
+ European wild cat (Felis catus) is much larger than
+ the domestic cat. In the United States the name wild
+ cat is commonly applied to the bay lynx (Lynx rufus
+) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:56:39PM, of the genera Felis
+ and Lynx. The domestic cat is Felis domestica. The
+ European wild cat (Felis catus) is much larger than
+ the domestic cat. In the United States the name wild
+ cat is commonly applied to the bay lynx (Lynx rufus
+) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:56:40PM, of the genera Felis
+ and Lynx. The domestic cat is Felis domestica. The
+ European wild cat (Felis catus) is much larger than
+ the domestic cat. In the United States the name wild
+ cat is commonly applied to the bay lynx (Lynx rufus
+) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:59:31PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 1:59:41PM,genera Felis
+ and Lynx. The domestic cat is Felis domestica. The
+ European wild cat (Felis catus) is much larger than
+ the domestic cat. In the United States the name wild
+ cat is commonly applied to the bay lynx (Lynx rufus
+) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:1:2PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:2:0PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:4:1PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:6:35PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:6:41PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:9:0PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:10:32PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:10:39PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:17:57PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:18:2PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+cat,5/8/2024 2:18:5PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."

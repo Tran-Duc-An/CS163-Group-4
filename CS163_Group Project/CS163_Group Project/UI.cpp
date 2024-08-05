@@ -88,48 +88,10 @@ void InputBox::pasteFromClipboard(int numRow,int numChar) {
 #endif
 }
 
-//void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
-//	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-//		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-//		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
-//			active = true;
-//		}
-//		else {
-//			active = false;
-//		}
-//	}
-//
-//	if (active) {
-//		std::wstring str = text.getString(); // Directly use sf::Text as wstring
-//		if (str.length() / 20 < 4) {
-//			if (str.length() % 20 == 0 && str.length() > 0) {
-//				str += L'\n';
-//				text.setString(str);
-//			}
-//			if (event.type == sf::Event::TextEntered) {
-//				if (event.text.unicode > 31 && event.text.unicode != 127) {
-//					str += static_cast<wchar_t>(event.text.unicode);
-//					text.setString(str);
-//				}
-//			}
-//		}
-//		if (event.type == sf::Event::KeyPressed) {
-//
-//			if (event.key.control && event.key.code == sf::Keyboard::V) {
-//			
-//				pasteFromClipboard(4,20);
-//
-//			}
-//			else if (event.key.code == sf::Keyboard::BackSpace) {
-//				if (!str.empty()) {
-//					if (str.back() == L'\n') str.pop_back();
-//					str.pop_back();
-//					text.setString(str);
-//				}
-//			}
-//		}
-//	}
-//}
+void InputBox::reset() {
+	cursorPosition = 0;
+	text.setString("");
+}
 
 
 void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {

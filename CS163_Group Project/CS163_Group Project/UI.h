@@ -27,6 +27,7 @@ struct InputBox : Button {
 	void draw(sf::RenderWindow& window);
 	void updateCursor();
 	void pasteFromClipboard(int numRow, int numChar);
+	void reset();
 };
 
 struct SubmitVNButton : Button {

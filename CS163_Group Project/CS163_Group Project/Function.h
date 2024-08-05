@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <list>
+#include <fstream>
 using namespace std;
 struct EVTrie {
 	vector<EVTrie*>  children;
@@ -52,6 +53,7 @@ namespace EV {
 	void saveTrietoFile(EVTrie* root, string path);
 	bool findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EVTrie*& node);
 	bool loadTriefromFile(EVTrie*& root, string path);
+	bool changeWordDefinition(EVTrie* root, string& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EVTrie* root, string& word);
 	bool deleteAWord(EVTrie* root, string& word);
 	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);

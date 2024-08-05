@@ -323,6 +323,14 @@ void EV::helperDeleteAWord(EVTrie* root, string& word) {
 		parent->numChildren--;
 	}
 }
+bool EV::changeWordDefinition(EVTrie* root, string& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+{
+	EVTrie* node = EV::findWord(root, word);
+	if (node == 0) return false;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+	return true;
+}
 
 bool EV::deleteAWord(EVTrie* root, string& word) {
 	EVTrie* node = EV::findWord(root, word);

@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include <iostream>
+
 #include <locale>
 #include <random>
 #include <SFML/Graphics.hpp>
@@ -740,6 +741,8 @@ void adding() {
 				removeEndline(word);
 				removeEndline(def);
 				EE::insertWord(rootEtoE, word, def);
+				pair<string, string>temp{ word,def };
+				table.push_back(temp);
 			}
 		}
 
@@ -2072,10 +2075,37 @@ bool loadData() {
 	auto start = chrono::high_resolution_clock::now();
 
 	//use threads to load data faster
-	thread t1(EV::loadTriefromFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
-	thread t2(EE::loadTrieFromFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
-	thread t3(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+	thread t1, t2, t3;
 	thread t4(Def::loadDataset, std::ref(table), "Dataset/englishDictionary.csv");
+	wifstream file;
+	file.open("Dataset/UserTrieENVN.bin");
+	// if file is open, load trie from file; if not, load raw data
+	if (file.is_open()) {
+		file.close();
+		t1 = thread(EV::loadTriefromFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+
+	}
+	else {
+		t1 = thread(EV::loadRawData, std::ref(rootEtoV), "Dataset/ENVN.txt");
+	}
+	file.open("Dataset/UserTrieVNEN.bin");
+	if (file.is_open()) {
+		file.close();
+		t2 = thread(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+	}
+	else {
+		t2 = thread(VE::loadRawData, std::ref(rootVtoE), "Dataset/VE.csv");
+	}
+	ifstream file2;
+	file2.open("Dataset/UserTrieEN.bin");
+	if (file2.is_open()) {
+		file2.close();
+		t3 = thread(EE::loadTrieFromFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+	}
+	else {
+		t3 = thread(EE::loadRawData, std::ref(rootEtoE), "Dataset/englishDictionary.csv");
+	}
+	
 	// Modify Emoji::loadDataset to accept a reference
 	thread t5([](Emo& ht, const string& filename, size_t tableSize) {
 		ht = Emoji::loadDataset(filename, tableSize);

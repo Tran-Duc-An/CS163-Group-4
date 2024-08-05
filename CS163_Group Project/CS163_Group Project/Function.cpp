@@ -323,13 +323,12 @@ void EV::helperDeleteAWord(EVTrie* root, string& word) {
 		parent->numChildren--;
 	}
 }
-bool EV::changeWordDefinition(EVTrie* root, string& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+
+void EV::changeWordDefinition(EVTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced) 
 {
-	EVTrie* node = EV::findWord(root, word);
-	if (node == 0) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
 }
 
 bool EV::deleteAWord(EVTrie* root, string& word) {
@@ -585,14 +584,12 @@ bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning, EET
 	return true;
 }
 
-bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+bool EE::changeWordDefinition(EETrie*& node, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	EETrie* node = EE::findWord(root, word);
-	if (node == 0) return false;
+	if (node == nullptr) return false;
 	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
 	return true;
-
 }
 
 void EE::helperDeleteAWord(EETrie* root, string& word)
@@ -991,13 +988,11 @@ bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, V
 	return true;
 }
 
-bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void VE::changeWordDefinition(VTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	VTrie* node = VE::findWord(root, word);
-	if (node == nullptr) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
 }
 
 void VE::helperDeleteAWord(VTrie* root, wstring& word)

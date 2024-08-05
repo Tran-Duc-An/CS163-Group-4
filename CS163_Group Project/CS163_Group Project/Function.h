@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <list>
-#include <fstream>
 using namespace std;
 struct EVTrie {
 	vector<EVTrie*>  children;
@@ -53,9 +52,10 @@ namespace EV {
 	void saveTrietoFile(EVTrie* root, string path);
 	bool findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EVTrie*& node);
 	bool loadTriefromFile(EVTrie*& root, string path);
-	bool changeWordDefinition(EVTrie* root, string& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EVTrie* root, string& word);
 	bool deleteAWord(EVTrie* root, string& word);
+	void changeWordDefinition(EVTrie*& root, wstring newDefinition, int indexOfOldDefinitionToBeReplaced);
+
 	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);
 	void randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
 	void randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
@@ -70,8 +70,8 @@ namespace EV {
 namespace EE {
 	void insertWord(EETrie*& root, string& word, string& definition);
 	EETrie* findWord(EETrie* root, string word);
-	bool changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EETrie* root, string& word);
+	bool changeWordDefinition(EETrie*& node, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	bool deleteAWord(EETrie* root, string& word);
 	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
 	bool loadRawData(EETrie*& root, string path);
@@ -94,7 +94,7 @@ namespace VE {
 	void insertWord(VTrie*& root, wstring& word, wstring& definition);
 	VTrie* findWord(VTrie* root, wstring& word);
 	bool findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node);
-	bool changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
+	void changeWordDefinition(VTrie*& root, wstring newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(VTrie* root, wstring& word);
 	bool deleteAWord(VTrie* root, wstring& word);
 	void deleteTrie(VTrie*& root);
@@ -133,3 +133,17 @@ void fillMap();
 void addToHistory(wstring word, wstring def, string fileName);
 void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename);
 bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE);
+
+
+void setBackground();
+void translating();
+void searching();
+void adding();
+void QnA();
+void history();
+void isLiked();
+void homePage();
+bool loadData();
+void emoji();
+void reset();
+void edit();

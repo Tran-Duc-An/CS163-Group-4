@@ -5,12 +5,12 @@
 #include <fcntl.h>
 #include <io.h>
 #include <iostream>
-
 #include <locale>
 #include <random>
 #include <SFML/Graphics.hpp>
 #include <stack>
 #include <thread>
+#include <fstream>
 
 sf::RenderWindow window(sf::VideoMode(1500, 800), "Dictionary");
 sf::Event event;
@@ -40,10 +40,12 @@ Button backDefButton(700, 710, "Image/backDefButton.png");
 
 Button heartButton(183, 600, "Image/heart.png");
 Button deleteButton(349, 600, "Image/deleteButton.png");
-Button submitResetButton(1220, 582, "Image/submitResetButton.png");
-Button tickEEButton(70, 82, "Image/untickedboxEE.png");
-Button tickEVButton(70, 232, "Image/untickedboxEV.png");
-Button tickVEButton(70, 382, "Image/untickedboxVE.png");
+Button submitResetButton(1200, 582, "Image/submitResetButton.png");
+Button tickEEButton(80, 100, "Image/untickedboxEE.png");
+Button tickEVButton(80, 300, "Image/untickedboxEV.png");
+Button tickVEButton(80, 500, "Image/untickedboxVE.png");
+
+Button editButton(1300, 260, "Image/editButton.png");
 
 //searching
 Button searchKeyButton(98, 138, "Image/searchKey.png");
@@ -89,6 +91,11 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition", 6, 50);
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
+//Edit
+ChoiceButton editedWord(192, 117, "Image/InputBox.png");
+InputDef inputEditedDef(192, 400, "Image/InputDef.png", L"Enter definition", 6, 50);
+Button submitEdit(1157, 238, "Image/submitResetButton.png");
+
 // hint
 Button guideUserTickButton(160, 13, "Image/hintToTick.png");
 Button warningButton(45, 582, "Image/warning.png");
@@ -119,6 +126,8 @@ bool transType = 0;
 int addingType = 0;
 int qnaType = 0;
 
+int editType = 0;
+
 vector<wstring> favWordsVE;
 vector<wstring> favDefsVE;
 
@@ -128,17 +137,6 @@ vector<wstring> favDefsEV;
 vector<string> favWordsEE;
 vector<string> favDefsEE;
 
-void setBackground();
-void translating();
-void searching();
-void adding();
-void QnA();
-void history();
-void isLiked();
-void homePage();
-bool loadData();
-void emoji();
-void reset();
 
 int run() {
 	setBackground();
@@ -184,6 +182,10 @@ int run() {
 		}
 		case 8: {
 			reset();
+			break;
+		}
+		case 9: {
+			edit();
 			break;
 		}
 		default:
@@ -371,6 +373,8 @@ void translating() {
 
 		if (event.type == sf::Event::Closed) window.close();
 
+
+
 		if (transType == 0) {//Vietnamese to English
 			if (VNtoEnButton.isClicked(window, event)) {
 				transType = 1;
@@ -379,6 +383,8 @@ void translating() {
 			inputVNBox.isClicked(window, event);
 
 			if (translateVN.isClicked(window, event, transWword, inputVNBox.text)) {
+			translateVNtoEN:
+
 				transDef.clear();
 				orderDef = 0;
 				translateFlag = 1;
@@ -406,6 +412,13 @@ void translating() {
 				inputVNBox.text.setString("");
 				transDef.clear();
 				translateFlag = 0;
+			}
+
+			if (editButton.isClicked(window, event)) {
+				page.push(9);
+				editType = 0;
+				editedWord.content = transWword;
+				inputEditedDef.text.setString(transDef[orderDef]);
 			}
 		}
 		else {//English to Vietnamese
@@ -442,9 +455,17 @@ void translating() {
 				transDef.clear();
 				translateFlag = 0;
 			}
+
+			if (editButton.isClicked(window, event)) {
+				page.push(9);
+				editType = 1;
+				editedWord.content = converter.from_bytes(transWord);
+				inputEditedDef.text.setString(transDef[orderDef]);
+			}
 		}
 		if (nextDefButton.isClicked(window, event) && orderDef < transDef.size() - 1) orderDef++;
 		if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+
 
 	}
 
@@ -505,6 +526,9 @@ void translating() {
 	}
 
 	if (translateFlag == 1 && transDef[0] != L"No definition") {
+
+		editButton.draw(window);
+		editButton.isHover(window, "Image/editButtonHover.png");
 
 		backDefButton.draw(window);
 		nextDefButton.draw(window);
@@ -574,7 +598,7 @@ void searching() {
 
 				searchwithKeyword:
 
-					searchDef.clear();
+					if (!searchDef.empty()) searchDef.clear();
 					orderDef = 0;
 					removeEndline(word);
 					if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
@@ -614,7 +638,7 @@ void searching() {
 				if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
 					removeEndline(def);
 					orderKey = 0;
-					words.clear();
+					if (!words.empty()) words.clear();
 					words = Def::searchByDef(table, def);
 					if (!words.empty())
 						searchFlag = 1;
@@ -741,8 +765,6 @@ void adding() {
 				removeEndline(word);
 				removeEndline(def);
 				EE::insertWord(rootEtoE, word, def);
-				pair<string, string>temp{ word,def };
-				table.push_back(temp);
 			}
 		}
 
@@ -1760,6 +1782,7 @@ void emoji() {
 			isFound = 1;
 			orderEmo = 0;
 			if (!listEmoji.empty()) listEmoji.clear();
+			removeEndline(emo);
 			if (emojiType == 0) {
 				listEmoji = Emoji::findbyNameUntil(emojiTable, emo);
 				if (listEmoji.empty()) isFound = 0;
@@ -1830,11 +1853,12 @@ void emoji() {
 			if (emoCode.first != "")
 				path = "Emoji-PNG/" + emoCode.second + "-" + emoCode.first + ".png";
 		}
-		if (!displayEmo.loadFromFile(path)) return;
-		sf::Sprite sprite;
-		sprite.setTexture(displayEmo);
-		sprite.setPosition(900, 300);
-		window.draw(sprite);
+		if (displayEmo.loadFromFile(path)) {
+			sf::Sprite sprite;
+			sprite.setTexture(displayEmo);
+			sprite.setPosition(900, 300);
+			window.draw(sprite);
+		}
 
 		sf::Text text;
 		text.setFont(font);
@@ -1861,15 +1885,15 @@ void reset()
 	sf::Text guideUser;
 	sf::Text warning;
 	guideUser.setFont(font);
-	guideUser.setCharacterSize(20);
+	guideUser.setCharacterSize(30);
 	guideUser.setFillColor(sf::Color::Black);
 	guideUser.setPosition(181, 59);
 	guideUser.setString("Please tick the box to choose the type of dictionary you want to reset");
 
 	warning.setFont(font);
-	warning.setCharacterSize(20);
+	warning.setCharacterSize(30);
 	warning.setFillColor(sf::Color::Red);
-	warning.setPosition(70, 632);
+	warning.setPosition(70, 700);
 	warning.setString("This will reset your dictionary to original state,\n including added, edited, deleted words !");
 	window.draw(guideUser);
 	window.draw(warning);
@@ -1972,6 +1996,50 @@ void reset()
 	tickVEButton.isHover(window, "Image/tickedboxVE.png");
 	submitResetButton.isHover(window, "Image/submitResetButtonHover.png");
 }
+
+
+
+void edit() {
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event))
+		{
+			page.pop();
+		}
+		inputEditedDef.isClicked(window, event);
+		if (submitEdit.isClicked(window, event)) {
+			wstring newDef = inputEditedDef.text.getString();
+			if (editType == 0) {
+				VE::changeWordDefinition(nodeV, newDef, orderDef);
+			}
+			else if (editType == 1) {
+				VE::changeWordDefinition(nodeV, newDef, orderDef);
+			}
+			translateFlag = 0;
+			page.pop();
+		}
+	}
+	if (editType == 0) {//Viet - Eng
+
+	}
+	else if (editType == 1) { //Eng - Viet
+	}
+	else { //Eng - Eng
+
+	}
+
+	submitEdit.draw(window);
+	submitEdit.isHover(window, "Image/submitResetButtonHover.png");
+
+	editedWord.draw(window);
+	inputEditedDef.draw(window);
+
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
+}
+
 
 void homePage() {
 	orderDef = 0;
@@ -2105,7 +2173,7 @@ bool loadData() {
 	else {
 		t3 = thread(EE::loadRawData, std::ref(rootEtoE), "Dataset/englishDictionary.csv");
 	}
-	
+
 	// Modify Emoji::loadDataset to accept a reference
 	thread t5([](Emo& ht, const string& filename, size_t tableSize) {
 		ht = Emoji::loadDataset(filename, tableSize);
@@ -2132,3 +2200,4 @@ bool loadData() {
 
 	return 1;
 }
+

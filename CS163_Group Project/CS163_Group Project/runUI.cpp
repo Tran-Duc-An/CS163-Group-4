@@ -45,6 +45,8 @@ Button tickEEButton(80, 100, "Image/untickedboxEE.png");
 Button tickEVButton(80, 300, "Image/untickedboxEV.png");
 Button tickVEButton(80, 500, "Image/untickedboxVE.png");
 
+Button editButton(1300, 260, "Image/editButton.png");
+
 //searching
 Button searchKeyButton(98, 138, "Image/searchKey.png");
 Button searchDefButton(98, 237, "Image/searchDef.png");
@@ -89,6 +91,11 @@ InputDef inputDef(192, 400, "Image/InputDef.png", L"Enter definition",6,50);
 SubmitENButton addENButton(1157, 238, "Image/add.png");
 SubmitVNButton addVNButton(1157, 238, "Image/add.png");
 
+//Edit
+ChoiceButton editedWord(192, 117, "Image/InputBox.png");
+InputDef inputEditedDef(192, 400, "Image/InputDef.png", L"Enter definition", 6, 50);
+Button submitEdit(1157, 238, "Image/submitResetButton.png");
+
 // hint
 Button guideUserTickButton(160, 13, "Image/hintToTick.png");
 Button warningButton(45, 582, "Image/warning.png");
@@ -119,6 +126,8 @@ bool transType = 0;
 int addingType = 0;
 int qnaType = 0;
 
+int editType = 0;
+
 vector<wstring> favWordsVE;
 vector<wstring> favDefsVE;
 
@@ -128,22 +137,11 @@ vector<wstring> favDefsEV;
 vector<string> favWordsEE;
 vector<string> favDefsEE;
 
-void setBackground();
-void translating();
-void searching();
-void adding();
-void QnA();
-void history();
-void isLiked();
-void homePage();
-bool loadData();
-void emoji();
-void reset();
 
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	//if (!loadData()) return 0;
+	if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -184,6 +182,10 @@ int run() {
 		}
 		case 8: {
 			reset();
+			break;
+		}
+		case 9: {
+			edit();
 			break;
 		}
 		default:
@@ -371,6 +373,8 @@ void translating() {
 
 		if (event.type == sf::Event::Closed) window.close();
 
+		
+
 		if (transType == 0) {//Vietnamese to English
 			if (VNtoEnButton.isClicked(window, event)) {
 				transType = 1;
@@ -379,6 +383,8 @@ void translating() {
 			inputVNBox.isClicked(window, event);
 
 			if (translateVN.isClicked(window, event, transWword, inputVNBox.text)) {
+			translateVNtoEN:
+
 				transDef.clear();
 				orderDef = 0;
 				translateFlag = 1;
@@ -406,6 +412,13 @@ void translating() {
 				inputVNBox.text.setString("");
 				transDef.clear();
 				translateFlag = 0;
+			}
+
+			if (editButton.isClicked(window, event)) {
+				page.push(9);
+				editType = 0;
+				editedWord.content = transWword;
+				inputEditedDef.text.setString(transDef[orderDef]);
 			}
 		}
 		else {//English to Vietnamese
@@ -442,10 +455,18 @@ void translating() {
 				transDef.clear();
 				translateFlag = 0;
 			}
+
+			if (editButton.isClicked(window, event)) {
+				page.push(9);
+				editType = 1;
+				editedWord.content = converter.from_bytes(transWord);
+				inputEditedDef.text.setString(transDef[orderDef]);
+			}
 		}
 		if (nextDefButton.isClicked(window, event) && orderDef < transDef.size() - 1) orderDef++;
 		if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
 
+	
 	}
 
 
@@ -505,6 +526,9 @@ void translating() {
 	}
 
 	if (translateFlag == 1 && transDef[0] != L"No definition") {
+		
+		editButton.draw(window);
+		editButton.isHover(window, "Image/editButtonHover.png");
 
 		backDefButton.draw(window);
 		nextDefButton.draw(window);
@@ -1973,6 +1997,50 @@ void reset()
 	submitResetButton.isHover(window, "Image/submitResetButtonHover.png");
 }
 
+
+
+void edit() {
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed) window.close();
+
+		if (backButton.isClicked(window, event))
+		{
+			page.pop();
+		}
+		inputEditedDef.isClicked(window,event);
+		if (submitEdit.isClicked(window, event)) {
+			wstring newDef = inputEditedDef.text.getString();
+			if (editType == 0) {
+				VE::changeWordDefinition(nodeV,newDef, orderDef);
+			}
+			else if (editType == 1) {
+				VE::changeWordDefinition(nodeV, newDef, orderDef);
+			}
+			translateFlag=0;
+			page.pop();
+		}
+	}
+	if (editType == 0) {//Viet - Eng
+
+	}
+	else if (editType == 1) { //Eng - Viet
+	}
+	else { //Eng - Eng
+
+	}
+	
+	submitEdit.draw(window);
+	submitEdit.isHover(window, "Image/submitResetButtonHover.png");
+
+	editedWord.draw(window);
+	inputEditedDef.draw(window);
+
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
+}
+
+
 void homePage() {
 	orderDef = 0;
 	translateFlag = 0;
@@ -2132,5 +2200,5 @@ bool loadData() {
 
 	return 1;
 }
-\
+
 

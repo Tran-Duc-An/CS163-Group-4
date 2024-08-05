@@ -123,6 +123,12 @@ bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVT
 	meaning = node->definition;
 	return true;
 }
+void EV::changeWordDefinition(EVTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced) {
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+}
+
 void EV::deleteTrie(EVTrie* root)
 {
 	if (root == nullptr) return;
@@ -983,13 +989,11 @@ bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, V
 	return true;
 }
 
-bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void VE::changeWordDefinition(VTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	VTrie* node = VE::findWord(root, word);
-	if (node == nullptr) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
 }
 
 void VE::helperDeleteAWord(VTrie* root, wstring& word)

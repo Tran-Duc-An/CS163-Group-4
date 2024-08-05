@@ -19,10 +19,13 @@ struct InputBox : Button {
 	sf::Text textDisplay;
 	sf::Text nameHolder;
 	std::wstring name;
+	sf::RectangleShape cursor;
+	size_t cursorPosition = 0;
 	bool active = 0;
 	InputBox(int x, int y, std::string imagePath, std::wstring name);
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 	void draw(sf::RenderWindow& window);
+	void updateCursor();
 	void pasteFromClipboard(int numRow, int numChar);
 };
 
@@ -42,6 +45,7 @@ struct InputDef : InputBox {
 	int numRow = 1;
 	int numChar = 0;
 	InputDef(int x, int y, std::string imagePath, std::wstring name,int numRows,int numChars);
+	void updateCursor();
 	void draw(sf::RenderWindow& window);
 	void isClicked(sf::RenderWindow& window, sf::Event& event);
 };

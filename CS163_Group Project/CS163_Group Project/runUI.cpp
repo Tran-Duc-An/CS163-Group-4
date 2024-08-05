@@ -143,7 +143,7 @@ void reset();
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -1758,6 +1758,7 @@ void emoji() {
 			isFound = 1;
 			orderEmo = 0;
 			if (!listEmoji.empty()) listEmoji.clear();
+			removeEndline(emo);
 			if (emojiType == 0) {
 				listEmoji = Emoji::findbyNameUntil(emojiTable, emo);
 				if (listEmoji.empty()) isFound = 0;

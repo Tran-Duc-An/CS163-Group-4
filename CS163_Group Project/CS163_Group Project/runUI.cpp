@@ -1706,6 +1706,7 @@ void isLiked() {
 		if (favType == 0) {
 			if (h1.content == L"") setContentEV;
 			if (ENtoVnButton.isClicked(window, event)) {
+				orderFav = 0;
 				favType = 1;
 				setContentVE();
 			}
@@ -1719,6 +1720,7 @@ void isLiked() {
 		}
 		else if (favType == 1) {
 			if (VNtoEnButton.isClicked(window, event)) {
+				orderFav = 0;
 				favType = 2;
 				setContentEE();
 			}
@@ -1732,6 +1734,7 @@ void isLiked() {
 		}
 		else {
 			if (ENtoENButton.isClicked(window, event)) {
+				orderFav = 0;
 				favType = 0;
 				setContentEV();
 			}
@@ -1746,6 +1749,9 @@ void isLiked() {
 		
 	}
 
+	if (h1.content == L"" && favType==0) {
+		setContentEV();
+	}
 
 	if (favType == 0) {
 		ENtoVnButton.draw(window);

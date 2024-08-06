@@ -63,6 +63,7 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 	text.setFillColor(sf::Color::Black);
 
 	textDisplay = text;
+
 }
 
 
@@ -88,6 +89,12 @@ void InputBox::pasteFromClipboard(int numRow, int numChar) {
 #endif
 }
 
+void InputBox::reset() {
+	cursorPosition = 0;
+	text.setString("");
+}
+
+
 void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -108,43 +115,77 @@ void InputBox::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			}
 			if (event.type == sf::Event::TextEntered) {
 				if (event.text.unicode > 31 && event.text.unicode != 127) {
-					str += static_cast<wchar_t>(event.text.unicode);
+					str.insert(cursorPosition, 1, static_cast<wchar_t>(event.text.unicode));
+					cursorPosition = str.length();
 					text.setString(str);
 				}
 			}
 		}
+
 		if (event.type == sf::Event::KeyPressed) {
-
 			if (event.key.control && event.key.code == sf::Keyboard::V) {
-
 				pasteFromClipboard(4, 20);
-
 			}
 			else if (event.key.code == sf::Keyboard::BackSpace) {
-				if (!str.empty()) {
-					if (str.back() == L'\n') str.pop_back();
-					str.pop_back();
+				if (cursorPosition > 0) {
+					if (str[cursorPosition - 1] == L'\n') {
+						str.erase(cursorPosition - 1, 1);
+					}
+					str.erase(cursorPosition - 1, 1);
+					cursorPosition--;
 					text.setString(str);
 				}
 			}
+			else if (event.key.code == sf::Keyboard::Left) {
+				if (cursorPosition > 0) {
+					cursorPosition--;
+				}
+			}
+			else if (event.key.code == sf::Keyboard::Right) {
+				if (cursorPosition < str.length()) {
+					cursorPosition++;
+				}
+			}
 		}
+
+		// Update the cursor position after handling input
+		updateCursor();
 	}
 }
+
+void InputBox::updateCursor() {
+	// Calculate the position of the cursor
+	std::wstring str = text.getString();
+	sf::Vector2f cursorPos = text.getPosition();
+
+	for (size_t i = 0; i < cursorPosition; ++i) {
+		if (str[i] == L'\n') {
+			cursorPos.y += text.getCharacterSize();
+			cursorPos.x = text.getPosition().x;
+		}
+		else {
+			cursorPos.x += text.getFont()->getGlyph(str[i], text.getCharacterSize(), false).advance;
+		}
+	}
+
+	// Update the cursor shape
+	cursor.setPosition(cursorPos);
+	cursor.setSize(sf::Vector2f(2.f, text.getCharacterSize()));
+	cursor.setFillColor(sf::Color::Black);
+}
+
 void InputBox::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
+	window.draw(text);
+	if (active) {
+		window.draw(cursor);
+	}
+
 	std::wstring str = text.getString();
 	if (str.empty() && active == 0) {
 		window.draw(nameHolder);
 	}
-	if (active) {
-		textDisplay.setString(text.getString() + "|");
-		window.draw(textDisplay);
-	}
-	else {
-		window.draw(text);
-	}
 }
-
 
 InputDef::InputDef(int x, int y, std::string imagePath, std::wstring name, int numRows, int numChars) : InputBox(x, y, imagePath, name) {
 	numRow = numRows;
@@ -196,8 +237,8 @@ bool SubmitENButton::isClicked(sf::RenderWindow& window, sf::Event& event, std::
 	return 0;
 }
 
-void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 
+void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 		if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
@@ -218,42 +259,77 @@ void InputDef::isClicked(sf::RenderWindow& window, sf::Event& event) {
 			if (event.type == sf::Event::TextEntered) {
 				if (event.text.unicode > 31 && event.text.unicode != 127) {
 					str += static_cast<wchar_t>(event.text.unicode);
+					cursorPosition = str.length(); // Move cursor to the end of the string
 					text.setString(str);
 				}
 			}
 		}
+
 		if (event.type == sf::Event::KeyPressed) {
-
 			if (event.key.control && event.key.code == sf::Keyboard::V) {
-
 				pasteFromClipboard(numRow, numChar);
-
 			}
 			else if (event.key.code == sf::Keyboard::BackSpace) {
 				if (!str.empty()) {
 					if (str.back() == L'\n') str.pop_back();
 					str.pop_back();
+					cursorPosition = str.length(); // Move cursor to the end of the string
 					text.setString(str);
 				}
 			}
+			else if (event.key.code == sf::Keyboard::Left) {
+				if (cursorPosition > 0) {
+					cursorPosition--;
+				}
+			}
+			else if (event.key.code == sf::Keyboard::Right) {
+				if (cursorPosition < str.length()) {
+					cursorPosition++;
+				}
+			}
+		}
+
+		// Update the cursor position after handling input
+		updateCursor();
+	}
+}
+
+void InputDef::updateCursor() {
+	// Calculate the position of the cursor
+	std::wstring str = text.getString();
+	sf::Vector2f cursorPos = text.getPosition();
+
+	for (size_t i = 0; i < cursorPosition; ++i) {
+		if (str[i] == L'\n') {
+			cursorPos.y += text.getCharacterSize();
+			cursorPos.x = text.getPosition().x;
+		}
+		else {
+			cursorPos.x += text.getFont()->getGlyph(str[i], text.getCharacterSize(), false).advance;
 		}
 	}
+
+	// Update the cursor shape
+	cursor.setPosition(cursorPos);
+	cursor.setSize(sf::Vector2f(2.f, text.getCharacterSize()));
+	cursor.setFillColor(sf::Color::Black);
 }
 
 void InputDef::draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 	std::string str = text.getString().toAnsiString();
-	if (str.empty() && active == 0) {
+	if (str.empty() && !active) {
 		window.draw(nameHolder);
 	}
 	if (active) {
-		textDisplay.setString(text.getString() + "|");
-		window.draw(textDisplay);
+		window.draw(text);
+		window.draw(cursor); // Draw the cursor
 	}
 	else {
 		window.draw(text);
 	}
 }
+
 
 
 AnswerButton::AnswerButton(int x, int y, std::string imagePath) :Button(x, y, imagePath) {
@@ -309,4 +385,30 @@ void ChoiceButton::draw(sf::RenderWindow& window) {
 	text.setPosition(xx + 10, yy + 10);
 	text.setFillColor(sf::Color::Black);
 	window.draw(text);
+}
+
+void setupNotification(sf::RenderWindow& notification)
+{
+	notification.setPosition(sf::Vector2i(600, 400));
+	sf::Texture texture;
+	texture.loadFromFile("Image/successful.png");
+	sf::Sprite sprite;
+	texture.setSmooth(1);
+	sprite.setTexture(texture);
+	sprite.setPosition(0, 0);
+	notification.draw(sprite);
+}
+
+void popUpNotification(sf::RenderWindow& notification)
+{
+	
+	while (notification.isOpen())
+	{
+		sf::Event evnt;
+		while (notification.pollEvent(evnt))
+		{
+			if (evnt.type == sf::Event::Closed) notification.close();
+		}
+		notification.display();
+	}
 }

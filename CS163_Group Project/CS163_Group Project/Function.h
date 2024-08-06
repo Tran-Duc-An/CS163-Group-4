@@ -70,8 +70,8 @@ namespace EV {
 namespace EE {
 	void insertWord(EETrie*& root, string& word, string& definition);
 	EETrie* findWord(EETrie* root, string word);
+	void changeWordDefinition(EETrie*& node, string newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EETrie* root, string& word);
-	bool changeWordDefinition(EETrie*& node, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
 	bool deleteAWord(EETrie* root, string& word);
 	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
 	bool loadRawData(EETrie*& root, string path);

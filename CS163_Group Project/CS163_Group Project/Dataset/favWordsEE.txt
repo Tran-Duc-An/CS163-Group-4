@@ -1,2 +1,2 @@
-family,"The collective body of persons who live in one house, and under one head or manager; a household, including parents, children, and servants, and, as the case may be, lodgers or boarders."
-thread,"A very small twist of flax, wool, cotton, silk, or other fibrous substance, drawn out to considerable length; a compound cord consisting of two or more single yarns doubled, or joined together, and twisted."
+constant,Firm; solid; fixed; immovable; -- opposed to fluid.
+cost,A rib; a side; a region or coast.

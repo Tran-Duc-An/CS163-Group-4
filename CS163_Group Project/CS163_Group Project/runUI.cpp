@@ -140,6 +140,7 @@ vector<string> favDefsEE;
 
 int run() {
 	setBackground();
+	setupNotification(notification);
 	font.loadFromFile("Font/ARIAL.TTF");
 	if (!loadData()) return 0;
 	page.push(0);
@@ -182,6 +183,7 @@ int run() {
 		}
 		case 8: {
 			reset();
+	
 			break;
 		}
 		case 9: {
@@ -368,7 +370,11 @@ void translating() {
 
 	while (window.pollEvent(event))
 	{
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			inputENBox.reset();
+			inputVNBox.reset();
+		}
 
 
 		if (event.type == sf::Event::Closed) window.close();
@@ -418,6 +424,7 @@ void translating() {
 				page.push(9);
 				editType = 0;
 				editedWord.content = transWword;
+				handleWString(transDef[orderDef], 50, 7);
 				inputEditedDef.text.setString(transDef[orderDef]);
 			}
 		}
@@ -460,6 +467,7 @@ void translating() {
 				page.push(9);
 				editType = 1;
 				editedWord.content = converter.from_bytes(transWord);
+				handleWString(transDef[orderDef], 50, 7);
 				inputEditedDef.text.setString(transDef[orderDef]);
 			}
 		}
@@ -554,6 +562,8 @@ ChoiceButton searchDefRes(900, 125, "Image/searchDefRes.png");
 Button nextKeyButton(1335, 320, "Image/nextButton.png");
 Button backKeyButton(700, 320, "Image/backDefButton.png");
 
+Button editSearchButton(1335, 50, "Image/editButton.png");
+
 void searching() {
 	sf::Texture layout2;
 	if (searchingType.top() == 0) {
@@ -578,6 +588,10 @@ void searching() {
 		if (backButton.isClicked(window, event)) {
 			page.pop();
 			if (!searchingType.empty()) searchingType.pop();
+
+			searchKeyBox.reset();
+			searchDefBox.reset();
+
 		}
 
 
@@ -632,6 +646,14 @@ void searching() {
 
 				if (nextDefButton.isClicked(window, event) && orderDef < searchDef.size() - 1) orderDef++;
 				if (backDefButton.isClicked(window, event) && orderDef > 0) orderDef--;
+
+				if (editSearchButton.isClicked(window, event)) {
+					page.push(9);
+					editType = 2;
+					editedWord.content = converter.from_bytes(word);
+					handleString(searchDef[orderDef], 50, 7);
+					inputEditedDef.text.setString(searchDef[orderDef]);
+				}
 			}
 			else {//search with definition
 				searchDefBox.isClicked(window, event);
@@ -682,6 +704,9 @@ void searching() {
 					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
 				}
 
+				editSearchButton.draw(window);
+				editSearchButton.isHover(window, "Image/editButtonHover.png");
+
 				heartKeyButton.draw(window);
 				deleteKeyButton.draw(window);
 				deleteKeyButton.isHover(window, "Image/deleteHover.png");
@@ -727,7 +752,11 @@ void adding() {
 	std::wstring wdef;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			inputWord.reset();
+			inputDef.reset();
+		}
 
 
 
@@ -1775,7 +1804,10 @@ void emoji() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			emojiInput.reset();
+		}
 
 		emojiInput.isClicked(window, event);
 		if (searchEmoji.isClicked(window, event, emo, emojiInput.text)) {
@@ -1908,6 +1940,9 @@ void reset()
 
 		if (backButton.isClicked(window, event))
 		{
+			ee = 0;
+			ev = 0;
+			ve = 0;
 			page.pop();
 		}
 		if (tickEEButton.isClicked(window, event))
@@ -1928,6 +1963,7 @@ void reset()
 		if (submitResetButton.isClicked(window, event))
 		{
 			resetToOriginal(ee, ev, ve, rootEtoE, rootEtoV, rootVtoE);
+			popUpNotification(notification);
 			ee = 0;
 			ev = 0;
 			ve = 0;
@@ -2007,17 +2043,25 @@ void edit() {
 		if (backButton.isClicked(window, event))
 		{
 			page.pop();
+			inputEditedDef.reset();
 		}
 		inputEditedDef.isClicked(window, event);
 		if (submitEdit.isClicked(window, event)) {
 			wstring newDef = inputEditedDef.text.getString();
+			removeWEndline(newDef);
 			if (editType == 0) {
+
 				VE::changeWordDefinition(nodeV, newDef, orderDef);
 			}
 			else if (editType == 1) {
-				VE::changeWordDefinition(nodeV, newDef, orderDef);
+				EV::changeWordDefinition(nodeE, newDef, orderDef);
 			}
+			else {
+				EE::changeWordDefinition(nodeEE, converter.to_bytes(newDef), orderDef);
+			}
+			searchFlag = 0;
 			translateFlag = 0;
+			inputEditedDef.reset();
 			page.pop();
 		}
 	}
@@ -2048,7 +2092,7 @@ void homePage() {
 	transType = 0;
 	addingType = 0;
 
-
+	emojiType = 0;
 
 	h1.content = L"";
 	h2.content = L"";
@@ -2089,13 +2133,11 @@ void homePage() {
 			}
 			searchingType.push(0);
 
-			searchKeyBox.text.setString("");
-			searchDefBox.text.setString("");
+
 		}
 		if (translatingButton.isClicked(window, event)) {
 			page.push(2);
-			inputENBox.text.setString("");
-			inputVNBox.text.setString("");
+
 		}
 		if (addNewWordButton.isClicked(window, event)) {
 			page.push(3);
@@ -2111,8 +2153,7 @@ void homePage() {
 		}
 		if (emojiSearchButton.isClicked(window, event)) {
 			page.push(7);
-			emojiInput.text.setString("");
-			emojiType = 0;
+
 		}
 		if (resetButton.isClicked(window, event)) {
 			page.push(8);

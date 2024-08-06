@@ -123,6 +123,12 @@ bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EV
 	meaning = node->definition;
 	return true;
 }
+void EV::changeWordDefinition(EVTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced) {
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+}
+
 void EV::deleteTrie(EVTrie* root)
 {
 	if (root == nullptr) return;
@@ -322,13 +328,6 @@ void EV::helperDeleteAWord(EVTrie* root, string& word) {
 		parent->children[childIndex] = nullptr;
 		parent->numChildren--;
 	}
-}
-
-void EV::changeWordDefinition(EVTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced) 
-{
-	if (node == nullptr) return;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
-	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
 }
 
 bool EV::deleteAWord(EVTrie* root, string& word) {
@@ -584,12 +583,12 @@ bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning, EET
 	return true;
 }
 
-bool EE::changeWordDefinition(EETrie*& node, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void EE::changeWordDefinition(EETrie*& node, string newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	if (node == nullptr) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == 0) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
+
 }
 
 void EE::helperDeleteAWord(EETrie* root, string& word)
@@ -1569,16 +1568,19 @@ bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& root
 	if (EE)
 	{
 		t1 = std::thread(EE::deleteTrie, std::ref(rootEtoE));
+		remove("Dataset\\favWordsEE.txt");
 	}
 	if (EV)
 	{
 		t2 = std::thread(EV::deleteTrie, std::ref(rootEtoV));
+		remove("Dataset\\favWordsEV.txt");
 	}
 	if (VE)
 	{
 		t3 = std::thread(VE::deleteTrie, std::ref(rootVtoE));
+		remove("Dataset\\favWordsVE.txt");
 	}
-
+	remove("Dataset\\History.txt");
 	// Wait for all delete threads to finish
 	if (EE && t1.joinable())
 	{
@@ -1620,6 +1622,7 @@ bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& root
 	{
 		t6.join();
 	}
+
 	auto end = chrono::high_resolution_clock::now();
 	wcout << L"Time taken to reset to original: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L" milliseconds" << endl;
 	return true;

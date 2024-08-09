@@ -147,3 +147,4 @@ bool loadData();
 void emoji();
 void reset();
 void edit();
+void randomWords();

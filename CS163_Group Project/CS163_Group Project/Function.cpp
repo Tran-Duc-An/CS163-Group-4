@@ -1482,27 +1482,32 @@ vector<pair<string, string>> Emoji::findbyNameUntil(Emo& ht, const string& name)
 Emo Emoji::loadDataset(const string& filename, size_t tableSize) {
 	Emo dictionary;
 	initHashTable(dictionary, tableSize);
-	ifstream file(filename);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+
+	wifstream file(filename);
+	file.imbue(loc);
 	if (!file.is_open()) {
 		cerr << "Error: Could not open file " << filename << endl;
 		return dictionary;
 	}
 
-	std::string line;
+	std::wstring line;
 	// skip the header line
 	std::getline(file, line);
 	while (std::getline(file, line)) {
-		std::stringstream ss(line);
-		std::string No, emoji, codepoint, name;
+		std::wstringstream ss(line);
+		std::wstring No, emoji, codepoint, name;
 
-		std::getline(ss, No, ',');
-		std::getline(ss, emoji, ',');
-		std::getline(ss, codepoint, ',');
-		std::getline(ss, name, ',');
+		std::getline(ss, No, L',');
+		std::getline(ss, emoji, L',');
+		std::getline(ss, codepoint, L',');
+		std::getline(ss, name, L',');
 
+		string name_str(name.begin(), name.end());
+		string codepoint_str(codepoint.begin(), codepoint.end());
 
 		// convert the code point to utf-8
-		insertEmo(dictionary, name, codepoint);
+		insertEmo(dictionary, name_str, codepoint_str);
 	}
 	file.close();
 	return dictionary;

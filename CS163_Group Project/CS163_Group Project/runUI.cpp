@@ -16,11 +16,15 @@
  sf::Event event;
 
 // home page
-Button searchButton(800, 55, "Image/searchButton.png");
-Button translatingButton(800, 205, "Image/translateButton.png");
-Button addNewWordButton(800, 355, "Image/addButton.png");
-Button qnaButton(800, 505, "Image/qnaButton.png");
-Button emojiSearchButton(800, 665, "Image/emojiButton.png");
+Button searchButton(850, 200, "Image/searchButton.png");
+Button translatingButton(850, 350, "Image/translateButton.png");
+Button addNewWordButton(850, 500, "Image/addButton.png");
+Button extendButton(1350, 100, "Image/extendButton.png");
+
+Button qnaButton(1350, 400, "Image/qnaButton.png");
+Button emojiSearchButton(1350, 250, "Image/emojiButton.png");
+Button randomWordButton(1350,550, "Image/randomButton.png");
+Button extendLayout(1350, 220, "Image/extendLayout.png");
 
 Button historyButton(30, 350, "Image/historyButton.png");
 Button isLikedButton(30, 500, "Image/likedButton.png");
@@ -141,7 +145,7 @@ vector<string> favDefsEE;
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -186,6 +190,10 @@ int run() {
 		}
 		case 9: {
 			edit();
+			break;
+		}
+		case 10: {
+			randomWords();
 			break;
 		}
 		default:
@@ -2084,6 +2092,20 @@ void edit() {
 	backButton.isHover(window, "Image/backHover.png");
 }
 
+void randomWords() {
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed) window.close();
+		if (backButton.isClicked(window, event))
+		{
+			page.pop();
+		}
+	}
+	backButton.draw(window);
+	backButton.isHover(window, "Image/backHover.png");
+}
+
+bool isExtended = 0;
 
 void homePage() {
 	orderDef = 0;
@@ -2115,12 +2137,31 @@ void homePage() {
 	searchButton.draw(window);
 	translatingButton.draw(window);
 	addNewWordButton.draw(window);
-	qnaButton.draw(window);
-	emojiSearchButton.draw(window);
+
+	extendButton.draw(window);
 
 	historyButton.draw(window);
 	isLikedButton.draw(window);
 	resetButton.draw(window);
+
+	if (isExtended == 1) {
+
+		extendLayout.draw(window);
+
+		emojiSearchButton.draw(window);
+		qnaButton.draw(window);
+		randomWordButton.draw(window);
+
+		//extendButton.isHover(window, "Image/collapseButtonHover.png");
+		
+		randomWordButton.isHover(window, "Image/randomHover.png");
+		qnaButton.isHover(window, "Image/qnaHover.png");
+		emojiSearchButton.isHover(window, "Image/emojiHover.png");
+	}
+	else {
+		//extendButton.isHover(window, "Image/extendButtonHover.png");
+	}
+	
 
 	while (window.pollEvent(event)) {
 
@@ -2142,28 +2183,50 @@ void homePage() {
 		if (addNewWordButton.isClicked(window, event)) {
 			page.push(3);
 		}
-		if (qnaButton.isClicked(window, event)) {
-			page.push(4);
-		}
+	
 		if (historyButton.isClicked(window, event)) {
 			page.push(5);
 		}
 		if (isLikedButton.isClicked(window, event)) {
 			page.push(6);
 		}
-		if (emojiSearchButton.isClicked(window, event)) {
-			page.push(7);
-			
-		}
+
 		if (resetButton.isClicked(window, event)) {
 			page.push(8);
 		}
+
+		if (isExtended == 0) {
+			if (extendButton.isClicked(window, event)) {
+				isExtended = 1;
+				extendButton.texture.loadFromFile("Image/collapseButton.png");
+				extendButton.sprite.setTexture(extendButton.texture);
+			}
+			
+		}
+		else {
+			if (extendButton.isClicked(window, event)) {
+				isExtended = 0;
+				extendButton.texture.loadFromFile("Image/extendButton.png");
+				extendButton.sprite.setTexture(extendButton.texture);
+			}
+
+			if (qnaButton.isClicked(window, event)) {
+				page.push(4);
+			}
+			if (emojiSearchButton.isClicked(window, event)) {
+				page.push(7);
+			}
+			if (randomWordButton.isClicked(window, event)) {
+				page.push(10);
+			}
+		}
+		
+
 	}
 	addNewWordButton.isHover(window, "Image/addnewwordHover.png");
 	searchButton.isHover(window, "Image/searchHover.png");
 	translatingButton.isHover(window, "Image/translateHover.png");
-	qnaButton.isHover(window, "Image/qnaHover.png");
-	emojiSearchButton.isHover(window, "Image/emojiHover.png");
+	
 
 	historyButton.isHover(window, "Image/historyHover.png");
 	isLikedButton.isHover(window, "Image/likedHover.png");

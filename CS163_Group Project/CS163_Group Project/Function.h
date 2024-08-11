@@ -66,10 +66,10 @@ namespace EE {
 	void saveTrietoFile(EETrie* root, string path);
 	void deleteTrie(EETrie*& root);
 	void getWordByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, string& resultDefinition);
+	void getWordNodeByIndex(EETrie* curNode, int& index, string& resultWord, EETrie*& resultNode);
 	void randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3);
 	void randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
-
-
+	void randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode);
 }
 
 

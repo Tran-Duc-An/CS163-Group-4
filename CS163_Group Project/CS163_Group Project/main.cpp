@@ -30,6 +30,13 @@ int main()
 		}
 		else
 			cout << "Word not found\n";
+		// Random a word
+		cout << "\nLet's random a word!\n";
+		string randomWord;
+		EETrie* randomNode;
+		EE::randomAWordNode(root, randomWord, randomNode);
+		cout << "Here is the random word: " << randomWord << "\n";
+		cout << "Here is its definition: " << randomNode->definition[0] << "\n";
 
 		// Random a word and 4 definitions
 		cout << "\nLet's do a Vocabulary test!\n";

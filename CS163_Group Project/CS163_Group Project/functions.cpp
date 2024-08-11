@@ -308,11 +308,39 @@ void EV::getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string
 		}
 	}
 }
+void EV::getWordNodeByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, EVTrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EV::getWordNodeByIndex(curNode->children[i], index, currentWord, resultWord, resultNode);
+			currentWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
 void EV::randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(0, 103868);
 	int randomIndex;
 	string currentWord;
 
@@ -340,7 +368,7 @@ void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, stri
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(0, 103868);
 	int randomIndex;
 	string currentWord;
 
@@ -363,6 +391,18 @@ void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, stri
 	currentWord = "";
 	wstring wrongDefinition3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EV::randomAWordNode(EVTrie* root, string& resultWord, EVTrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 103868);
+
+	string currentWord = "";
+	resultWord = "";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	EV::getWordNodeByIndex(root, randomIndex, currentWord, resultWord, resultNode);
 }
 void EV::helperDeleteAWord(EVTrie* root, string& word) {
 
@@ -661,6 +701,34 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 		}
 	}
 }
+void EE::getWordNodeByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, EETrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EE::getWordNodeByIndex(curNode->children[i], index, currentWord, resultWord, resultNode);
+			currentWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
 void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3)
 {
 	random_device rd;
@@ -716,6 +784,18 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 	currentWord = "";
 	string wrongDefinition3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void EE::randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+
+	string currentWord = "";
+	resultWord = "";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	EE::getWordNodeByIndex(root, randomIndex, currentWord, resultWord, resultNode);
 }
 void EE::helperDeleteAWord(EETrie* root, string& word)
 {
@@ -992,6 +1072,34 @@ void VE::getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstrin
 		}
 	}
 }
+void VE::getWordNodeByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, VTrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 91; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			wchar_t tempChar = reverseMap[i];
+			currentWord.push_back(tempChar);
+			VE::getWordNodeByIndex(curNode->children[i], index, currentWord, resultWord, resultNode);
+			currentWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
 void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3)
 {
 	random_device rd;
@@ -1047,6 +1155,18 @@ void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstri
 	currentWord = L"";
 	wstring wrongDefinition3;
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+}
+void VE::randomAWordNode(VTrie* root, wstring& resultWord, VTrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+
+	wstring currentWord = L"";
+	resultWord = L"";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	VE::getWordNodeByIndex(root, randomIndex, currentWord, resultWord, resultNode);
 }
 void VE::helperDeleteAWord(VTrie* root, wstring& word)
 {

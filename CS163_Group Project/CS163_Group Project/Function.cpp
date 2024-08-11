@@ -731,6 +731,33 @@ void EE::getWordByIndex(EETrie* curNode, int& index, string& currentWord, string
 		}
 	}
 }
+void EE::getWordNodeByIndex(EETrie* curNode, int& index, string& resultWord, EETrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			resultWord.push_back(tempChar);
+			EE::getWordNodeByIndex(curNode->children[i], index, resultWord, resultNode);
+			resultWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
 void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rightDefinition, string& wrongDefinition1, string& wrongDefinition2, string& wrongDefinition3)
 {
 	random_device rd;
@@ -787,7 +814,17 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 	string wrongDefinition3;
 	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
+void EE::randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
 
+	resultWord = "";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	EE::getWordNodeByIndex(root, randomIndex, resultWord, resultNode);
+}
 // Vietnamese to English dictionary
 short int map[7930];
 short int reverseMap[91];

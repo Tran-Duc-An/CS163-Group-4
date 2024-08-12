@@ -64,6 +64,11 @@ namespace EV {
 	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
 	bool copyAndReload(EVTrie*& rootEtoV);
 
+	void getWordNodeByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, EVTrie*& resultNode);
+	void randomAWordNode(EVTrie* root, string& resultWord, EVTrie*& resultNode);
+
+
+
 
 }
 
@@ -86,6 +91,8 @@ namespace EE {
 	void loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename);
 	bool copyAndReload(EETrie*& rootEtoE);
 
+	void getWordNodeByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, EETrie*& resultNode);
+	void randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode);
 
 }
 
@@ -109,6 +116,8 @@ namespace VE {
 	void randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
 	bool copyAndReload(VTrie*& rootVtoE);
 
+	void getWordNodeByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, VTrie*& resultNode);
+	void randomAWordNode(VTrie* root, wstring& resultWord, VTrie*& resultNode);
 
 }
 

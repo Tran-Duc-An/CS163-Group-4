@@ -2179,9 +2179,9 @@ ChoiceButton wordsTag(150, 170, "Image/wordTag.png");
 ChoiceButton defTag(800, 170, "Image/Deftag.png");
 Button shuffleButton(600, 580, "Image/randomButton.png");
 int randType = 0;
-EVTrie* evNode;
-VTrie* veNode;
-EETrie* eeNode;
+EVTrie* evNode = nullptr;
+VTrie* veNode = nullptr;
+EETrie* eeNode = nullptr;
 string resWord;
 wstring resWword;
 int orderRanDef = 0;
@@ -2341,7 +2341,10 @@ void randomWords() {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
-		heartButton.draw(window);
+		else {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
 	}
 	else if (randType == 1) {
 		VNtoEnButton.draw(window);
@@ -2367,7 +2370,10 @@ void randomWords() {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
-		heartButton.draw(window);
+		else {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
 	}
 	else {
 		ENtoENButton.draw(window);
@@ -2393,10 +2399,12 @@ void randomWords() {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
-		heartButton.draw(window);
+		else {
+			heartButton.texture.loadFromFile("Image/heart.png");
+			heartButton.sprite.setTexture(heartButton.texture);
+		}
 	}
-	
-
+	heartButton.draw(window);
 }
 
 bool isExtended = 0;

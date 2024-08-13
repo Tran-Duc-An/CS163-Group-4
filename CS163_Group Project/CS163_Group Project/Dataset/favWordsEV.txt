@@ -22,3 +22,7 @@ prole, danh từ|- <thgt> người của giai cấp vô sản
 transcript,  danh từ|- bảo sao, bản chép lại; bản dịch (một bản tốc ký)|=typewritten transcript|+ bản đánh máy sao lại (một bài đã ghi âm)
 guarantee,gærənti:],  danh từ|- (pháp lý) sự bảo đảm, sự cam đoan; sự bảo lãnh|- (pháp lý) người bảo đảm, người bảo lãnh|=to be a guarantee for a friends life story|+ làm người bảo đảm về lý lịch cho bạn|=to become guarantee for|+ đứng bảo lãnh cho|- (pháp lý) người được bảo lãnh|- (pháp lý) vật bảo đảm; giấy bảo đảm|- (thông tục) sự bảo đảm; sự dám chắc|=blue skies are not always a guarantee of fine weather|+ bầu trời xanh chưa chắc là thời tiết đã đẹp|*  ngoại động từ|- bảo đảm, bảo lânh (cho ai, về vấn đề gì)|- (thông tục) hứa bảo đảm, cam đoan||@guarantee|- bảo đảm
 sagittate,  tính từ|- (sinh vật học) hình tên
+quixotry,  danh từ|- tính hào hiệp viển vông
+hummoral,  tính từ|- (y học) (thuộc) dịch, (thuộc) thể dịch
+endangitis, danh từ|- (y học) viêm màng mạch máu
+florigenic, tính từ|- sinh hoa

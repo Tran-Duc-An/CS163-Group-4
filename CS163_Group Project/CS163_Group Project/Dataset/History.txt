@@ -30,3 +30,27 @@ số tự nhiên,13/8/2024 11:43:31AM,natural number
 donate,13/8/2024 11:47:21AM,  ngoại động từ|- (từ mỹ,nghĩa mỹ) tặng, cho, biếu; quyên cúng
 hydrodynamic,13/8/2024 11:47:24AM,  tính từ|- (thuộc) thuỷ động lực học, (thuộc) động lực học chất nước
 cross|patch,13/8/2024 11:47:25AM, danh từ|- người cáu gắt
+immixture,13/8/2024 0:10:18PM,  danh từ|- sự pha trộn|- (+ in) sự liên quan, sự liên luỵ, sự dính líu (vào việc gì)
+quixotry,13/8/2024 0:10:18PM,  danh từ|- tính hào hiệp viển vông
+embellisher,13/8/2024 0:10:20PM,xem embellish
+involuntary,13/8/2024 0:10:21PM,  tính từ|- không cố ý, không chủ tâm, vô tình|- (sinh vật học) không tuỳ ý
+close{control,13/8/2024 0:10:21PM,(tech) điều khiển kín
+flurry,13/8/2024 0:10:26PM,"A sudden and brief blast or gust; a light, temporary breeze; as, a flurry of wind."
+over|irrigation,13/8/2024 0:10:28PM, danh từ|- sự tưới quá mức
+người hay lén lút,13/8/2024 0:10:30PM,dtừ|- sneak
+begirding,13/8/2024 0:10:32PM,of Begird
+january,13/8/2024 0:11:57PM,  danh từ|- tháng giêng
+hummoral,13/8/2024 0:11:58PM,  tính từ|- (y học) (thuộc) dịch, (thuộc) thể dịch
+vivid,13/8/2024 0:12:1PM,  tính từ|- chói lọi, sặc sỡ (màu sắc, ánh sáng)|=vivid light|+ ánh sáng chói lọi|=vivid colour|+ màu sắc sặc sỡ|- đầy sức sống (người)|- sinh động, mạnh mẽ, sâu sắc|=a vivid description|+ một bài mô tả sinh động|=a vivid recollection of some event|+ nhớ lại một sự kiện một cách sâu sắc
+bird|table,13/8/2024 0:12:2PM, danh từ|- miếng ván đặt thức ăn cho chim
+sitter,13/8/2024 0:12:3PM,  danh từ|- người ngồi|- người mẫu (để vẽ)|- gà ấp|- (từ lóng) việc dễ làm, công việc ngon ăn, món bở|- buồng tiếp khách|- (như) baby-sitter
+roadstead,13/8/2024 0:12:3PM,  danh từ|- (hàng hải) vũng tàu
+endangitis,13/8/2024 0:13:50PM, danh từ|- (y học) viêm màng mạch máu
+florigenic,13/8/2024 0:13:52PM, tính từ|- sinh hoa
+chefs|doeuvre,13/8/2024 0:13:55PM,  danh từ,  số nhiều chefs-doeuvre|- kiệt tác, tác phẩm lớn
+saxophone,13/8/2024 0:13:56PM,  danh từ|- (âm nhạc) xacxô (nhạc khí)
+cloud|cuckoo|town,13/8/2024 0:13:56PM,#-castle) |/klaud,kɑ:sl/ (cloud-cuckoo-land) |/klaudkuku:lænd/ (cloud-world) |/klaudwə:ld/|*  danh từ|- cõi mộng, xứ mơ
+sóng cả,13/8/2024 0:14:0PM,big waves
+mũi thuyền uốn cong,13/8/2024 0:14:2PM,dtừ|- fiddle-head
+cái làm sửng sốt ngạc nhiên,13/8/2024 0:14:4PM,dtừ|- corker
+bỏ thầu cao hơn,13/8/2024 0:14:5PM,ngđtừ|- overbid

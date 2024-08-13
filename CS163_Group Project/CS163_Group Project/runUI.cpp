@@ -1790,16 +1790,40 @@ void isLiked() {
 		ENtoVnButton.draw(window);
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 		setContentEV();
+		if (orderFav > 0) {
+			backHisButton.draw(window);
+			backHisButton.isHover(window, "Image/backDefHover.png");
+		}
+		if (orderFav < favDefsEV.size() - 1) {
+			nextHisButton.draw(window);
+			nextHisButton.isHover(window, "Image/nextDefHover.png");
+		}
 	}
 	else if (favType == 1) {
 		VNtoEnButton.draw(window);
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		setContentVE();
+		if (orderFav > 0) {
+			backHisButton.draw(window);
+			backHisButton.isHover(window, "Image/backDefHover.png");
+		}
+		if (orderFav < favDefsVE.size() - 1) {
+			nextHisButton.draw(window);
+			nextHisButton.isHover(window, "Image/nextDefHover.png");
+		}
 	}
 	else if (favType == 2) {
 		ENtoENButton.draw(window);
 		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
 		setContentEE();
+		if (orderFav > 0) {
+			backHisButton.draw(window);
+			backHisButton.isHover(window, "Image/backDefHover.png");
+		}
+		if (orderFav < favDefsEE.size() - 1) {
+			nextHisButton.draw(window);
+			nextHisButton.isHover(window, "Image/nextDefHover.png");
+		}
 	}
 
 	h1.draw(window);

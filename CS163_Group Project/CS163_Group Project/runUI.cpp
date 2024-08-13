@@ -601,7 +601,7 @@ void searching() {
 		if (backButton.isClicked(window, event)) {
 			page.pop();
 			if (!searchingType.empty()) searchingType.pop();
-
+			searchFlag = 0;
 			searchKeyBox.reset();
 			searchDefBox.reset();
 			return;

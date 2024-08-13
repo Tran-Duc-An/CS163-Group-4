@@ -634,7 +634,6 @@ void searching() {
 					}
 					searchFlag = 1;
 
-
 				}
 
 				if (heartKeyButton.isClicked(window, event)) {
@@ -673,6 +672,7 @@ void searching() {
 				if (submitSearchDef.isClicked(window, event, def, searchDefBox.text)) {
 					removeEndline(def);
 					orderKey = 0;
+					searchFlag = 0;
 					if (!words.empty()) words.clear();
 					words = Def::searchByDef(table, def);
 					if (!words.empty())

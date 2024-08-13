@@ -140,7 +140,6 @@ vector<string> favDefsEE;
 
 int run() {
 	setBackground();
-	setupNotification(notification);
 	font.loadFromFile("Font/ARIAL.TTF");
 	if (!loadData()) return 0;
 	page.push(0);
@@ -183,7 +182,7 @@ int run() {
 		}
 		case 8: {
 			reset();
-	
+			
 			break;
 		}
 		case 9: {
@@ -1963,7 +1962,6 @@ void reset()
 		if (submitResetButton.isClicked(window, event))
 		{
 			resetToOriginal(ee, ev, ve, rootEtoE, rootEtoV, rootVtoE);
-			popUpNotification(notification);
 			ee = 0;
 			ev = 0;
 			ve = 0;

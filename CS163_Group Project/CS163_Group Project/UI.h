@@ -69,6 +69,4 @@ struct AnswerButton :Button {
 	int isClicked(sf::RenderWindow& window, sf::Event event);
 };
 
-void setupNotification(sf::RenderWindow& notification);
-void popUpNotification(sf::RenderWindow& notification);
 int run();

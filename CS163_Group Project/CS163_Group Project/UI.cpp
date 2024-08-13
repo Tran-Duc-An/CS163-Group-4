@@ -386,29 +386,3 @@ void ChoiceButton::draw(sf::RenderWindow& window) {
 	text.setFillColor(sf::Color::Black);
 	window.draw(text);
 }
-
-void setupNotification(sf::RenderWindow& notification)
-{
-	notification.setPosition(sf::Vector2i(600, 400));
-	sf::Texture texture;
-	texture.loadFromFile("Image/successful.png");
-	sf::Sprite sprite;
-	texture.setSmooth(1);
-	sprite.setTexture(texture);
-	sprite.setPosition(0, 0);
-	notification.draw(sprite);
-}
-
-void popUpNotification(sf::RenderWindow& notification)
-{
-	
-	while (notification.isOpen())
-	{
-		sf::Event evnt;
-		while (notification.pollEvent(evnt))
-		{
-			if (evnt.type == sf::Event::Closed) notification.close();
-		}
-		notification.display();
-	}
-}

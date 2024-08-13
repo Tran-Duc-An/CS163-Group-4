@@ -1451,6 +1451,7 @@ void Def::loadDataset(vector<pair<string, string>>& table,string filename)
 vector<string> Def:: searchByDef(vector<pair<string, string>>& table, string def)
 {
 	vector<string> word;
+	def = toLowerCase(def);
 	for (int i = 0; i < table.size(); i++)
 	{
 		if (checkSubstring(table[i].second, def))

@@ -604,7 +604,7 @@ void searching() {
 
 			searchKeyBox.reset();
 			searchDefBox.reset();
-			
+			return;
 		}
 
 
@@ -711,7 +711,7 @@ void searching() {
 					backDefButton.isHover(window, "Image/backDefHover.png");
 				}
 
-				displayDef(650, 100, searchDef[orderDef], 50);
+				displayDef(650, 150, searchDef[orderDef], 50);
 				if (nodeEE != nullptr && nodeEE->isLiked == 0) {
 					heartKeyButton.texture.loadFromFile("Image/heart.png");
 					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
@@ -1364,8 +1364,8 @@ ChoiceButton h6(780, 280, "Image/displayBox.png");
 ChoiceButton h7(780, 450, "Image/displayBox.png");
 ChoiceButton h8(780, 620, "Image/displayBox.png");
 
-Button nextHisButton(1325, 725, "Image/nextButton.png");
-Button backHisButton(10, 725, "Image/backDefButton.png");
+Button nextHisButton(1325, 700, "Image/nextButton.png");
+Button backHisButton(20, 700, "Image/backDefButton.png");
 
 int orderHis = 0;
 
@@ -1723,7 +1723,11 @@ void isLiked() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			favType = 0;
+			orderFav = 0;
+		}
 		backButton.isHover(window, "Image/backHover.png");
 
 		if (favType == 0) {
@@ -1731,63 +1735,71 @@ void isLiked() {
 			if (ENtoVnButton.isClicked(window, event)) {
 				orderFav = 0;
 				favType = 1;
-				setContentVE();
 			}
 
 			handleChangePageEV();
 
 			if (nextHisButton.isClicked(window, event))
-				if (orderFav + 8 < favWordsEV.size()) orderFav += 8;
+				if (orderFav + 8 < favWordsEV.size()) {
+					orderFav += 8;
+				}
 			if (backHisButton.isClicked(window, event))
-				if (orderFav >= 8) orderFav -= 8;
+				if (orderFav >= 8) {
+					orderFav -= 8;
+				}
 		}
 		else if (favType == 1) {
 			if (VNtoEnButton.isClicked(window, event)) {
 				orderFav = 0;
 				favType = 2;
-				setContentEE();
 			}
 
 			handleChangePageVE();
 
 			if (nextHisButton.isClicked(window, event))
-				if (orderFav + 8 < favWordsVE.size()) orderFav += 8;
+				if (orderFav + 8 < favWordsVE.size()) {
+					orderFav += 8;
+				}
 			if (backHisButton.isClicked(window, event))
-				if (orderFav >= 8) orderFav -= 8;
+				if (orderFav >= 8) {
+					orderFav -= 8;
+				}
 		}
 		else {
 			if (ENtoENButton.isClicked(window, event)) {
 				orderFav = 0;
 				favType = 0;
-				setContentEV();
 			}
 
 			handleChangePageEE();
 
 			if (nextHisButton.isClicked(window, event))
-				if (orderFav + 8 < favWordsEE.size()) orderFav += 8;
+				if (orderFav + 8 < favWordsEE.size()) {
+					orderFav += 8;
+				}
 			if (backHisButton.isClicked(window, event))
-				if (orderFav >= 8) orderFav -= 8;
+				if (orderFav >= 8) {
+					orderFav -= 8;
+				}
 		}
 		
 	}
 
-	if (h1.content == L"" && favType==0) {
-		setContentEV();
-	}
 
 	if (favType == 0) {
 		ENtoVnButton.draw(window);
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
-		
+		setContentEV();
 	}
 	else if (favType == 1) {
 		VNtoEnButton.draw(window);
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
+		setContentVE();
 	}
 	else if (favType == 2) {
 		ENtoENButton.draw(window);
 		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
+		setContentEE();
 	}
 
 	h1.draw(window);

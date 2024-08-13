@@ -2047,6 +2047,9 @@ void reset()
 
 		if (backButton.isClicked(window, event))
 		{
+			ee = 0;
+			ev = 0;
+			ve = 0;
 			page.pop();
 		}
 		if (tickEEButton.isClicked(window, event))
@@ -2067,6 +2070,21 @@ void reset()
 		if (submitResetButton.isClicked(window, event))
 		{
 			resetToOriginal(ee, ev, ve, rootEtoE, rootEtoV, rootVtoE);
+			if (ee)
+			{
+				favWordsEE.clear();
+				favDefsEE.clear();
+			}
+			if (ve)
+			{
+				favWordsVE.clear();
+				favDefsVE.clear();
+			}
+			if (ev)
+			{
+				favWordsEV.clear();
+				favDefsEV.clear();
+			}
 			ee = 0;
 			ev = 0;
 			ve = 0;

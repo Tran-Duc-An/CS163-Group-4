@@ -506,6 +506,10 @@ void translating() {
 				heartButton.texture.loadFromFile("Image/heartHover.png");
 				heartButton.sprite.setTexture(heartButton.texture);
 			}
+			else {
+				heartButton.texture.loadFromFile("Image/heart.png");
+				heartButton.sprite.setTexture(heartButton.texture);
+			}
 		}
 
 
@@ -530,6 +534,10 @@ void translating() {
 			}
 			else if (nodeE != nullptr && nodeE->isLiked == 1) {
 				heartButton.texture.loadFromFile("Image/heartHover.png");
+				heartButton.sprite.setTexture(heartButton.texture);
+			}
+			else {
+				heartButton.texture.loadFromFile("Image/heart.png");
 				heartButton.sprite.setTexture(heartButton.texture);
 			}
 		}
@@ -719,6 +727,10 @@ void searching() {
 				else if (nodeEE != nullptr && nodeEE->isLiked == 1) {
 					heartKeyButton.texture.loadFromFile("Image/heartHover.png");
 					heartKeyButton.sprite.setTexture(heartKeyButton.texture);
+				}
+				else {
+					heartButton.texture.loadFromFile("Image/heart.png");
+					heartButton.sprite.setTexture(heartButton.texture);
 				}
 
 				editSearchButton.draw(window);

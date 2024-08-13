@@ -1124,6 +1124,16 @@ void QnA() {
 			if (VNtoEnButton.isClicked(window, event)) {
 				qnaType = 1;
 				answerFlag = 2;
+				if (!ansWord.empty()) ansWord.clear();
+				A.content = L"";
+				B.content = L"";
+				C.content = L"";
+				D.content = L"";
+				ADef.content = L"";
+				BDef.content = L"";
+				CDef.content = L"";
+				DDef.content = L"";
+				
 			}
 			if (nextQuestion.isClicked(window, event)) {
 
@@ -1177,6 +1187,15 @@ void QnA() {
 			if (ENtoVnButton.isClicked(window, event)) {
 				qnaType = 2;
 				answerFlag = 2;
+				if (!ansWord.empty()) ansWord.clear();
+				A.content = L"";
+				B.content = L"";
+				C.content = L"";
+				D.content = L"";
+				ADef.content = L"";
+				BDef.content = L"";
+				CDef.content = L"";
+				DDef.content = L"";
 			}
 			if (nextQuestion.isClicked(window, event)) {
 
@@ -1230,6 +1249,15 @@ void QnA() {
 			if (ENtoENButton.isClicked(window, event)) {
 				qnaType = 0;
 				answerFlag = 2;
+				if (!ansWord.empty()) ansWord.clear();
+				A.content = L"";
+				B.content = L"";
+				C.content = L"";
+				D.content = L"";
+				ADef.content = L"";
+				BDef.content = L"";
+				CDef.content = L"";
+				DDef.content = L"";
 			}
 			if (nextQuestion.isClicked(window, event)) {
 
@@ -2185,6 +2213,7 @@ void randomWords() {
 				if (backMeanButton.isClicked(window, event) && orderRanDef > 0) orderRanDef--;
 			
 			}
+
 			if (heartButton.isClicked(window, event)) {
 				if (evNode != nullptr) {
 					evNode->isLiked = 1 - evNode->isLiked;
@@ -2281,7 +2310,7 @@ void randomWords() {
 	shuffleButton.draw(window);
 	shuffleButton.isHover(window, "Image/randomHover.png");
 
-	heartButton.draw(window);
+
 	deleteButton.draw(window);
 	deleteButton.isHover(window, "Image/deleteHover.png");
 
@@ -2312,6 +2341,7 @@ void randomWords() {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
+		heartButton.draw(window);
 	}
 	else if (randType == 1) {
 		VNtoEnButton.draw(window);
@@ -2337,6 +2367,7 @@ void randomWords() {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
+		heartButton.draw(window);
 	}
 	else {
 		ENtoENButton.draw(window);
@@ -2362,9 +2393,10 @@ void randomWords() {
 			heartButton.texture.loadFromFile("Image/heartHover.png");
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
+		heartButton.draw(window);
 	}
 	
-	
+
 }
 
 bool isExtended = 0;

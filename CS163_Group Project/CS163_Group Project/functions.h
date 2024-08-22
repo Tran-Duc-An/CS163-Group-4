@@ -157,4 +157,3 @@ void emoji();
 void reset();
 void edit();
 void randomWords();
-int run();

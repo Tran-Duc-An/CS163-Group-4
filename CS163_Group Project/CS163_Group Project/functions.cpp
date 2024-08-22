@@ -1,4 +1,4 @@
-#include "functions.h"
+﻿#include "functions.h"
 #include <io.h>
 #include <fcntl.h>
 #include <fstream>
@@ -116,7 +116,7 @@ EVTrie* EV::findWord(EVTrie* root, string word)
 	return current;
 }
 
-bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVTrie*&node)
+bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning, EVTrie*& node)
 {
 	node = EV::findWord(root, word);
 	if (node == 0) return false;
@@ -149,13 +149,13 @@ void preProcessing(string& word) {
 	size_t bracket_pos_close = word.find(')');
 	if (bracket_pos_open != string::npos)
 	{
-		word = word.erase(bracket_pos_open-1, bracket_pos_close - bracket_pos_open+2);
+		word = word.erase(bracket_pos_open - 1, bracket_pos_close - bracket_pos_open + 2);
 	}
 	while (!word.empty() && word[0] == ' ') word.erase(word.begin(), word.begin() + 1);
 	while (!word.empty() && word[word.length() - 1] == ' ') word.erase(word.length() - 2, word.length() - 1);
 }
 
-bool EV::loadRawData(EVTrie*& root,string path)
+bool EV::loadRawData(EVTrie*& root, string path)
 {
 
 	wifstream fin;
@@ -173,7 +173,7 @@ bool EV::loadRawData(EVTrie*& root,string path)
 	wstring definition;
 
 
-	while (getline(fin, wword, L',')){
+	while (getline(fin, wword, L',')) {
 		if (getline(fin, definition, L'\n'))
 		{
 			// Convert wstring to string using wstring_convert
@@ -206,7 +206,7 @@ void outputTrie(EVTrie* root, wofstream& fou) {
 	for (int i = 0; i < 38; ++i) {
 		if (root->children[i] != nullptr) {
 			wchar_t c = i < 26 ? (wchar_t)(i + L'a') : (i == 26 ? L' ' : (i == 27 ? L'-' : (i - 28 + L'0')));
-			
+
 			fou.write(&c, sizeof(wchar_t));
 			outputTrie(root->children[i], fou);
 		}
@@ -214,7 +214,7 @@ void outputTrie(EVTrie* root, wofstream& fou) {
 }
 void EV::saveTrietoFile(EVTrie* root, string path) {
 	wofstream fou;
-	fou.open(path,ios::binary);
+	fou.open(path, ios::binary);
 
 	// Ensure the file is opened with UTF-8 encoding
 	fou.imbue(locale(fou.getloc(), new codecvt_utf8<wchar_t>));
@@ -271,7 +271,7 @@ void inputTrie(EVTrie*& root, wifstream& fin) {
 bool EV::loadTriefromFile(EVTrie*& root, string path) {
 
 	wifstream fin;
-	fin.open(path,ios::binary);
+	fin.open(path, ios::binary);
 
 	// Ensure the file is opened with UTF-8 encoding
 	fin.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t>));
@@ -431,7 +431,7 @@ void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, stri
 	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 
-void EV::loadFavWord(EVTrie*root,vector<string>& favWords, vector<wstring>& def, string filename)
+void EV::loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename)
 {
 	_setmode(_fileno(stdin), _O_WTEXT);
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -453,7 +453,7 @@ void EV::loadFavWord(EVTrie*root,vector<string>& favWords, vector<wstring>& def,
 		favWords.push_back(converter2.to_bytes(word));
 		getline(fin, word, L'\n');
 		def.push_back(word);
-		
+
 	}
 	fin.close();
 	return;
@@ -616,7 +616,7 @@ EETrie* EE::findWord(EETrie* root, string word)
 	return current;
 }
 
-bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning,EETrie*&node)
+bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node)
 {
 	node = findWord(root, word);
 	if (node == 0) return false;
@@ -694,7 +694,7 @@ bool EE::deleteAWord(EETrie* root, string& word)
 }
 
 
-bool EE::loadRawData(EETrie*& root,string path)
+bool EE::loadRawData(EETrie*& root, string path)
 {
 	ifstream fin;
 	fin.open(path);
@@ -760,7 +760,7 @@ void loadTrie(EETrie*& root, ifstream& fin)
 
 bool EE::loadTrieFromFile(EETrie*& root, string path) {
 	ifstream fin;
-	fin.open(path,ios::binary);
+	fin.open(path, ios::binary);
 
 	if (!fin.is_open())
 	{
@@ -797,7 +797,7 @@ void saveTrie(EETrie* root, ofstream& fout)
 
 void EE::saveTrietoFile(EETrie* root, string path) {
 	ofstream fou;
-	fou.open(path,ios::binary);
+	fou.open(path, ios::binary);
 	saveTrie(root, fou);
 	fou.close();
 }
@@ -1096,7 +1096,7 @@ void VE::helperDeleteAWord(VTrie* root, wstring& word)
 	}
 }
 
-bool VE::deleteAWord(VTrie * root, wstring & word)
+bool VE::deleteAWord(VTrie* root, wstring& word)
 {
 	VTrie* node = VE::findWord(root, word);
 	if (node == nullptr) return false;
@@ -1122,7 +1122,7 @@ void VE::deleteTrie(VTrie*& root)
 	root = nullptr;
 }
 
-bool VE::loadRawData(VTrie*& root,string path)
+bool VE::loadRawData(VTrie*& root, string path)
 {
 	fillMap();
 	locale loc(locale(), new codecvt_utf8<wchar_t>);
@@ -1223,7 +1223,7 @@ bool VE::loadTrieFromFile(VTrie*& root, string path) {
 	return true;
 }
 
-void VE::loadFavWord(VTrie*root,vector<wstring>& favWords, vector<wstring>& def, string filename)
+void VE::loadFavWord(VTrie* root, vector<wstring>& favWords, vector<wstring>& def, string filename)
 {
 	_setmode(_fileno(stdin), _O_WTEXT);
 	_setmode(_fileno(stdout), _O_WTEXT);
@@ -1247,7 +1247,7 @@ void VE::loadFavWord(VTrie*root,vector<wstring>& favWords, vector<wstring>& def,
 		favWords.push_back(word);
 		getline(fin, word, L'\n');
 		def.push_back(word);
-		
+
 	}
 	fin.close();
 	return;
@@ -1429,11 +1429,11 @@ bool checkSubstring(const std::string& s, const std::string& x) {//KMP x in s
 
 	return false;
 }
-void Def::loadDataset(vector<pair<string, string>>& table,string filename)
+void Def::loadDataset(vector<pair<string, string>>& table, string filename)
 {
 	ifstream file(filename);
 	if (!file.is_open()) {
-	
+
 		return;
 	}
 	string line;
@@ -1448,7 +1448,7 @@ void Def::loadDataset(vector<pair<string, string>>& table,string filename)
 	}
 	file.close();
 }
-vector<string> Def:: searchByDef(vector<pair<string, string>>& table, string def)
+vector<string> Def::searchByDef(vector<pair<string, string>>& table, string def)
 {
 	vector<string> word;
 	def = toLowerCase(def);
@@ -1621,7 +1621,7 @@ void addToHistory(wstring word, wstring def, string fileName)
 }
 
 
-void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filename)
+void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename)
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	_setmode(_fileno(stdin), _O_U16TEXT);
@@ -1644,7 +1644,7 @@ void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filen
 			time.push_back(t);
 		}
 	}
-	
+
 	fin.close();
 }
 

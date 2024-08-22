@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
-#include "Function.h"
+#include "functions.h"
 #ifdef _WIN32
 #include <windows.h>
 #else

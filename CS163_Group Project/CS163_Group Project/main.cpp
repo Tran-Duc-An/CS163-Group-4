@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <locale>
 #include <codecvt>
-#include "Function.h"
+#include "functions.h"
 #include "UI.h";
 using namespace std;
 

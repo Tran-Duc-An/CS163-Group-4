@@ -1,4 +1,4 @@
-#include "Function.h"
+#include "functions.h"
 #include "UI.h"
 #include <chrono>
 #include <codecvt>

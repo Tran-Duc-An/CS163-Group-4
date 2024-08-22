@@ -9,6 +9,7 @@
 #include <random>
 #include <list>
 #include <chrono>
+#include <thread>
 using namespace std;
 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter2;
 
@@ -122,6 +123,12 @@ bool EV::findWordMeaning(EVTrie* root, string word, vector<wstring>& meaning,EVT
 	meaning = node->definition;
 	return true;
 }
+void EV::changeWordDefinition(EVTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced) {
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
+	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
+}
+
 void EV::deleteTrie(EVTrie* root)
 {
 	if (root == nullptr) return;
@@ -371,52 +378,52 @@ void EV::randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& ri
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(0, 103868);
 	int randomIndex;
 	string currentWord;
 
 	// get right word
 	randomIndex = dis(gen);
 	currentWord = "";
-	EV::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong definition 1
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord1;
-	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong definition 2
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord2;
-	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord3;
-	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(0, 103868);
 	int randomIndex;
 	string currentWord;
 
 	// get right definition
 	randomIndex = dis(gen);
 	currentWord = "";
-	EV::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong word 1
 	randomIndex = dis(gen);
 	currentWord = "";
 	wstring wrongDefinition1;
-	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong word 2
 	randomIndex = dis(gen);
 	currentWord = "";
 	wstring wrongDefinition2;
-	EV::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
@@ -480,6 +487,47 @@ void EV::saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string 
 	}
 	fout.close();
 	return;
+}
+
+void EV::getWordNodeByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, EVTrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EV::getWordNodeByIndex(curNode->children[i], index, currentWord, resultWord, resultNode);
+			currentWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
+void EV::randomAWordNode(EVTrie* root, string& resultWord, EVTrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 103868);
+
+	string currentWord = "";
+	resultWord = "";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	EV::getWordNodeByIndex(root, randomIndex, currentWord, resultWord, resultNode);
 }
 
 
@@ -576,13 +624,11 @@ bool EE::findWordMeaning(EETrie* root, string word, vector<string>& meaning,EETr
 	return true;
 }
 
-bool EE::changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void EE::changeWordDefinition(EETrie*& node, string newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	EETrie* node = EE::findWord(root, word);
-	if (node == 0) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == 0) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
 
 }
 
@@ -806,22 +852,22 @@ void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rig
 	// get right word
 	randomIndex = dis(gen);
 	currentWord = "";
-	EE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong definition 1
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord1;
-	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong definition 2
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord2;
-	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongWord3;
-	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
 void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3)
 {
@@ -834,24 +880,23 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 	// get right definition
 	randomIndex = dis(gen);
 	currentWord = "";
-	EE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong word 1
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongDefinition1;
-	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong word 2
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongDefinition2;
-	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = "";
 	string wrongDefinition3;
-	EE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
-
 void EE::loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename)
 {
 	ifstream fin;
@@ -900,6 +945,47 @@ void EE::saveFavWord(vector<string>& favWords, vector<string>& favDefs, string f
 	}
 	fout.close();
 	return;
+}
+
+void EE::getWordNodeByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, EETrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->isend)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 38; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			char tempChar = 'a' + i;
+			currentWord.push_back(tempChar);
+			EE::getWordNodeByIndex(curNode->children[i], index, currentWord, resultWord, resultNode);
+			currentWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
+void EE::randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 113477);
+
+	string currentWord = "";
+	resultWord = "";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	EE::getWordNodeByIndex(root, randomIndex, currentWord, resultWord, resultNode);
 }
 
 
@@ -982,13 +1068,11 @@ bool VE::findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, V
 	return true;
 }
 
-bool VE::changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced)
+void VE::changeWordDefinition(VTrie*& node, wstring newDefinition, int indexOfOldDefinitionToBeReplaced)
 {
-	VTrie* node = VE::findWord(root, word);
-	if (node == nullptr) return false;
-	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return false;
+	if (node == nullptr) return;
+	if (indexOfOldDefinitionToBeReplaced >= node->definition.size()) return;
 	node->definition[indexOfOldDefinitionToBeReplaced] = newDefinition;
-	return true;
 }
 
 void VE::helperDeleteAWord(VTrie* root, wstring& word)
@@ -1233,20 +1317,21 @@ void VE::randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& ri
 	uniform_int_distribution<> dis(0, 145921);
 	int randomIndex;
 	wstring currentWord;
+
 	// get right word
 	randomIndex = dis(gen);
 	currentWord = L"";
-	VE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong definition 1
 	randomIndex = dis(gen);
 	currentWord = L"";
 	wstring wrongWord1;
-	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong definition 2
 	randomIndex = dis(gen);
 	currentWord = L"";
 	wstring wrongWord2;
-	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = L"";
@@ -1260,27 +1345,27 @@ void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstri
 	uniform_int_distribution<> dis(0, 145921);
 	int randomIndex;
 	wstring currentWord;
+
 	// get right definition
 	randomIndex = dis(gen);
 	currentWord = L"";
-	VE::getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
+	getWordByIndex(root, randomIndex, currentWord, rightWord, rightDefinition);
 	// get wrong word 1
 	randomIndex = dis(gen);
 	currentWord = L"";
 	wstring wrongDefinition1;
-	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord1, wrongDefinition1);
 	// get wrong word 2
 	randomIndex = dis(gen);
 	currentWord = L"";
 	wstring wrongDefinition2;
-	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord2, wrongDefinition2);
 	// get wrong definition 3
 	randomIndex = dis(gen);
 	currentWord = L"";
 	wstring wrongDefinition3;
-	VE::getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
+	getWordByIndex(root, randomIndex, currentWord, wrongWord3, wrongDefinition3);
 }
-
 
 bool checkSubstring(const std::string& s, const std::string& x) {//KMP x in s
 	int m = x.length();
@@ -1366,6 +1451,7 @@ void Def::loadDataset(vector<pair<string, string>>& table,string filename)
 vector<string> Def:: searchByDef(vector<pair<string, string>>& table, string def)
 {
 	vector<string> word;
+	def = toLowerCase(def);
 	for (int i = 0; i < table.size(); i++)
 	{
 		if (checkSubstring(table[i].second, def))
@@ -1419,8 +1505,7 @@ void Emoji::insertEmo(Emo& ht, const string& name, const string& utf8) {
 }
 
 // Find the word based on its definition
-pair<string,string> Emoji::findBycode(Emo& ht, string utf8) {
-	utf8 = hexCodePointSequenceToUtf8(utf8);
+pair<string, string> Emoji::findBycode(Emo& ht, string utf8) {
 	size_t index = hashFunction(utf8, ht.size);
 	for (const auto& pair : ht.Emo_table[index]) {
 		if (pair.second == utf8) {
@@ -1429,7 +1514,7 @@ pair<string,string> Emoji::findBycode(Emo& ht, string utf8) {
 	}
 	return make_pair("", "");
 }
-string Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
+pair<string, string> Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
 {
 	int size = ht.Emo_table.size();
 	for (; index < size; index++)
@@ -1439,20 +1524,20 @@ string Emoji::findByname(Emo& ht, const string& name, int& index, int& inside)
 			if (checkSubstring(pair.first, name))
 			{
 				inside++;
-				return pair.second;
+				return pair;
 			}
 		}
 		inside = 0;
 	}
-	return "";
+	return { "","" };
 }
-vector<string> Emoji::findbyNameUntil(Emo& ht, const string& name)
+vector<pair<string, string>> Emoji::findbyNameUntil(Emo& ht, const string& name)
 {
 	int index = 0;
 	int inside = 0;
 	int size = ht.Emo_table.size();
-	int count = 10000;
-	vector<string> find;
+	int count = 5;
+	vector<pair<string, string>> find;
 
 	while (true)
 	{
@@ -1461,57 +1546,55 @@ vector<string> Emoji::findbyNameUntil(Emo& ht, const string& name)
 			return find;
 		}
 
-		while (count--)
+		if (index >= size)
 		{
-			if (index >= size)
-			{
-				return find;
-			}
-			string result = findByname(ht, name, index, inside);
-			if (!result.empty()) {
-				find.push_back(result);
-			}
-			else {
-				break;
-			}
+			return find;
 		}
+		pair<string, string> result = Emoji::findByname(ht, name, index, inside);
+		if (!result.first.empty() && !result.second.empty()) {
+			find.push_back(result);
+		}
+		else {
+			break;
+		}
+
 	}
 	return find;
 }
 // Load the dataset into the hash table
-Emo Emoji:: loadDataset(const string& filename, size_t tableSize) {
+Emo Emoji::loadDataset(const string& filename, size_t tableSize) {
 	Emo dictionary;
 	initHashTable(dictionary, tableSize);
-	ifstream file(filename);
+	locale loc(locale(), new codecvt_utf8<wchar_t>);
+
+	wifstream file(filename);
+	file.imbue(loc);
 	if (!file.is_open()) {
 		cerr << "Error: Could not open file " << filename << endl;
 		return dictionary;
 	}
 
-	std::string line;
+	std::wstring line;
 	// skip the header line
 	std::getline(file, line);
 	while (std::getline(file, line)) {
-		std::stringstream ss(line);
-		std::string group, subgroup, codepoint, status, representation, name, section;
+		std::wstringstream ss(line);
+		std::wstring No, emoji, codepoint, name;
 
-		std::getline(ss, group, ',');
-		std::getline(ss, subgroup, ',');
-		std::getline(ss, codepoint, ',');
-		std::getline(ss, status, ',');
-		std::getline(ss, representation, ',');
-		std::getline(ss, name, ',');
-		std::getline(ss, section, ',');
+		std::getline(ss, No, L',');
+		std::getline(ss, emoji, L',');
+		std::getline(ss, codepoint, L',');
+		std::getline(ss, name, L',');
+
+		string name_str(name.begin(), name.end());
+		string codepoint_str(codepoint.begin(), codepoint.end());
 
 		// convert the code point to utf-8
-		std::string utf8str = hexCodePointSequenceToUtf8(codepoint);
-
-		insertEmo(dictionary, name, utf8str);
+		insertEmo(dictionary, name_str, codepoint_str);
 	}
 	file.close();
 	return dictionary;
 }
-
 void addToHistory(wstring word, wstring def, string fileName)
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -1563,4 +1646,163 @@ void loadSearchHistory(vector<wstring>& info, vector<wstring>& time,string filen
 	}
 	
 	fin.close();
+}
+
+bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE)
+{
+	auto start = chrono::high_resolution_clock::now();
+	// Use threads to delete old trie faster
+	std::thread t1, t2, t3, t4, t5, t6;
+	if (EE)
+	{
+		t1 = std::thread(EE::deleteTrie, std::ref(rootEtoE));
+		remove("Dataset\\favWordsEE.txt");
+	}
+	if (EV)
+	{
+		t2 = std::thread(EV::deleteTrie, std::ref(rootEtoV));
+		remove("Dataset\\favWordsEV.txt");
+	}
+	if (VE)
+	{
+		t3 = std::thread(VE::deleteTrie, std::ref(rootVtoE));
+		remove("Dataset\\favWordsVE.txt");
+	}
+	remove("Dataset\\History.txt");
+	// Wait for all delete threads to finish
+	if (EE && t1.joinable())
+	{
+		t1.join();
+	}
+	if (EV && t2.joinable())
+	{
+		t2.join();
+	}
+	if (VE && t3.joinable())
+	{
+		t3.join();
+	}
+
+	// Use threads to reload new trie faster by function copyAndReload
+	if (EV)
+	{
+		t4 = std::thread(EV::copyAndReload, std::ref(rootEtoV));
+	}
+	if (VE)
+	{
+		t5 = std::thread(VE::copyAndReload, std::ref(rootVtoE));
+	}
+	if (EE)
+	{
+		t6 = std::thread(EE::copyAndReload, std::ref(rootEtoE));
+	}
+
+	// Wait for all reload threads to finish
+	if (EV && t4.joinable())
+	{
+		t4.join();
+	}
+	if (VE && t5.joinable())
+	{
+		t5.join();
+	}
+	if (EE && t6.joinable())
+	{
+		t6.join();
+	}
+
+	auto end = chrono::high_resolution_clock::now();
+	wcout << L"Time taken to reset to original: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L" milliseconds" << endl;
+	return true;
+}
+
+bool EE::copyAndReload(EETrie*& rootEtoE)
+{
+
+	rootEtoE = new EETrie();
+	// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+	ifstream fin("Dataset/TrieEN.bin", ios::binary);
+	ofstream fout("Dataset/UserTrieEN.bin", ios::binary);
+	if (!fin.is_open() || !fout.is_open())
+	{
+		return false;
+	}
+	fout << fin.rdbuf();
+	fin.close();
+	fout.close();
+	EE::loadTrieFromFile(rootEtoE, "Dataset/UserTrieEN.bin");
+}
+bool EV::copyAndReload(EVTrie*& rootEtoV)
+{
+
+	rootEtoV = new EVTrie();
+	// copy data from file "TrieEN.bin" to file "UserTrieEN.bin" by using rdbuf() function
+	ifstream fin("Dataset/TrieENVN.bin", ios::binary);
+	ofstream fout("Dataset/UserTrieENVN.bin", ios::binary);
+	if (!fin.is_open() || !fout.is_open())
+	{
+		return false;
+	}
+	fout << fin.rdbuf();
+	fin.close();
+	fout.close();
+	EV::loadTriefromFile(rootEtoV, "Dataset/UserTrieENVN.bin");
+}
+bool VE::copyAndReload(VTrie*& rootVtoE)
+{
+
+	rootVtoE = new VTrie();
+	// copy data from file "TrieVN.bin" to file "UserTrieVN.bin" by using rdbuf() function
+	ifstream fin("Dataset/TrieVNEN.bin", ios::binary);
+	ofstream fout("Dataset/UserTrieVNEN.bin", ios::binary);
+	if (!fin.is_open() || !fout.is_open())
+	{
+		return false;
+	}
+	fout << fin.rdbuf();
+	fin.close();
+	fout.close();
+	VE::loadTrieFromFile(rootVtoE, "Dataset/UserTrieVNEN.bin");
+}
+
+void VE::getWordNodeByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, VTrie*& resultNode)
+{
+	if (curNode == nullptr)
+		return;
+	if (curNode->definition.size() != 0)
+	{
+		if (index == 0)
+		{
+			resultWord = currentWord;
+			resultNode = curNode;
+			return;
+		}
+		index--;
+	}
+	for (int i = 0; i < 91; ++i)
+	{
+		if (curNode->children[i] != nullptr)
+		{
+			wchar_t tempChar = reverseMap[i];
+			currentWord.push_back(tempChar);
+			VE::getWordNodeByIndex(curNode->children[i], index, currentWord, resultWord, resultNode);
+			currentWord.pop_back();
+
+			if (resultNode != nullptr)
+				return;
+		}
+	}
+}
+
+void VE::randomAWordNode(VTrie* root, wstring& resultWord, VTrie*& resultNode)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 145921);
+
+	wstring currentWord = L"";
+	resultWord = L"";
+	resultNode = nullptr;
+	int randomIndex = dis(gen);
+	VE::getWordNodeByIndex(root, randomIndex, currentWord, resultWord, resultNode);
 }

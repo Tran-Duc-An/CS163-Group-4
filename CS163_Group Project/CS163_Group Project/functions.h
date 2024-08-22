@@ -54,23 +54,32 @@ namespace EV {
 	bool loadTriefromFile(EVTrie*& root, string path);
 	void helperDeleteAWord(EVTrie* root, string& word);
 	bool deleteAWord(EVTrie* root, string& word);
+	void changeWordDefinition(EVTrie*& root, wstring newDefinition, int indexOfOldDefinitionToBeReplaced);
+
 	void getWordByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, wstring& resultDefinition);
 	void randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
 	void randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, string& rightWord, string& wrongWord1, string& wrongWord2, string& wrongWord3);
 	void unLikeAWord(vector<string>& favWords, vector<wstring>& favDefs, string word, wstring Def);
 	void saveFavWord(vector<string>& favWords, vector<wstring>& favDefs, string filename);
 	void loadFavWord(EVTrie* root, vector<string>& favWords, vector<wstring>& def, string filename);
+	bool copyAndReload(EVTrie*& rootEtoV);
+
+	void getWordNodeByIndex(EVTrie* curNode, int& index, string& currentWord, string& resultWord, EVTrie*& resultNode);
+	void randomAWordNode(EVTrie* root, string& resultWord, EVTrie*& resultNode);
+
+
+
 
 }
 
 namespace EE {
 	void insertWord(EETrie*& root, string& word, string& definition);
 	EETrie* findWord(EETrie* root, string word);
-	bool changeWordDefinition(EETrie* root, string& word, string& newDefinition, int indexOfOldDefinitionToBeReplaced);
+	void changeWordDefinition(EETrie*& node, string newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EETrie* root, string& word);
 	bool deleteAWord(EETrie* root, string& word);
 	bool findWordMeaning(EETrie* root, string word, vector<string>& meaning, EETrie*& node);
-	bool loadRawData(EETrie*& root,string path);
+	bool loadRawData(EETrie*& root, string path);
 	bool loadTrieFromFile(EETrie*& root, string path);
 	void saveTrietoFile(EETrie* root, string path);
 	void deleteTrie(EETrie*& root);
@@ -80,6 +89,10 @@ namespace EE {
 	void unLikeAWord(vector<string>& favWords, vector<string>& favDefs, string word, string Def);
 	void saveFavWord(vector<string>& favWords, vector<string>& favDefs, string filename);
 	void loadFavWord(EETrie* root, vector<string>& favWords, vector<string>& def, string filename);
+	bool copyAndReload(EETrie*& rootEtoE);
+
+	void getWordNodeByIndex(EETrie* curNode, int& index, string& currentWord, string& resultWord, EETrie*& resultNode);
+	void randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode);
 
 }
 
@@ -88,11 +101,11 @@ namespace VE {
 	void insertWord(VTrie*& root, wstring& word, wstring& definition);
 	VTrie* findWord(VTrie* root, wstring& word);
 	bool findWordMeaning(VTrie* root, wstring& word, vector<wstring>& meaning, VTrie*& node);
-	bool changeWordDefinition(VTrie* root, wstring& word, wstring& newDefinition, int indexOfOldDefinitionToBeReplaced);
+	void changeWordDefinition(VTrie*& root, wstring newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(VTrie* root, wstring& word);
 	bool deleteAWord(VTrie* root, wstring& word);
 	void deleteTrie(VTrie*& root);
-	bool loadRawData(VTrie*& root,string path);
+	bool loadRawData(VTrie*& root, string path);
 	void saveTrieToFile(VTrie* root, string path);
 	bool loadTrieFromFile(VTrie*& root, string path);
 	void unLikeAWord(vector<wstring>& favWords, vector<wstring>& favDefs, wstring word, wstring Def);
@@ -101,6 +114,10 @@ namespace VE {
 	void getWordByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, wstring& resultDefinition);
 	void randomAWordAnd4Definitions(VTrie* root, wstring& rightWord, wstring& rightDefinition, wstring& wrongDefinition1, wstring& wrongDefinition2, wstring& wrongDefinition3);
 	void randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstring& rightWord, wstring& wrongWord1, wstring& wrongWord2, wstring& wrongWord3);
+	bool copyAndReload(VTrie*& rootVtoE);
+
+	void getWordNodeByIndex(VTrie* curNode, int& index, wstring& currentWord, wstring& resultWord, VTrie*& resultNode);
+	void randomAWordNode(VTrie* root, wstring& resultWord, VTrie*& resultNode);
 
 }
 
@@ -114,8 +131,8 @@ namespace Emoji {
 
 	// Find the word based on its definition
 	pair<string, string> findBycode(Emo& ht, string utf8);
-	string findByname(Emo& ht, const string& name, int& index, int& inside);
-	vector<string> findbyNameUntil(Emo& ht, const string& name);
+	pair<string,string> findByname(Emo& ht, const string& name, int& index, int& inside);
+	vector<pair<string,string>> findbyNameUntil(Emo& ht, const string& name);
 	// Load the dataset into the hash table
 	Emo loadDataset(const string& filename, size_t tableSize);
 }
@@ -124,3 +141,19 @@ void handleWString(wstring& s, int row, int maxRows);
 void fillMap();
 void addToHistory(wstring word, wstring def, string fileName);
 void loadSearchHistory(vector<wstring>& info, vector<wstring>& time, string filename);
+bool resetToOriginal(bool EE, bool EV, bool VE, EETrie*& rootEtoE, EVTrie*& rootEtoV, VTrie*& rootVtoE);
+
+
+void setBackground();
+void translating();
+void searching();
+void adding();
+void QnA();
+void history();
+void isLiked();
+void homePage();
+bool loadData();
+void emoji();
+void reset();
+void edit();
+void randomWords();

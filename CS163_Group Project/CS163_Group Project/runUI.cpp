@@ -2085,6 +2085,8 @@ void reset()
 				favWordsEV.clear();
 				favDefsEV.clear();
 			}
+			searchHistory.clear();
+			searchRealTime.clear();
 			ee = 0;
 			ev = 0;
 			ve = 0;

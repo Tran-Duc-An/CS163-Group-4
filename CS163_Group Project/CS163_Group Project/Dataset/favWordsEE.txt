@@ -1,2 +1,0 @@
-constant,Firm; solid; fixed; immovable; -- opposed to fluid.
-cost,A rib; a side; a region or coast.

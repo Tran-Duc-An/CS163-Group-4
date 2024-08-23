@@ -761,6 +761,19 @@ void loadTrie(EETrie*& root, ifstream& fin)
 		root->definition.push_back(tmp);
 		delete[] tmp;
 	}
+	// load example
+	bool hasExample;
+	fin.read((char*)&hasExample, sizeof(bool));
+	if (hasExample)
+	{
+		short int len;
+		fin.read((char*)&len, sizeof(short int));
+		char* tmp = new char[len + 1];
+		fin.read(tmp, len);
+		tmp[len] = '\0';
+		root->example = tmp;
+		delete[] tmp;
+	}
 	fin.read((char*)&root->numChildren, sizeof(short int));
 	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
 	for (int i = 0; i < root->numChildren; ++i)
@@ -803,6 +816,31 @@ bool EE::loadTrieFromFile(EETrie*& root, string path) {
 	return true;
 }
 
+//void saveTrie(EETrie* root, ofstream& fout)
+//{
+//	short int numDefinitions = root->definition.size();
+//	fout.write((char*)&numDefinitions, sizeof(short int));
+//	for (string& str : root->definition)
+//	{
+//		short int len = str.length();
+//		fout.write((char*)&len, sizeof(short int));
+//		fout.write(str.c_str(), len);
+//	}
+//	short int numChildren = root->numChildren;
+//	fout.write((char*)&numChildren, sizeof(short int));
+//	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
+//	for (int i = 0; i < 38; ++i)
+//	{
+//		if (root->children[i] != nullptr)
+//		{
+//			char c = i < 26 ? (char)(i + 'a') : (i == 26 ? ' ' : (i == 27 ? '-' : (i - 28 + '0')));
+//			fout.write(&c, sizeof(char));
+//			saveTrie(root->children[i], fout);
+//		}
+//	}
+//}
+
+// write a function to save a trie as above, however, this time we will save some words that has example
 void saveTrie(EETrie* root, ofstream& fout)
 {
 	short int numDefinitions = root->definition.size();
@@ -812,6 +850,14 @@ void saveTrie(EETrie* root, ofstream& fout)
 		short int len = str.length();
 		fout.write((char*)&len, sizeof(short int));
 		fout.write(str.c_str(), len);
+	}
+	bool hasExample = root->example.empty() ? false : true;
+	fout.write((char*)&hasExample, sizeof(bool));
+	if (hasExample)
+	{
+		short int len = root->example.length();
+		fout.write((char*)&len, sizeof(short int));
+		fout.write(root->example.c_str(), len);
 	}
 	short int numChildren = root->numChildren;
 	fout.write((char*)&numChildren, sizeof(short int));

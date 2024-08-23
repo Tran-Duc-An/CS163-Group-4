@@ -141,7 +141,6 @@ vector<wstring> favDefsEV;
 vector<string> favWordsEE;
 vector<string> favDefsEE;
 
-
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
@@ -217,8 +216,7 @@ int run() {
 	t4.join();
 	t5.join();
 	t6.join();
-
-
+	
 
 	thread t7(EV::deleteTrie, ref(rootEtoV));
 	thread t8(VE::deleteTrie, ref(rootVtoE));
@@ -576,6 +574,7 @@ std::string word = "";
 stack<bool> searchingType;
 vector<string> words;
 int orderKey = 0;
+bool isEx = 0;
 ChoiceButton searchDefRes(800, 125, "Image/searchDefRes.png");
 Button nextKeyButton(1335, 320, "Image/nextButton.png");
 Button backKeyButton(700, 320, "Image/backDefButton.png");
@@ -584,6 +583,8 @@ Button editSearchButton(1335, 50, "Image/editButton.png");
 
 Button nextDefButton(1300, 700, "Image/nextButton.png");
 Button backDefButton(800, 700, "Image/backDefButton.png");
+
+Button examplesButton(1000, 700, "Image/exampleButton.png");
 
 void searching() {
 	sf::Texture layout2;
@@ -612,6 +613,7 @@ void searching() {
 			searchFlag = 0;
 			searchKeyBox.reset();
 			searchDefBox.reset();
+			isEx = 0;
 			return;
 		}
 
@@ -632,7 +634,7 @@ void searching() {
 				if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 
 				searchwithKeyword:
-
+					isEx = 0;
 					if (!searchDef.empty()) searchDef.clear();
 					orderDef = 0;
 					removeEndline(word);
@@ -642,6 +644,13 @@ void searching() {
 					}
 					searchFlag = 1;
 
+				}
+
+				if (examplesButton.isClicked(window, event) && nodeEE != nullptr) {
+					isEx = 1 - isEx;
+					searchDef.clear();
+					if (isEx == 0) searchDef = nodeEE->definition;
+					else searchDef.push_back(nodeEE->example);
 				}
 
 				if (heartKeyButton.isClicked(window, event)) {
@@ -674,6 +683,7 @@ void searching() {
 					handleString(searchDef[orderDef], 50, 7);
 					inputEditedDef.text.setString(searchDef[orderDef]);
 				}
+
 			}
 			else {//search with definition
 				searchDefBox.isClicked(window, event);
@@ -739,6 +749,16 @@ void searching() {
 				heartKeyButton.draw(window);
 				deleteKeyButton.draw(window);
 				deleteKeyButton.isHover(window, "Image/deleteHover.png");
+
+				if (isEx == 0) {
+					examplesButton.texture.loadFromFile("Image/exampleButton.png");
+					examplesButton.sprite.setTexture(examplesButton.texture);
+				}
+				else {
+					examplesButton.texture.loadFromFile("Image/exampleHover.png");
+					examplesButton.sprite.setTexture(examplesButton.texture);
+				}
+				examplesButton.draw(window);
 			}
 
 			searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
@@ -763,6 +783,8 @@ void searching() {
 			}
 
 			if (searchDefBox.text.getString() == "") searchFlag = 0;
+
+
 
 			searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 			searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
@@ -2568,7 +2590,8 @@ void homePage() {
 
 
 
-bool loadData() {
+bool loadData() 
+{
 	//Loading screen
 	sf::Text loading;
 	loading.setFont(font);
@@ -2578,6 +2601,7 @@ bool loadData() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
+	bool firstTimeEE = 0, firstTimeEV = 0, firstTimeVE = 0;
 
 
 	auto start = chrono::high_resolution_clock::now();
@@ -2594,6 +2618,7 @@ bool loadData() {
 
 	}
 	else {
+		firstTimeEV = 1;
 		t1 = thread(EV::loadRawData, std::ref(rootEtoV), "Dataset/ENVN.txt");
 
 	}
@@ -2603,6 +2628,7 @@ bool loadData() {
 		t2 = thread(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
 	}
 	else {
+		firstTimeVE = 1;
 		t2 = thread(VE::loadRawData, std::ref(rootVtoE), "Dataset/VE.csv");
 	}
 	ifstream file2;
@@ -2613,7 +2639,7 @@ bool loadData() {
 	}
 	else {
 		t3 = thread(EE::loadRawData, std::ref(rootEtoE), "Dataset/englishDictionary.csv");
-
+		firstTimeEE = 1;
 	}
 
 	// Modify Emoji::loadDataset to accept a reference
@@ -2629,7 +2655,18 @@ bool loadData() {
 	t4.join();
 	t5.join();
 	t6.join();
-	// after loading root, load favorite words
+	if (firstTimeEE && firstTimeEV && firstTimeVE) 
+	{
+	 // use threads to save system file faster
+		thread t7(EV::saveTrietoFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+		thread t8(VE::saveTrieToFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+		thread t9(EE::saveTrietoFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+		t7.join();
+		t8.join();
+		t9.join();
+		if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
+	}
+	
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
 	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
 	thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");

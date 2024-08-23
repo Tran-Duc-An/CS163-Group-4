@@ -761,6 +761,19 @@ void loadTrie(EETrie*& root, ifstream& fin)
 		root->definition.push_back(tmp);
 		delete[] tmp;
 	}
+	// load example
+	bool hasExample;
+	fin.read((char*)&hasExample, sizeof(bool));
+	if (hasExample)
+	{
+		short int len;
+		fin.read((char*)&len, sizeof(short int));
+		char* tmp = new char[len + 1];
+		fin.read(tmp, len);
+		tmp[len] = '\0';
+		root->example = tmp;
+		delete[] tmp;
+	}
 	fin.read((char*)&root->numChildren, sizeof(short int));
 	// load children which from 'a' to 'z', space, hyphen, '0' to '9'
 	for (int i = 0; i < root->numChildren; ++i)
@@ -789,7 +802,6 @@ void loadTrie(EETrie*& root, ifstream& fin)
 		}
 	}
 }
-
 bool EE::loadTrieFromFile(EETrie*& root, string path) {
 	ifstream fin;
 	fin.open(path, ios::binary);
@@ -813,6 +825,14 @@ void saveTrie(EETrie* root, ofstream& fout)
 		fout.write((char*)&len, sizeof(short int));
 		fout.write(str.c_str(), len);
 	}
+	bool hasExample = root->example.empty() ? false : true;
+	fout.write((char*)&hasExample, sizeof(bool));
+	if (hasExample)
+	{
+		short int len = root->example.length();
+		fout.write((char*)&len, sizeof(short int));
+		fout.write(root->example.c_str(), len);
+	}
 	short int numChildren = root->numChildren;
 	fout.write((char*)&numChildren, sizeof(short int));
 	// save children which from 'a' to 'z', space, hyphen, '0' to '9'
@@ -826,7 +846,6 @@ void saveTrie(EETrie* root, ofstream& fout)
 		}
 	}
 }
-
 void EE::saveTrietoFile(EETrie* root, string path) {
 	ofstream fou;
 	fou.open(path, ios::binary);
@@ -1627,7 +1646,7 @@ Emo Emoji::loadDataset(const string& filename, size_t tableSize) {
 	file.close();
 	return dictionary;
 }
-void addToHistory(wstring word, wstring def, string fileName)
+void addToHistory(wstring word, wstring def, string fileName,vector<wstring>& his	)
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	_setmode(_fileno(stdin), _O_U16TEXT);
@@ -1644,6 +1663,17 @@ void addToHistory(wstring word, wstring def, string fileName)
 		time(&now);
 		tm* local = localtime(&now);
 		//Print out by this format: word, d/m/yyyy h:m:sAM/PM, definition
+		wstring timeStr = word + L", " + 
+			to_wstring(local->tm_mday) + L"/" +
+			to_wstring(local->tm_mon + 1) + L"/" +
+			to_wstring(local->tm_year + 1900) + L" " +
+			to_wstring((local->tm_hour > 12 ? local->tm_hour - 12 : local->tm_hour)) + L":" +
+			(local->tm_min < 10 ? L"0" : L"") + to_wstring(local->tm_min) + L":" +
+			(local->tm_sec < 10 ? L"0" : L"") + to_wstring(local->tm_sec) +
+			(local->tm_hour >= 12 ? L"PM" : L"AM") + L", " + def;
+
+		// Add the formatted time string to the history vector
+		his.push_back(timeStr);
 		fout << word << ',' << local->tm_mday << '/' << local->tm_mon + 1 << '/' << local->tm_year + 1900
 			<< ' ' << (local->tm_hour >= 12 ? local->tm_hour - 12 : local->tm_hour) << ':' << local->tm_min << ':'
 			<< local->tm_sec << (local->tm_hour >= 12 ? "PM" : "AM") << ',';

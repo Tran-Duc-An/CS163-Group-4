@@ -403,7 +403,7 @@ void translating() {
 				removeWEndline(transWword);
 				if (!VE::findWordMeaning(rootVtoE, transWword, transDef, nodeV)) transDef.push_back(L"No definition");
 				else {
-					addToHistory(transWword, transDef[0], "Dataset/History.txt");
+					addToHistory(transWword, transDef[0], "Dataset/History.txt",searchHistory);
 				}
 
 			}
@@ -447,7 +447,7 @@ void translating() {
 				removeEndline(transWord);
 				if (!EV::findWordMeaning(rootEtoV, transWord, transDef, nodeE)) transDef.push_back(L"No definition");
 				else {
-					addToHistory(converter.from_bytes(transWord), transDef[0], "Dataset/History.txt");
+					addToHistory(converter.from_bytes(transWord), transDef[0], "Dataset/History.txt",searchHistory);
 				}
 			}
 			if (heartButton.isClicked(window, event)) {
@@ -642,7 +642,7 @@ void searching() {
 					removeEndline(word);
 					if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
 					else {
-						addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt");
+						addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt",searchHistory);
 					}
 					searchFlag = 1;
 
@@ -1431,48 +1431,48 @@ ChoiceButton h8(780, 620, "Image/displayBox.png");
 Button nextHisButton(1325, 700, "Image/nextButton.png");
 Button backHisButton(20, 700, "Image/backDefButton.png");
 
-int orderHis = 0;
+int orderHis = searchHistory.size() - 1;
 
 void setHisContent() {
-	if (orderHis < searchHistory.size()) {
+	if (orderHis >= 0) {
 		h1.content = searchHistory[orderHis];
 		handleWString(h1.content,35,2);
 		h1.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis];
 	}
-	if (orderHis + 1 < searchHistory.size()) {
-		h2.content = searchHistory[orderHis + 1];
+	if (orderHis - 1 >= 0) {
+		h2.content = searchHistory[orderHis - 1];
 		handleWString(h2.content, 35, 2);
-		h2.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 1];
+		h2.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 1];
 	}
-	if (orderHis + 2 < searchHistory.size()) {
-		h3.content = searchHistory[orderHis + 2];
+	if (orderHis -2 >= 0) {
+		h3.content = searchHistory[orderHis - 2];
 		handleWString(h3.content, 35, 2);
-		h3.content += L"\n" + std::wstring(30, L' ')  + searchRealTime[orderHis + 2];
+		h3.content += L"\n" + std::wstring(30, L' ')  + searchRealTime[orderHis - 2];
 	}
-	if (orderHis + 3 < searchHistory.size()) {
-		h4.content = searchHistory[orderHis + 3];
+	if (orderHis - 3 >= 0) {
+		h4.content = searchHistory[orderHis - 3];
 		handleWString(h4.content, 35, 2);
-		h4.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 3];
+		h4.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 3];
 	}
-	if (orderHis + 4 < searchHistory.size()) {
-		h5.content = searchHistory[orderHis + 4];
+	if (orderHis - 4 >= 0) {
+		h5.content = searchHistory[orderHis - 4];
 		handleWString(h5.content, 35, 2);
-		h5.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 4];
+		h5.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 4];
 	}
-	if (orderHis + 5 < searchHistory.size()) {
-		h6.content = searchHistory[orderHis + 5];
+	if (orderHis - 5 >= 0) {
+		h6.content = searchHistory[orderHis - 5];
 		handleWString(h6.content, 35, 2);
-		h6.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 5];
+		h6.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 5];
 	}
-	if (orderHis + 6 < searchHistory.size()) {
-		h7.content = searchHistory[orderHis + 6];
+	if (orderHis - 6 >= 0) {
+		h7.content = searchHistory[orderHis - 6];
 		handleWString(h7.content, 35, 2);
-		h7.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 6];
+		h7.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 6];
 	}
-	if (orderHis + 7 < searchHistory.size()) {
-		h8.content = searchHistory[orderHis + 7];
+	if (orderHis - 7 >= 0) {
+		h8.content = searchHistory[orderHis - 7];
 		handleWString(h8.content, 35, 2);
-		h8.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis + 7];
+		h8.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 7];
 	}
 }
 
@@ -1481,16 +1481,21 @@ void history() {
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
 
-		if (backButton.isClicked(window, event)) page.pop();
+		if (backButton.isClicked(window, event)) {
+			page.pop();
+			orderHis = searchHistory.size() - 1;
+			h1.content = L"";
+			return;
+		}
 		backButton.isHover(window, "Image/backHover.png");
 
-		if (nextHisButton.isClicked(window, event)) {
+		if (backHisButton.isClicked(window, event)) {
 			if (orderHis + 8 < searchHistory.size()) {
 				orderHis += 8;
 				setHisContent();
 			}
 		}
-		if (backHisButton.isClicked(window, event)) {
+		if (nextHisButton.isClicked(window, event)) {
 			if (orderHis-8 >= 0) {
 				orderHis -= 8;
 				setHisContent();
@@ -1509,10 +1514,14 @@ void history() {
 	h7.draw(window);
 	h8.draw(window);
 
-	nextHisButton.draw(window);
-	nextHisButton.isHover(window, "Image/nextDefHover.png");
-	backHisButton.draw(window);
-	backHisButton.isHover(window, "Image/backDefHover.png");
+	if (orderHis >= 8) {
+		nextHisButton.draw(window);
+		nextHisButton.isHover(window, "Image/nextDefHover.png");
+	}
+	if (orderHis < searchHistory.size()) {
+		backHisButton.draw(window);
+		backHisButton.isHover(window, "Image/backDefHover.png");
+	}
 	
 	backButton.draw(window);
 }
@@ -2260,7 +2269,7 @@ void randomWords() {
 				orderRanDef = 0;
 				isShuffle = 1;
 				EV::randomAWordNode(rootEtoV, resWord, evNode);
-				addToHistory(converter.from_bytes(resWord), evNode->definition[0], "Dataset/History.txt");
+				addToHistory(converter.from_bytes(resWord), evNode->definition[0], "Dataset/History.txt",searchHistory);
 			}
 			if (isShuffle == 1) {
 				if (nextMeanButton.isClicked(window, event) && orderRanDef < evNode->definition.size() - 1) orderRanDef++;
@@ -2295,7 +2304,7 @@ void randomWords() {
 				orderRanDef = 0;
 				isShuffle = 1;
 				VE::randomAWordNode(rootVtoE, resWword, veNode);
-				addToHistory(resWword, veNode->definition[0], "Dataset/History.txt");
+				addToHistory(resWword, veNode->definition[0], "Dataset/History.txt",searchHistory);
 
 			}
 			if (isShuffle == 1) {
@@ -2331,7 +2340,7 @@ void randomWords() {
 				orderRanDef = 0;
 				isShuffle = 1;
 				EE::randomAWordNode(rootEtoE, resWord, eeNode);
-				addToHistory(converter.from_bytes(resWord), converter.from_bytes(eeNode->definition[0]), "Dataset/History.txt");
+				addToHistory(converter.from_bytes(resWord), converter.from_bytes(eeNode->definition[0]), "Dataset/History.txt",searchHistory);
 
 			}
 			if (isShuffle == 1) {
@@ -2592,7 +2601,8 @@ void homePage() {
 
 
 
-bool loadData() {
+bool loadData()
+{
 	//Loading screen
 	sf::Text loading;
 	loading.setFont(font);
@@ -2602,6 +2612,7 @@ bool loadData() {
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);
 	window.display();
+	bool firstTimeEE = 0, firstTimeEV = 0, firstTimeVE = 0;
 
 
 	auto start = chrono::high_resolution_clock::now();
@@ -2618,6 +2629,7 @@ bool loadData() {
 
 	}
 	else {
+		firstTimeEV = 1;
 		t1 = thread(EV::loadRawData, std::ref(rootEtoV), "Dataset/ENVN.txt");
 
 	}
@@ -2627,6 +2639,7 @@ bool loadData() {
 		t2 = thread(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
 	}
 	else {
+		firstTimeVE = 1;
 		t2 = thread(VE::loadRawData, std::ref(rootVtoE), "Dataset/VE.csv");
 	}
 	ifstream file2;
@@ -2637,7 +2650,7 @@ bool loadData() {
 	}
 	else {
 		t3 = thread(EE::loadRawData, std::ref(rootEtoE), "Dataset/englishDictionary.csv");
-
+		firstTimeEE = 1;
 	}
 
 	// Modify Emoji::loadDataset to accept a reference
@@ -2646,15 +2659,25 @@ bool loadData() {
 		}, std::ref(emojiTable), "Dataset\\Emoji_Filter.csv", 101);
 	thread t6(loadSearchHistory, std::ref(searchHistory), std::ref(searchRealTime), "Dataset/History.txt");
 
-	
+
 	t1.join();
 	t2.join();
 	t3.join();
 	t4.join();
 	t5.join();
 	t6.join();
-	if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
-	// after loading root, load favorite words
+	if (firstTimeEE && firstTimeEV && firstTimeVE)
+	{
+		// use threads to save system file faster
+		thread t7(EV::saveTrietoFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
+		thread t8(VE::saveTrieToFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
+		thread t9(EE::saveTrietoFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+		t7.join();
+		t8.join();
+		t9.join();
+		if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
+	}
+
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
 	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
 	thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");
@@ -2664,7 +2687,7 @@ bool loadData() {
 
 	auto end = chrono::high_resolution_clock::now();
 	wcout << L"Time to load data: " << chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000 << L"ms" << endl;
-	
+
 
 	return 1;
 }

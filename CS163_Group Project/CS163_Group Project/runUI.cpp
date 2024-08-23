@@ -403,7 +403,7 @@ void translating() {
 				removeWEndline(transWword);
 				if (!VE::findWordMeaning(rootVtoE, transWword, transDef, nodeV)) transDef.push_back(L"No definition");
 				else {
-					addToHistory(transWword, transDef[0], "Dataset/History.txt",searchHistory);
+					addToHistory(transWword, transDef[0], "Dataset/History.txt", searchHistory, searchRealTime);
 				}
 
 			}
@@ -447,7 +447,7 @@ void translating() {
 				removeEndline(transWord);
 				if (!EV::findWordMeaning(rootEtoV, transWord, transDef, nodeE)) transDef.push_back(L"No definition");
 				else {
-					addToHistory(converter.from_bytes(transWord), transDef[0], "Dataset/History.txt",searchHistory);
+					addToHistory(converter.from_bytes(transWord), transDef[0], "Dataset/History.txt",searchHistory,searchRealTime);
 				}
 			}
 			if (heartButton.isClicked(window, event)) {
@@ -642,7 +642,7 @@ void searching() {
 					removeEndline(word);
 					if (!EE::findWordMeaning(rootEtoE, word, searchDef, nodeEE)) searchDef.push_back("No definition");
 					else {
-						addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt",searchHistory);
+						addToHistory(converter.from_bytes(word), converter.from_bytes(searchDef[0]), "Dataset/History.txt",searchHistory,searchRealTime);
 					}
 					searchFlag = 1;
 
@@ -1431,49 +1431,57 @@ ChoiceButton h8(780, 620, "Image/displayBox.png");
 Button nextHisButton(1325, 700, "Image/nextButton.png");
 Button backHisButton(20, 700, "Image/backDefButton.png");
 
-int orderHis = searchHistory.size() - 1;
+int orderHis = 0;
 
 void setHisContent() {
 	if (orderHis >= 0) {
 		h1.content = searchHistory[orderHis];
-		handleWString(h1.content,35,2);
+		handleWString(h1.content, 35, 2);
 		h1.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis];
 	}
+	else h1.content = L"";
 	if (orderHis - 1 >= 0) {
 		h2.content = searchHistory[orderHis - 1];
 		handleWString(h2.content, 35, 2);
 		h2.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 1];
 	}
+	else h2.content = L"";
 	if (orderHis -2 >= 0) {
 		h3.content = searchHistory[orderHis - 2];
 		handleWString(h3.content, 35, 2);
 		h3.content += L"\n" + std::wstring(30, L' ')  + searchRealTime[orderHis - 2];
 	}
+	else h3.content = L"";
 	if (orderHis - 3 >= 0) {
 		h4.content = searchHistory[orderHis - 3];
 		handleWString(h4.content, 35, 2);
 		h4.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 3];
 	}
+	else h4.content = L"";
 	if (orderHis - 4 >= 0) {
 		h5.content = searchHistory[orderHis - 4];
 		handleWString(h5.content, 35, 2);
 		h5.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 4];
 	}
+	else h5.content = L"";
 	if (orderHis - 5 >= 0) {
 		h6.content = searchHistory[orderHis - 5];
 		handleWString(h6.content, 35, 2);
 		h6.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 5];
 	}
+	else h6.content = L"";
 	if (orderHis - 6 >= 0) {
 		h7.content = searchHistory[orderHis - 6];
 		handleWString(h7.content, 35, 2);
 		h7.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 6];
 	}
+	else h7.content = L"";
 	if (orderHis - 7 >= 0) {
 		h8.content = searchHistory[orderHis - 7];
 		handleWString(h8.content, 35, 2);
 		h8.content += L"\n" + std::wstring(30, L' ') + searchRealTime[orderHis - 7];
 	}
+	else h8.content = L"";
 }
 
 void history() {
@@ -1503,7 +1511,10 @@ void history() {
 		}
 	}
 
-	if (h1.content == L"") setHisContent();
+	if (h1.content == L"") {
+		orderHis = searchHistory.size() - 1;
+		setHisContent();
+	}
 
 	h1.draw(window);
 	h2.draw(window);
@@ -1518,7 +1529,7 @@ void history() {
 		nextHisButton.draw(window);
 		nextHisButton.isHover(window, "Image/nextDefHover.png");
 	}
-	if (orderHis < searchHistory.size()) {
+	if (orderHis < searchHistory.size()-1) {
 		backHisButton.draw(window);
 		backHisButton.isHover(window, "Image/backDefHover.png");
 	}
@@ -2269,7 +2280,7 @@ void randomWords() {
 				orderRanDef = 0;
 				isShuffle = 1;
 				EV::randomAWordNode(rootEtoV, resWord, evNode);
-				addToHistory(converter.from_bytes(resWord), evNode->definition[0], "Dataset/History.txt",searchHistory);
+				addToHistory(converter.from_bytes(resWord), evNode->definition[0], "Dataset/History.txt",searchHistory,searchRealTime);
 			}
 			if (isShuffle == 1) {
 				if (nextMeanButton.isClicked(window, event) && orderRanDef < evNode->definition.size() - 1) orderRanDef++;
@@ -2304,7 +2315,7 @@ void randomWords() {
 				orderRanDef = 0;
 				isShuffle = 1;
 				VE::randomAWordNode(rootVtoE, resWword, veNode);
-				addToHistory(resWword, veNode->definition[0], "Dataset/History.txt",searchHistory);
+				addToHistory(resWword, veNode->definition[0], "Dataset/History.txt",searchHistory,searchRealTime);
 
 			}
 			if (isShuffle == 1) {
@@ -2340,7 +2351,7 @@ void randomWords() {
 				orderRanDef = 0;
 				isShuffle = 1;
 				EE::randomAWordNode(rootEtoE, resWord, eeNode);
-				addToHistory(converter.from_bytes(resWord), converter.from_bytes(eeNode->definition[0]), "Dataset/History.txt",searchHistory);
+				addToHistory(converter.from_bytes(resWord), converter.from_bytes(eeNode->definition[0]), "Dataset/History.txt",searchHistory,searchRealTime);
 
 			}
 			if (isShuffle == 1) {

@@ -1646,7 +1646,7 @@ Emo Emoji::loadDataset(const string& filename, size_t tableSize) {
 	file.close();
 	return dictionary;
 }
-void addToHistory(wstring word, wstring def, string fileName,vector<wstring>& his	)
+void addToHistory(wstring word, wstring def, string fileName,vector<wstring>& his,vector<wstring>& realTime	)
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	_setmode(_fileno(stdin), _O_U16TEXT);
@@ -1663,17 +1663,18 @@ void addToHistory(wstring word, wstring def, string fileName,vector<wstring>& hi
 		time(&now);
 		tm* local = localtime(&now);
 		//Print out by this format: word, d/m/yyyy h:m:sAM/PM, definition
-		wstring timeStr = word + L", " + 
+		wstring timeStr =
 			to_wstring(local->tm_mday) + L"/" +
 			to_wstring(local->tm_mon + 1) + L"/" +
 			to_wstring(local->tm_year + 1900) + L" " +
 			to_wstring((local->tm_hour > 12 ? local->tm_hour - 12 : local->tm_hour)) + L":" +
 			(local->tm_min < 10 ? L"0" : L"") + to_wstring(local->tm_min) + L":" +
 			(local->tm_sec < 10 ? L"0" : L"") + to_wstring(local->tm_sec) +
-			(local->tm_hour >= 12 ? L"PM" : L"AM") + L", " + def;
+			(local->tm_hour >= 12 ? L"PM" : L"AM") + L", ";
 
 		// Add the formatted time string to the history vector
-		his.push_back(timeStr);
+		his.push_back(word + L":" + def);
+		realTime.push_back(timeStr);
 		fout << word << ',' << local->tm_mday << '/' << local->tm_mon + 1 << '/' << local->tm_year + 1900
 			<< ' ' << (local->tm_hour >= 12 ? local->tm_hour - 12 : local->tm_hour) << ':' << local->tm_min << ':'
 			<< local->tm_sec << (local->tm_hour >= 12 ? "PM" : "AM") << ',';

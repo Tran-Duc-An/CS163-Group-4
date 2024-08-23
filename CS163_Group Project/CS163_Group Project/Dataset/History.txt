@@ -9,3 +9,5 @@ ngủ,23/8/2024 3:52:38PM,to be asleep; to sleep|=tôi gần như không ngủ i
 pedicular,23/8/2024 3:52:44PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
 sleep,23/8/2024 3:52:49PM,imp. of Sleep. Slept.
 pedicular,23/8/2024 3:55:30PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
+pedicular,23/8/2024 5:25:2PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
+pedicular,23/8/2024 5:26:30PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.

@@ -52,7 +52,7 @@ struct InputDef : InputBox {
 };
 
 struct ChoiceButton :Button {
-	std::wstring content;
+	std::wstring content = L"";
 	int xx = 0;
 	int yy = 0;
 	ChoiceButton(int x, int y, std::string imagePath);

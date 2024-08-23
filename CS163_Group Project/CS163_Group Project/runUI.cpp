@@ -1,4 +1,4 @@
-﻿#include "Function.h"
+﻿#include "functions.h"
 #include "UI.h"
 #include <chrono>
 #include <codecvt>
@@ -2085,8 +2085,6 @@ void reset()
 				favWordsEV.clear();
 				favDefsEV.clear();
 			}
-			searchHistory.clear();
-			searchRealTime.clear();
 			ee = 0;
 			ev = 0;
 			ve = 0;
@@ -2576,16 +2574,9 @@ bool loadData() {
 	loading.setFont(font);
 	loading.setCharacterSize(50);
 	loading.setPosition(700, 400);
+	loading.setString("Please wait.....");
 	loading.setFillColor(sf::Color::Black);
-	loading.setString("0%");
 	window.draw(loading);
-
-	sf::RectangleShape trainingProgressIndicator;
-	trainingProgressIndicator.setSize(sf::Vector2f(0, 20));
-	trainingProgressIndicator.setPosition(700, 300);
-	trainingProgressIndicator.setFillColor(sf::Color::Black);
-	window.draw(trainingProgressIndicator);
-
 	window.display();
 
 
@@ -2600,69 +2591,29 @@ bool loadData() {
 	if (file.is_open()) {
 		file.close();
 		t1 = thread(EV::loadTriefromFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
-		window.clear();
-		setBackground();
-		trainingProgressIndicator.setSize(sf::Vector2f(10, 20));
-		window.draw(trainingProgressIndicator);
-		loading.setString("10%");
-		window.draw(loading);
-		window.display();
 
 	}
 	else {
 		t1 = thread(EV::loadRawData, std::ref(rootEtoV), "Dataset/ENVN.txt");
-		window.clear();
-		setBackground();
-		trainingProgressIndicator.setSize(sf::Vector2f(10, 20));
-		window.draw(trainingProgressIndicator);
-		loading.setString("10%");
-		window.draw(loading);
-		window.display();
+
 	}
 	file.open("Dataset/UserTrieVNEN.bin");
 	if (file.is_open()) {
 		file.close();
 		t2 = thread(VE::loadTrieFromFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
-		window.clear();
-		setBackground();
-		trainingProgressIndicator.setSize(sf::Vector2f(20, 20));
-		window.draw(trainingProgressIndicator);
-		loading.setString("20%");
-		window.draw(loading);
-		window.display();
 	}
 	else {
 		t2 = thread(VE::loadRawData, std::ref(rootVtoE), "Dataset/VE.csv");
-		window.clear();
-		setBackground();
-		trainingProgressIndicator.setSize(sf::Vector2f(20, 20));
-		window.draw(trainingProgressIndicator);
-		loading.setString("20%");
-		window.draw(loading);
-		window.display();
 	}
 	ifstream file2;
 	file2.open("Dataset/UserTrieEN.bin");
 	if (file2.is_open()) {
 		file2.close();
 		t3 = thread(EE::loadTrieFromFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
-		window.clear();
-		setBackground();
-		trainingProgressIndicator.setSize(sf::Vector2f(30, 20));
-		window.draw(trainingProgressIndicator);
-		loading.setString("30%");
-		window.draw(loading);
-		window.display();
 	}
 	else {
 		t3 = thread(EE::loadRawData, std::ref(rootEtoE), "Dataset/englishDictionary.csv");
-		window.clear();
-		setBackground();
-		trainingProgressIndicator.setSize(sf::Vector2f(30, 20));
-		window.draw(trainingProgressIndicator);
-		loading.setString("30%");
-		window.draw(loading);
-		window.display();
+
 	}
 
 	// Modify Emoji::loadDataset to accept a reference
@@ -2670,13 +2621,6 @@ bool loadData() {
 		ht = Emoji::loadDataset(filename, tableSize);
 		}, std::ref(emojiTable), "Dataset\\Emoji_Filter.csv", 101);
 	thread t6(loadSearchHistory, std::ref(searchHistory), std::ref(searchRealTime), "Dataset/History.txt");
-	window.clear();
-	setBackground();
-	trainingProgressIndicator.setSize(sf::Vector2f(50, 20));
-	window.draw(trainingProgressIndicator);
-	loading.setString("50%");
-	window.draw(loading);
-	window.display();
 
 
 	t1.join();
@@ -2687,29 +2631,8 @@ bool loadData() {
 	t6.join();
 	// after loading root, load favorite words
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
-	window.clear();
-	setBackground();
-	trainingProgressIndicator.setSize(sf::Vector2f(60, 20));
-	window.draw(trainingProgressIndicator);
-	loading.setString("60%");
-	window.draw(loading);
-	window.display();
 	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");
-	window.clear();
-	setBackground();
-	trainingProgressIndicator.setSize(sf::Vector2f(70, 20));
-	window.draw(trainingProgressIndicator);
-	loading.setString("70%");
-	window.draw(loading);
-	window.display();
 	thread t9(EE::loadFavWord, std::ref(rootEtoE), std::ref(favWordsEE), std::ref(favDefsEE), "Dataset/favWordsEE.txt");
-	window.clear();
-	setBackground();
-	trainingProgressIndicator.setSize(sf::Vector2f(100, 20));
-	window.draw(trainingProgressIndicator);
-	loading.setString("100%");
-	window.draw(loading);
-	window.display();
 	t7.join();
 	t8.join();
 	t9.join();

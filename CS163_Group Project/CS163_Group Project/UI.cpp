@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
-#include "Function.h"
+#include "functions.h"
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -46,8 +46,8 @@ InputBox::InputBox(int x, int y, std::string imagePath, std::wstring name) : But
 
 	}
 
-	nameHolder.setString(name);
 	nameHolder.setFont(font);
+	nameHolder.setString(name);
 	nameHolder.setCharacterSize(40);
 	nameHolder.setPosition(x + 10, y + 10);
 	nameHolder.setFillColor(sf::Color::Black);

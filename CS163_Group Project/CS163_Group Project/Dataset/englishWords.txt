@@ -1,4 +1,3 @@
-word
 A
 A-
 A 1

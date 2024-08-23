@@ -69,4 +69,3 @@ struct AnswerButton :Button {
 	int isClicked(sf::RenderWindow& window, sf::Event event);
 };
 
-int run();

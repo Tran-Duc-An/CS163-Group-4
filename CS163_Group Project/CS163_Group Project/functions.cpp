@@ -533,6 +533,38 @@ void EV::randomAWordNode(EVTrie* root, string& resultWord, EVTrie*& resultNode)
 
 //English to English Dictionary
 
+void::EE::addExample(EETrie*& root, string& word, string& example)
+{
+	EETrie* node = findWord(root, word);
+	if (node == 0) return;
+	node->example = example;
+}
+
+string EE::getExample(EETrie* root, string& word)
+{
+	EETrie* node = findWord(root, word);
+	if (node == 0) return "";
+	return node->example;
+
+}
+bool EE::loadExample(EETrie*& root, const string& fileName)
+{
+	ifstream fin;
+	fin.open(fileName);
+	if (!fin.is_open())
+	{
+		cout << "File" << fileName << "not found\n";
+		return false;
+	}
+	string word, example;
+	while (getline(fin, word, ','))
+	{
+		getline(fin, example, '\n');
+		addExample(root, word, example);
+	}
+	return true;
+}
+
 void EE::insertWord(EETrie*& root, string& word, string& definition)
 {
 	word = toLowerCase(word);

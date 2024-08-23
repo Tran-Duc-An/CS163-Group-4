@@ -18,6 +18,7 @@ struct EETrie
 	vector<string> definition;
 	short int numChildren = 0;
 	bool isLiked = 0;
+	string example = "";
 	EETrie() : children(38, nullptr) {}
 };
 
@@ -74,6 +75,9 @@ namespace EV {
 
 namespace EE {
 	void insertWord(EETrie*& root, string& word, string& definition);
+	void addExample(EETrie*& root, string& word, string& example);
+	string getExample(EETrie* root, string& word);
+	bool loadExample(EETrie*& root, const string& fileName);
 	EETrie* findWord(EETrie* root, string word);
 	void changeWordDefinition(EETrie*& node, string newDefinition, int indexOfOldDefinitionToBeReplaced);
 	void helperDeleteAWord(EETrie* root, string& word);

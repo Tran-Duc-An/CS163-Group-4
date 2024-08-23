@@ -145,7 +145,7 @@ vector<string> favDefsEE;
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	//if (!loadData()) return 0;
+	if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {
@@ -576,6 +576,7 @@ std::string word = "";
 stack<bool> searchingType;
 vector<string> words;
 int orderKey = 0;
+bool isEx = 0;
 ChoiceButton searchDefRes(800, 125, "Image/searchDefRes.png");
 Button nextKeyButton(1335, 320, "Image/nextButton.png");
 Button backKeyButton(700, 320, "Image/backDefButton.png");
@@ -584,6 +585,8 @@ Button editSearchButton(1335, 50, "Image/editButton.png");
 
 Button nextDefButton(1300, 700, "Image/nextButton.png");
 Button backDefButton(800, 700, "Image/backDefButton.png");
+
+Button examplesButton(1000, 700, "Image/exampleButton.png");
 
 void searching() {
 	sf::Texture layout2;
@@ -612,6 +615,7 @@ void searching() {
 			searchFlag = 0;
 			searchKeyBox.reset();
 			searchDefBox.reset();
+			isEx = 0;
 			return;
 		}
 
@@ -632,7 +636,7 @@ void searching() {
 				if (submitSearchKey.isClicked(window, event, word, searchKeyBox.text)) {
 
 				searchwithKeyword:
-
+					isEx = 0;
 					if (!searchDef.empty()) searchDef.clear();
 					orderDef = 0;
 					removeEndline(word);
@@ -642,6 +646,13 @@ void searching() {
 					}
 					searchFlag = 1;
 
+				}
+
+				if (examplesButton.isClicked(window, event) && nodeEE!=nullptr) {
+					isEx = 1 - isEx;
+					searchDef.clear();
+					if (isEx == 0) searchDef = nodeEE->definition;
+					else searchDef.push_back(nodeEE->example);
 				}
 
 				if (heartKeyButton.isClicked(window, event)) {
@@ -674,6 +685,7 @@ void searching() {
 					handleString(searchDef[orderDef],50,7);
 					inputEditedDef.text.setString(searchDef[orderDef]);
 				}
+				
 			}
 			else {//search with definition
 				searchDefBox.isClicked(window, event);
@@ -739,6 +751,16 @@ void searching() {
 				heartKeyButton.draw(window);
 				deleteKeyButton.draw(window);
 				deleteKeyButton.isHover(window, "Image/deleteHover.png");
+			
+				if (isEx == 0) {
+					examplesButton.texture.loadFromFile("Image/exampleButton.png");
+					examplesButton.sprite.setTexture(examplesButton.texture);
+				}
+				else {
+					examplesButton.texture.loadFromFile("Image/exampleHover.png");
+					examplesButton.sprite.setTexture(examplesButton.texture);
+				}
+				examplesButton.draw(window);
 			}
 
 			searchKeyButton.texture.loadFromFile("Image/searchKeyHover.png");
@@ -763,6 +785,8 @@ void searching() {
 			}
 
 			if (searchDefBox.text.getString() == "") searchFlag = 0;
+
+			
 
 			searchDefButton.texture.loadFromFile("Image/searchDefHover.png");
 			searchKeyButton.texture.loadFromFile(searchKeyButton.orgImage);
@@ -2629,6 +2653,7 @@ bool loadData() {
 	t4.join();
 	t5.join();
 	t6.join();
+	if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
 	// after loading root, load favorite words
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
 	thread t8(VE::loadFavWord, std::ref(rootVtoE), std::ref(favWordsVE), std::ref(favDefsVE), "Dataset/favWordsVE.txt");

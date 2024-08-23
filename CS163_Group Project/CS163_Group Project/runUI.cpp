@@ -1,4 +1,4 @@
-#include "functions.h"
+﻿#include "functions.h"
 #include "UI.h"
 #include <chrono>
 #include <codecvt>
@@ -145,7 +145,7 @@ vector<string> favDefsEE;
 int run() {
 	setBackground();
 	font.loadFromFile("Font/ARIAL.TTF");
-	if (!loadData()) return 0;
+	//if (!loadData()) return 0;
 	page.push(0);
 
 	while (window.isOpen()) {

@@ -1,2 +1,18 @@
-﻿  main.cpp
-  CS163_Group Project.vcxproj -> C:\HCMUS\GroupProject-Dictionary\Tran-Duc-An\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe
+﻿  runUI.cpp
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(301,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(301,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(315,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(315,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(399,4): warning C4102: 'translateVNtoEN': unreferenced label
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1105,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1105,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1114,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1114,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1126,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1126,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1135,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1135,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1496,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1517,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\HCMUS\CS163-Group-4\CS163_Group Project\CS163_Group Project\runUI.cpp(1820,27): warning C4551: function call missing argument list
+  CS163_Group Project.vcxproj -> C:\HCMUS\CS163-Group-4\CS163_Group Project\x64\Debug\CS163_Group Project.exe

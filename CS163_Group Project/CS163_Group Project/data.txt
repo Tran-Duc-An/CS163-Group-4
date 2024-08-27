@@ -1,5 +1,0 @@
-apple: A fruit
-banana: A long, curved fruit with a yellow skin and soft, sweet, white flesh inside
-cat: A small domesticated carnivorous mammal with soft fur
-dog: A domesticated carnivorous mammal that typically has a long snout
-elephant: A large herbivorous mammal noted for its long trunk

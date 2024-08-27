@@ -1188,7 +1188,7 @@ void VE::deleteTrie(VTrie*& root)
 	root = nullptr;
 }
 
-bool VE::loadRawData(VTrie*& root, string path)
+bool VE::loadRawData(VTrie*& root, string path)//UY
 {
 	fillMap();
 	locale loc(locale(), new codecvt_utf8<wchar_t>);

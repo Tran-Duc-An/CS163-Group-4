@@ -1,13 +1,728 @@
-cat,23/8/2024 3:21:15PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
-cat,23/8/2024 3:32:21PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
-cat,23/8/2024 3:34:28PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
-pedal,23/8/2024 3:45:40PM,"Of or pertaining to the foot, or to feet, literally or figuratively; specifically (Zool.), pertaining to the foot of a mollusk; as, the pedal ganglion."
-Pedicular,23/8/2024 3:46:9PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
-Pedicular,23/8/2024 3:50:28PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
-ăn,23/8/2024 3:52:34PM,to eat; to take; to have; to feed|=ăn cơm/bánh mì to eat rice, to eat bread|=những con bò đang ăn cỏ khô the cows are feeding on hay|- to celebrate|=ăn tết to celebrate tet|=bạn định ăn nô-en ở đâu? where will you celebrate christmas?|- to attend a feast on the occasion of|=chiều mai, họ ăn giỗ bác của họ tomorrow afternoon, they will attend the feast on the occasion of their uncle's death anniversary|=ai cũng mong đợi ăn đám cưới của anh ta everyone expects to attend his wedding banquet|- to live|=làm đủ ăn to earn enough to live on|=cặp vợ chồng mới cưới này ăn riêng this newly married couple lives separately (from parents)|- to take; to receive; to earn|=cho máy ăn dầu mỡ to give an engine fuel and lubricant|=tàu đang ăn hàng the ship is taking on cargo (is loading)|- to win|=ăn cuộc to win a match|=ăn giải nhất trong một cuộc thi đánh cờ to win the first prize in a chess competition|- to bite; to stick|=phanh chẳng ăn tí nào the brake doesn't bite at all|=hồ dán không ăn this glue doesn't stick|- to suit|=hai màu này rất ăn nhau these two colours suit very well|=cô ta rất ăn ảnh she is photogenic|- to eat away; to corrode; to gnaw|=axit ăn mòn thép acids eat away (corrode) steel|- to spread|=vết dầu ăn loang ra the oil stain spreads|=rễ tre ăn ra tới ruộng the roots of the bamboo bush spread down into the field|- to burn; to consume|=chiếc xe mô tô này ăn tốn xăng this motorcycle burns much petrol|- to be part of; to be an appendage to; to belong to|=dãy nhà này không thuộc phường ta, mà ăn về phường bên this row of houses don't belong to our ward, but are part of the next| đùa cợt|- xem ăn hối lộ
-ngủ,23/8/2024 3:52:38PM,to be asleep; to sleep|=tôi gần như không ngủ i hardly/scarcely get any sleep|=cô ta ngủ tám tiếng mỗi ngày she slept eight hours a day|- xem ăn nằm, giao cấu
-pedicular,23/8/2024 3:52:44PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
-sleep,23/8/2024 3:52:49PM,imp. of Sleep. Slept.
-pedicular,23/8/2024 3:55:30PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
-pedicular,23/8/2024 5:25:2PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
-pedicular,23/8/2024 5:26:30PM,Of or pertaining to lice; having the lousy distemper (phthiriasis); lousy.
+cat,28/8/2024 8:56:47PM,"An animal of various species of the genera Felis and Lynx. The domestic cat is Felis domestica. The European wild cat (Felis catus) is much larger than the domestic cat. In the United States the name wild cat is commonly applied to the bay lynx (Lynx rufus) See Wild cat, and Tiger cat."
+dog,28/8/2024 8:56:51PM,"A quadruped of the genus Canis, esp. the domestic dog (C. familiaris)."
+chicken,28/8/2024 8:56:53PM,"A young bird or fowl, esp. a young barnyard fowl."
+uninvoked,28/8/2024 8:57:9PM, tính từ|- không được dẫn chứng|- không được gọi về (thần, quỷ ma)|- không được cầu khấn
+receivable,28/8/2024 8:57:9PM,  tính từ|- có thể nhận được; đáng nhận|- báo thu|=bills receivable|+ những giấy báo thu
+occurrence,28/8/2024 8:57:11PM, danh từ|- sự kiện, sự cố, chuyện xảy ra|- an everyday occurrence|- chuyện xảy ra hằng ngày|- sự xảy ra; sự nẩy ra, sự loé lên (ý nghĩ, ý muốn)|= an occurrence idea|+ một ý nghĩ vừa loé lên|= to be of frequent/common/rare occurrence|+ thường, hiếm xảy ra (hoặc diễn ra)|= riots are of frequent occurrence in this province|+ những vụ náo loạn thường xảy ra ở tỉnh này
+liberal{arts,28/8/2024 9:3:58PM,  danh từ|- khoa học xã hội; khoa học nhân văn
+development{support{library,28/8/2024 9:3:59PM,(tech) thư viện yểm trợ phát triển
+brindled,28/8/2024 9:3:59PM,  tính từ|- vện; nâu đốm (nền nâu với những vằn hay đốm thường màu sẫm hơn)
+marmoset,28/8/2024 9:3:59PM,  danh từ|- (động vật học) khỉ đuôi sóc (châu mỹ)
+dogbane,28/8/2024 9:4:0PM, danh từ|- (thực vật) cây nhiệt đới thuộc họ dừa cạn
+vibratility,28/8/2024 9:4:1PM,vaibrətiliti],  danh từ|- khả năng rung động
+photo|electric,28/8/2024 9:4:1PM,foutouilektrik],  tính từ|- quang điện|=photo-electric cell|+ tế bào quang điện
+dead|house,28/8/2024 9:4:1PM,  danh từ|- nhà xác
+sclerification,28/8/2024 9:4:1PM, danh từ|- sự hoá cứng
+prognathous,28/8/2024 9:4:1PM,  tính từ|- có hàm nhô ra|- nhô ra (hàm)
+ending,28/8/2024 9:4:1PM,  danh từ|- sự kết thúc, sự chấm dứt|- sự kết liễu, sự diệt|- phần cuối
+recitative,28/8/2024 9:4:1PM,resitəti:v],  danh từ|- (âm nhạc) hát nói|- đoạn hát nói
+thereabouts,28/8/2024 9:4:2PM,  phó từ|- gần đó, quanh đó, ở vùng lân cận|=in hanoi or thereabout|+ ở hà nội hoặc quanh quanh gần đó|- chừng, xấp xỉ, khoảng|= 10d or thereabout|+ chừng mười đồng
+abele,28/8/2024 9:4:2PM,  danh từ|- (thực vật học) cây bạch dương
+caught,28/8/2024 9:4:2PM,  danh từ|- sự bắt, sự nắm lấy; cái bắt, cái vồ, cái chộp|=a good catch|+ một quả bắt đẹp mắt (bóng đá)|- sự đánh cá; mẻ cá|=a fine catch of fish|+ một mẻ cá nhiều|- nhiều người bị bắt, vật bị túm được; mồi ngon đáng để bẫy; món bở|=it is no catch|+ món này chẳng bở gì|- cái gài, cái móc, cái then cửa, cái chốt cửa|- cái bẫy, mưu kế lừa người; câu hỏi mẹo (để cho ai vào bẫy)|- đoạn (bài nói, câu chuyện...) chợt nghe thấy|- (kỹ thuật) cái hãm, máy hãm, khoá dừng|*  ngoại động từ (caught)|- bắt lấy, nắm lấy, tóm lấy, chộp lấy|=to catch a ball|+ bắt quả bóng|=to catch somebody by the arm|+ nắm lấy cánh tay ai|- đánh được, câu được (cá)|- bắt kịp, theo kịp, đuổi kịp|=to catch a train|+ bắt kịp xe lửa|- mắc, bị nhiễm|=to catch [a], cold|+ nhiễm lạnh, cảm lạnh|=to catch measles|+ mắc bệnh đậu mùa|=to catch a habit|+ nhiễm một thói quen|=to catch fire|+ bắt lửa, cháy|- hiểu được, nắm được (ý nghĩa); nhận ra|=to catch someones meaning|+ hiểu được ý ai muốn nói gì|=to catch a tune|+ thuộc và hát lại được ngay một điệu hát|=to catch a likeness|+ nhận ra sự giống nhau và vẽ lại được|- bắt gặp, bắt được quả tang; chợt gặp, chợt thấy|=to be caught in the act|+ bị bắt quả tang|=let me catch you at it agains!|+ cứ để tôi bắt gặp anh làm cái đó một lần nữa mà xem!|- mắc vào, vướng, móc, kẹp|=nail catches dress|+ đính móc vào|=to catch ones finger in a door|+ kẹp ngón tay vào cửa|=boat is caught in the reeds|+ thuyền bị vướng trong đám lau sậy|- chặn đứng, nén, giữ|=to catch ones breath|+ nín hơi, nín thở|- thu hút, lôi cuốn|=to catch the attention|+ thu hút được sự chú ý|=this will catch the public|+ cái này có thể lôi cuốn được công chúng|- đánh, giáng|=to catch someone a blow|+ giáng cho ai một cú|=to catch somebody one on the jaw|+ đánh cho ai một cú quai hàm|*  nội động từ|- bắt lửa (cái gì...)|=wet wood does not catch|+ gỗ ẩm không bắt lửa|- đóng băng|=river catches|+ con sông bắt đầu đóng băng|- mắc, vướng, móc, kẹp|=dress catches on a nail|+ áo móc phải đinh|- ăn khớp, vừa|=the key does not catch|+ khoá này không vừa|- bấu, víu lấy, níu lấy, chộp lấy|=to catch at an apportunity|+ chộp lấy cơ hội|=a drawning man will catch at an apportunity|+ chộp lấy cơ hội|=a drawning man will catch at a straw|+ sắp chết đuối thì vớ được cọng rơm cũng cố víu lấy|- nổi tiếng; trở thành cái mốt; được mọi người ưa chuộng|- (thông tục) hiểu được, nắm được|- (nghĩa bóng) bất chợt bắt được (ai) đang làm gì|- đuổi kịp, theo kịp, bắt kịp|=go on in from, ill soon catch you up|+ cứ đi trước đi, tôi sẽ đuổi kịp anh ngay|- ngắt lời|=to catch up a speaker|+ ngắt lời người phát biểu|- nhiễm (thói quen)|=to catch up a habit|+ nhiễm một thói quen|- nắm lấy cái gì, tóm được cái gì|- (thông tục) bị la mắng, quở phạt, bị đánh đập|- tớ mà lại làm cái đó à, không đời nào!|- (xem) eye
+downhaul,28/8/2024 9:4:2PM, danh từ|- dây kéo buồm xuống
+spirula,28/8/2024 9:4:2PM, danh từ|- (động vật) mực vỏ xoắn
+bathrobe,28/8/2024 9:4:2PM,thành ngữ bath|- bathrobe|- áo choàng tắm|- thành ngữ bath|- bathrobe|- áo choàng tắm
+roll|call,28/8/2024 9:4:2PM,  danh từ|- sự gọi tên, sự điểm danh
+desquamate,28/8/2024 9:4:3PM,  động từ|- bóc vảy; tróc vảy
+emitter|base{capacitance,28/8/2024 9:4:3PM,(tech) điện dung cực phát-gốc
+surely,28/8/2024 9:4:3PM,  phó từ|- chắc chắn|=he knows full surely that|+ chắc chắn là anh ta biết điều ấy quá đi rồi|- rõ ràng, không ngờ gì nữa|=i have met you before|+ rõ ràng là tôi đã gặp anh trước rồi|- nhất định rồi (trong câu trả lời)|=you will come, wont you? - surely|+ anh sẽ tới chứ? nhất định rồi!
+imno,28/8/2024 9:4:3PM,trong các hội nghị trực tuyến, đây là những ký tự vt của in my humbbe opinion
+close|up,28/8/2024 9:4:3PM,  danh từ|- (điện ảnh) cảnh gần, cận cảnh
+inexactitude,28/8/2024 9:4:3PM,inigzæktitju:d],  danh từ|- tính không đúng, tính không chính xác; sự không đúng, sự không chính xác
+insightful,28/8/2024 9:4:4PM,  tính từ|- sâu sắc, sáng suốt
+rhotacize,28/8/2024 9:4:4PM,xem rhotacise
+clergy,28/8/2024 9:4:4PM,  danh từ|- giới tăng lữ; tăng lữ
+lords{temporal,28/8/2024 9:4:4PM, danh từ|- các quý tộc tại thượng nghị viện anh được phong tước hiệu đến mãn đời
+getting,28/8/2024 9:4:4PM, danh từ|- (ngành mỏ) sự khấu; sự khai thác|- lợi ích; thu hoạch
+melodizer,28/8/2024 9:4:4PM, danh từ|- như melodist
+stock|account,28/8/2024 9:4:5PM,kaunt],#-book) |/stɔkbuk/|*  danh từ|- sổ nhập và xuất hàng
+copying|ink,28/8/2024 9:4:5PM, danh từ|- mực để sao chép
+skywards,28/8/2024 9:4:5PM,  tính từ & phó từ|- lên trời, về phía bầu trời
+twelvemonth,28/8/2024 9:4:5PM,  danh từ|- một năm|=for nearly a twelvemonth|+ đã gần một năm|=this day twelvemonth|+ ngày này năm sau
+sluicing,28/8/2024 9:4:5PM, danh từ|- sự tháo cống|- sự đưa tàu vào âu
+scorpius,28/8/2024 9:4:5PM, danh từ|- (thiên văn học) cung bọ cạp
+apa{graphic,28/8/2024 9:4:5PM,đồ hình ánh xạ bit
+instructorship,28/8/2024 9:4:6PM,  danh từ|- đại vị người dạy|- (từ mỹ,nghĩa mỹ) chức trợ giáo (đại học)
+shedder,28/8/2024 9:4:6PM,  danh từ|- người làm rụng, người làm rơi|- cua lột; rắn lột; sâu bọ lột
+kaolinization,28/8/2024 9:4:6PM,keiəlinaizeiʃn],  danh từ|- sự caolin hoá
+ski|bob,28/8/2024 9:4:6PM, danh từ|- xe trượt (dùng để đua trên tuyết và giống như một chiếc xe đạp có ván trượt thay vì bánh xe)
+fundamental{wave,28/8/2024 9:4:6PM,(tech) sóng cơ bản
+glitter,28/8/2024 9:4:7PM,  danh từ|- ánh sáng lấp lánh|- sự lộng lẫy; vẻ tráng lệ, vẻ rực rỡ|*  nội động từ|- lấp lánh|=stars glittering in the sky|+ các vì sao lấp lánh trên trời|- rực rỡ, chói lọi|- (tục ngữ) chớ thấy sáng mà ngỡ là vàng
+dial|telephone,28/8/2024 9:4:7PM,  danh từ|- điện thoại tự động
+sandal|wood,28/8/2024 9:4:7PM,  danh từ|- dép|- quai dép (ở mắt cá chân)|*  ngoại động từ,  (thường) động tính từ quá khứ|- đi dép (cho ai)|- buộc quai, lồng quai (vào dép...)|*  danh từ+ (sandal-wood) |/sændlwud/ (sanders) |/sɑ:ndəz/ (sanders_wood) |/sɑ:ndəzwud/|- gỗ đàn hương
+fistful,28/8/2024 9:4:7PM, danh từ|- một nắm
+dolichocephaly,28/8/2024 9:4:7PM, danh từ|- hiện tượng đầu dài, hiện tượng sọ dài
+gallery,28/8/2024 9:4:7PM,  danh từ|- phòng trưng bày tranh tượng|- nhà cầu, hành lang|- phòng dài (tập bắn, chơi bóng gỗ...)|- ban công, chuồng gà; khán giả chuồng gà (trong rạp hát)|=gallery hit|+ (nghĩa bóng) tiết mục được quần chúng ưa thích|- chỗ dành cho ban đồng ca (ở nhà thờ); lô dành cho nhà báo (cho khách) (ở nghị viện)|- cái giữ thông phong đèn (cho khách)|- (ngành mỏ); (quân sự) đường hầm|- chiều theo thị hiếu tầm thường của quần chúng|*  ngoại động từ|- đục đường hầm, mở đương hầm (ở mỏ...)
+anacoluthic,28/8/2024 9:4:8PM,xem anacoluthon
+tombless,28/8/2024 9:4:8PM, tính từ|- không có mộ; không được chôn cất
+unpopular,28/8/2024 9:4:8PM,  tính từ|- không có tính chất quần chúng|- không được quần chúng yêu chuộng, không được quần chúng ưa thích
+confession,28/8/2024 9:4:8PM,  danh từ|- sự thú tội, sự thú nhận|- (tôn giáo) sự xưng tội|- tôi đã xưng|- sự tuyên bố (nguyên tắc của mình về một vấn đề gì); sự phát biểu (về tín ngưỡng)|- tín điều
+clearage,28/8/2024 9:4:8PM, danh từ|- việc quét sạch (cản trở)|- đất đã phát quang
+undercook,28/8/2024 9:4:9PM, động từ|- nấu chưa chín
+diademed,28/8/2024 9:4:9PM,  tính từ|- đội mũ miện, đội vương miện|- có quyền vua|- đội vòng hoa, đội vòng lá|- đội vòng nguyệt quế
+spite,28/8/2024 9:4:9PM,  danh từ|- sự giận, sự không bằng lòng|=to have a spite against someone|+ giận ai|- sự thù oán; mối hận thù|=to do something from (in, out of) pure spite|+ làm việc gì hoàn toàn vì thù hằn|- mặc dầu|*  ngoại động từ|- làm khó chịu, làm phiền, trêu tức|=he did it to spite me|+ hắn làm như thế để trêu tức tôi|- (xem) nose
+ear|drop,28/8/2024 9:4:9PM,#-ring) |/iəriɳ/|*  danh từ|- hoa tai
+freezing|point,28/8/2024 9:4:9PM,  danh từ|- (vật lý) điểm đông
+babblement,28/8/2024 9:4:9PM,  danh từ+ (babblement) |/bæblmənt/|- tiếng bập bẹ, tiếng bi bô (trẻ con)|- sự nói lảm nhảm, sự|- tiếng rì rào, tiếng róc rách (suối)|- sự tiết lộ (bí mật)|*  động từ|- bập bẹ, bi bô (trẻ con)|- nói nhiều, nói lảm nhảm, bép xép|- rì rào, róc rách (suối)|- tiết lộ (bí mật)
+trover,28/8/2024 9:4:10PM, danh từ|- (pháp lý) sự kiện đòi trả lại tài sản bị người khác chiếm đoạt bất hợp pháp
+sima,28/8/2024 9:4:10PM, danh từ|- (địa chất) quyển sima
+incoherently,28/8/2024 9:4:10PM, phó từ|- rời rạc, không mạch lạc
+uninuclear,28/8/2024 9:4:10PM,  tính từ|- đơn nhân (tế bào)
+odorousness,28/8/2024 9:4:10PM, danh từ|- xem odorous, tính có mùi thơm, sự toả hương thơm
+parachutic,28/8/2024 9:4:11PM,xem parachute
+sweet|gale,28/8/2024 9:4:11PM, danh từ|- (thực vật) cây dâu thơm
+belong,28/8/2024 9:4:11PM,  nội động từ|- thuộc về, của, thuộc quyền sở hữu|=the power belongs to the people|+ chính quyền thuộc về tay nhân dân|- thuộc vào (chỗ nào), ở (chỗ nào)|=where do these things belong?|+ những thứ này để vào chỗ nào?|=where it belongs|+ đúng chỗ|=to belong in|+ (từ mỹ,nghĩa mỹ) ở chỗ nào|=to belong here|+ là người; ở đây; ở đúng ngay dưới đầu đề này|- thuộc về bổn phận của, là việc của; có liên quan tới|=it belongs to you investigate the matter|+ bổn phận của anh là phải điều tra vấn đề|- thuộc vào loại|=whales belong among the mammals|+ cá voi thuộc loài có vú|- là hội viên của|- ăn ý nhau, hợp tính hợp tình với nhau|- có quan hệ với, liên quan với||@belong|- thuộc về
+undecipherable,28/8/2024 9:4:11PM,  tính từ|- không thể đọc ra được, không thể giải được (mã)
+adnation,28/8/2024 9:4:11PM,xem adnate
+personae,28/8/2024 9:4:12PM, danh từ|- số nhiều|- xem persona
+counselor,28/8/2024 9:4:12PM, danh từhư counsellor|- như counsellor
+phonetical,28/8/2024 9:4:12PM,xem phonetic
+springwood,28/8/2024 9:4:12PM, danh từ|- gỗ mùa xuân
+rondel,28/8/2024 9:4:12PM,  danh từ|- (văn học) rôngđô (một thể thơ) ((cũng) roundel)
+encraty,28/8/2024 9:4:13PM, danh từ|- sự tự kiềm chế; sự khắc dịu
+erstwhile,28/8/2024 9:4:13PM,  phó từ|- (từ cổ,nghĩa cổ) ngày xưa, xưa kia
+contemptuous,28/8/2024 9:4:13PM,  tính từ|- khinh thường, coi thường; tỏ vẻ khinh bỉ, khinh người, khinh khỉnh|=to be contemptuous of something|+ khinh thường việc gì|=a contemptuous attitude|+ thái độ khinh người|=a contemptuous look|+ cái nhìn khinh khỉnh
+odds,28/8/2024 9:4:13PM,  danh từ số nhiều|- sự chênh lệch; sự so le|=to make odds even|+ làm cho hết so le, làm cho đều nhau|- sự khác nhau|=it makes no odds|+ không sao, không hề gì|- sự xung đột, sự bất hoà|=to be at odds with somebody|+ bất hoà với ai|- sự lợi thế|=the odds are in our favour|+ ta ở vào thế lợi|- sự chấp (chơi cò, thể thao...)|=to give odds|+ chấp|=to take odds|+ nhận sự chấp|- tỷ lệ (tiền cuộc)|=to lay odds of three to one|+ đánh cuộc một ăn ba|- thế thì sao?|- nhất định là anh ta sẽ làm việc đó|- nó là tay cừ nhất vượt hẳn các cậu khác|- những đầu thừa đuôi theo, những thứ linh tinh lặt vặt||@odds|- sự khác nhau, sự chênh lệch; ưu thế; may mắn|- equal o. máy mắn như nhau |- long o. may mắn không như nhau |- short o. ưu thế hơn một chút; may mắn gần như nhau
+tetradactylous,28/8/2024 9:4:14PM,tetrədæktil],  tính từ|- (động vật học) có chân bốn ngón
+sequent,28/8/2024 9:4:14PM,  tính từ|- liên tục, liên tiếp|- theo sau, tiếp sau (ảnh hưởng...)|- (toán học) dãy, theo dãy|=sequent analysis|+ gải tích dãy||@sequent|- tiếp sau
+crown{colony,28/8/2024 9:4:14PM,thuộc địa anh chưa được độc lập
+uncoercive,28/8/2024 9:4:14PM, tính từ|- không bị ép buộc, không bị cưỡng bức
+podal,28/8/2024 9:4:15PM, tính từ|- thuộc chân
+hyper|real,28/8/2024 9:4:15PM,(đại số) siêu thực
+implacability,28/8/2024 9:4:15PM,plækəbiliti],  danh từ|- tính không thể làm xiêu lòng, tính không thể làm mủi lòng|- tính không thể làm nguôi được, tính không thể làm dịu được
+sprit,28/8/2024 9:4:15PM,  động từ|- sào căng buồm (chéo từ cột đến góc ngoài phía trên buồm)
+esterify,28/8/2024 9:4:15PM, ngoại động từ|- este hoá
+counter|insurgent,28/8/2024 9:4:15PM,sə:dʤənt],  tính từ|- chống khởi nghĩa|- chống chiến tranh du kích
+browser,28/8/2024 9:4:16PM,<tin>bộ duyệt tìm
+creek,28/8/2024 9:4:16PM,  danh từ|- vùng, lạch|- (từ mỹ,nghĩa mỹ) sông con, nhánh sông|- thung lũng hẹp
+award|winning,28/8/2024 9:4:16PM,cách viết khác : prize-winning
+unhoped|for,28/8/2024 9:4:16PM,  tính từ|- không mong ước, không đợi chờ, bất ngờ
+chard,28/8/2024 9:4:16PM, danh từ|- một loại củ cải ăn giống như rau
+progenesis,28/8/2024 9:4:17PM, danh từ|- sự progenetic
+entoparasite,28/8/2024 9:4:17PM,entəpærəsait],  danh từ|- (động vật học) vật ký sinh trong
+enantiomorphous,28/8/2024 9:4:17PM,xem enantiomorph
+carmelite,28/8/2024 9:4:17PM, danh từ|- giáo sự thuộc một dòng tu thành lập năm 1155
+pervertible,28/8/2024 9:4:17PM,xem pervert
+idem,28/8/2024 9:4:17PM,  danh từ,  (viết tắt) id.|- cũng tác giả ấy, cũng cuốn sách ấy; cũng từ ấy|- ((viết tắt) i.q.) cũng như|*  phó từ,  (viết tắt) id.|- như trên||@idem|- cùng chữ ấy, như trên
+choriambic,28/8/2024 9:4:18PM,xem choriamb
+tapestry|making,28/8/2024 9:4:18PM,meikiɳ],  danh từ|- thuật làm thảm
+mp,28/8/2024 9:4:18PM, danh từ|- vt của member of parliament nghị sự quốc hội anh  |- vt của military police quân cảnh|- vt của mounted police cảnh sát cưỡi ngựa
+ultrafiltration,28/8/2024 9:4:18PM, danh từ|- sự lọc qua máy siêu lọc
+fairy{lamps,28/8/2024 9:4:18PM,#-lights) /feərilaits/|*  danh từ số nhiều|- đèn lồng
+get,28/8/2024 9:4:18PM,  ngoại động từ got,  got,  gotten|- được, có được, kiếm được, lấy được|=to get a living|+ kiếm sống|=to get little by it|+ không được lợi lộc gì ở cái đó|=to get fame|+ nổi tiếng|- nhận được, xin được, hỏi được|=to get a telegram|+ nhận được một bức điện tín|=he couldnt get leave from his father|+ nó không xin được phép của bố nó|- tìm ra, tính ra|=to get 9 on the average|+ tính trung bình được 9|- mua|=to get a new hat|+ mua một cái mũ mới|=to get a ticket|+ mua một cái vé|- học (thuộc lòng)|=to get something by heart|+ học thuộc lòng điều gì|- mắc phải|=to get an illness|+ mắc bệnh|- (thông tục) ăn|=to get ones breakfast|+ ăn sáng|- bắt được (cá, thú rừng...); đem về, thu về (thóc...)|- (thông tục) hiểu được, nắm được (ý...)|=i dont get you|+ tôi không hiểu ý anh|=to get it right|+ hiểu một cách đúng đắn điều đó|=to get the cue|+ nắm được ngụ ý|- đưa, mang, chuyền, đem, đi lấy|=to get the table through the window|+ chuyển cái bàn qua cửa sổ|=get me a chair|+ đi lấy cho tôi một cái ghế, mang cho tôi một cái ghế|- bị, chịu|=to get a blow|+ bị một đòn|=to get a fall|+ bị ngã|=to get ones arm broken|+ bị gãy tay|=to get it|+ bị trừng phạt, bị mắng nhiếc|- (thông tục) dồn (ai) vào thế bí, dồn (ai) vào chân tường; làm (ai) bối rối lúng túng không biết ăn nói ra sao|=ah! ive got you there!|+ à! thế là tôi làm cho anh bị bối rối nhé!|- làm cho, khiến cho|=to get somebody to speak|+ làm cho ai phải nói|=he could not get the door open|+ hắn không làm thế nào mở được cửa ra|=to get the low observed|+ làm cho pháp luật được tôn trọng|=to get somebody with child|+ làm cho ai có mang|=to get some job done|+ làm xong một việc gì|- sai ai, bảo ai, nhờ ai (làm gì)|=to get ones hair cut|+ đi cắt tóc|- (thông tục) to have got có, phải|=ive got very little money|+ tôi có rất ít tiền|=it has got to be done|+ phải làm việc đó|- sinh, đẻ (thú vật; ít khi dùng cho người)|- tìm hộ, mua hộ, xoay hộ, cung cấp|=to get [for], someone a football match ticket|+ tìm mua (xoay hộ) cho ai một vé đi xem đá bóng|*  nội động từ|- đến, tới, đạt đến|=shall we get there in time?|+ liệu chúng ta có đến đó kịp giờ không?|=to get there|+ (từ lóng) thành công|- trở nên, trở thành, thành ra, đi đến chỗ|=to get fat|+ (trở nên) béo ra|=to get old|+ (trở nên) già đi|=to get better|+ đã đỡ, đã khá hơn (người ốm)|=to get well|+ đã khỏi (người ốm)|- bắt đầu|=to get to work|+ khởi công, bắt đầu làm|=they got talking|+ chúng nó bắt đầu nói chuyện|- (từ lóng) cút đi, chuồn||@get|- được; tính
+fakirism,28/8/2024 9:4:19PM, danh từ|- cách tu khổ hạnh của các fakia ấn độ
+data{point,28/8/2024 9:4:20PM,(tech) điểm dữ liệu
+patronising,28/8/2024 9:4:21PM, tính từ|- ra vẻ kẻ cả, kẻ bề trên
+pouch,28/8/2024 9:4:21PM,  danh từ|- túi nhỏ|- (quân sự) túi đạn (bằng da)|- (động vật học) túi (thú có túi)|- (thực vật học) khoang túi; vỏ quả|- (từ cổ,nghĩa cổ) túi tiền, hầu bao|*  ngoại động từ|- cho vào túi, bỏ túi|- (từ lóng) đãi tiền diêm thuốc, cho tiền|- làm (một bộ phận của áo) thõng xuống như túi|*  nội động từ|- thõng xuống như túi (một bộ phận của áo)
+fathership,28/8/2024 9:4:21PM,  danh từ|- cương vị làm cha, cương vị làm bố
+bbfc,28/8/2024 9:4:21PM,(vtcủa british board of film censors) hội đồng kiểm duyệt phim của anh
+free|spoken,28/8/2024 9:4:21PM,  tính từ|- nói thẳng, nói toạc ra
+vaticide,28/8/2024 9:4:23PM, danh từ|- kẻ giết nhà tiên tri
+ren,28/8/2024 9:4:23PM, danh từ|- số nhiều renes|- (giải phẫu) học thận|* ngoại động từ|- (tin học) viết tắt của rename : đặt tên lại
+inordinately,28/8/2024 9:4:23PM, phó từ|- quá quắt, quá đáng
+friar,28/8/2024 9:4:23PM,  danh từ|- thầy dòng (dòng đô-mi-ních,  fran-xít...)
+systematics,28/8/2024 9:4:23PM,sistimætiks],  danh từ,  số nhiều dùng như số ít|- phân loại học|- phương pháp phân loại|- sự phân loại
+overbought,28/8/2024 9:4:23PM,  động từ overbought|- mua nhiều quá, mua sắm quá túi tiền của mình
+progeniture,28/8/2024 9:4:24PM,  danh từ|- con cháu, dòng dõi
+labour{hoarding,28/8/2024 9:4:24PM,(econ) tích trữ lao động.|+ khi các hãng đầu tư mạnh vào việc thuê và đào tạo một công nhân, họ sẽ không muốn sa thải người đó trong thời kỳ kinh tế suy thoái.
+domesticity,28/8/2024 9:4:24PM,doumestisiti],  danh từ|- trạng thái thuần hoá (súc vật)|- tính chất gia đình, tính chất nội trợ|- đời sống gia đình; đời sống riêng|- tính thích cuộc sống gia đình, tính thích ru rú xó nhà|- (số nhiều) (the domesticities) việc gia đình, việc nội trợ
+racy,28/8/2024 9:4:24PM,  tính từ|- đặc biệt, đắc sắc|=racy wine|+ rượu vang đặc biệt|=a racy flavỏu|+ hương vị đặc biệt|=to be racy of the soil|+ giữ được bản chất, giữ được sắc thái dân gian, giữ được đặc tính địa phương|- sinh động, sâu sắc, hấp dẫn|=a racy story|+ một chuyện hấp dẫn (sâu sắc)|=a racy style|+ văn phong sinh động hấp dẫn|- hăng hái, sốt sắng, đầy nhiệt tình (người)|- (thuộc) giống tốt (thú)
+fluor,28/8/2024 9:4:24PM,  danh từ|- (khoáng chất) fluorit
+laicisation,28/8/2024 9:4:24PM, danh từ|- sự tách khỏi giáo hội, sự dứt quan hệ với giáo hội; sự làm trở thành phi giáo hội
+stayer,28/8/2024 9:4:24PM,  danh từ|- người ru rú xó nhà|- người dai sức; ngựa dai sức (trong cuộc đua)
+brainlessly,28/8/2024 9:4:24PM,xem brainless
+snow|owl,28/8/2024 9:4:25PM,  danh từ|- (động vật học) cú tuyết
+responsively,28/8/2024 9:4:25PM, phó từ|- đáp ứng nhiệt tình; thông cảm|- phản ứng nhanh, thuận lợi; dễ bị điều khiển, dễ sai khiến|- đáp lại, trả lời|- sẵn sàng đáp lại, dễ phản ứng lại; dễ cảm (tính tình)
+grease|pan,28/8/2024 9:4:25PM,  danh từ|- chảo hứng mỡ, (thịt quay)
+necrophilia,28/8/2024 9:4:25PM, danh từ|- bệnh hoạn (đặc biệt có quan hệ tình dục với xác chết)
+punchiness,28/8/2024 9:4:25PM,xem punchy
+international{division{of{labour,28/8/2024 9:4:25PM,(econ) sự phân chia lao động quốc tế.|+ chuyên môn hoá trong sản xuất trên cơ sở quốc gia.
+economies{of{learning,28/8/2024 9:4:26PM,(econ) tính kinh tế nhờ học hành; lợi ích kinh tế do học tập|+ xem learning
+denominable,28/8/2024 9:4:26PM,xem denominate
+fiasco,28/8/2024 9:4:26PM,  danh từ,  số nhiều fiascos,  fiascoes|- sự thất bại
+immateriality,28/8/2024 9:4:26PM,tiəriæliti],  danh từ|- tính vô hình, tính phi vật chất|- sự không quan trọng
+porno,28/8/2024 9:4:26PM, tính từ|- <thgt> khiêu dâm; có liên quan đến sách báo khiêu dâm
+fibrinous,28/8/2024 9:4:26PM,  tính từ|- (thuộc) tơ huyết
+profitably,28/8/2024 9:4:27PM, phó từ|- có lợi, có ích; thuận lợi|- sinh lãi, mang lợi
+ocreate,28/8/2024 9:4:30PM, tính từ|- xem ochreate
+alkalitropic,28/8/2024 9:4:30PM, tính từ|- hướng kiềm
+ratchet|and|fawl,28/8/2024 9:4:30PM, danh từ|- cơ cấu bánh cóc
+slating,28/8/2024 9:4:30PM,  danh từ|- sự lợp bằng nói acđoa|- ngói acđoa (nói chung)|- (từ mỹ,nghĩa mỹ) sự đề cử|*  ngoại động từ (thông tục)|- công kích, đả kích|- (từ mỹ,nghĩa mỹ) chửi rủa thậm tệ; trừng phạt nghiêm khắc
+approach,28/8/2024 9:4:30PM,  danh từ|- sự đến gần, sự lại gần|=easy of approach|+ dễ đến (địa điểm); dễ gần (người)|=difficult of approach|+ khó đến (địa điểm); khó gần (người)|- sự gần như, sự gần giống như|=some approach to truth|+ một cái gì gần như là chân lý|- đường đi đến, lối vào|=the approach to a city|+ lối vào thành phố|- (số nhiều) (quân sự) đường để lọt vào trận tuyến địch; đường hào để đến gần vị trí địch|- sự thăm dò ý kiến; sự tiếp xúc để đặt vấn đề|- cách bắt đầu giải quyết, phương pháp bắt đầu giải quyết (một vấn đề)|- (toán học) sự gần đúng; phép tính gần đúng|=approach velocity|+ vận tốc gần đúng|- sự gạ gẫm (đàn bà)|*  động từ|- đến gần, lại gần, tới gần|=winter is approaching|+ mùa đông đang đến|- gần như|=his eccentricity approaches to madness|+ tính lập dị của anh ta gần như là điên|- thăm dò ý kiến; tiếp xúc để đặt vấn đề|=to approach someone on some matter|+ thăm dò ý kiến ai về vấn đề gì|- bắt đầu giải quyết (một vấn đề)|- gạ gẫm (đàn bà)||@approach|- (tech) tính gần đúng, phép xấp xỉ; tiếp cận; phương pháp; đáp xuống (máy bay)||@approach|- sự gần đúng, phép xấp xỉ, cách tiếp cận|- radial a. gl. ghép xấp xỉ theo tia
+interna{rate{of{return,28/8/2024 9:4:30PM,(econ) nội suất thu hồi vốn/ tỷ lệ hoàn vốn nội bộ.
+exteroreception,28/8/2024 9:4:31PM, danh từ|- sự nhận cảm ngoài; ngoại cảm thụ
+dutchman,28/8/2024 9:4:31PM,  danh từ|- người hà-lan|=flying dutchman|+ tàu ma (trong tiểu thuyết hoang đường)|- tôi mà làm thì xin cứ chặt đầu tôi đi!|- tôi có trông thấy hắn, nếu không thì cứ chặt đầu tôi đi
+irremissibility,28/8/2024 9:4:31PM,misibiliti],  danh từ|- tính không thể tha thứ được (tội...)|- tính không thể tránh được, tính không thể trì hoân được (nhiệm vụ...)
+gapped,28/8/2024 9:4:31PM, tính từ|- có kẽ; có khe
+amphichromatism,28/8/2024 9:4:31PM, danh từ|- hiện tượng màu kép
+artistry,28/8/2024 9:4:32PM,  danh từ|- nghệ thuật, tính chất nghệ thuật|- công tác nghệ thuật
+lexicographi,28/8/2024 9:4:32PM,(hiểu) từ điển
+kings{evil,28/8/2024 9:4:32PM,  danh từ|- (y học) tràng nhạc
+assault,28/8/2024 9:4:32PM,  danh từ|- cuộc tấn công, cuộc đột kích|=to take (carry) a post by assault|+ tấn công, chiếm đồn|=assault at (of) arms|+ sự tấn công (đấu kiếm); sự tập trận giả để phô trương|- (nghĩa bóng) sự công kích thậm tệ|- (pháp lý) sự hành hung|=assault and battery|+ sự đe doạ và hành hung|- (nói trại) hiếp dâm, cưỡng dâm
+retrooperative,28/8/2024 9:4:33PM, tính từ|- có tác dụng ngày trước
+envier,28/8/2024 9:4:33PM,xem envy
+hard|hearted,28/8/2024 9:4:33PM,  tính từ|- nhẫn tâm, không biết thương xót, không có tình cảm, lòng dạ sắt đá
+isonomic,28/8/2024 9:4:34PM,aisounɔmik],  tính từ|- bình đẳng về chính trị
+gujarati,28/8/2024 9:4:34PM, danh từ|- ngôn ngữ gujarat (một vùng ở ấn độ)
+distort,28/8/2024 9:4:34PM,  ngoại động từ|- vặn vẹo, bóp méo, làm méo mó|- bóp méo, xuyên tạc (sự việc...)||@distort|- xoắn, vặn, làm biến dạng, làm méo
+anonaceae,28/8/2024 9:4:34PM,ænəneisii:],  danh từ số nhiều|- (thực vật học) họ na
+precarious,28/8/2024 9:4:35PM,  tính từ|- (pháp lý) tạm, tạm thời, nhất thời, không ổn định|=precarious tenure|+ quyền hưởng dụng tạm thời|- không chắc chắn, bấp bênh, mong manh; hiểm nghèo, gieo neo|=a precarious living|+ cuộc sống bấp bênh|- không dựa trên cơ sở chắc chắn, coi bừa là đúng, liều|=a precarious statement|+ lời tuyên bố không dựa trên cơ sở chắc chắn, lời tuyên bố liều
+diffusive,28/8/2024 9:4:35PM,  tính từ|- (vật lý) khuếch tán (ánh sáng)|- rườm rà, dài dòng (văn)
+bc,28/8/2024 9:4:35PM,  (viết tắt) của before christ trước công lịch
+school|practice,28/8/2024 9:4:35PM, danh từ|- thực tiển giảng dạy
+clambake,28/8/2024 9:4:35PM, danh từ|- cuộc dạo chơi trên bãi biển và có ăn hải sản
+beget,28/8/2024 9:4:36PM,  (bất qui tắc) ngoại động từ begot; begot,  begotten|- sinh ra, gây ra|=imperialism begets wars|+ chủ nghĩa đế quốc sinh ra chiến tranh
+outsang,28/8/2024 9:4:36PM,  ngoại động từ outsang,  outsung|- hát hay hơn|- hát to hơn|*  nội động từ|- cất tiếng hát; lên tiếng hót
+block{sort,28/8/2024 9:4:36PM,(tech) sắp xếp theo khối
+tatu,28/8/2024 9:4:37PM,xem tatou
+vestal,28/8/2024 9:4:37PM,  tính từ|- (thuộc) bà táo|- (thuộc) nữ vu|=vestal virgin|+ trinh nữ|- (nghĩa bóng) trong trắng, tinh khiết|*  danh từ|- nữ vu thờ bà táo (cổ la mã)|- trinh nữ
+unfortunate,28/8/2024 9:4:37PM,  tính từ|- không may, rủi ro, bất hạnh|=an unfortunate man|+ người bất hạnh|=an unfortunate event|+ việc rủi ro|- đáng buồn, đáng tiếc, bất như ý; tai hại|*  danh từ|- người bất hạnh, người bạc mệnh, người không may
+stepwise{regression,28/8/2024 9:4:37PM,(econ) hồi quy theo bước .|+ một kiểu phân tích hồi quy trong đó các biến giải thích được cộng lần lượt vào phương trình hồi quy cho đến khi tiêu chí mức độ phù hợp được thoả mãn.
+urinal,28/8/2024 9:4:41PM,  danh từ|- (y học) bình đái (cho người bệnh)|- (y học) lo đựng nước tiểu (để xét nghiệm)|- chỗ đi tiểu|=street urinal|+ chỗ đi tiểu ở đường phố, nhà đi tiểu công cộng
+calla,28/8/2024 9:4:41PM, danh từ|- cũng calla  lili|- (thực vật) cây thủy vu
+graphic{character,28/8/2024 9:4:42PM,(tech) ký tự đồ họa
+glottologic,28/8/2024 9:4:42PM,cách viết khác : glottological
+pretended,28/8/2024 9:4:42PM,  tính từ|- giả vờ, giả đò, giả bộ, giả cách
+gross{domestic{product{deflator,28/8/2024 9:4:42PM,(econ) chỉ số khử lạm phát cho tổng sản phẩm quốc nội.|+ một chỉ số giá được sử dụng để điều chỉnh giá trị bằng tiền của tất cả hàng hoá và dịch vụ tham gia vào tổng sản phẩm quốc nội khi giá cả thay đổi.
+thaumaturgist,28/8/2024 9:4:42PM,  danh từ|- người có phép thần thông, người có phép ảo thuật
+eloquent,28/8/2024 9:4:42PM,  tính từ|- hùng biện, hùng hồn
+disapprobative,28/8/2024 9:4:42PM,  tính từ|- không tán thành, phản đối
+qin,28/8/2024 9:4:43PM, danh từ|- (lịch sử trung hoa) nhà tần (221 - 206 trước công nguyên) (cũng) chin|* danh từ|- (lịch sử trung hoa) nhà tần (221 - 206 trước công nguyên) (cũng) chin
+self|inductance,28/8/2024 9:4:43PM, danh từ|- độ tự cảm
+msc,28/8/2024 9:4:43PM,thạc sĩ khoa học (master of science)|= to have an msc in mathematics|+ có bằng thạc sĩ toán học|= to be an msc in theoretical physics|+ là thạc sĩ vật lý lý thuyết
+additive{primary{color,28/8/2024 9:4:43PM,(tech) màu cơ bản cộng thêm
+inattentive,28/8/2024 9:4:43PM,inətentiv],  tính từ|- vô ý, không chú ý, không lưu tâm|=to lend somebody an inattentive ear|+ không chú ý nghe ai nói|- thiếu lễ độ, khiếm nhã|- thiếu ân cần, thiếu chu đáo, thiếu săn sóc
+artily,28/8/2024 9:4:44PM,xem arty
+dampy,28/8/2024 9:4:44PM,  tính từ|- ấm, hơi ấm|- có hơi độc, có khí nổ (mỏ)
+joker,28/8/2024 9:4:44PM,  danh từ|- người thích thú đùa; người hay pha trò|- (từ lóng) anh chàng, cu cậu, gã, thằng cha|- quân bài j|- (từ mỹ,nghĩa mỹ) điều khoản mánh khoé (có thể hiểu nhiều cách, lồng vào một văn kiện để dễ đưa người ta vào tròng)|- (từ mỹ,nghĩa mỹ) điều khó khăn ngầm, điều khó khăn không người tới||@joker|- (lý thuyết trò chơi) quân phăng teo
+halophilic,28/8/2024 9:4:44PM, tính từ,  halophilous+thuộc thực vật ưa mặn
+rudder|post,28/8/2024 9:4:44PM, danh từ|- khoang lái; trục lái
+stingily,28/8/2024 9:4:46PM, phó từ|- xem stingy
+easy|going,28/8/2024 9:4:46PM,gouiɳ],  tính từ|- thích thoải mái; vô tư lự, ung dung (người)|- có bước đi thong dong (ngựa)
+urethra,28/8/2024 9:4:47PM,  danh từ|- (gii phẫu) ống đái
+salon,28/8/2024 9:4:47PM,  danh từ|- phòng tiếp khách|- (the salon) cuộc triển lãm tranh hằng năm (của các nghệ sĩ ở pa-ri)|- cuộc họp mặt nghệ sĩ (ở nhà một nhân vật nổi danh)
+antisudorific,28/8/2024 9:4:47PM,sju:dərifik],  tính từ|- (y học) chống đổ mồ hôi|*  danh từ|- (y học) thuốc chống đổ mồ hôi
+undeliberated,28/8/2024 9:4:47PM,  tính từ|- không suy nghĩ, không suy xét kỹ
+essentially,28/8/2024 9:4:47PM, phó từ|- về bản chất, về cơ bản
+epidemic,28/8/2024 9:4:47PM,epidemik],  tính từ|- dịch|=an epidemic disease|+ bệnh dịch|*  danh từ|- bệnh dịch ((nghĩa đen) & (nghĩa bóng))
+explosively,28/8/2024 9:4:48PM, phó từ|- mạnh mẽ, dữ dội
+autosome,28/8/2024 9:4:48PM, danh từ|- thể thường nhiễm sắc, thể nhiễm sắc điển hình
+reification,28/8/2024 9:4:48PM, danh từ|- sự đồ vật hoá
+conversableness,28/8/2024 9:4:48PM,  danh từ|- tính nói chuyện dễ ưa, tính ưa chuyện|- tính dễ giao du, tính dễ làm quen
+out|of|print,28/8/2024 9:4:48PM,  tính từ|- không xuất bản nữa|*  danh từ|- tài liệu không xuất bản nữa
+blowfly,28/8/2024 9:4:48PM,  danh từ|- ruồi xanh, nhặng
+sympathetical,28/8/2024 9:4:49PM,xem sympathetic
+irreplaceability,28/8/2024 9:4:49PM,xem irreplaceable
+kerygma,28/8/2024 9:4:49PM, danh từ; số nhiều kerygmata|- lời tuyên bố cứu vớt nhờ tác dụng của chúa giêxu
+si,28/8/2024 9:4:49PM,  danh từ|- (âm nhạc) xi
+insatiateness,28/8/2024 9:4:49PM,  danh từ|- tính không bao giờ thoả mãn
+amble,28/8/2024 9:4:49PM,  danh từ|- sự đi nước kiệu; nước kiệu|- dáng đi nhẹ nhàng thong thả|*  nội động từ|- đi nước kiệu|- bước đi nhẹ nhàng thong thả
+questorship,28/8/2024 9:4:50PM, danh từ|- chức quan coi quốc khố, chức tài chính quan
+electron{switch{{electronic{switch,28/8/2024 9:4:50PM,(tech) công tắc điện tử
+truckload,28/8/2024 9:4:50PM, danh từ|- trọng lượng vận tải của xe tải
+platonist,28/8/2024 9:4:50PM,  danh từ|- người theo học thuyết pla-ton
+name|calling,28/8/2024 9:4:50PM,kɔ:liɳ],  danh từ|- sự chửi rủa, sự réo tên ra mà chửi
+mideast,28/8/2024 9:4:50PM, danh từ|- như middle east
+atomise,28/8/2024 9:4:51PM,  ngoại động từ|- nguyên tử hoá|- tán nhỏ|- phun
+placentiferous,28/8/2024 9:4:51PM, tính từ|- xem placentate
+paleography,28/8/2024 9:4:52PM, danh từ|- môn chữ cổ; môn cổ tự học
+turbo|driven,28/8/2024 9:4:52PM, tính từ|- được dẫn động bằng tuabin
+oto|,28/8/2024 9:4:53PM,xem ot-
+discard,28/8/2024 9:4:53PM,  danh từ (đánh bài)|- sự chui bài, sự dập bài|- quân chui bài, quân bài dập|*  ngoại động từ|- (đánh bài) chui, dập|- bỏ, loại bỏ, vứt bỏ (quần áo, thói quen, lòng tin...)|- đuổi ra, thải hồi (người làm...)||@discard|- (lý thuyết trò chơi) chui (bài)
+charlie,28/8/2024 9:4:53PM, danh từ|- kẻ ngốc nghếch, kẻ dại khờ
+treponeme,28/8/2024 9:4:53PM, danh từ|- (sinh vật học) khuẩn xoắn
+devil,28/8/2024 9:4:53PM,  danh từ|- ma, quỷ|=devil take it!|+ ma bắt nó đi|- điều quái gỡ, điều ghê gớm, điều khủng khiếp|=what the devil are you doing?|+ cậu làm cái quái gì đấy?|=to work like the devil|+ làm việc hăng quá|=its the devil of a way|+ đường xa kinh khủng|- sự giận dữ, sự tức giận|=to ráie the devil in someone|+ làm cho ai tức điên lên, làm cho ai nổi tam bành|- người hung ác, người nanh ác, người ác độc|- người quỷ quyệt, người xảo quyệt|- người khốn khổ; người bất hạnh, người vô phúc|- thư ký riêng (của luật sư, của nhà văn); người học việc (ở xưởng in)|- thịt nướng tẩm nhiều tiêu ớt|- lò than, lò nung|- máy xé (vải vụn, giẻ rách)|- thằng quỷ ranh (hoặc tỏ ý chê là khó ưa, khó chịu, hoặc tỏ ý khen ai là đáng chú ý, vui tính...)|- sự cãi lộn; sự lộn xộn; sự ồn ào|- tất cả cái gì xấu|- khôn sống mống chết|- (xem) between|- đối xử công bằng ngay cả với kẻ không xứng đáng; đối xử công bằng ngay cả với kẻ mình không ưa|- phá sản, lụn bại|- cút đi!|- người (điều) phiền toái|- (xem) raise|- vừa nói đến ai thì người đó đã đến ngay|*  nội động từ|- làm thư ký riêng (cho một luật sư); viết văn thuê (cho nhà văn)|*  ngoại động từ|- nướng (thịt...) sau khi tẩm tiêu ớt
+guilt,28/8/2024 9:4:53PM, danh từ|- điều sai quấy, tội lỗi|- sự phạm tội, sự có tội
+contiguous{data{structure,28/8/2024 9:4:53PM,(tech) cấu trúc dữ kiện tiếp cận
+alarming,28/8/2024 9:4:54PM,  tính từ|- làm lo sợ, làm sợ hãi, làm hốt hoảng, làm hoảng sợ
+borborygmus,28/8/2024 9:4:54PM, danh từ|- số nhiều borborygmi,  borborygmus|- chứng sôi bụng
+stepson,28/8/2024 9:4:54PM,  danh từ|- con trai riêng
+signet{ring,28/8/2024 9:4:54PM, danh từ|- nhẫn có khắc hình trên đó, xưa kia dùng làm ấn, dấu riêng
+quarterstaves,28/8/2024 9:4:54PM, danh từ|- gậy dài (từ 1, 80 đến 2, 40 m, dùng làm vũ khí)
+confabulatory,28/8/2024 9:4:54PM,xem confabulate
+return{on{capital{employed,28/8/2024 9:4:55PM,(econ) lợi tức từ vốn được sử dụng.|+ xem rate of return.
+black{mica,28/8/2024 9:4:55PM,(tech) mica đen
+backing{up,28/8/2024 9:4:55PM,(tech) dự phòng; sao lưu (d)
+meso,28/8/2024 9:4:55PM,tiền tố|- ở giữa; trung gian|- tiền tố|- ở giữa; trung gian
+dithery,28/8/2024 9:4:55PM,  tính từ|- (thông tục) run lập cập
+loculose,28/8/2024 9:4:56PM,cách viết khác : loculous
+tempter,28/8/2024 9:4:56PM,  danh từ|- người xúi giục|- người cám dỗ, người quyến rũ|- ma vương, quỷ xa tăng
+pulpous,28/8/2024 9:4:56PM,  tính từ|- mềm nhão|- có nhiều cơm, có nhiều thịt (trái cây)
+simply,28/8/2024 9:4:56PM,  phó từ|- chỉ là; thường là|- đơn giản|- mộc mạc; hồn nhiên
+germi|culture,28/8/2024 9:4:56PM, danh từ|- việc nuôi vi khuẩn
+soullessness,28/8/2024 9:4:57PM,  danh từ|- sự thiếu tâm hồn|- tính không hồn, tính không có sức sống, tính thiếu sức truyền cảm, tính tầm thường
+stilton{cheese,28/8/2024 9:4:57PM, danh từ|- pho mát xtintơn (pho mát anh màu trắng có những đường chỉ màu xanh lục chạy xuyên qua và nặng mùi)
+counterfort,28/8/2024 9:4:57PM,  danh từ|- tường chống
+archiblastic,28/8/2024 9:4:57PM, tính từ|- chia cắt rất đều
+covenantee,28/8/2024 9:4:57PM, danh từ|- bên ký giao kèo / hiệp ước
+tired|out,28/8/2024 9:4:58PM, tính từ|- hoàn toàn kiệt sức
+soaker,28/8/2024 9:4:58PM,  danh từ|- người say be bét, người chè chén lu bù|- cơn mưa to, cơn mưa như trút nước|- (số nhiều) quần nỉ ngắn (cho trẻ con còn phải bế)
+listening,28/8/2024 9:4:58PM,  danh từ|- sự nghe
+music,28/8/2024 9:4:58PM,  danh từ|- nhạc, âm nhạc|=to have an ear for music|+ có năng khiếu về âm nhạc|=to set a poem to music|+ phổ nhạc một bài thơ|- tiếng nhạc|- khúc nhạc|- (thông tục) dũng cảm chống chọi với tất cả những khó khăn; chịu đựng tất cả những hậu quả của việc mình làm; chịu đựng tất cả những lời phê bình chê trách
+curtly,28/8/2024 9:4:58PM, phó từ|- cộc lốc, sẳng
+electric{interference,28/8/2024 9:4:58PM,(tech) nhiễu điện
+tare,28/8/2024 9:4:59PM,  danh từ|- (thực vật học) đậu tằm|*  danh từ|- bì (cân)|*  ngoại động từ|- cân bì
+totemic,28/8/2024 9:4:59PM,  tính từ|- (thuộc) tôtem, (thuộc) vật tổ
+irresponsive,28/8/2024 9:5:1PM,irispɔnsiv],  tính từ|- không đáp lại, không phản ứng
+nicker,28/8/2024 9:5:1PM, danh từ|- đồng bảng anh
+productivity,28/8/2024 9:5:1PM,(econ) năng suất.|+ sản lượng của một đơn vị đầu vào được sử dụng. xem average product.
+legionnairesdisease,28/8/2024 9:5:1PM, danh từ|- <y> chứng viêm phổi do nhiễm khuẩn
+goniospermous,28/8/2024 9:5:2PM, tính từ|- có hạt vuông cạnh
+financial{times{actuaries{share{indices,28/8/2024 9:5:2PM,(econ) chỉ số giá cổ phiếu thống kê của báo financial times.|+ tập hợp các chỉ số giá và thu nhập trung bình và tiền lãi của các chứng khoán anh trong sở giao dịch chứng khoán.
+seascape,28/8/2024 9:5:2PM, danh từ|- bức tranh về cảnh ở biển
+triweekly,28/8/2024 9:5:2PM,  tính từ & phó từ|- mỗi tuần ba lần|- ba tuần một lần|*  danh từ|- tạp chí ra ba tuần một kỳ
+tape|record,28/8/2024 9:5:2PM, ngoại động từ|- ghi âm
+thirst,28/8/2024 9:5:3PM,  danh từ|- sự khát nước|=to quench ones thirst|+ làm cho hết khát|- (nghĩa bóng) sự thèm khát, sự khao khát|=a thirst for knowledge|+ sự khao khát hiểu biết|*  nội động từ|- khát nước|- (nghĩa bóng) (+ after,  for) thèm khát, khao khát|=to thirst after (for) something|+ thèm khát (khao khát) cái gì
+botch,28/8/2024 9:5:3PM,  danh từ|- việc làm vụng, việc làm hỏng|=to make a botch of something|+ làm hỏng cái gì, làm hỏng việc gì|- sự chấp vá, sự vá víu|*  ngoại động từ|- làm vụng, làm hỏng, làm sai|- chấp vá, vá víu (cái gì)
+pontificator,28/8/2024 9:5:3PM,xem pontificate
+lip|reading,28/8/2024 9:5:6PM,ri:diɳ],  danh từ|- sự hiểu bằng cách ra hiệu môi; sự hiểu cách ra hiệu môi
+testable,28/8/2024 9:5:6PM,  tính từ|- có thể thử được|- (pháp lý) có thể để lại, có thể truyền cho, có thể di tặng|- (pháp lý) có thể làm chứng
+supercool,28/8/2024 9:5:6PM,  ngoại động từ|- (vật lý) làm chậm đông
+turn|screw,28/8/2024 9:5:6PM,  danh từ|- cái chìa vít, cái vặn đinh vít
+signet{ring,28/8/2024 9:5:7PM, danh từ|- nhẫn có khắc hình trên đó, xưa kia dùng làm ấn, dấu riêng
+semifinalist,28/8/2024 9:5:7PM,  danh từ|- (thể dục,thể thao) người vào bán kết
+tegumental,28/8/2024 9:5:7PM,tegjumentəl],  tính từ|- (thuộc) vỏ; dùng làm vỏ
+actualisation,28/8/2024 9:5:9PM, danh từ|- sự thực hiện, sự biến thành hiện thực
+gi{space,28/8/2024 9:5:9PM,(tech) vùng ký tự hình gi (a0-ff)
+seventy|eight,28/8/2024 9:5:9PM, danh từ|- loại máy hát kiểu cỗ chạy 78 vòng quay một phút
+unevenly,28/8/2024 9:5:9PM, phó từ|- không bằng phẳng, không nhẵn, không đều, gồ ghề, gập ghềnh (đường, đất...)|- <toán> lẻ (số)|- không đồng dạng, không bằng nhau (vật thể, hình dáng...)|- không cân sức (cuộc thi, trận đấu )|- thay đổi, không đều|- thất thường, hay thay đổi (tính tình...)
+self|ignition,28/8/2024 9:5:10PM, danh từ|- sự tự bốc cháy
+carpet|raid,28/8/2024 9:5:10PM,  danh từ|- (từ mỹ,nghĩa mỹ),  (quân sự) cuộc ném bom rải thảm
+vignetter,28/8/2024 9:5:10PM, danh từ|- màng ngăn, chắn sáng diapham
+shipping,28/8/2024 9:5:10PM,  danh từ|- sự xếp hàng xuống tàu; sự chở hàng bằng tàu|- tàu (của một nước, ở một hải cảng)|- thương thuyền; hàng hải
+staging,28/8/2024 9:5:10PM,  danh từ|- sự đưa một vở kịch lên sân khấu|- sự chạy xe ngựa chở khách (theo chặn đường nhất định)|- sự bắc giàn
+sensitometry,28/8/2024 9:5:10PM,sensitɔmitri],  danh từ|- phép đo độ nhạy
+tonight,28/8/2024 9:5:11PM,#-night) |/tənait/|*  phó từ & danh từ|- đêm nay, tối nay|=tonight it will rain|+ đêm nay trời sẽ mưa|=tonights radio news|+ tin tức truyền thanh đêm nay
+lacuna,28/8/2024 9:5:11PM,  danh từ,  số nhiều lacunae  /ləkju:ni:/,  lacunas  /ləkju:nəz/|- kẽ hở, lỗ khuyết, lỗ hổng|- chỗ thiếu, chỗ khuyết, chỗ sót||@lacuna|- lỗ hổng, chỗ khuyết
+idiopathy,28/8/2024 9:5:11PM,idiɔpəθi],  danh từ|- (y học) bệnh tự phát
+hornbill,28/8/2024 9:5:11PM, danh từ|- chim mỏ sừng
+supertelluric,28/8/2024 9:5:13PM,sju:pətelju:rik],  tính từ|- ở trên mặt đất
+penologist,28/8/2024 9:5:13PM,xem penology
+stake|net,28/8/2024 9:5:13PM,  danh từ|- lưới cọc
+plutonist,28/8/2024 9:5:13PM,  danh từ|- người theo thuyết hoả thành
+dosology,28/8/2024 9:5:13PM, danh từ|- phối tễ học
+straitness,28/8/2024 9:5:13PM,  danh từ|- (từ cổ,nghĩa cổ) tính chật hẹp|- tính khắt khe, tính câu nệ (về đạo đức); tính khắc khổ
+unbelievably,28/8/2024 9:5:14PM,xem unbelievable
+government{spending{and{net{taxes,28/8/2024 9:5:14PM,(econ) chi tiêu của chính phủ và thuế ròng.
+bromidic,28/8/2024 9:5:14PM,xem bromide
+kingly,28/8/2024 9:5:14PM,  tính từ|- vương giả, đường bệ; đế vương; xứng đáng một ông vua
+cagy,28/8/2024 9:5:16PM,  tính từ|- (từ mỹ,nghĩa mỹ),  (thông tục) kín đáo, không cởi mở; khó gần|- khôn ngoan, láu, không dễ bị lừa|- không nhất quyết; có ý thoái thác (khi trả lời)|- xin cứ trả lời thẳng, không nên nói nước đôi như vậy
+rị,28/8/2024 9:5:21PM,,(địa phương) tug back, pull back
+màu chết,28/8/2024 9:5:22PM,dull colour, sad colours
+muối dưa,28/8/2024 9:5:22PM,preserve vegetables in salt
+tỷ lệ thất nghiệp,28/8/2024 9:5:23PM,unemployment rate|=giảm bớt tỷ lệ thất nghiệp to reduce unemployment rate
+khóa vòi,28/8/2024 9:5:26PM,dtừ|- stopcock
+ngoại động từ kép,28/8/2024 9:5:26PM,thngữ|- double tansitive verb
+độ dài,28/8/2024 9:5:28PM,length
+phẩm lục,28/8/2024 9:5:29PM,dtừ|- zaffer
+nét hoa mỹ,28/8/2024 9:5:29PM,dtừ|- grace, ornament, flourish, garnish
+trò chơi bằng đốt xương cừu,28/8/2024 9:5:30PM,dtừ|- dibs
+dễ ảnh hưởng,28/8/2024 9:5:30PM,ttừ|- waxen
+cất miệng,28/8/2024 9:5:31PM,(thông tục) open one's mouth (to speak)
+dễ xuất thần,28/8/2024 9:5:31PM,ttừ|- ecstatic
+lương hậu,28/8/2024 9:5:31PM,high salary; good wages
+không có đáy,28/8/2024 9:5:31PM,ttừ|- bottomless
+đáy lò,28/8/2024 9:5:32PM,dtừ|- forehead
+chót cánh,28/8/2024 9:5:32PM,dtừ|- pinion
+lạc quốc,28/8/2024 9:5:34PM,paradise
+tuyến xuất phát,28/8/2024 9:5:35PM,line of depature
+người mỹ da đỏ chuyên ăn rễ cây,28/8/2024 9:5:37PM,dtừ|- digger
+đại sứ phu nhân,28/8/2024 9:5:38PM,dtừ|- ambassadress
+đàng xa,28/8/2024 9:5:38PM,from the distance; in the distance
+lời cáo phó,28/8/2024 9:5:39PM,dtừ|- obituary
+quản bao,28/8/2024 9:5:39PM,not to mind, attach no importance (to)|=quản bao tháng đợi năm chờ not to mind long years of waiting
+chuyện phim,28/8/2024 9:5:39PM,film-story; scenario; screenplay
+mũ nỉ,28/8/2024 9:5:40PM,felt hat|=mũ nỉ mềm trilby; fedora
+nết đứt gãy,28/8/2024 9:5:40PM,dtừ|- fracture
+không quân tử,28/8/2024 9:5:40PM,thngữ|- that's not criket
+giữ thế,28/8/2024 9:5:40PM,dtừ|- qui vive
+truy thu,28/8/2024 9:5:44PM,to collect (taxes) due in previous year, collect arrears
+chứng hẹp,28/8/2024 9:5:44PM,dtừ|- stenosis
+con phù du,28/8/2024 9:5:44PM,dtừ|- day-fly
+đấu thủ hạt giống,28/8/2024 9:5:44PM,dtừ|- seed
+treo bảng,28/8/2024 9:5:45PM,publish the list of successful candidates (in examination)
+kỹ sư đường sắt,28/8/2024 9:5:45PM,railway engineer
+tri giả,28/8/2024 9:5:46PM,wise man
+phụ lưu,28/8/2024 9:5:46PM,estuary
+bông cải,28/8/2024 9:5:46PM,dtừ|- broccoli
+bước đi lóng ngóng,28/8/2024 9:5:46PM,dtừ|- shamble
+đơn trục,28/8/2024 9:5:46PM,ttừ|- monaxial
+bổ vị,28/8/2024 9:5:46PM,(of tonic) fortify the stomach; strengthen the stomach
+giếng sâu có gàu kéo,28/8/2024 9:5:46PM,dtừ|- draw-well
+người chủ trương hợp nhất,28/8/2024 9:5:47PM,dtừ|- fusionist
+cảm gió,28/8/2024 9:5:47PM,xem cảm lạnh
+tạo thành góc,28/8/2024 9:5:48PM,dtừ|- angulation| ngđtừ|- angulate
+sổ gạo,28/8/2024 9:5:48PM,rice book, rice register book|=vẻ mặt như mất sổ gạo to have the lost-rice book in one's eyes, to have the lost puppy book in one's eyes
+đua thuyền,28/8/2024 9:5:50PM,boat race; regatta
+người hát giọng nam cao,28/8/2024 9:5:51PM,dtừ|- alto
+doanh,28/8/2024 9:5:51PM,full; abundant|- như dinh
+từ ngữ tục,28/8/2024 9:5:52PM,dtừ|- vulgarism
+sứ thần,28/8/2024 9:5:52PM,envoy; ambassador
+sâm banh,28/8/2024 9:5:52PM,champagne
+bị uốn cong,28/8/2024 9:5:52PM,ttừ|- curvy
+vẫy chào,28/8/2024 9:5:53PM,to wave hello to somebody; to greet/salute somebody with a wave|=tổng thống bước lên bao lơn vẫy chào đám đông the president stepped onto the balcony to wave to the crowd|=vẫy chào lại ai to wave back at somebody
+người quen sống trên cạn,28/8/2024 9:5:53PM,dtừ|- landlubber
+í ới,28/8/2024 9:5:53PM,call each other (one another) noisily; í a í ới (láy, ý tăng)
+độ đậm,28/8/2024 9:5:54PM,dtừ|- strength
+quen biết nhiều,28/8/2024 9:5:54PM,to have a wide circle of acquaintances|=anh ta rất thích hợp với công việc này vì anh ta quen biết nhiều he is very fit for this job because he has a wide circle of acquaintances; he is the right man for this job because he has a wide circle of acquaintances
+dây chằng,28/8/2024 9:5:54PM,ligament
+không ai xót xa,28/8/2024 9:5:54PM,ttừ|- undeplored
+ái tình,28/8/2024 9:5:54PM,love|=eros là thần ái tình eros is the god of love
+hỗn hợp lạnh,28/8/2024 9:5:55PM,dtừ|- cryogen
+loáng thoáng,28/8/2024 9:5:56PM,dimly; vaguely|=nhớ loáng thoáng... to have a dim memory of...
+rờ rẩm,28/8/2024 9:5:57PM,feel in the dark, grope in the dark|=khuya thế này, còn rờ rẩm đi đâu? where are you feeling your way to at this late hour?|=thầy bói mù đi rờ rẩm the blind fortune-teller was groping his way about
+máy bay do thám,28/8/2024 9:5:57PM,spy plane
+người chăn dê,28/8/2024 9:5:57PM,goat-herd
+sống thừa,28/8/2024 9:5:58PM,useless to society; good for nothing
+nói cướp lời,28/8/2024 9:5:58PM,interrupt; try to speak first
+vết mỡ,28/8/2024 9:5:59PM,grease stain
+cực tả,28/8/2024 9:5:59PM,extreme left
+bị kiệt quệ,28/8/2024 9:5:59PM,thngữ|- to be at an end; to come to an and
+súng đại bác pháo,28/8/2024 9:5:59PM,dtừ|- gun
+bơm dầu,28/8/2024 9:5:59PM,dtừ|- oilcan, oiler
+hoả tiễn tầm gần,28/8/2024 9:5:59PM,short-range missile
+người trực tầng,28/8/2024 9:6:0PM,dtừ|- bell-boy
+cao đến thắt lưng,28/8/2024 9:6:0PM,ttừ, phó từ|- waist-high
+không lộ ra,28/8/2024 9:6:0PM,ttừ|- unapparent
+chuẩn bị trước,28/8/2024 9:6:0PM,ngđtừ|- forearm| thngữ|- to cut out| ttừ|- forehanded
+quỹ đạo trong,28/8/2024 9:6:1PM,inner orbit
+tiến quân nhanh hơn,28/8/2024 9:6:1PM,ngđtừ|- outmarch
+cắt giao nhau,28/8/2024 9:6:1PM,nđtừ|- intersect
+nhìn lên,28/8/2024 9:6:1PM,thngữ|- to lift up one's eyes, to look up| ttừ|- upcast
+nhạc nước ngoài,28/8/2024 9:6:2PM,foreign music
+tâm thái,28/8/2024 9:6:2PM,frame of mind
+chế độ nhị hùng,28/8/2024 9:6:2PM,dtừ|- duumvirate
+điều vớ vẩn,28/8/2024 9:6:3PM,dtừ|- poppycock
+nhà dưỡng lão,28/8/2024 9:6:3PM,old people's home; old folks' home; retirement home
+lọc vi khuẩn,28/8/2024 9:6:3PM,bacterial filters
+dựa trên sai lầm,28/8/2024 9:6:3PM,ttừ|- fallacious
+người séc,28/8/2024 9:6:4PM,dtừ|- czech
+chạm vào đá,28/8/2024 9:6:4PM,dtừ|- dog-tooth
+đoạn cong,28/8/2024 9:6:6PM,dtừ|- sweep
+cổ mạc,28/8/2024 9:6:7PM,tympan|=viêm cổ mạc tympanitis
+bài thơ  câu,28/8/2024 9:6:7PM,dtừ|- sonnet
+mắng mỏ ai,28/8/2024 9:6:10PM,thngữ|- to give it somebody hot, to give someone what for, to give somebody beans
+nhật ký hàng hải,28/8/2024 9:6:12PM,ship's log; logbook
+chè hảo hạng,28/8/2024 9:6:13PM,good quality tea
+lâu tám năm,28/8/2024 9:6:13PM,ttừ|- octennial
+phần cứng,28/8/2024 9:6:14PM,(tin học) hardware|=phần cứng bao gồm thiết bị dùng chung với một máy tính, thực hiện ba chức năng chính : nhập, xuất và lưu trữ hardware includes equipment used with a computer, for three main functions: input, output and storage
+đạp lên,28/8/2024 9:6:16PM,trample, step on
+không luyện tập,28/8/2024 9:6:17PM,ttừ|- undeveloped
+trái ý muốn,28/8/2024 9:6:17PM,thngữ|- to be (go) against the grain
+database{computer,28/8/2024 9:11:17PM,(tech) máy điện toán kho dữ liệu
+libelous,28/8/2024 9:11:18PM,  tính từ|- phỉ báng, bôi nh
+full{marks,28/8/2024 9:11:18PM, danh từ|- điểm số cao nhất đạt được trong kỳ thi
+acclimatizer,28/8/2024 9:11:18PM,xem acclimatize
+eddish,28/8/2024 9:11:19PM,  danh từ|- cỏ mọc lại (sau khi cắt)
+unimpulsive,28/8/2024 9:11:19PM, tính từ|- không bốc đồng
+granolith,28/8/2024 9:11:19PM, danh từ|- đá nhân tạo bằng xi măng trộn granit vụn
+abolishment,28/8/2024 9:11:20PM,  danh từ|- sự thủ tiêu, sự bãi bỏ, sự huỷ bỏ
+ref,28/8/2024 9:11:20PM, danh từ|- <thể>, <pháp><thgt> trọng tài|- vt của reference tham chiếu; có liên quan tới; về việc
+earshot,28/8/2024 9:11:21PM,  danh từ|- tầm nghe|=within earshot|+ trong tầm nghe|=out oaf earshot|+ ngoài tầm nghe
+unpardoning,28/8/2024 9:11:21PM, tính từ|- không khoan dung, không độ lượng|- không tha thứ
+product{cycle,28/8/2024 9:11:22PM,(econ) chu kỳ sản phẩm.|+ cụm thuật ngữ này miêu tả hình thái về quá trình đi qua của các sản phẩm mới, sau đó trải qua giai đoạn của hoàn thiện và chuẩn hoá sản phẩm.
+motordom,28/8/2024 9:11:22PM,  danh từ|- thuật chơi xe mô tô|- công nghiệp chế tạo ô tô
+basic,28/8/2024 9:11:22PM,  tính từ|- cơ bản, cơ sở|=basic principle|+ những nguyên tắc cơ bản|=basic frequency|+ tần số cơ sở|- (hoá học) (thuộc) bazơ||@basic|- (tech) cơ bản, căn bản, cơ sở||@basic|- cơ sở, cốt yếu
+miler,28/8/2024 9:11:23PM,  danh từ|- (thông tục) vận động viên chạy đua cự ly một dặm; ngựa đua chuyên chạy cự ly một dặm
+slav,28/8/2024 9:11:23PM,  tính từ|- (thuộc) chủng tộc xla-vơ|*  danh từ|- người xla-vơ, dân tộc xla-vơ
+terraqueous,28/8/2024 9:11:24PM,  tính từ|- gồm đất và nước (doi đất...)
+holy{of{holies,28/8/2024 9:11:24PM, danh từ|- điện trong (ở nhà thờ do-thái)|- nơi linh thiêng
+flag|lieutenant,28/8/2024 9:11:25PM,  danh từ|- sĩ quan cận vệ của đô đốc
+uniformise,28/8/2024 9:11:25PM,đơn trị hoá
+experientialist,28/8/2024 9:11:25PM,piərienʃəlist],  danh từ|- người theo chủ nghĩa kinh nghiệm
+awardee,28/8/2024 9:11:26PM, danh từ|- người được tặng thưởng
+united{nationns{development{programme,28/8/2024 9:11:26PM,(econ) chương trình phát triển của liên hợp quốc.|+ năm 1966, chương trình hỗ trợ tài chính mở rộng của liên hợp quốc và quỹ đặc biệt của liên hợp quốc được sáp nhập tạo nên chương trình phát triển của liên hợp quốc, cơ quan đặc biệt của liên hợp quốc chịu trách nhiệm quản lý và điều phối các dự án phát triển và hỗ trợ kỹ thuất được cung cấp dưới sự bảo trợ hay liên lạc với hệ thống các cơ quan phát triển của liên hợp quốc.
+rechargeable,28/8/2024 9:11:27PM, tính từ|- có thể nạp lại
+overpass,28/8/2024 9:11:27PM,  danh từ|- (từ mỹ,nghĩa mỹ) cầu bắc qua đường, cầu chui[,ouvəpɑ:s],|*  ngoại động từ|- đi qua|- vượt qua (khó khăn...), vượt quá (giới hạn...)|- (từ mỹ,nghĩa mỹ) kinh qua|- (từ mỹ,nghĩa mỹ) làm ngơ, bỏ qua, không đếm xỉa đến
+impermeably,28/8/2024 9:11:27PM,xem impermeable
+alpenglow,28/8/2024 9:11:28PM, danh từ|- ánh sáng hồng trên đỉnh núi (lúc mặt trời mọc hay lặn)
+sex{instinct,28/8/2024 9:11:28PM,  danh từ|- bản năng giới tính
+chancellor,28/8/2024 9:11:29PM,  danh từ|- đại pháp quan; quan chưởng ấn|=the lord chancellor of england; the lord high chancellor|+ đại pháp quan anh|- thủ tướng (áo,  đức)|- hiệu trưởng danh dự trường đại học
+readmittance,28/8/2024 9:11:29PM, danh từ|- sự được nhập lại, sự được vào lại
+inappreciation,28/8/2024 9:11:29PM,pri:ʃieiʃn],  danh từ|- sự không đánh giá được; sự không biết đánh giá, sự không biết thưởng thức
+impercipient,28/8/2024 9:11:30PM,impəsipiənt],  tính từ|- thiếu nhạy cảm; kém nhạy cảm
+entrance|hall,28/8/2024 9:11:30PM, danh từ|- phòng ngoài
+fuel,28/8/2024 9:11:30PM,  danh từ|- chất đốt, nhiên liệu|- cái khích động|- lửa cháy đổ thêm dầu|*  ngoại động từ|- cung cấp chất đốt|=to fuel a ship|+ cung cấp chất đốt cho một chiếc tàu|*  nội động từ|- lấy chất đốt (tàu...)
+almond|shaped,28/8/2024 9:11:31PM,  tính từ|- dạng quả hạnh
+confirm,28/8/2024 9:11:31PM,  ngoại động từ|- xác nhận; chứng thực|=to confirm someones statement|+ xác nhận lời tuyên bố của ai|- thừa nhận, phê chuẩn|=to confirm a treaty|+ phê chuẩn một bản hiệp ước|- làm vững chắc, củng cố|=to confirm ones power|+ củng cố quyền lực|- làm cho (ai) nhiễm sâu (một thói quen, một nếp nghĩ...)|=to confirm someone in his chain-smoking|+ làm cho ai nhiễm sâu cái tật hút thuốc lá liên tục|- (tôn giáo) làm lễ kiên tín cho
+randomize,28/8/2024 9:11:32PM,ngẫu nhiên hoá
+cardiopathy,28/8/2024 9:11:32PM, danh từ|- (y học) bệnh tim
+overorganize,28/8/2024 9:11:32PM,  ngoại động từ|- chú trọng quá mức đến nội quy điều lệ của (một tổ chức)|*  nội động từ|- bị chú trọng quá mức về mặt nội quy điều lệ (một tổ chức)
+cretin,28/8/2024 9:11:32PM,  danh từ|- (y học) người mắc chứng độn|- người ngu si, người ngu ngốc
+necessitarianism,28/8/2024 9:11:33PM,seriteəriənizm],  danh từ|- (triết học) thuyết tất yếu, thuyết định mệnh
+carposporic,28/8/2024 9:11:33PM, tính từ|- thuộc bào tử quả
+fulminant,28/8/2024 9:11:33PM,  tính từ|- nổ|- (y học) phát mau chóng; phát bất thình lình
+fakement,28/8/2024 9:11:34PM,  danh từ|- sự làm giống như thật; sự làm giả
+death|wish,28/8/2024 9:11:34PM, danh từ|- sự mong mỏi cái chết đến với mình hoặc với người khác
+patented,28/8/2024 9:11:34PM,tính từ|- đã có bằng sáng chế, môn bài
+unforgettable,28/8/2024 9:11:34PM,  tính từ|- không thể quên được
+untrueness,28/8/2024 9:11:35PM,  danh từ|- tính chất không đúng, tính chất sai, tính chất sai sự thật|- tính không chân thành, tính gi dối|- tính không trung thành
+table|money,28/8/2024 9:11:35PM, danh từ|- (quân sự) tiền ăn|- tiền trả để được ăn tại câu lạc bộ
+screenings,28/8/2024 9:11:35PM,  danh từ số nhiều|- tạp vật còn lại; sau khi sàng (than...)
+malicious,28/8/2024 9:11:35PM,  tính từ|- hiểm độc, có ác tâm|- có hiềm thù
+existent,28/8/2024 9:11:36PM,  tính từ|- tồn tại|- hiện có; hiện nay, hiện thời
+frog|spawn,28/8/2024 9:11:36PM, tính từ|- <động> trứng ếch|- <thực> tảo trứng ếch
+unpedestal,28/8/2024 9:11:37PM, ngoại động từ|- hạ bệ|- cất khỏi đài/bệ (tượng)
+eagerness,28/8/2024 9:11:37PM,  danh từ|- sự ham, sự háo hức, sự hâm hở, sự thiết tha, sự say mê; tính hám
+unlearnedly,28/8/2024 9:11:37PM,xem unlearned
+long|limbed,28/8/2024 9:11:38PM,  tính từ|- có tay chân dài
+blood{type,28/8/2024 9:11:38PM, danh từ|- kiểu máu, nhóm máu
+accommodated{location,28/8/2024 9:11:38PM,(tech) vị trí thu nhận
+forborne,28/8/2024 9:11:39PM,  danh từ,  (thường) số nhiều+ (forebear) /fɔ:beə/|- tổ tiên, ông bà ông vải; các bậc tiền bối|*  nội động từ forbore,  forborne|- (+ from) nhịn|- đừng, không (nói, làm...)|=when in doubt, forbear|+ chưa chắc thì đừng nói|- chịu đựng, kiên nhẫn, chịu đựng|*  ngoại động từ|- nhịn|- không dùng; không nhắc đến
+contortionistic,28/8/2024 9:11:39PM,xem contortionist
+chromite,28/8/2024 9:11:39PM, danh từ|- (hoá học) cromit
+tedium,28/8/2024 9:11:39PM,  danh từ|- tính chán ngắt, tỉnh tẻ, tính nhạt nhẽo, tính thiếu hấp dẫn
+leprosy,28/8/2024 9:11:40PM,  danh từ|- bệnh hủi, bệnh phong
+field|officer,28/8/2024 9:11:40PM,ɔfisə],  danh từ|- (quân sự) sĩ quan cấp tá
+unhealthfulness,28/8/2024 9:11:40PM,  danh từ|- tính chất độc, tính chất có hại cho sức khoẻ
+driving|shool,28/8/2024 9:11:40PM, danh từ|- trường dạy lái xe hơi
+meerschaum,28/8/2024 9:11:41PM,  danh từ|- bọt biển, đá bọt|- tẩu (thuốc lá) bằng đá bọt
+unborn,28/8/2024 9:11:41PM,  tính từ|- chưa sinh|=child unborn|+ đứa bé chưa sinh|- sau này, trong tương lai|=generation yet unborn|+ thế hệ sau
+saccharin,28/8/2024 9:11:41PM,  danh từ|- (hoá học) sacarin
+inspiriting,28/8/2024 9:11:41PM,  tính từ|- truyền sức sống|- khuyến khích, cổ vũ, làm hăng hái
+melting,28/8/2024 9:11:42PM,  danh từ|- sự nấu chảy; sự tan|*  tính từ|- tan, chảy|- cảm động, mủi lòng, gợi mối thương tâm|=melting mood|+ sự xúc cảm, sự thương cảm
+fine|grained,28/8/2024 9:11:42PM,  tính từ|- nhỏ thớ, mịn mặt (gỗ)
+rabbit|punch,28/8/2024 9:11:42PM,pʌnʃ],  danh từ|- (thể dục,thể thao) cú đấm vào gáy (quyền anh)
+leading,28/8/2024 9:11:43PM,  danh từ|- sự lânh đạo, sự hướng dẫn, sự dẫn đầu|- thế lực, ảnh hưởng|=men of light and leading|+ những người có uy tín và thế lực|*  tính từ|- lânh đạo, hướng dẫn, dẫn đầu|=leading ship|+ tàu dẫn đầu|=leading body|+ bộ phận lânh đạo|- chủ đạo, chính, quan trọng|=leading idea|+ ý chủ đạo
+comparative{statics,28/8/2024 9:11:43PM,(econ) phương pháp so sánh tĩnh.|+ so sánh một vị trí cân bằng mới với vị trí cân bằng cũ sau khi có thay đổi nào đó trong các biến số mà không đổi chiều với cách đạt được vị trí mới và thường không có khía cạnh định lượng.
+informant,28/8/2024 9:11:43PM,  danh từ|- người cung cấp tin tức
+outgiving,28/8/2024 9:11:43PM, danh từ|- lời tuyên bố, phát biểu|* tính từ|- bộc lộ hẳn ra
+conjury,28/8/2024 9:11:44PM, danh từ|- yêu thuật
+goral,28/8/2024 9:11:44PM, danh từ|- (động vật) sơn dương goran
+staging,28/8/2024 9:11:45PM,  danh từ|- sự đưa một vở kịch lên sân khấu|- sự chạy xe ngựa chở khách (theo chặn đường nhất định)|- sự bắc giàn
+pliancy,28/8/2024 9:11:45PM,plaiəbiliti],  danh từ|- tính dễ uốn dẻo, tính dẻo, tính mềm (da)|- (nghĩa bóng) tính dễ uốn nắn, tính dễ bảo; tính mềm dẻo; tính hay nhân nhượng
+gyrotropic,28/8/2024 9:11:45PM, tính từ|- hướng hồi chuyển
+colour|phobia,28/8/2024 9:11:45PM, danh từ|- sự ghét người da đen
+tri,28/8/2024 9:11:46PM,hình thái ghép|- ba|- tripartite|- ba bên|- chia ba|- trisect|- chia làm ba|- gồm ba|- triweekly|- tạp chí ra ba tuần một lần
+compensation{principle,28/8/2024 9:11:46PM,(econ) nguyên lý bù đắp.|+ xem compensation tests.
+vernacularism,28/8/2024 9:11:46PM,  danh từ|- thổ ngữ|- từ địa phương, thành ngữ địa phương
+space{helmet,28/8/2024 9:11:46PM,  danh từ|- mũ du hành vũ trụ (của nhà du hành vũ trụ khi bay vào vũ trụ)
+burmese,28/8/2024 9:11:46PM,  tính từ|- (thuộc) miến điện|*  danh từ|- người miến điện|- tiếng miến điện
+self|consciously,28/8/2024 9:11:47PM, phó từ|- có ý thức về bản thân mình, tự giác|- e dè, ngượng ngập, có vẻ như bồn chồn, không tự nhiên (trước những người khác)
+amplidyne,28/8/2024 9:11:47PM,  danh từ|- (vật lý) ampliđyn||@amplidyne|- (tech) bộ khuếch/phóng đại điện cơ, ampliddin
+inflectional,28/8/2024 9:11:47PM,  tính từ|- (thuộc) chỗ cong, (thuộc) góc cong|- (toán học) uốn|=inflexional asymptote|+ tiệm cận uốn|- (âm nhạc) chuyển điệu|- (ngôn ngữ học) (thuộc) biến tố
+dissolute,28/8/2024 9:11:47PM,  tính từ|- chơi bời phóng đãng
+uncumbered,28/8/2024 9:11:47PM,xem unencumbered
+vending,28/8/2024 9:11:48PM, danh từ|- công việc buôn bán, thương nghiệp|- sự bán bằng máy bán hàng tự động
+merchant{bank,28/8/2024 9:11:48PM,(econ) ngân hàng nhà buôn|+ là một nhóm trong số các thể chế tài chính ở anh tiến hành một loạt các hoạt động đa dạng về tài chính hoặc liên quan đến tài chính.
+stupefactive,28/8/2024 9:11:48PM,  tính từ|- làm u mê, làm đần độn
+grid{return,28/8/2024 9:11:48PM,(tech) trở về lưới
+renitent,28/8/2024 9:11:48PM, tính từ|- chống lại; phản đối kịch liệt
+dermatoplasty,28/8/2024 9:11:49PM,plæsti],  danh từ|- (giải phẫu) sự cấy da, sự ghép da
+unquestionability,28/8/2024 9:11:49PM,xem unquestionable
+diminutive,28/8/2024 9:11:49PM,  tính từ|- (ngôn ngữ học) giảm nhẹ nghĩa (từ)|- nhỏ xíu, bé tị|*  (ngôn ngữ học)|- từ giảm nhẹ
+hornrimmed,28/8/2024 9:11:49PM,  tính từ|- có gọng sừng (kính)|- đeo kính gọng sừng
+psittacus,28/8/2024 9:11:50PM, danh từ|- (động vật học) vẹt xám
+vexed,28/8/2024 9:11:50PM,  tính từ|- phật ý; bực tức|=to become vexed|+ bực tức|- một vấn đề gây ra nhiều cuộc tranh luận
+rudd,28/8/2024 9:11:50PM,  danh từ|- (động vật học) cá chày âu
+compiled{language,28/8/2024 9:11:50PM,(tech) ngôn ngữ biên dịch
+metastasize,28/8/2024 9:11:50PM,  nội động từ|- (y học) gây di căn|- (sinh vật học) gây chuyển hoá
+connoisseur,28/8/2024 9:11:51PM,kɔnisə:],  danh từ|- người sành sỏi, người thành thạo|=a connoisseur in (of) paintings|+ người sành sỏi về hoạ
+diffusion{capacitance,28/8/2024 9:11:51PM,(tech) điện dung khuếch tán
+corporation,28/8/2024 9:11:51PM,(econ) hợp doanh; công ty.|+ xem company.
+terminate,28/8/2024 9:11:51PM,  ngoại động từ|- vạch giới hạn, định giới hạn|- làm xong, kết thúc, hoàn thành, chấm dứt|=to terminate ones work|+ hoàn thành công việc|*  nội động từ|- xong, kết thúc, chấm dứt, kết cục, kết liễu|=the meeting terminated at 9 oclock|+ cuộc mít tinh kết thúc vào hồi 9 giờ|- tận cùng bằng (chữ, từ...)|=words terminating in s|+ những từ tận cùng bằng s|*  tính từ|- giới hạn|- cuối cùng, tận cùng||@terminate|- kết thúc
+fyfot,28/8/2024 9:11:52PM,  danh từ|- hình chữ vạn, hình chữ thập ngoặc
+lyra,28/8/2024 9:11:52PM, danh từ|- số nhiều lyrac|- (thiên) sao thiên cầm
+triagular,28/8/2024 9:11:52PM,(thuộc) tam giác
+self|polar,28/8/2024 9:11:52PM,tự đối cực
+unpuzzle,28/8/2024 9:11:53PM,  động từ|- giải, giải quyết
+off|heat,28/8/2024 9:11:53PM, danh từ|- nhiệt loại bỏ; nhiệt thải
+cross{coupling,28/8/2024 9:11:53PM,(tech) ghép chéo
+level{field,28/8/2024 9:11:53PM,(econ) sân chơi công bằng / cùng một sân chơi?
+magistrality,28/8/2024 9:11:54PM, danh từ|- tính chất bậc thầy, sự lỗi lạc|- sự chủ yếu, sự chủ đạo, tính chất đầy uy tín|- (dược học) sự pha chế theo đơn
+expirable,28/8/2024 9:11:54PM, tính từ|- có thể chấm dứt được, có thể kết thúc được
+vilify,28/8/2024 9:11:54PM,  ngoại động từ|- phỉ báng; gièm, nói xấu
+sclerodermatous,28/8/2024 9:11:54PM,skliəroudə:mətəs],  tính từ|- có da cứng (như loài bò sát)
+large,28/8/2024 9:11:55PM,  tính từ|- rộng, lớn, to|=a large town|+ một thành phố lớn|- rộng rãi|=to give someone large powers|+ cho ai quyền hành rộng rãi|- (từ cổ,nghĩa cổ) rộng lượng, hào phóng|=a large heart|+ một tấm lòng rộng lượng, một tấm lòng hào phóng|- to như vật thật|*  danh từ|- (+ at) tự do, không bị giam cầm|=to be at large|+ được tự do|=gentleman at large|+ người không có nghề nhất định|- đầy đủ chi tiết, dài dòng|=to talk at large|+ nói chuyện dài dòng|=to write at large|+ viết dài dòng|=to scatter imputation at large|+ nói đổng|- nói chung|=the people at large|+ nhân dân nói chung|=in large|+ trên quy mô lớn|*  phó từ|- rộng rãi|- huênh hoang, khoác lác|=to talk large|+ nói huênh hoang|- (xem) by|- chạy xiên gió (tàu)||@large|- lớn, rộng in the l. nói chung, trong toàn cục
+revocation,28/8/2024 9:11:55PM,revəkeiʃn],  danh từ|- sự huỷ bỏ, sự thủ tiêu (sắc lệnh, đạo luật...)|- sự thu hồi (giấy phép)|=revocation of a driving licence|+ sự thu hồi bằng lái xe
+alienability,28/8/2024 9:11:55PM,eiljənəbiliti],  danh từ|- (pháp lý) tính có thể chuyển nhượng được, khả năng nhường lại được
+cattle|ranch,28/8/2024 9:11:55PM,  danh từ|- trại chăn nuôi trâu bò
+brachiation,28/8/2024 9:11:55PM, danh từ|- sự vận động bằng cánh tay
+boart,28/8/2024 9:11:55PM, động từ|- khoác loác|- lấy làm hãnh diện về|* danh từ|- lời nói khoác loác|- niềm hãnh diện
+epyllion,28/8/2024 9:11:56PM, danh từ|- bài sử thi ngắn
+photoprint,28/8/2024 9:11:56PM,foutəgrəvjuə],  danh từ|- thuật khắc ảnh trên bản kẽm|- ảnh bản kẽm
+om,28/8/2024 9:11:56PM, danh từ|- vt của order of merit|- huân chương chiến công
+hydrometeorology,28/8/2024 9:11:57PM, danh từ|- khoa khí tượng thủy văn|* danh từ|- khoa khí tượng thủy văn
+illuministic,28/8/2024 9:11:57PM, tính từ|- theo thuyết thiên cảm
+strictness,28/8/2024 9:11:58PM,  danh từ|- tính chính xác|- tính nghiêm ngặt, tính nghiêm khắc; tính nghiêm chỉnh
+expectational,28/8/2024 9:11:58PM,xem expectation
+homoeopathic,28/8/2024 9:11:58PM,houmjəpæθik],  tính từ|- (y học) (thuộc) phép chữa vi lượng đồng cân
+latitudinal,28/8/2024 9:11:59PM,lætitju:dinl],  tính từ|- (thuộc) độ vĩ, (thuộc) đường vĩ|- (thuộc) bề rộng
+halophile,28/8/2024 9:11:59PM, danh từ|- thực vật ưa mặn
+pauper,28/8/2024 9:12:0PM,  danh từ|- người nghèo túng; người ăn xin|- người nghèo được cứu tế|=indoor pauper|+ người nghèo được bệnh viện nhận chữa nội trú|=outdoor pauper|+ người nghèo được bệnh viện nhận chữa ngoại trú
+hostile,28/8/2024 9:12:0PM,  tính từ|- thù địch|- không thân thiện|- chống đối|*  danh từ|- (từ mỹ,nghĩa mỹ) kẻ thù địch
+electrostatically{charged{area,28/8/2024 9:12:0PM,(tech) khu vực mang điện tĩnh
+unlooked|at,28/8/2024 9:12:1PM, tính từ|- không ai quan tâm, bị bỏ rơi
+jewess,28/8/2024 9:12:1PM,  danh từ|- người đàn bà do thái
+heir,28/8/2024 9:12:2PM,  danh từ|- người thừa kế, người thừa tự|- (nghĩa bóng) người thừa hưởng; người kế tục (sự nghiệp)
+stannize,28/8/2024 9:12:2PM, ngoại động từ|- tráng thiếc, phủ thiếc
+india{ink,28/8/2024 9:12:2PM,  danh từ|- mực nho
+calculagraph,28/8/2024 9:12:3PM,máy đếm thời gian
+country{dance,28/8/2024 9:12:4PM,  danh từ|- điệu nhảy hai hàng sóng đôi
+indigo{blue,28/8/2024 9:12:4PM,  danh từ|- màu xanh chàm
+unbroke,28/8/2024 9:12:5PM,(từ cổ, nghĩa cổ) xem unbroken
+skating,28/8/2024 9:12:5PM, danh từ|- môn trượt băng
+unclosed,28/8/2024 9:12:5PM, tính từ|- mở; không đóng|- không bị ngăn chặn|- chưa xong
+patriarchical,28/8/2024 9:12:6PM, tính từ|- xem patriarchic
+activity{ratio,28/8/2024 9:12:6PM,(tech) tỉ số hoạt động
+ghoul,28/8/2024 9:12:6PM,  danh từ|- ma cà rồng|- (thông tục) người đào mả lấy trộm xác chết|- người có những sở thích cực kỳ ghê tởm
+unhomogenized,28/8/2024 9:12:7PM,cách viết khác : unhomogenised
+breadbin,28/8/2024 9:12:7PM, danh từ|- thùng đựng bánh mì
+peregrine{falcon,28/8/2024 9:12:7PM, tính từ|- <cổ> ngoại lai, nhập cảng|* danh từ|- chim cắt; chim ưng
+useful,28/8/2024 9:12:8PM,  tính từ|- có ích, dùng được|- (từ lóng) làm ăn được, cừ|=a useful footballer|+ một cầu thủ bóng đá cừ|- (từ lóng) thạo dùng|=to be pretty useful with ones fists|+ thạo dùng qu đấm của mình||@useful|- có ích
+bordello,28/8/2024 9:12:8PM,  danh từ|- (từ mỹ,nghĩa mỹ) nhà thổ, nhà chứa
+usher,28/8/2024 9:12:9PM,  danh từ|- người chỉ chỗ ngồi (trong rạp hát, rạp chiếu bóng)|- chưởng toà|- (nghĩa xấu) trợ giáo|*  ngoại động từ|- đưa, dẫn|=to usher into|+ dẫn vào, đưa vào|- báo hiệu, mở ra|=to usher in a new period of prosperity|+ mở ra một thời kỳ thịnh vượng mới
+access{success{ratio,28/8/2024 9:12:9PM,(tech) tỉ lệ thành công truy cập
+iconoscope,28/8/2024 9:12:9PM,aikɔnəskoup],  danh từ|- (raddiô) icônôxcôp
+stigmatically,28/8/2024 9:12:9PM, phó từ|- xem stigmatic
+perimorph,28/8/2024 9:12:9PM, danh từ|- (khoáng vật học) vật bao ngoài khoáng sản
+acquire,28/8/2024 9:12:9PM,  ngoại động từ|- được, giành được, thu được, đạt được, kiếm được|=to acquire a good reputation|+ được tiếng tốt|=acquired characteristic|+ (sinh vật học) tính chất thu được|=an acquired taste|+ sở thích do quen mà có
+netpolice,28/8/2024 9:12:10PM,cảnh sát mạng
+breathily,28/8/2024 9:12:10PM,xem breathy
+smudge,28/8/2024 9:12:10PM,  danh từ ((cũng) smutch)|- lửa hun (ruồi, muỗi...; làm tan sương giá để bảo vệ cây...)|- vết bẩn, vết dơ|- đường mờ, dấu vết mờ mờ|*  ngoại động từ ((cũng) smutch)|- làm bẩn, làm dơ; làm nhoè|- làm hại, làm tổn thương, bôi nhọ (danh dự...)|*  nội động từ|- mờ; nhoè|=this ink smudges easily|+ mực này dễ nhoè
+inconvenience,28/8/2024 9:12:10PM,inkənvi:njəns],  danh từ|- sự bất tiện, sự phiền phức|=to cause inconvenience to someone|+ làm phiền ai|*  ngoại động từ|- làm phiền, quấy rầy
+iridic,28/8/2024 9:12:11PM, tính từ|- chứa chất iriđi|- thuộc mống mắt
+amanthicolous,28/8/2024 9:12:11PM, tính từ|- (thực vật) mọc trên cát; ở trên cát
+jawline,28/8/2024 9:12:11PM, danh từ|- đường viền của hàm dưới
+gift|wrapping,28/8/2024 9:12:12PM, danh từ|- giấy gói quà
+cả ăn cả tiêu,28/8/2024 9:12:14PM,consume and spend wantonly
+cổ điển học hy lạp,28/8/2024 9:12:15PM,dtừ|- humanity
+bánh lăn,28/8/2024 9:12:15PM,dtừ|- bogie wheel
+là biểu tượng của,28/8/2024 9:12:16PM,ngđtừ|- emblematize
+không được kếp nạp vào,28/8/2024 9:12:16PM,ttừ|- unenrolled
+chết trẻ,28/8/2024 9:12:16PM,to die young; to be cut off in the prime of life; to meet an early death
+huyết dịch,28/8/2024 9:12:17PM,blood
+làm ra,28/8/2024 9:12:17PM,to create; to produce
+ủng dạ,28/8/2024 9:12:18PM,dtừ|- felt boots
+luật công ty,28/8/2024 9:12:18PM,corporate law; corporation law
+bỏ lớp thiếc tráng,28/8/2024 9:12:18PM,ngđtừ|- untin
+như amip,28/8/2024 9:12:19PM,ttừ|- amoebic
+chưa được thấy rõ,28/8/2024 9:12:19PM,ttừ|- unappreciated
+phúc kiến,28/8/2024 9:12:20PM,fukien or fujian, a province of se china
+làm thuê,28/8/2024 9:12:20PM,xem làm công|- hired labour
+hành vi lố lăng,28/8/2024 9:12:20PM,dtừ|- buffoonery
+ám muội,28/8/2024 9:12:21PM,ttừ|- shady, dubious, underhand, sinister, dishonest, crooked, doubtful, suspicious, questionable, fishy|=không làm điều gì ám muội to abstain from any shady deed|=hành động ám muội shady act
+mang điểm xấu,28/8/2024 9:12:22PM,ttừ|- sinister
+cùng dân,28/8/2024 9:12:22PM,poor people, the poor, the needy
+jackal,28/8/2024 9:12:30PM,"Any one of several species of carnivorous animals inhabiting Africa and Asia, related to the dog and wolf. They are cowardly, nocturnal, and gregarious. They feed largely on carrion, and are noted for their piercing and dismal howling."
+chanson,28/8/2024 9:12:31PM,A song.
+unitizing,28/8/2024 9:12:32PM,of Unitize
+limpidity,28/8/2024 9:12:32PM,The quality or state of being limpid.
+languorous,28/8/2024 9:12:33PM,"Producing, or tending to produce, languor; characterized by languor."
+adolescence,28/8/2024 9:12:33PM,"The state of growing up from childhood to manhood or womanhood; youth, or the period of life between puberty and maturity, generally considered to be, in the male sex, from fourteen to twenty-one. Sometimes used with reference to the lower animals."
+vugh,28/8/2024 9:12:34PM,A cavity in a lode; -- called also vogle.
+bullantic,28/8/2024 9:12:34PM,"Pertaining to, or used in, papal bulls."
+tao,28/8/2024 9:12:39PM, danh từ|- (triết học) đạo (trong chủ thuyết của lão tử)|* danh từ|- (triết học) đạo (trong chủ thuyết của lão tử)
+apothegm,28/8/2024 9:12:40PM,  danh từ|- cách ngôn
+roadability,28/8/2024 9:12:40PM, danh từ|- khả năng thông đường/ chạy xe trên đường
+destructive{read{operation,28/8/2024 9:12:41PM,(tech) vận hành đọc phá hủy
+banality,28/8/2024 9:12:41PM,  danh từ|- tính chất tầm thường; tính chất sáo, tính chất vô vị|- điều tầm thường; câu nói sáo
+unexplicit,28/8/2024 9:12:42PM,  tính từ|- không rõ, không minh bạch
+ascent,28/8/2024 9:12:42PM,  danh từ|- sự trèo lên, sự đi lên, sự lên|=to make an ascent in a balloon|+ lên không bằng khí cầu|- sự đi ngược lên (dòng sông...)|- con đường đi lên, đường dốc; bậc cầu thang đi lên
+counteract,28/8/2024 9:12:42PM,kauntərækt],  ngoại động từ|- chống lại, kháng cự lại|- trung hoà, làm mất tác dụng|=to counteract the effects of the poison|+ làm mất tác dụng của chất độc, giải độc
+rubber{band,28/8/2024 9:12:43PM, danh từ|- dây chun, dây cao su (dùng để buộc đồ vật)
+bulk,28/8/2024 9:12:43PM,  danh từ|- (hàng hải) trọng tải hàng hoá; hàng hoá|=to break bulk|+ bắt đầu dỡ hàng; khối lớn; tầm vóc lớn, khổ người lớn|- phần lớn hơn, số lớn hơn|=the bulk off the work|+ phần lớn hơn của công việc|=the bulk of the population|+ số đông dân chúng|- bốc hàng rời (không đóng bao...)|- bán buôn|*  động từ|- thành đống, xếp thành đống|- tính gộp, cân gộp (một thứ hàng gì...)|- lên tới một tổng số lớn|- chiếm một địa vị quan trọng|- trông có vẻ to lớn; lù lù ra||@bulk|- (tech) khối; lớn; số đông||@bulk|- mớ, khối; phần chính đại bộ phận
+pyrethrum,28/8/2024 9:12:44PM,  danh từ|- (thực vật học) cây cúc trừ sâu
+convector,28/8/2024 9:12:44PM,  danh từ|- lò sưởi đối lưu
+severse,28/8/2024 9:12:45PM,  tính từ|- nghiêm khắc; nghiêm nghị|=severse discipline|+ kỷ luật nghiêm khắc|=to be severse upon somebody|+ nghiêm khắc với ai|=severse look|+ vẻ nghiêm nghị|- khốc liệt, dữ dội, gay go, ác liệt|=severse weather|+ thời tiết khắc nghiệt|=severse pain|+ sự đau đớn dữ dội|=severse test|+ cuộc thử thách gay go|=severse competition|+ sự cạnh tranh ác liệt|- mộc mạc, giản dị|=severse beauty|+ vẻ đẹp giản dị|=severse simplecity|+ sự giản dị mộc mạc|=a dress with severse lines|+ một cái áo mới với những đường nét giảm dị|- châm biếm, mỉa mai|=severse remarks|+ những lời nhận xét châm biếm
+linage,28/8/2024 9:12:45PM,  danh từ|- số lượng tin tính theo dòng|- số tiền trả tính theo dòng
+geologic,28/8/2024 9:12:45PM,  tính từ|- (thuộc) địa chất
+sweat|cloth,28/8/2024 9:12:45PM,  danh từ|- vải đệm yên (ngựa)
+righlet,28/8/2024 9:12:45PM, danh từ|- <snh> món tóc quăn dài xoã từ trên đầu xuống
+tuck|point,28/8/2024 9:12:46PM, ngoại động từ|- kết thúc việc trát vữa nối gạch bằng một lớp vữa mịn
+aneurism,28/8/2024 9:12:46PM,  danh từ|- (y học) chứng phình mạch|- sự phình to khác thường
+misprise,28/8/2024 9:12:46PM,  ngoại động từ|- khinh rẻ, coi khinh|- đánh giá thấp
+bomb|site,28/8/2024 9:12:47PM, danh từ|- khu vực bị trúng bom, khu vực bị oanh tạc
+comptroller,28/8/2024 9:12:47PM,  danh từ|- người kiểm tra, người kiểm soát|- quản gia, quản lý, trưởng ban quản trị (bệnh viện, trường học, doanh trại quân đội...) ((cũng) comptroller)|- (kỹ thuật) bộ điều chỉnh (nhiệt độ, áp lực, tốc độ của máy...)
+heir{presumptive,28/8/2024 9:12:47PM, danh từ|- người thừa kế trước mắt
+photodramatic,28/8/2024 9:12:47PM, tính từ|- thuộc kịch điện ảnh
+leprosarium,28/8/2024 9:12:48PM,  danh từ|- nhà thương hủi, trại hủi
+indweller,28/8/2024 9:12:48PM,dwelə],  danh từ|- người ở (nơi nào...)|- nguyên lý trong, động lực trong)
+cubit,28/8/2024 9:12:48PM,  danh từ|- cubit (đơn vị đo chiều dài ngày xưa bằng 45cm72)
+entomb,28/8/2024 9:12:48PM,  ngoại động từ|- đặt xuống mộ, chôn xuống mộ ((nghĩa đen) & (nghĩa bóng))|- là mộ của
+kale,28/8/2024 9:12:48PM,  danh từ|- (thực vật học) cải xoăn|- canh cải, xúp cải; xúp rau|- (từ mỹ,nghĩa mỹ),  (từ lóng) tiền ((thường) tiền giấy)
+favor,28/8/2024 9:12:49PM,  danh từ|- thiện ý; sự quý mến|=to find favour in the eyes of|+ được quý mến|=out of favour|+ không được quý mến|- sự đồng ý, sự thuận ý|- sự chiếu cố; sự thiên vị; ân huệ; đặc ân|=without fear or favour|+ không thiên vị|=should esteem it a favour|+ phải coi đó như một ân huệ|- sự giúp đỡ, sự che chở, sự ủng hộ|=under favour of night|+ nhờ bóng đêm; lợi dụng bóng đêm|=to be in favour of something|+ ủng hộ cái gì|- vật ban cho; (từ mỹ,nghĩa mỹ) quà nhỏ, vật kỷ niệm|- huy hiệu|- (thương nghiệp) thư|=your favour of yesterday|+ thư ngài hôm qua|- sự thứ lỗi; sự cho phép|=by your favour|+ (từ cổ,nghĩa cổ) được phép của ngài; được ngài thứ lỗi|- (từ cổ,nghĩa cổ) vẻ mặt|- không mất tiền|- đồng ý cho ai ăn nằm với mình; ban ân cho ai (đàn bà)|- kính nhờ... chuyển|- (xem) curry|*  ngoại động từ|- ưu đâi, biệt đãi, chiếu cố|- thiên vị|- bênh vực, giúp đỡ, ủng hộ; tỏ ra có lợi cho (ai); làm dễ dàng cho, làm thuận lợi cho|- (thông tục) trông giống|=to favour ones father|+ trông giống bố|- thích dùng (thứ áo, giày... nào; trong văn báo chí)|- kính nhờ... chuyển
+simple{fraction,28/8/2024 9:12:49PM,phân số đơn giản (phân số được biểu diễn bằng những số nằm trên và dưới một vạch; 5 / 3, 4 / 8 )
+unquestionability,28/8/2024 9:12:49PM,xem unquestionable
+bookishly,28/8/2024 9:12:49PM,xem bookish
+pole|vault,28/8/2024 9:12:50PM,#-vault) /poulvɔ:lt/|*  nội động từ|- (thể dục,thể thao) nhảy sào
+low|bred,28/8/2024 9:12:50PM, tính từ|- mất dạy, vô giáo dục|- thô lỗ
+electability,28/8/2024 9:12:50PM, danh từ|- khả năng được chọn, khả năng được bầu
+check|analysis,28/8/2024 9:12:50PM, danh từ|- sự phân tích đối chiếu để kiểm tra
+medium{of{exchange,28/8/2024 9:12:50PM,(econ) phương tiện trao đổi.|+ là bất kỳ tài sản hoặc phương tiện nào có chức năng trung gian trong quá trình trao đổi, nghĩa là một vật mà người bán hang hoặc cung cấp dịch vụ chấp nhận để thay thế, không phải cho bản thân nó mà là vơí ý thức rằng nó có thể sử dụng để trong những cuộc trao đổi để mua bất kỳ cái gì mà anh ta cần.
+electronegative,28/8/2024 9:12:51PM,  tính từ|- (thuộc) điện âm
+cirro|cumulus,28/8/2024 9:12:51PM,  danh từ|- mây ti tích
+device,28/8/2024 9:12:51PM,  danh từ|- phương sách, phương kế; chước mưu|- vật sáng chế ra (để dùng vào mục đích gì); thiết bị, dụng cụ, máy móc|=a control device|+ dụng cụ điều khiển|=an electronic device|+ dụng cụ điện tử|- hình vẽ; hình trang trí; hình tương trưng|- châm ngôn; đề từ|- để mặc cho ai tự xoay sở lo liệu lấy||@device|- (tech) dụng cụ; thiết bị, bộ; máy; cơ cấu; kế hoạch; biểu tượng||@device|- (máy tính) thiết bị, dụng cụ, bộ phận|- accounting d. thiết bị đếm|- analogue d. thiết bị mô hình|- average computing d. thiết bị tính các số trung bình, thiết bị tính trung|- bình|- code d. thiết bị lập mã|- codingd. thiết bị lập mã|- electronic storage d. thiết bị nhớ điện tử|- input d. thiết bịvào|- locking d. thiết bị khoá|- null d. thiết bị không|- output d. thiết bị ra|- plotting d. dụng cụ vẽ đường cong|- protective d. thiết bị bảo vệ|- safety d. thiết bị bảo vệ|- sensing d. thiết bị thụ cảm|- short-time memory d. thiết bị nhớ ngắn hạn|- storage d. thiết bị nhớ|- warning d. thiết bị báo hiệu trước
+collocation,28/8/2024 9:12:51PM,kɔləkeiʃn],  danh từ|- sự sắp xếp vào một chỗ; sự sắp đặt theo thứ tự||@collocation|- sự sắp xếp
+admiral{of{the{fleet,28/8/2024 9:12:51PM, danh từ|- tổng tư lệnh hải quân
+starlight,28/8/2024 9:12:52PM,  danh từ|- ánh sáng sao|*  tính từ+ (starlit) |/stɑ:lit/|- có sao, sáng sao|=starlight night|+ đêm sáng sao
+palinesthesia,28/8/2024 9:12:52PM, danh từ|- sự hồi tỉnh, sự tỉnh lại
+bath|chair,28/8/2024 9:12:52PM,  danh từ|- ghế (có bánh) xe (cho người ốm)
+interfertile,28/8/2024 9:12:52PM, tính từ|- có khả năng lai giống
+bomb|shell,28/8/2024 9:12:52PM,  danh từ|- tạc đạn|- (nghĩa bóng),  (từ mỹ,nghĩa mỹ) nhân vật bỗng nhiên nổi tiếng làm xôn xao dư luận; vấn đề đột xuất làm xôn xao dư luận; quả bom ((nghĩa bóng))
+nursemaid,28/8/2024 9:12:52PM,  danh từ|- cô giữ trẻ, chị bảo mẫu
+grate,28/8/2024 9:12:53PM,  danh từ|- vỉ lò, ghi lò (trong lò sưởi); lò sưởi|- (ngành mỏ) lưới sàng quặng|*  ngoại động từ|- đặt vỉ lò, đặt ghi lò|*  động từ|- mài, xát (thành bột); nạo|- nghiến kèn kẹt (răng)|=to grate ones teeth|+ nghiến răng kèn kẹt|- kêu cọt kẹt, kêu kèn kẹt|- làm khó chịu, làm gai người|=to grate on (upon) the ear|+ xé tai, làm chói tai|=to grate on ones neves|+ chọc tức||@grate|- (kỹ thuật) mạng, lưới, cách từ
+appetizer,28/8/2024 9:12:53PM,  danh từ|- rượu khai vị|- (từ mỹ,nghĩa mỹ) món ăn khai vị|- cái kích thích cho sự thèm ăn, cái làm cho ăn ngon miệng
+rough|rolled,28/8/2024 9:12:53PM, tính từ|- được nắn thô bằng trục cán
+acronym,28/8/2024 9:12:53PM,  danh từ|- từ (cấu tạo bằng) chữ đầu (của những từ khác) (ví dụ nato,  radar...)||@acronym|- (tech) lược danh, lược (thành) ngữ, tên gọn
+posteriority,28/8/2024 9:12:54PM,tiəriɔriti],  danh từ|- tính chất ở sau, tính chất đến sau
+frequency{multiplier{klystron,28/8/2024 9:12:54PM,(tech) đèn tốc điều nhân tần
+truckful,28/8/2024 9:12:54PM,  danh từ|- xe (đẩy)|- toa (đẩy)
+sea{elephant,28/8/2024 9:12:54PM,  danh từ|- (động vật học) voi biển
+play|act,28/8/2024 9:12:54PM,  nội động từ|- giả dối, màu mè, vờ vịt, đóng kịch ((nghĩa bóng))
+hesitation,28/8/2024 9:12:54PM,heziteiʃn],  danh từ|- (như) hesitance|- (từ mỹ,nghĩa mỹ) sự nói ngắc ngứ, sự nói ấp úng
+aswarm,28/8/2024 9:12:55PM, tính từ|- nhan nhản|= streets aswarm with people|+ các đường phố nhan nhản những người
+running|in,28/8/2024 9:12:55PM, danh từ|- sự chạy rà; sự tráng bạc (bạc lót, móng đệm)
+indiscernibly,28/8/2024 9:12:55PM,xem indiscernible
+intimately,28/8/2024 9:12:55PM,  phó từ|- thân mật, mật thiết|- tường tận, sâu sắc|=to know intimately something|+ biết tường tận về cái gì
+prewarn,28/8/2024 9:12:56PM, ngoại động từ|- cảnh cáo trước
+urbanization{economies,28/8/2024 9:12:56PM,(econ) tính kinh tế của đô thị hoá.|+ tiết kiệm chi phí nảy sinh khi các hoạt động kinh tế được tập trung ở các khu vực đô thị.
+parley,28/8/2024 9:12:56PM,  danh từ|- cuộc thương lượng, cuộc đàm phán|=to sound a parley|+ (quân sự) thổi kèn hiệu đề nghị thương lượng|=to hold a parley with|+ thương lượng với|=to enter into a parley|+ bước vào đàm phán|*  nội động từ|- thương lượng, đàm phán|*  ngoại động từ|- nói (thường là tiếng nước ngoài)
+thundering,28/8/2024 9:12:56PM,  danh từ|- tiếng sấm sét|- tiếng vang như sấm|*  tính từ|- vang như sấm|=a thundering voice|+ giọng vang như sấm|- (thông tục) to, mạnh, dữ dội, ghê gớm, cực kỳ|=a thundering fool|+ một thằng chí ngu|=to be in a thundering rage|+ nổi giận đùng đùng|- (nghĩa bóng) nạt nộ|*  phó từ|- rất, cực kỳ, vô cùng, hết sức|=a thundering big mistake|+ một lỗi lầm vô cùng to lớn
+testificator,28/8/2024 9:12:57PM, danh từ|- (pháp lý) người làm chứng; người chứng nhận
+tense,28/8/2024 9:12:57PM,  danh từ|- (ngôn ngữ học) thời (của động từ)|=the present tense|+ thời hiện tại|=the past tense|+ thời quá khứ|*  tính từ|- căng|=a tense wire|+ sợi dây căng|- căng thẳng, găng|=tense situation|+ tình hình căng thẳng
+marble,28/8/2024 9:12:57PM,  danh từ|- đá hoa, cẩm thạch|- (số nhiều) hòn bi|=a game of marbles|+ một ván bí|- (số nhiều) (từ mỹ,nghĩa mỹ),  (từ lóng) sự hiểu lý lẽ|- (định ngữ) bằng cẩm thạch; như cẩm thạch|*  ngoại động từ|- làm cho có vân cẩm thạch|=a book with marbled efges|+ sách mép có vân cẩm thạch
+facula,28/8/2024 9:12:57PM,  danh từ,  số nhiều faculae|- (thiên văn học) vệt sáng trên mặt trời
+anicut,28/8/2024 9:12:58PM,  danh từ|- (anh  ân) đập nước
+embowel,28/8/2024 9:12:58PM,  ngoại động từ|- moi ruột
+latency,28/8/2024 9:12:58PM,  danh từ|- sự ngấm ngầm, sự âm ỷ, sự tiềm tàng
+phlogiston,28/8/2024 9:12:59PM,  danh từ|- yếu tố cháy, nhiên liệu
+traumatization,28/8/2024 9:12:59PM, danh từ|- sự làm chấn thương
+untidily,28/8/2024 9:12:59PM, phó từ|- không gọn gàng, không ngăn nắp, xộc xệch, lôi thôi lếch thếch (quần áo...)|- bù xù, rối, không chải (đầu tóc)|- lộn xộn, bừa bãi, không sắp xếp gọn gàng (căn phòng...)
+parenchyma,28/8/2024 9:12:59PM,  danh từ số nhiều|- nhu mô
+debaucher,28/8/2024 9:12:59PM,xem debauch
+little|go,28/8/2024 9:13:0PM,  danh từ|- (thực vật học) kỳ thi đầu tiên để lấy bằng tú tài văn chương (ở trường đại học căm-brít)
+mythography,28/8/2024 9:13:0PM,  danh từ|- nghệ thuật mô tả chuyện thần thoại
+outgone,28/8/2024 9:13:0PM,  ngoại động từ outwent; outgone|- đi trước, vượt lên trước|- (nghĩa bóng) vượt, hơn|*  nội động từ|- đi ra|*  danh từ,  (thường) số nhiều ((cũng) outgoing)|- tiền chi tiêu|- sự đi ra, sự tuôn ra, sự chảy ra, sự phát ra
+scionphyll,28/8/2024 9:13:1PM, danh từ|- thực vật hai mặt lá khác nhau
+bye|law,28/8/2024 9:13:1PM,#-law) |/bailɔ:/|*  danh từ|- luật lệ (của) địa phương; quy chế (của một) ngành
+floribunda,28/8/2024 9:13:1PM, danh từ|- thảo mộc
+beauty,28/8/2024 9:13:1PM,  danh từ|- vẻ đẹp, sắc đẹp, nhan sắc|- cái đẹp, cái hay|=the beauty of the story|+ cái hay của câu chuyện|- người đẹp, vật đẹp|=look at this rose, isnt it a beauty!|+ nhìn bông hoa hồng này mà xem, thật là đẹp!|- nhan sắc chỉ là bề ngoài
+bop,28/8/2024 9:13:2PM,  danh từ|- (từ mỹ,nghĩa mỹ),  (từ lóng) cú đấm|*  ngoại động từ|- (từ mỹ,nghĩa mỹ),  (từ lóng) đấm nện
+cupcake,28/8/2024 9:13:2PM, danh từ|- bánh nướng nhỏ
+mathematician,28/8/2024 9:13:2PM,mæθimətiʃn],  danh từ|- nhà toán học||@mathematician|- nhà toán học
+tin{foil,28/8/2024 9:13:3PM,  danh từ|- giấy thiếc, lá thiếc
+run|around,28/8/2024 9:13:3PM, danh từ|- lảng tránh
+sourdough,28/8/2024 9:13:3PM, danh từ|- <mỹ> bột nhào chua (để làm bánh mì)|- <mỹ> người có kinh nghiệm lâu trong việc mở đường, tìm kiếm vàng (ở bắc canada hoặc alaska)
+dasher,28/8/2024 9:13:3PM,  danh từ|- người ăn diện, người chịu diện|- người hay loè, người hay phô trương|- que đánh sữa (để lấy bơ)|- (từ mỹ,nghĩa mỹ) cái chắn bùn (ô tô)
+crepitation,28/8/2024 9:13:3PM,krepiteiʃn],  danh từ|- sự kêu răng rắc, sự kêu lốp đốp, sự kêu lép bép|- sự phọt ra nước (sâu bọ)
+expropriator,28/8/2024 9:13:4PM,xem expropriate
+didactic,28/8/2024 9:13:4PM,  tính từ|- để dạy học|- có phong cách nhà giáo, mô phạm
+awhile,28/8/2024 9:13:4PM,  phó từ|- một lúc, một lát, một chốc
+saddhu,28/8/2024 9:13:4PM, danh từ|- tu sĩ ấn độ
+scarlet{hat,28/8/2024 9:13:5PM,  danh từ|- (tôn giáo) mũ (của) giáo chủ|- chức giáo chủ
+holonomy,28/8/2024 9:13:5PM,hôlônôm
+army|beef,28/8/2024 9:13:5PM,  danh từ|- (quân sự) thịt hộp cho quân đội
+soothingly,28/8/2024 9:13:5PM,  phó từ|- dịu dàng|- xoa dịu, dỗ dành
+prevocalic,28/8/2024 9:13:5PM, tính từ|- (ngôn ngữ học) ở ngay trước nguyên âm
+angled,28/8/2024 9:13:6PM,  tính từ|- có góc, có góc cạnh
+uncondemned,28/8/2024 9:13:6PM,  tính từ|- không bị xử tội, không bị kết án
+brussels,28/8/2024 9:13:6PM, treaty of,(econ) hiệp ước brussels|+ một hiệp ước hỗ trợ lẫn nhau giữa anh, pháp và các nước benelux ký năm 1948. hiệp ước được xem như một bước tiến trong định hướng hội nhập của châu âu đi trước hiệp định roma (1957) và sự khởi đầu của cộng đồng kinh tế châu âu (eec), ngày nay là cộng đồng châu âu (ec).||@brussels, treaty of|- (econ) hiệp ước brussels (được biết đến như hiệp ước bổ sung)|+ xem european economic community
+air{marshal,28/8/2024 9:13:6PM, danh từ|- <qsự> trung tướng không quân anh
+teamster,28/8/2024 9:13:6PM,  danh từ|- người đánh xe|- (từ mỹ,nghĩa mỹ) người lái xe tải
+spanish,28/8/2024 9:13:7PM,  tính từ|- (thuộc) tây ban nha|*  danh từ|- tiếng tây ban nha|- (the spanish) dân tây ban nha
+rime,28/8/2024 9:13:7PM,  danh từ,  nội động từ & ngoại động từ|- (như) rhyme|*  danh từ|- (thơ ca) sương muối|*  ngoại động từ|- phủ đầy sương muối
+enthrone,28/8/2024 9:13:7PM,  ngoại động từ|- tôn làm, đưa lên ngôi (vua); phong làm (giám mục...)|- (nghĩa bóng) phong lên, tôn lêm
+soothly,28/8/2024 9:13:7PM, phó từ|- (từ cổ, nghĩa cổ) chân thực; xác thực
+scissor,28/8/2024 9:13:7PM,  ngoại động từ|- cắt bằng kéo
+pasigraphy,28/8/2024 9:13:8PM, danh từ|- cách viết những ký hiệu ngôn ngữ cho cả thế giới (như) các con số|- ngôn ngữ thế giới

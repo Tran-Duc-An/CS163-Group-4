@@ -420,6 +420,8 @@ void translating() {
 				}
 			}
 			if (deleteButton.isClicked(window, event)) {
+				// remove that word from favorite list
+				VE::unLikeAWord(favWordsVE, favDefsVE, transWword, transDef[0]);
 				VE::deleteAWord(rootVtoE, transWword);
 				inputVNBox.text.setString("");
 				transDef.clear();
@@ -463,6 +465,8 @@ void translating() {
 				}
 			}
 			if (deleteButton.isClicked(window, event)) {
+				// remove that word from favorite list
+				EV::unLikeAWord(favWordsEV, favDefsEV, transWord, transDef[0]);
 				EV::deleteAWord(rootEtoV, transWord);
 				inputENBox.text.setString("");
 				transDef.clear();
@@ -669,6 +673,8 @@ void searching() {
 				}
 
 				if (deleteKeyButton.isClicked(window, event)) {
+					// remove that word from favorite list
+					EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
 					EE::deleteAWord(rootEtoE, word);
 					searchKeyBox.text.setString("");
 					searchDef.clear();
@@ -2129,6 +2135,9 @@ void reset()
 				favWordsEV.clear();
 				favDefsEV.clear();
 			}
+			// clear history
+			searchHistory.clear();
+			searchRealTime.clear();
 			ee = 0;
 			ev = 0;
 			ve = 0;
@@ -2289,7 +2298,7 @@ void randomWords() {
 			}
 
 			if (heartButton.isClicked(window, event)) {
-				if (evNode != nullptr) {
+				if (evNode != nullptr && !evNode->definition.empty()) {
 					evNode->isLiked = 1 - evNode->isLiked;
 					if (evNode->isLiked == 1) {
 						favWordsEV.push_back(resWord);
@@ -2301,6 +2310,8 @@ void randomWords() {
 				}
 			}
 			if (deleteButton.isClicked(window, event)) {
+				// delete word from favorite 
+				EV::unLikeAWord(favWordsEV, favDefsEV, resWord, evNode->definition[0]);
 				EV::deleteAWord(rootEtoV, resWord);
 				isShuffle = 0;
 			}
@@ -2325,7 +2336,7 @@ void randomWords() {
 
 			}
 			if (heartButton.isClicked(window, event)) {
-				if (veNode != nullptr) {
+				if (veNode != nullptr && !veNode->definition.empty()) {
 					veNode->isLiked = 1 - veNode->isLiked;
 					if (veNode->isLiked == 1) {
 						favWordsVE.push_back(resWword);
@@ -2337,6 +2348,8 @@ void randomWords() {
 				}
 			}
 			if (deleteButton.isClicked(window, event)) {
+				// delete word from favorite
+				VE::unLikeAWord(favWordsVE, favDefsVE, resWword, veNode->definition[0]);
 				VE::deleteAWord(rootVtoE, resWword);
 				isShuffle = 0;
 			}
@@ -2360,7 +2373,8 @@ void randomWords() {
 			}
 
 			if (heartButton.isClicked(window, event)) {
-				if (eeNode != nullptr) {
+				if (eeNode != nullptr && !eeNode->definition.empty()) 
+				{
 					eeNode->isLiked = 1 - eeNode->isLiked;
 					if (eeNode->isLiked == 1) {
 						favWordsEE.push_back(resWord);
@@ -2371,7 +2385,10 @@ void randomWords() {
 					}
 				}
 			}
-			if (deleteButton.isClicked(window, event)) {
+			if (deleteButton.isClicked(window, event)) 
+			{
+				// delete word from favorite
+				EE::unLikeAWord(favWordsEE, favDefsEE, resWord, eeNode->definition[0]);
 				EE::deleteAWord(rootEtoE, resWord);
 				isShuffle = 0;
 			}
@@ -2680,13 +2697,14 @@ bool loadData()
 	if (firstTimeEE && firstTimeEV && firstTimeVE)
 	{
 		// use threads to save system file faster
-		thread t7(EV::saveTrietoFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
-		thread t8(VE::saveTrieToFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
-		thread t9(EE::saveTrietoFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+		if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
+		thread t7(EV::saveTrietoFile, std::ref(rootEtoV), "Dataset/TrieENVN.bin");
+		thread t8(VE::saveTrieToFile, std::ref(rootVtoE), "Dataset/TrieVNEN.bin");
+		thread t9(EE::saveTrietoFile, std::ref(rootEtoE), "Dataset/TrieEN.bin");
 		t7.join();
 		t8.join();
 		t9.join();
-		if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
+
 	}
 
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");
@@ -2697,7 +2715,7 @@ bool loadData()
 	t9.join();
 
 	auto end = chrono::high_resolution_clock::now();
-	wcout << L"Time to load data: " << chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000 << L"ms" << endl;
+	wcout << L"Time to load data: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << L"ms" << endl;
 
 
 	return 1;

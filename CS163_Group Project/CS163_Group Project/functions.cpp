@@ -378,7 +378,7 @@ void EV::randomAWordAnd4Definitions(EVTrie* root, string& rightWord, wstring& ri
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 103868);
+	uniform_int_distribution<> dis(1, 100000);
 	int randomIndex;
 	string currentWord;
 
@@ -406,7 +406,7 @@ void EV::randomADefinitionAnd4Words(EVTrie* root, wstring& rightDefinition, stri
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 103868);
+	uniform_int_distribution<> dis(1, 100000);
 	int randomIndex;
 	string currentWord;
 
@@ -521,7 +521,7 @@ void EV::randomAWordNode(EVTrie* root, string& resultWord, EVTrie*& resultNode)
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 103868);
+	uniform_int_distribution<> dis(1, 100000);
 
 	string currentWord = "";
 	resultWord = "";
@@ -896,7 +896,7 @@ void EE::randomAWordAnd4Definitions(EETrie* root, string& rightWord, string& rig
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(1, 110000);
 	int randomIndex;
 	string currentWord;
 
@@ -924,7 +924,7 @@ void EE::randomADefinitionAnd4Words(EETrie* root, string& rightDefinition, strin
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(1, 110000);
 	int randomIndex;
 	string currentWord;
 
@@ -1030,7 +1030,7 @@ void EE::randomAWordNode(EETrie* root, string& resultWord, EETrie*& resultNode)
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 113477);
+	uniform_int_distribution<> dis(1, 112000);
 
 	string currentWord = "";
 	resultWord = "";
@@ -1393,7 +1393,7 @@ void VE::randomADefinitionAnd4Words(VTrie* root, wstring& rightDefinition, wstri
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 145921);
+	uniform_int_distribution<> dis(1, 140000);
 	int randomIndex;
 	wstring currentWord;
 
@@ -1861,7 +1861,7 @@ void VE::randomAWordNode(VTrie* root, wstring& resultWord, VTrie*& resultNode)
 {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, 145921);
+	uniform_int_distribution<> dis(1, 140000);
 
 	wstring currentWord = L"";
 	resultWord = L"";

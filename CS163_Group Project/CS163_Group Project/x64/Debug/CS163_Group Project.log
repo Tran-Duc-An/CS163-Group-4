@@ -23,6 +23,22 @@ C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(347,43): warn
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(385,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(385,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\UI.cpp(383,43): warning C4390: ';': empty controlled statement found; is this the intent?
+  functions.cpp
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(194,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(198,18): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(483,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(846,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(850,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(858,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1019,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1230,27): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1234,17): warning C4267: 'initializing': conversion from 'size_t' to 'short', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1355,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1449,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1450,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1597,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1616,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.40.33807\include\xutility(4672,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
   main.cpp
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\main.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   runUI.cpp
@@ -41,4 +57,7 @@ C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1131,40): 
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1131,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1796,27): warning C4551: function call missing argument list
   Generating Code...
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1812,1): warning C4715: 'EE::copyAndReload': not all control paths return a value
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1828,1): warning C4715: 'EV::copyAndReload': not all control paths return a value
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\functions.cpp(1844,1): warning C4715: 'VE::copyAndReload': not all control paths return a value
   CS163_Group Project.vcxproj -> C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe

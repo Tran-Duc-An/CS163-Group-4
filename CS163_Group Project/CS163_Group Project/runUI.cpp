@@ -2658,13 +2658,14 @@ bool loadData()
 	if (firstTimeEE && firstTimeEV && firstTimeVE) 
 	{
 	 // use threads to save system file faster
-		thread t7(EV::saveTrietoFile, std::ref(rootEtoV), "Dataset/UserTrieENVN.bin");
-		thread t8(VE::saveTrieToFile, std::ref(rootVtoE), "Dataset/UserTrieVNEN.bin");
-		thread t9(EE::saveTrietoFile, std::ref(rootEtoE), "Dataset/UserTrieEN.bin");
+		if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
+		thread t7(EV::saveTrietoFile, std::ref(rootEtoV), "Dataset/TrieENVN.bin");
+		thread t8(VE::saveTrieToFile, std::ref(rootVtoE), "Dataset/TrieVNEN.bin");
+		thread t9(EE::saveTrietoFile, std::ref(rootEtoE), "Dataset/TrieEN.bin");
 		t7.join();
 		t8.join();
 		t9.join();
-		if (!EE::loadExample(rootEtoE, "Dataset/words_examples.csv")) return 0;
+		
 	}
 	
 	thread t7(EV::loadFavWord, std::ref(rootEtoV), std::ref(favWordsEV), std::ref(favDefsEV), "Dataset/favWordsEV.txt");

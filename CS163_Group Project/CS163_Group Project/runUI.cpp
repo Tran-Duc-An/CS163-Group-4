@@ -423,7 +423,7 @@ void translating() {
 				// remove that word from favorite list
 				VE::unLikeAWord(favWordsVE, favDefsVE, transWword, transDef[0]);
 				VE::deleteAWord(rootVtoE, transWword);
-				inputVNBox.text.setString("");
+				inputVNBox.reset();
 				transDef.clear();
 				translateFlag = 0;
 			}
@@ -468,7 +468,7 @@ void translating() {
 				// remove that word from favorite list
 				EV::unLikeAWord(favWordsEV, favDefsEV, transWord, transDef[0]);
 				EV::deleteAWord(rootEtoV, transWord);
-				inputENBox.text.setString("");
+				inputENBox.reset();
 				transDef.clear();
 				translateFlag = 0;
 			}
@@ -653,6 +653,7 @@ void searching() {
 				}
 
 				if (examplesButton.isClicked(window, event) && nodeEE!=nullptr) {
+					orderDef = 0;
 					isEx = 1 - isEx;
 					searchDef.clear();
 					if (isEx == 0) searchDef = nodeEE->definition;
@@ -676,7 +677,7 @@ void searching() {
 					// remove that word from favorite list
 					EE::unLikeAWord(favWordsEE, favDefsEE, word, searchDef[0]);
 					EE::deleteAWord(rootEtoE, word);
-					searchKeyBox.text.setString("");
+					searchKeyBox.reset();
 					searchDef.clear();
 					searchFlag = 0;
 				}
@@ -1355,14 +1356,14 @@ void QnA() {
 		//hanlde guess by keyword or definition
 		if (guessType == 0) {
 			if (guessByDef.isClicked(window, event)) guessType = 1;
-			handleKeyAnswer();
-			//answerFlag = 2;
-		}
+				handleKeyAnswer();
+				//answerFlag = 2;
+			}
 		else {
 			if (guessByKey.isClicked(window, event)) guessType = 0;
 			handleDefAnswer();
-			//answerFlag = 2;
-		}
+				//answerFlag = 2;
+			}
 
 
 	}
@@ -2402,8 +2403,7 @@ void randomWords() {
 	shuffleButton.isHover(window, "Image/randomHover.png");
 
 
-	deleteButton.draw(window);
-	deleteButton.isHover(window, "Image/deleteHover.png");
+
 
 	backButton.draw(window);
 	backButton.isHover(window, "Image/backHover.png");
@@ -2412,6 +2412,9 @@ void randomWords() {
 		ENtoVnButton.draw(window);
 		ENtoVnButton.isHover(window, "Image/ENtoVNHover.png");
 		if (isShuffle == 1) {
+			heartButton.draw(window);
+			deleteButton.draw(window);
+			deleteButton.isHover(window, "Image/deleteHover.png");
 			displayDef(200, 300, resWord, 30);
 			displayWDef(900, 300, evNode->definition[orderRanDef], 30);
 
@@ -2441,6 +2444,9 @@ void randomWords() {
 		VNtoEnButton.draw(window);
 		VNtoEnButton.isHover(window, "Image/VNtoENHover.png");
 		if (isShuffle == 1) {
+			heartButton.draw(window);
+			deleteButton.draw(window);
+			deleteButton.isHover(window, "Image/deleteHover.png");
 			displayWDef(200, 300, resWword, 30);
 			displayWDef(900, 300, veNode->definition[orderRanDef], 30);
 
@@ -2470,6 +2476,9 @@ void randomWords() {
 		ENtoENButton.draw(window);
 		ENtoENButton.isHover(window, "Image/ENtoENHover.png");
 		if (isShuffle == 1) {
+			heartButton.draw(window);
+			deleteButton.draw(window);
+			deleteButton.isHover(window, "Image/deleteHover.png");
 			displayDef(200, 300, resWord, 30);
 			displayDef(900, 300, eeNode->definition[orderRanDef], 30);
 
@@ -2495,7 +2504,6 @@ void randomWords() {
 			heartButton.sprite.setTexture(heartButton.texture);
 		}
 	}
-	heartButton.draw(window);
 }
 
 bool isExtended = 0;

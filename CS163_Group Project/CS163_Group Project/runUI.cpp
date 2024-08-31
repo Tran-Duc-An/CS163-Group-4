@@ -42,8 +42,8 @@ Button backButton(12, 18, "Image/backButton.png");
 Button nextMeanButton(1300, 710, "Image/nextButton.png");
 Button backMeanButton(900, 710, "Image/backDefButton.png");
 
-Button heartButton(183, 600, "Image/heart.png");
-Button deleteButton(349, 600, "Image/deleteButton.png");
+Button heartButton(160, 600, "Image/heart.png");
+Button deleteButton(319, 600, "Image/deleteButton.png");
 Button submitResetButton(1200, 582, "Image/submitResetButton.png");
 Button tickEEButton(80, 100, "Image/untickedboxEE.png");
 Button tickEVButton(80, 300, "Image/untickedboxEV.png");
@@ -58,7 +58,7 @@ Button searchDefButton(98, 237, "Image/searchDef.png");
 InputBox searchKeyBox(28, 412, "Image/InputBox.png", L"Text here");
 InputDef searchDefBox(75, 400, "Image/InputDef.png", L"Text here", 6, 50);
 
-SubmitENButton submitSearchKey(383, 729, "Image/searchSubmit.png");
+SubmitENButton submitSearchKey(383, 716, "Image/searchSubmit.png");
 SubmitENButton submitSearchDef(1270, 716, "Image/searchSubmit.png");
 
 
@@ -85,8 +85,8 @@ AnswerButton DDef(804, 543, "Image/answerDefBox.png");
 InputBox inputVNBox(160, 300, "Image/InputBox.png", L"Nhập tại đây");
 InputBox inputENBox(160, 300, "Image/InputBox.png", L"Text here");
 
-SubmitENButton translateEN(576, 600, "Image/translateSubmit.png");
-SubmitVNButton translateVN(576, 600, "Image/translateSubmit.png");
+SubmitENButton translateEN(555, 600, "Image/translateSubmit.png");
+SubmitVNButton translateVN(555, 600, "Image/translateSubmit.png");
 
 //Adding
 InputBox inputWord(192, 117, "Image/InputBox.png", L"Enter word");
@@ -590,7 +590,7 @@ Button editSearchButton(1335, 50, "Image/editButton.png");
 Button nextDefButton(1300, 700, "Image/nextButton.png");
 Button backDefButton(800, 700, "Image/backDefButton.png");
 
-Button examplesButton(1000, 700, "Image/exampleButton.png");
+Button examplesButton(1000, 716, "Image/exampleButton.png");
 
 void searching() {
 	sf::Texture layout2;
@@ -2643,7 +2643,7 @@ bool loadData()
 	sf::Text loading;
 	loading.setFont(font);
 	loading.setCharacterSize(50);
-	loading.setPosition(700, 400);
+	loading.setPosition(576, 316);
 	loading.setString("Please wait.....");
 	loading.setFillColor(sf::Color::Black);
 	window.draw(loading);

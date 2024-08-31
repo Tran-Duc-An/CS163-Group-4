@@ -1,4 +1,6 @@
-﻿  runUI.cpp
+﻿  main.cpp
+C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\main.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  runUI.cpp
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(301,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(301,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(314,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -15,4 +17,5 @@ C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1140,28): 
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1501,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1522,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\EDUCATION\Github\CS163_Group Project\CS163_Group Project\runUI.cpp(1825,27): warning C4551: function call missing argument list
+  Generating Code...
   CS163_Group Project.vcxproj -> C:\EDUCATION\Github\CS163_Group Project\x64\Debug\CS163_Group Project.exe
